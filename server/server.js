@@ -32,6 +32,8 @@ let root = {
 
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(express.static(path.resolve(__dirname, '../dist')));
 app.use('/api', graphqlHTTP({
     schema: schema,
@@ -50,3 +52,5 @@ mongoose.Promise = global.Promise;
 
 app.listen(port);
 console.log('GraphQL API server running at localhost:'+ port);
+
+
