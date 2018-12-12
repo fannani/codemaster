@@ -6,7 +6,7 @@ module.exports = {
     mode: 'development',
     entry: './app/siswaApp.js',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist/js'),
         filename: 'bundle.js',
     },
     module: {
@@ -16,13 +16,21 @@ module.exports = {
                 loader: 'babel-loader',
                 include: path.join(__dirname, 'app'),
                 exclude: /node_modules/,
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    "style-loader", // creates style nodes from JS strings
+                    "css-loader", // translates CSS into CommonJS
+                    "sass-loader" // compiles Sass to CSS, using Node Sass by default
+                ]
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: './app/index.html',
-            filename: 'index.html'
+            filename: '../index.html'
         })
     ]
 };

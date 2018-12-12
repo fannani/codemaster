@@ -6,7 +6,6 @@ import Layout from "./containers/siswa/Layout"
 import PropTypes from 'prop-types';
 import siswaStore from './config/siswaStore';
 
-
 const Siswa = ({store}) => (
     <Provider store={store}>
         <BrowserRouter basename="/belajarkode/public/siswa" >
