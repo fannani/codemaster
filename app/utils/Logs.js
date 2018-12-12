@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export function postLog(category,activity,value){
-    axios.post(Laravel.baseUrl+'/api/logs', {
+    axios.post('localhost:3000/api/logs', {
         category: category,
         activity: activity,
         value: value

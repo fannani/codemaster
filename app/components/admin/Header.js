@@ -19,11 +19,11 @@ const Header = ()=> (
                 <li className="nav-item dropdown">
                     <a id="navbarDropdown" className="nav-link dropdown-toggle" href="#" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {Laravel.name} <span className="caret"></span>
+                        {"tes"} <span className="caret"></span>
                     </a>
 
                     <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a className="dropdown-item" href={Laravel.baseUrl+"/admin/logout"}>Logout</a>
+                        <a className="dropdown-item" href={"localhost:3000/admin/logout"}>Logout</a>
 
                     </div>
                 </li>

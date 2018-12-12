@@ -1,27 +1,52 @@
-import express  from 'express'
-import path from 'path';
-import connectHistoryApiFallback from 'connect-history-api-fallback'
+// example.js
+import express from 'express';
 import { buildSchema } from 'graphql';
+import mongoose from 'mongoose';
+import bodyParser from "body-parser";
 import graphqlHTTP from 'express-graphql';
+import path from 'path';
+let port = 3000;
 
-const app = express();
-const port = 3000
 
-var schema = buildSchema(`
+mongoose.connect("mongodb://localhost/belajarkode", { useNewUrlParser: true });
+
+let db = mongoose.connection;
+db.once("open", () => console.log("connected to the database"));
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+let schema = buildSchema(`
   type Query {
-    hello: String
+    postTitle: String,
+    blogTitle: String
   }
 `);
-var root = { hello: () => 'Hello world!' };
 
+// Root provides a resolver function for each API endpoint
+let root = {
+    postTitle: () => {
+        return 'Build a Simple GraphQL Server With Express and NodeJS';
+    },
+    blogTitle: () => {
+        return 'scotch.io';
+    }
+};
 
-app.use('/', connectHistoryApiFallback());
-app.use('/',express.static(path.join(__dirname,"..",'build')));
-app.use('/',express.static(path.join(__dirname,"..",'static')));
-app.use('/graphql', graphqlHTTP({
+const app = express();
+
+app.use(express.static(path.resolve(__dirname, '../dist')));
+app.use('/api', graphqlHTTP({
     schema: schema,
     rootValue: root,
-    graphiql: true,
+    graphiql: true //Set to false if you don't want graphiql enabled
 }));
+// Handles any requests that don't match the ones above
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'../dist/index.html'));
+});
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+
+mongoose.Promise = global.Promise;
+
+
+app.listen(port);
+console.log('GraphQL API server running at localhost:'+ port);

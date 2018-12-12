@@ -144,7 +144,7 @@ class Course extends Component {
     checkResult(){
         const idoc = document.getElementById('output').contentWindow.document;
         let value = editor.getValue();
-        value += "\x3Cscript src='"+Laravel.baseUrl+"/js/jquery.min.js'>\x3C/script>";
+        value += "\x3Cscript src='localhost:3000/js/jquery.min.js'>\x3C/script>";
         value += "\x3Cscript>result=[]\x3C/script>";
         for (let i = 0; i < this.props.missions.length; i++) {
             let misi = this.props.missions[i];
