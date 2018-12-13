@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Route, Switch} from "react-router-dom";
-import Level from "../../containers/siswa/Level";
+import CourseList from "../../containers/siswa/CourseList";
 import Stage from "../../containers/siswa/Stage";
 
 class Content extends Component {
@@ -8,7 +8,7 @@ class Content extends Component {
         return (
             <main className="col-9 ">
                 <Switch>
-                    <Route exact path="/level" component={Level} />
+                    <Route exact path="/course" component={CourseList} />
                     <Route path="/stages/:stageid" component={Stage} />
                 </Switch>
             </main>

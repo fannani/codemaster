@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link} from 'react-router-dom';
-import { levelsFetchData } from '../../actions/levels';
-class Level extends Component {
+import { coursesFetchData } from '../../actions/courses';
+class CourseList extends Component {
     componentDidMount() {
         this.props.fetchData();
     }
@@ -15,9 +15,9 @@ class Level extends Component {
         }
         return (
             <ul>
-                {this.props.levels.map((item) => (
-                    <li key={item.id}>
-                        <Link to={  '/stages/'+item.id } >{item.name}</Link>
+                {this.props.courses.map((item) => (
+                    <li key={item._id}>
+                        <Link to={  '/stages/'+item._id } >{item.name}</Link>
                     </li>
                 ))}
             </ul>
@@ -26,15 +26,15 @@ class Level extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        levels: state.levels.levels,
-        hasErrored: state.levels.hasErrored,
-        isLoading: state.levels.isLoading
+        courses: state.courses.courses,
+        hasErrored: state.courses.hasErrored,
+        isLoading: state.courses.isLoading
     };
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchData: () => dispatch(levelsFetchData())
+        fetchData: () => dispatch(coursesFetchData())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Level);
+export default connect(mapStateToProps, mapDispatchToProps)(CourseList);

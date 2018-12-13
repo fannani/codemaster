@@ -8,7 +8,7 @@ class Sidebar extends Component {
             <nav className="col-3" id="sidebar">
                 <ul className="list-unstyled components">
                     <li>
-                        <Link to="/level">Level</Link>
+                        <Link to="/course">Course</Link>
                     </li>
                 </ul>
             </nav>

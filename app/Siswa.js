@@ -8,7 +8,7 @@ import siswaStore from './config/siswaStore';
 
 const Siswa = ({store}) => (
     <Provider store={store}>
-        <BrowserRouter basename="/belajarkode/public/siswa" >
+        <BrowserRouter  >
             <Layout />
         </BrowserRouter>
     </Provider>

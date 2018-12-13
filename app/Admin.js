@@ -10,7 +10,7 @@ import adminStore from './config/adminStore';
 
 const Admin = ({store}) => (
     <Provider store={store}>
-        <BrowserRouter basename="/belajarkode/public/admin" >
+        <BrowserRouter  >
             <Layout />
         </BrowserRouter>
     </Provider>
