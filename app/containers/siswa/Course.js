@@ -1,6 +1,4 @@
-import * as acemodule from 'ace-builds/src-noconflict/ace';
-import "ace-builds/src-noconflict/mode-javascript";
-import "ace-builds/webpack-resolver";
+
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import Guide from '../../components/siswa/Guide';
@@ -10,6 +8,7 @@ import { postLog } from '../../utils/Logs';
 import connect from "react-redux/es/connect/connect";
 import {courseFetchData,incrementTimer} from "../../actions/course";
 import {missionsFetchData} from "../../actions/mission";
+import AceEditor from 'react-ace';
 
 class Course extends Component {
 
@@ -44,17 +43,11 @@ class Course extends Component {
     componentDidMount() {
         this.props.fetchData(this.props.match.params.stageid);
         this.props.missionsFetchData(this.props.match.params.stageid);
-        this.setupEditor();
         window.addEventListener('message', this.handleIframeTask);
         this.intervalHandle = setInterval(this.tick, 1000);
     }
     render() {
-        // if (this.props.missionsError || this.props.courseError) {
-        //     return <p>Sorry! There was an error loading the items</p>;
-        // }
-        // if (this.props.missionsLoading && this.props.courseLoading) {
-        //     return <p>Loading…</p>;
-        // }
+
         return (
             <div id="container">
                 <main role="main" className="container-fluid" style={{ minHeight : "100%",height: "100%" }}>
@@ -64,9 +57,16 @@ class Course extends Component {
                             <div style={{marginBottom: "5px"}}>
                                 <button type="button" id="run"  onClick={this.checkResult} className="btn btn-primary">Periksa</button>
                             </div>
-                            <div id="editor" style={{ minHeight: "100%",height: "100%"}}>
+                            <AceEditor
+                                style={{ minHeight: "100%",height: "100%"}}
+                                mode="html" value={this.state.initscript}
+                                setOptions={{
+                                    fontSize: "16pt",
+                                    vScrollBarAlwaysVisible:true,
 
-                            </div>
+                                }}
+                                onChange={update}
+                            />
                         </div>
                         <iframe id='output' style={{ backgroundColor:"#ffffff"}}  frameBorder="0" className="col-sm">
                         </iframe>
@@ -120,26 +120,6 @@ class Course extends Component {
 
     }
 
-    setupEditor()
-    {
-        const self = this;
-        window.editor = ace.edit("editor");
-        editor.session.setMode("ace/mode/html");
-        editor.setValue(this.state.initscript,1); //1 = moves cursor to end
-        editor.session.on('change', function() {
-            self.update();
-        });
-
-        editor.focus();
-        editor.setOptions({
-            fontSize: "16pt",
-            vScrollBarAlwaysVisible:true,
-
-        });
-
-
-
-    }
 
     checkResult(){
         const idoc = document.getElementById('output').contentWindow.document;

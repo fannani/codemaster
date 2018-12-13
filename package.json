@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack  --progress --colors",
+    "watch": "webpack --watch --info-verbosity verbose",
     "serve": "nodemon --exec babel-node ./server/index"
   },
   "author": "Rahadyan Fannani Arif",
