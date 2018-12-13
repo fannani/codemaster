@@ -7,8 +7,6 @@ import schema from './data/schema'
 import path from 'path';
 let port = 3000;
 
-import Course from './data/models/Course';
-
 mongoose.connect("mongodb://localhost/belajarkode", { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
@@ -29,16 +27,12 @@ app.use('/api', graphqlHTTP({
     schema: schema,
     graphiql: true
 }));
+app.get(['/admin','/admin/*'], (req,res) =>{
+    res.sendFile(path.join(__dirname+'/../dist/admin.html'));
+});
 app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/../dist/index.html'));
+    res.sendFile(path.join(__dirname+'/../dist/siswa.html'));
 });
 
 app.listen(port);
 
-
-let c = new Course({
-    name:"haha",
-    desc:"bacngs"
-});
-c.id = c._id;
-c.save();

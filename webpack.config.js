@@ -4,10 +4,14 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './app/siswaApp.js',
+    entry: {
+        siswa : './app/siswaApp.js',
+        admin : './app/adminApp.js'
+    },
     output: {
+        publicPath: 'http://localhost:3000/js',
         path: path.resolve(__dirname, 'dist/js'),
-        filename: 'bundle.js',
+        filename: '[name].js',
     },
     module: {
         rules: [
@@ -29,8 +33,14 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './app/index.html',
-            filename: '../index.html'
-        })
+            chunks: ['siswa'],
+            template: './app/siswa.html',
+            filename: '../siswa.html'
+        }),
+        new HtmlWebpackPlugin({
+            chunks: ['admin'],
+            template: './app/admin.html',
+            filename: '../admin.html'
+        }),
     ]
 };
