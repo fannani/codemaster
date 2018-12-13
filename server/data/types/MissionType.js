@@ -1,12 +1,21 @@
-import {GraphQLInt, GraphQLNonNull, GraphQLObjectType, GraphQLString} from "graphql";
+import {GraphQLInt, GraphQLNonNull, GraphQLObjectType, GraphQLString,GraphQLID} from "graphql";
 import {Schema} from "mongoose";
 import StageType from "./StageType"
+import Stage from "../models/Stage";
 
 const MissionType = new GraphQLObjectType({
     name: "Mission",
     description: "This represent a Mission",
     fields: () => ({
-        stage: {type: StageType, resolve: ()=>{}},
+        _id: {type: new GraphQLNonNull(GraphQLID)},
+        stage: {type: StageType,  resolve : ( {stage}) => {
+                return new Promise((resolve,reject) => {
+                    Stage.findOne({ stage: stage },(err,stage) =>{
+                        resolve(stage);
+                    });
+
+                })
+            }},
         quest: {type: new GraphQLNonNull(GraphQLString)},
         testcase: {type: new GraphQLNonNull(GraphQLString)},
         score: {type: new GraphQLNonNull(GraphQLInt)},

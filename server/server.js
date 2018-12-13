@@ -1,12 +1,15 @@
 // example.js
 import express from 'express';
 import { buildSchema } from 'graphql';
-import mongoose from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 import bodyParser from "body-parser";
 import graphqlHTTP from 'express-graphql';
 import schema from './data/schema'
 import path from 'path';
 let port = 3000;
+
+import Course from './data/models/Course';
+import Stage from './data/models/Stage';
 
 
 mongoose.connect("mongodb://localhost/belajarkode", { useNewUrlParser: true });
@@ -35,6 +38,7 @@ app.get('*', (req,res) =>{
 
 
 mongoose.Promise = global.Promise;
+
 
 
 app.listen(port);
