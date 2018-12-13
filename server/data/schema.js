@@ -1,6 +1,9 @@
 import CourseType from './types/CourseType';
 import StageType from './types/StageType';
 import MissionType from './types/MissionType';
+import Course from './models/Course';
+import Mission from './models/Mission';
+import Stage from './models/Stage';
 
 
 import {
@@ -15,24 +18,36 @@ const BKQueryRootType = new GraphQLObjectType({
     description: "BelajarKode Application Schema Query Root",
     fields: () => ({
         courses: {
-            type: new GraphQLList(AuthorType),
-            description: "List of all Authors",
+            type: new GraphQLList(CourseType),
+            description: "List of all Course",
             resolve: function() {
-                return Authors
+                return new Promise((resolve,reject)=>{
+                    Course.find({},function(err, courses) {
+                        err ? reject(err) : resolve(courses)
+                    })
+                })
             }
         },
         stages: {
-            type: new GraphQLList(PostType),
-            description: "List of all Posts",
+            type: new GraphQLList(StageType),
+            description: "List of all Stage",
             resolve: function() {
-                return Posts
+                return new Promise((resolve,reject)=>{
+                    Stage.find({},function(err, stages) {
+                        err ? reject(err) : resolve(stages)
+                    })
+                })
             }
         },
         missions: {
-            type: new GraphQLList(PostType),
-            description: "List of all Posts",
+            type: new GraphQLList(MissionType),
+            description: "List of all Mission",
             resolve: function() {
-                return Posts
+                return new Promise((resolve,reject)=>{
+                    Mission.find({},function(err, missions) {
+                        err ? reject(err) : resolve(missions)
+                    })
+                })
             }
         }
     })
@@ -41,9 +56,6 @@ const BKQueryRootType = new GraphQLObjectType({
 // This is the schema declaration
 const BKAppSchema = new GraphQLSchema({
     query: BKQueryRootType
-    // If you need to create or updata a datasource,
-    // you use mutations. Note:
-    // mutations will not be explored in this post.
-    // mutation: BlogMutationRootType
+
 });
- export default BlogAppSchema;
+ export default BKAppSchema;

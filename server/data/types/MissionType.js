@@ -1,18 +1,18 @@
-import {GraphQLNonNull, GraphQLObjectType, GraphQLString} from "graphql";
-import Authors from "../queries/authors";
+import {GraphQLInt, GraphQLNonNull, GraphQLObjectType, GraphQLString} from "graphql";
+import {Schema} from "mongoose";
+import StageType from "./StageType"
 
-const PostType = new GraphQLObjectType({
-    name: "Post",
-    description: "This represent a Post",
+const MissionType = new GraphQLObjectType({
+    name: "Mission",
+    description: "This represent a Mission",
     fields: () => ({
-        id: {type: new GraphQLNonNull(GraphQLString)},
-        title: {type: new GraphQLNonNull(GraphQLString)},
-        body: {type: GraphQLString},
-        author: {
-            type: AuthorType,
-            resolve: function(post) {
-                return _.find(Authors, a => a.id == post.author_id);
-            }
-        }
+        stage: {type: StageType, resolve: ()=>{}},
+        quest: {type: new GraphQLNonNull(GraphQLString)},
+        testcase: {type: new GraphQLNonNull(GraphQLString)},
+        score: {type: new GraphQLNonNull(GraphQLInt)},
+        updated_at: {type: new GraphQLNonNull(GraphQLString)},
+
     })
 });
+
+export default MissionType;

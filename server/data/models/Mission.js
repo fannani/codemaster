@@ -4,7 +4,7 @@ var MissionSchema = new mongoose.Schema({
     stage: { type: Schema.Types.ObjectId, ref: 'Stage' },
     quest: String,
     testcase: String,
-    score : Integer,
+    score : Number,
     updated_at: { type: Date, default: Date.now }
 });
 

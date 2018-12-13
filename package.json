@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack  --progress --colors",
-    "serve": "babel-node ./server/index"
+    "serve": "nodemon --exec babel-node ./server/index"
   },
   "author": "Rahadyan Fannani Arif",
   "license": "ISC",
@@ -42,6 +42,7 @@
     "css-loader": "^2.0.0",
     "html-webpack-plugin": "^4.0.0-beta.4",
     "node-sass": "^4.11.0",
+    "nodemon": "^1.18.8",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.27.1",
