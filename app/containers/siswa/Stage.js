@@ -17,8 +17,8 @@ class Stage extends Component {
         return (
             <ul>
                 {this.props.stages.map((item) => (
-                    <li key={item.id}>
-                        <Link to={  '/stage/'+item.id } >{item.judul}</Link>
+                    <li key={item._id}>
+                        <Link to={  '/stage/'+item._id } >{item.title}</Link>
                     </li>
                 ))}
             </ul>

@@ -42,7 +42,6 @@ export const coursesFetchData = (url) => ((dispatch) => {
         return response;
     })
         .then((response) => {
-            console.log(response.data.data.courses);
             return response.data.data.courses
         })
         .then((courses) => dispatch(coursesFetchDataSuccess(courses)))

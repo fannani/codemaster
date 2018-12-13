@@ -1,4 +1,5 @@
 import {API_BASE} from "../config/config";
+import axios from "axios";
 
 
 export const stagesHasErrored = bool => ({
@@ -18,15 +19,28 @@ export const stagesFetchDataSuccess = stages => ({
 
 export const stagesFetchData = (id) => ((dispatch) => {
     dispatch(stagesIsLoading(true));
-    fetch(`${API_BASE}stages/${id}`)
+    axios({
+        url: API_BASE,
+        method: 'post',
+        data: {
+            query: `
+                {
+                    stages {
+                        _id,
+                        title
+                    }
+                }
+            `
+        }
+    }).then((response) => {
+
+
+        dispatch(stagesIsLoading(false));
+        return response;
+    })
         .then((response) => {
-            if (!response.ok) {
-                throw Error(response.statusText);
-            }
-            dispatch(stagesIsLoading(false));
-            return response;
+            return response.data.data.stages
         })
-        .then((response) => response.json())
         .then((stages) => dispatch(stagesFetchDataSuccess(stages)))
         .catch(() => dispatch(stagesHasErrored(true)));
 
