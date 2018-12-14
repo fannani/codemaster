@@ -1,5 +1,7 @@
 
 import {API_BASE} from "../config/config";
+import axios from "axios";
+import {stagesFetchDataSuccess, stagesHasErrored, stagesIsLoading} from "./stages";
 
 export const missionsHasErrored = bool => ({
     type: 'MISSIONS_HAS_ERRORED',
@@ -20,18 +22,27 @@ export const missionsFetchDataSuccess = missions => ({
 
 export const missionsFetchData = (id) => ((dispatch) => {
     dispatch(missionsIsLoading(true));
-    fetch(`${API_BASE}missions/${id}`)
+    axios({
+        url: API_BASE,
+        method: 'post',
+        data: {
+            query: `
+                {
+                    missions {
+                        _id,
+                        title
+                    }
+                }
+            `
+        }
+    }).then((response) => {
+        dispatch(missionsIsLoading(false));
+        return response;
+    })
         .then((response) => {
-            if (!response.ok) {
-                throw Error(response.statusText);
-            }
-            dispatch(missionsIsLoading(false));
-            return response;
+            return response.data.data.missions
         })
-        .then((response) => response.json())
-        .then((missions) => {
-            dispatch(missionsFetchDataSuccess(missions))
-        })
+        .then((missions) => dispatch(missionsFetchDataSuccess(missions)))
         .catch(() => dispatch(missionsHasErrored(true)));
 
 });

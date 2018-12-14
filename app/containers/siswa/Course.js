@@ -65,7 +65,7 @@ class Course extends Component {
                                     vScrollBarAlwaysVisible:true,
 
                                 }}
-                                onChange={update}
+                                onChange={this.update}
                             />
                         </div>
                         <iframe id='output' style={{ backgroundColor:"#ffffff"}}  frameBorder="0" className="col-sm">
@@ -213,9 +213,9 @@ class Course extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        judul: state.course.judul,
-        materi: state.course.materi,
-        waktu : state.course.waktu,
+        title: state.course.title,
+        teory: state.course.teory,
+        time : state.course.time,
         currentTimer : state.course.currentTimer,
         courseLoading : state.course.isLoading,
         missionsLoading : state.missions.isLoading,

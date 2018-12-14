@@ -7,6 +7,9 @@ import Mission from './models/Mission';
 import courses from './queries/CourseQuery'
 import stages from './queries/StageQuery'
 import missions from './queries/MissionQuery'
+import courseMutation from './mutations/CourseMutation'
+import stageMutation from './mutations/StageMutation'
+
 
 
 import {
@@ -17,7 +20,7 @@ import {
 
 
 const BKQueryRootType = new GraphQLObjectType({
-    name: 'BKAppSchema',
+    name: 'BKQueryRootType',
     description: "BelajarKode Application Schema Query Root",
     fields: () => ({
         courses,
@@ -25,10 +28,19 @@ const BKQueryRootType = new GraphQLObjectType({
         missions
     })
 });
+const BKMutationRootType = new GraphQLObjectType({
+    name: 'BKMutationRootType',
+    description: "BelajarKode Application Schema Mutation Root",
+    fields: () => ({
+        addCourse : courseMutation.addCourse,
+        addStage : stageMutation.addStage,
 
+    })
+});
 // This is the schema declaration
 const BKAppSchema = new GraphQLSchema({
-    query: BKQueryRootType
+    query: BKQueryRootType,
+    mutation: BKMutationRootType
 
 });
  export default BKAppSchema;

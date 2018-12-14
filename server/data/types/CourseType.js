@@ -8,6 +8,7 @@ const CourseType = new GraphQLObjectType({
     fields: () => ({
         _id: {type: new GraphQLNonNull(GraphQLID)},
         name: {type: new GraphQLNonNull(GraphQLString)},
+        desc: {type: new GraphQLNonNull(GraphQLString)},
         stages: {
             type: new GraphQLList(StageType),
             resolve : ( {_id}) => {
