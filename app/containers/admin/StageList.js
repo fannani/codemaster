@@ -20,7 +20,7 @@ class StageList extends Component {
     }
     render() {
         if(this.state.redirect){
-            return <Redirect to={"/admin/stage/"+this.state.id} />;
+            return <Redirect push  to={"/admin/stage/"+this.state.id} />;
         }
         return (
             <div>

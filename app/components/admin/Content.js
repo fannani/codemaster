@@ -3,7 +3,6 @@ import {Route, Switch} from "react-router-dom";
 import Log from "../../containers/admin/Log";
 import Course from "../../containers/admin/Course";
 import StageList from "../../containers/admin/StageList";
-import AddStage from "../../containers/admin/AddStage";
 import Stage from "../../containers/admin/Stage"
 import AddMission from "../../containers/admin/AddMission"
 
@@ -16,7 +15,6 @@ class Content extends Component {
                     <Route exact path="/admin/log" component={Log} />
                     <Route exact path="/admin/course" component={Course} />
                     <Route exact path="/admin/course/:courseid" component={StageList} />
-                    <Route exact path="/admin/course/:courseid/addstage" component={AddStage} />
                     <Route exact path="/admin/stage/:stageid" component={Stage} />
                     <Route exact path="/admin/stage/:stageid/addmission" component={AddMission} />
                 </Switch>

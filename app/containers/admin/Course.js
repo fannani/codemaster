@@ -22,7 +22,7 @@ class Course extends Component {
     }
     render() {
         if(this.state.redirect){
-            return <Redirect to={"/admin/course/"+this.state.idcourse} />;
+            return <Redirect push  to={"/admin/course/"+this.state.idcourse} />;
         }
         return (
             <div>
