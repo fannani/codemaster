@@ -10,10 +10,9 @@ const MissionType = new GraphQLObjectType({
         _id: {type: new GraphQLNonNull(GraphQLID)},
         stage: {type: StageType,  resolve : ( {stage}) => {
                 return new Promise((resolve,reject) => {
-                    Stage.findOne({ stage: stage },(err,stage) =>{
+                    Stage.findOne({ stage: stage },(err,stage) => {
                         resolve(stage);
                     });
-
                 })
             }},
         quest: {type: new GraphQLNonNull(GraphQLString)},

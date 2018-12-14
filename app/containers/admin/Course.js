@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
 import Modal from "react-bootstrap4-modal";
+import connect from "react-redux/es/connect/connect";
+import {addCourse} from "../../actions/courses";
 
 class Course extends Component {
     constructor(props){
         super(props);
         this.createCourse = this.createCourse.bind(this);
         this.modalClosed = this.modalClosed.bind(this);
+        this.saveCourse = this.saveCourse.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.state = {
-
+            name: "",
+            desc: "",
             showModal : false,
 
         }
@@ -22,12 +27,12 @@ class Course extends Component {
                     </div>
                     <div className="modal-body">
                         <div className="card-body">
-                           <input type="text" placeholder="name" name="name"/>
-                           <input type="text" placeholder="description" name="desc" />
+                           <input type="text" value={this.state.name} onChange={this.handleInputChange} placeholder="name" name="name"/>
+                           <input type="text" value={this.state.desc} onChange={this.handleInputChange} placeholder="description" name="desc" />
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <button type="button"  className="btn btn-primary">
+                        <button type="button" onClick={this.saveCourse} className="btn btn-primary">
                             Tambah
                         </button>
                         <button type="button" onClick={this.modalClosed}  className="btn btn-secondary">
@@ -50,6 +55,26 @@ class Course extends Component {
             showModal:false
         });
     }
+    saveCourse(){
+        this.props.add(this.state.name,this.state.desc);
+    }
+    handleInputChange(event){
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+            [name] : value
+        })
+    }
 }
 
-export default Course;
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        add: (name,desc) => dispatch(addCourse(name,desc)),
+
+    };
+};
+
+
+export default connect(null, mapDispatchToProps)(Course);

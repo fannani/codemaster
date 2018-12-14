@@ -21,7 +21,7 @@ export const addCourseSuccess = course => ({
     course
 })
 
-export const addCourse = (title,) => ((dispatch) => {
+export const addCourse = (name,desc) => ((dispatch) => {
     dispatch(coursesIsLoading(true));
     axios({
         url: API_BASE,
@@ -29,10 +29,10 @@ export const addCourse = (title,) => ((dispatch) => {
         data: {
             query: `
                 mutation{
-                    addCourse(name:${name}, desc:${desc}) {
+                    addCourse(name:"${name}", desc:"${desc}") {
                         _id,
                         name,
-                        desc,
+                        desc
                     }
                 }
             `
@@ -44,8 +44,10 @@ export const addCourse = (title,) => ((dispatch) => {
         .then((response) => {
             return response.data.data.addCourse
         })
-        .then((courses) => dispatch(addCourseSuccess(course)))
-        .catch(() => dispatch(coursesHasErrored(true)));
+        .then((course) => dispatch(addCourseSuccess(course)))
+        .catch((err) => {
+            dispatch(coursesHasErrored(true))
+        });
 });
 
 
