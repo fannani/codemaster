@@ -20,6 +20,11 @@ const reducer = (state = {
                 { ...state },
                 { courses : action.courses},
             );
+        case 'ADD_COURSE_SUCCESS':
+            return Object.assign(
+                {...state},
+                {courses : Object.assign({...state.courses},action.course)}
+            )
         default:
             return state;
     }
