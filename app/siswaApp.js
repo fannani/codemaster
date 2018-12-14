@@ -1,4 +1,8 @@
 
+import ReactDOM from "react-dom";
+import React from "react";
+import siswaStore from './config/siswaStore';
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes React and other helpers. It's a great starting point while
@@ -13,4 +17,8 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./Siswa');
+const store = siswaStore();
+
+if (document.getElementById('app')) {
+    ReactDOM.render(<Siswa store={store} />, document.getElementById('app'));
+}

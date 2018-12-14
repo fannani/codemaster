@@ -34,6 +34,7 @@ const BKMutationRootType = new GraphQLObjectType({
     fields: () => ({
         addCourse : courseMutation.addCourse,
         addStage : stageMutation.addStage,
+        updateStage : stageMutation.updateStage,
 
     })
 });

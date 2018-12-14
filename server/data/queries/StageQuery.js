@@ -1,13 +1,16 @@
-import {GraphQLList} from "graphql";
+import {GraphQLID, GraphQLList} from "graphql";
 import StageType from "../types/StageType";
 import Stage from '../models/Stage';
 
 const stages = {
     type: new GraphQLList(StageType),
         description: "List of all Stage",
-        resolve: function() {
+        args: {
+            _id: {type: GraphQLID}
+        },
+        resolve: function(parent,args) {
         return new Promise((resolve,reject)=>{
-            Stage.find({},function(err, stages) {
+            Stage.find({_id : args._id},function(err, stages) {
                 err ? reject(err) : resolve(stages)
             })
         })
