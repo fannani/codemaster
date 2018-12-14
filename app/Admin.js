@@ -1,11 +1,11 @@
 
 import React from "react";
 import { BrowserRouter , Route, Link } from "react-router-dom";
-import ReactDOM from "react-dom";
 import { Provider } from 'react-redux';
 import Layout from "./containers/admin/Layout"
 import PropTypes from 'prop-types';
-import adminStore from './config/adminStore';
+import { hot } from 'react-hot-loader/root'
+
 
 
 const Admin = ({store}) => (
@@ -20,8 +20,5 @@ Admin.propTypes = {
     store: PropTypes.object.isRequired
 }
 
-const store = adminStore();
+export default hot(Admin);
 
-if (document.getElementById('app')) {
-    ReactDOM.render(<Admin store={store} />, document.getElementById('app'));
-}

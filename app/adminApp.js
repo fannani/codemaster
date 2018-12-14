@@ -1,4 +1,10 @@
 
+import React from "react";
+import adminStore from './config/adminStore';
+import ReactDOM from "react-dom";
+import Admin from "./admin";
+
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes React and other helpers. It's a great starting point while
@@ -13,4 +19,10 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./Admin');
+
+
+const store = adminStore();
+
+if (document.getElementById('app')) {
+    ReactDOM.render(<Admin store={store} />, document.getElementById('app'));
+}

@@ -5,8 +5,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     mode: 'development',
     entry: {
-        siswa : './app/siswaApp.js',
-        admin : './app/adminApp.js'
+        siswa : ['./app/siswaApp.js', 'webpack-hot-middleware/client'],
+        admin : ['./app/adminApp.js','webpack-hot-middleware/client']
     },
     output: {
         publicPath: 'http://localhost:3000/js',
@@ -39,6 +39,10 @@ module.exports = {
         ]
     },
     plugins: [
+
+        new webpack.HotModuleReplacementPlugin(),
+
+        new webpack.NoEmitOnErrorsPlugin(),
         new HtmlWebpackPlugin({
             chunks: ['siswa'],
             template: './app/siswa.html',
@@ -49,5 +53,6 @@ module.exports = {
             template: './app/admin.html',
             filename: '../admin.html'
         }),
+
     ]
 };

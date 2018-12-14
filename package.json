@@ -6,7 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch --info-verbosity verbose",
-    "serve": "nodemon --exec babel-node ./server/index"
+    "serve": "nodemon  --exec babel-node ./server/index "
+  },
+  "nodemonConfig": {
+    "watch": [
+      "server/"
+    ]
   },
   "author": "Rahadyan Fannani Arif",
   "license": "ISC",
@@ -25,6 +30,7 @@
     "react-ace": "^6.2.0",
     "react-bootstrap4-modal": "^1.7.0",
     "react-dom": "^16.6.3",
+    "react-hot-loader": "^4.6.0",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
     "react-toastify": "^4.4.3",
@@ -47,6 +53,8 @@
     "style-loader": "^0.23.1",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-hot-middleware": "^2.24.3"
   }
 }
