@@ -11,6 +11,10 @@ export const coursesIsLoading = bool =>({
         type: 'COURSES_IS_LOADING',
         isLoading: bool
 });
+export const coursesIsFinish = bool => ({
+    type: 'COURSES_IS_FINISH',
+    isFinish: bool
+})
 export const coursesFetchDataSuccess = courses => ({
         type: 'COURSES_FETCH_DATA_SUCCESS',
         courses
@@ -44,7 +48,10 @@ export const addCourse = (name,desc) => ((dispatch) => {
         .then((response) => {
             return response.data.data.addCourse
         })
-        .then((course) => dispatch(addCourseSuccess(course)))
+        .then((course) => {
+            dispatch(coursesIsFinish(true));
+            dispatch(addCourseSuccess(course))
+        })
         .catch((err) => {
             dispatch(coursesHasErrored(true))
         });

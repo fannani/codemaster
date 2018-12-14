@@ -5,6 +5,11 @@ const reducer = (state = {
     courses : []
 },action) =>{
     switch (action.type) {
+        case 'COURSES_IS_FINISH':
+            return Object.assign(
+                { ...state },
+                { isFinish : action.isFinish },
+            );
         case 'COURSES_HAS_ERRORED':
             return Object.assign(
                 { ...state },
@@ -21,7 +26,6 @@ const reducer = (state = {
                 { courses : action.courses},
             );
         case 'ADD_COURSE_SUCCESS':
-            console.log("Rests");
             return Object.assign(
                 {...state},
                 {courses : [...state.courses,action.course]}

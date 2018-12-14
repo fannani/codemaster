@@ -33,6 +33,7 @@ export const courseFetchData = (id) => ((dispatch) => {
         .then((response) => response.json())
         .then((course) => {
             dispatch(courseFetchDataSuccess(course))
+
         })
         .catch(() => dispatch(courseHasErrored(true)));
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Modal from "react-bootstrap4-modal";
 import connect from "react-redux/es/connect/connect";
-import {addCourse} from "../../actions/courses";
+import {addCourse,coursesIsFinish} from "../../actions/courses";
 
 class Course extends Component {
     constructor(props){
@@ -21,7 +21,7 @@ class Course extends Component {
         return (
             <div>
                 <div onClick={this.createCourse} className="btn btn-primary">Tambah Course</div>
-                <Modal visible={this.state.showModal} onClickBackdrop={this.modalClosed}>
+                <Modal visible={this.state.showModal && !this.props.isFinish } onClickBackdrop={this.modalClosed}>
                     <div className="modal-header">
                         <h5 className="modal-title">Tambah Course</h5>
                     </div>
@@ -54,6 +54,7 @@ class Course extends Component {
         this.setState({
             showModal:false
         });
+        this.props.finish(false);
     }
     saveCourse(){
         this.props.add(this.state.name,this.state.desc);
@@ -65,16 +66,26 @@ class Course extends Component {
         this.setState({
             [name] : value
         })
-    }
-}
 
+    }
+
+
+}
+const mapStateToProps = (state) => {
+    return {
+        hasErrored: state.courses.hasErrored,
+        isLoading: state.courses.isLoading,
+        isFinish: state.courses.isFinish
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         add: (name,desc) => dispatch(addCourse(name,desc)),
+        finish: (bool) =>dispatch(coursesIsFinish(bool))
 
     };
 };
 
 
-export default connect(null, mapDispatchToProps)(Course);
+export default connect(mapStateToProps, mapDispatchToProps)(Course);
