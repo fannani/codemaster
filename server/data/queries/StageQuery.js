@@ -10,7 +10,7 @@ const stages = {
         },
         resolve: function(parent,args) {
         return new Promise((resolve,reject)=>{
-            Stage.find({_id : args._id},function(err, stages) {
+            Stage.find(args,function(err, stages) {
                 err ? reject(err) : resolve(stages)
             })
         })

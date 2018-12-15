@@ -1,10 +1,12 @@
-import {GraphQLList} from "graphql";
+import {GraphQLID, GraphQLList} from "graphql";
 import CourseType from "../types/CourseType";
 import Course from "../models/Course";
 
 
 const  courses = {
+
         type: new GraphQLList(CourseType),
+
             description: "List of all Course",
             resolve: function() {
             return new Promise((resolve,reject)=>{

@@ -9,6 +9,7 @@ import stages from './queries/StageQuery'
 import missions from './queries/MissionQuery'
 import courseMutation from './mutations/CourseMutation'
 import stageMutation from './mutations/StageMutation'
+import missionMutation from './mutations/MissionMutation'
 
 
 
@@ -35,6 +36,7 @@ const BKMutationRootType = new GraphQLObjectType({
         addCourse : courseMutation.addCourse,
         addStage : stageMutation.addStage,
         updateStage : stageMutation.updateStage,
+        addMission: missionMutation.addMission
 
     })
 });

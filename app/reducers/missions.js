@@ -12,6 +12,8 @@ const reducer = (state = {
             return { ...state ,isLoading : action.isLoading };
         case 'MISSIONS_FETCH_DATA_SUCCESS':
             return Object.assign({...state},{missions : action.missions});
+        case 'ADD_MISSION_SUCCESS':
+
         default:
             return state;
     }

@@ -1,13 +1,16 @@
-import {GraphQLList} from "graphql";
+import {GraphQLID, GraphQLList} from "graphql";
 import MissionType from "../types/MissionType";
 import Mission from "../models/Mission";
 
 const missions =  {
     type: new GraphQLList(MissionType),
         description: "List of all Mission",
-        resolve: function() {
+        args: {
+            stage: {type: GraphQLID}
+        },
+        resolve: function(parent,args) {
         return new Promise((resolve,reject)=>{
-            Mission.find({},function(err, missions) {
+            Mission.find(args,function(err, missions) {
                 err ? reject(err) : resolve(missions)
             })
         })
