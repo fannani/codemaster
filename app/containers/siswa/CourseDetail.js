@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import {stagesFetchData} from "../../actions/stages";
+import {stagesFetchData,getStageByIdCourse} from "../../actions/stages";
 import connect from "react-redux/es/connect/connect";
 import {Link} from "react-router-dom";
 
-class Stage extends Component {
+class CourseDetail extends Component {
+
     componentDidMount() {
-        this.props.fetchData(this.props.match.params.stageid);
+        this.props.getStageByIdCourse(this.props.match.params.courseid);
+
     }
     render() {
         if (this.props.hasErrored) {
@@ -18,7 +20,7 @@ class Stage extends Component {
             <ul>
                 {this.props.stages.map((item) => (
                     <li key={item._id}>
-                        <Link to={  '/stage/'+item._id } >{item.title}</Link>
+                        <Link to={  '/play/'+item._id } >{item.title}</Link>
                     </li>
                 ))}
             </ul>
@@ -36,9 +38,10 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchData: (id) => dispatch(stagesFetchData(id))
+        fetchData: (id) => dispatch(stagesFetchData(id)),
+        getStageByIdCourse: (courseid)=> dispatch(getStageByIdCourse(courseid))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Stage);
+export default connect(mapStateToProps, mapDispatchToProps)(CourseDetail);
 

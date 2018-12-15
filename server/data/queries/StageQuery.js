@@ -6,7 +6,8 @@ const stages = {
     type: new GraphQLList(StageType),
         description: "List of all Stage",
         args: {
-            _id: {type: GraphQLID}
+            _id: {type: GraphQLID},
+            course: {type: GraphQLID}
         },
         resolve: function(parent,args) {
         return new Promise((resolve,reject)=>{

@@ -10,7 +10,7 @@ const Layout = () => (
     <div>
         <Header />
         <Switch>
-            <Route path="/stage/:stageid" component={Course} />
+            <Route path="/play/:stageid" component={Course} />
             <Route path="/" component={Home} />
         </Switch>
     </div>

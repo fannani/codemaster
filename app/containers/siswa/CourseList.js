@@ -17,7 +17,7 @@ class CourseList extends Component {
             <ul>
                 {this.props.courses.map((item) => (
                     <li key={item._id}>
-                        <Link to={  '/stages/'+item._id } >{item.name}</Link>
+                        <Link to={  '/course/'+item._id } >{item.name}</Link>
                     </li>
                 ))}
             </ul>

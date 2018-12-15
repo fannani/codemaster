@@ -94,7 +94,7 @@ export const stagesFetchData = () => ((dispatch) => {
         url: API_BASE,
         method: 'post',
         data: {
-            query: `{ stages {_id,title,time,teory,course {_id}}}`
+            query: `{ stages{_id,title,time,teory,course {_id}}}`
         }
     }).then((response) => {
         dispatch(stagesIsLoading(false));
@@ -108,6 +108,24 @@ export const stagesFetchData = () => ((dispatch) => {
 
 });
 
+export const getStageByIdCourse = (courseid) =>((dispatch)=> {
+    dispatch(stagesIsLoading(true));
+    axios({
+        url: API_BASE,
+        method: 'post',
+        data: {
+            query: `{ stages(course:"${courseid}"){_id,title,time,teory,course {_id}}}`
+        }
+    }).then((response) => {
+        dispatch(stagesIsLoading(false));
+        return response;
+    })
+        .then((response) => {
+            return response.data.data.stages
+        })
+        .then((stages) => dispatch(stagesFetchDataSuccess(stages)))
+        .catch(() => dispatch(stagesHasErrored(true)));
+})
 export const stageFetchOne = (id) => ((dispatch) => {
     dispatch(stagesIsLoading(true));
     const promise = axios({

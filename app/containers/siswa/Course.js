@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { postLog } from '../../utils/Logs';
 import connect from "react-redux/es/connect/connect";
-import {courseFetchData,incrementTimer} from "../../actions/course";
+import {courseFetchData,incrementTimer} from "../../actions/gameplay";
 import {missionsFetchData} from "../../actions/mission";
 import AceEditor from 'react-ace';
 
@@ -213,13 +213,13 @@ class Course extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        title: state.course.title,
-        teory: state.course.teory,
-        time : state.course.time,
-        currentTimer : state.course.currentTimer,
-        courseLoading : state.course.isLoading,
+        title: state.gameplay.title,
+        teory: state.gameplay.teory,
+        time : state.gameplay.time,
+        currentTimer : state.gameplay.currentTimer,
+        courseLoading : state.gameplay.isLoading,
+        courseError: state.gameplay.hasErrored,
         missionsLoading : state.missions.isLoading,
-        courseError: state.course.hasErrored,
         missionsError: state.missions.hasErrored,
         missions : state.missions.missions
 

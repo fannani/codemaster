@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Route, Switch} from "react-router-dom";
 import CourseList from "../../containers/siswa/CourseList";
-import Stage from "../../containers/siswa/Stage";
+import CourseDetail from "../../containers/siswa/CourseDetail";
 
 class Content extends Component {
     render() {
@@ -9,7 +9,7 @@ class Content extends Component {
             <main className="col-9 ">
                 <Switch>
                     <Route exact path="/course" component={CourseList} />
-                    <Route path="/stages/:stageid" component={Stage} />
+                    <Route path="/course/:courseid" component={CourseDetail} />
                 </Switch>
             </main>
         );

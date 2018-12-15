@@ -28,7 +28,7 @@ class Stage extends Component {
             showModal: false
         })
     }
-    componentWillMount() {
+    componentDidMount() {
         this.props.getMissionsByStage(this.props.match.params.stageid);
         this.props.fetchOne(this.props.match.params.stageid).then((stage)=> {
             this.setState(stage)
