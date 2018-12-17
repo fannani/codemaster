@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,6 +21,7 @@ class Course extends Component {
     this.checkResult = this.checkResult.bind(this);
     this.modalClosed = this.modalClosed.bind(this);
     this.tick = this.tick.bind(this);
+    this.update = this.update.bind(this);
     this.state = {
       initscript: `<!DOCTYPE html>
 <html>
@@ -171,9 +173,7 @@ class Course extends Component {
     });
   }
 
-  update(event) {
-    const { target } = event;
-    const { value } = target;
+  update(value) {
     this.setState({
       initscript: value,
     });
@@ -202,10 +202,11 @@ class Course extends Component {
         <main
           role="main"
           className="container-fluid"
-          style={{ minHeight: '100%', height: '100%' }}
+          style={{ height: '100%' }}
         >
-          <div className="row" style={{ minHeight: '100%', height: '100%' }}>
+          <div className="row flex-xl-nowrap" style={{ height: '100%' }}>
             <Guide
+
               judul={judul}
               materi={materi}
               mission={missions}
@@ -214,8 +215,8 @@ class Course extends Component {
               time={timeText}
               life={life}
             />
-            <div className="col-sm" style={{ marginTop: '10px' }}>
-              <div style={{ marginBottom: '5px' }}>
+            <div className="col-sm-4" style={{ height: 'calc(100vh - 50px)' }}>
+              <div style={{ height: "50px" }}>
                 <button
                   type="button"
                   id="run"
@@ -226,10 +227,11 @@ class Course extends Component {
                 </button>
               </div>
               <AceEditor
-                style={{ minHeight: '100%', height: '100%' }}
                 mode="html"
                 theme="monokai"
                 value={initscript}
+                width="100%"
+                style={{ height: "calc(100% - 50px)" }}
                 setOptions={{
                   fontSize: '16pt',
                   vScrollBarAlwaysVisible: true,
@@ -242,7 +244,7 @@ class Course extends Component {
               id="output"
               style={{ backgroundColor: '#ffffff' }}
               frameBorder="0"
-              className="col-sm"
+              className="col-sm-4"
             />
           </div>
         </main>

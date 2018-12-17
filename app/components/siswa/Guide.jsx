@@ -67,8 +67,8 @@ class Guide extends Component {
     return (
       <div
         id="guide"
-        className="col-sm"
-        style={{ marginLeft: "10px", marginTop: "10px" }}
+        className="col-sm-4"
+        style={{ height:"100%", overflowY: 'scroll', maxHeight: 'calc(100vh - 50px)' }}
       >
         <div className="row">
           <div className="card col-sm-12">

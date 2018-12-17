@@ -2,7 +2,7 @@
 import React from 'react';
 
 const Header = () => (
-  <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+  <nav className="navbar navbar-expand-md navbar-dark bg-dark" style={{height: "50px"}} >
     <a className="navbar-brand" href="#">
       belajarkode;
     </a>
