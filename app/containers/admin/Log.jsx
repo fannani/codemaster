@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { logsFetchData } from '../../actions/logs';

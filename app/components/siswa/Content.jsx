@@ -1,3 +1,4 @@
+/* eslint-disable  */
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import CourseList from '../../containers/siswa/CourseList';

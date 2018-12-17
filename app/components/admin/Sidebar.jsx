@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+/* eslint-disable  */
+import React  from 'react';
 import { Link } from 'react-router-dom';
 
-class Sidebar extends Component {
-  render() {
-    return (
+const Sidebar = () => (
       <nav className="col-3" id="sidebar">
         <ul className="list-unstyled components">
           <li>
@@ -13,7 +12,6 @@ class Sidebar extends Component {
         </ul>
       </nav>
     );
-  }
-}
+
 
 export default Sidebar;

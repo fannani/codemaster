@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import { ToastContainer, toast } from 'react-toastify';
@@ -9,6 +10,8 @@ import { incrementTimer } from '../../actions/gameplay';
 import { missionsFetchData } from '../../actions/mission';
 import AceEditor from 'react-ace';
 import { stageFetchOne } from '../../actions/stages';
+require('brace/mode/html');
+require('brace/theme/monokai');
 
 class Course extends Component {
   constructor(props) {
@@ -79,6 +82,7 @@ class Course extends Component {
               <AceEditor
                 style={{ minHeight: '100%', height: '100%' }}
                 mode="html"
+                theme='monokai'
                 value={this.state.initscript}
                 setOptions={{
                   fontSize: '16pt',

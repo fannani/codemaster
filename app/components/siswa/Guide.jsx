@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
-import Modal from 'react-bootstrap4-modal';
-import classNames from 'classnames';
-import { postLog } from '../../utils/Logs';
+/* eslint-disable */
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Modal from "react-bootstrap4-modal";
+import classNames from "classnames";
+import { postLog } from "../../utils/Logs";
 
 class Guide extends Component {
   constructor(props) {
@@ -13,22 +15,22 @@ class Guide extends Component {
     this.state = {
       showModal: false,
       timer: 10,
-      runtime: 10,
+      runtime: 10
     };
   }
 
   showTeory() {
-    postLog('materi', 'membuka materi', '');
+    postLog("materi", "membuka materi", "");
     this.setState({
       showModal: true,
-      runtime: this.state.timer,
+      runtime: this.state.timer
     });
     this.intervalHandle = setInterval(this.tick, 1000);
   }
 
   modalClosed() {
     this.setState({
-      showModal: false,
+      showModal: false
     });
   }
 
@@ -39,7 +41,7 @@ class Guide extends Component {
       this.modalClosed();
     } else {
       this.setState({
-        runtime: second,
+        runtime: second
       });
     }
   }
@@ -47,13 +49,13 @@ class Guide extends Component {
   render() {
     const missionList = this.props.mission.map((misi, index) => {
       let active = false;
-      if (typeof this.props.result[index] !== 'undefined') {
+      if (typeof this.props.result[index] !== "undefined") {
         active = !!this.props.result[index].result;
       }
       const missionClass = classNames({
-        'mission-list': true,
-        'list-group-item': true,
-        active,
+        "mission-list": true,
+        "list-group-item": true,
+        active
       });
       return (
         <li key={index} className={missionClass}>
@@ -66,27 +68,18 @@ class Guide extends Component {
       <div
         id="guide"
         className="col-sm"
-        style={{ marginLeft: '10px', marginTop: '10px' }}
+        style={{ marginLeft: "10px", marginTop: "10px" }}
       >
         <div className="row">
           <div className="card col-sm-12">
             <div className="card-body">
-              <h5 id="score">
-                SCORE :
-                {this.props.score}
-              </h5>
-              <h5 id="time">
-                WAKTU :
-                {this.props.time}
-              </h5>
-              <h5 id="life">
-                LIFE :
-                {this.props.life}
-              </h5>
+              <h5 id="score">SCORE :{this.props.score}</h5>
+              <h5 id="time">WAKTU :{this.props.time}</h5>
+              <h5 id="life">LIFE :{this.props.life}</h5>
             </div>
           </div>
         </div>
-        <div className="row" style={{ marginTop: '10px' }}>
+        <div className="row" style={{ marginTop: "10px" }}>
           <div className="card col-sm-12">
             <button
               type="button"
@@ -97,8 +90,8 @@ class Guide extends Component {
             </button>
           </div>
         </div>
-        <div className="row" style={{ marginTop: '10px' }}>
-          <ul className="list-group col-sm" style={{ paddingRight: '0px' }}>
+        <div className="row" style={{ marginTop: "10px" }}>
+          <ul className="list-group col-sm" style={{ paddingRight: "0px" }}>
             {missionList}
           </ul>
         </div>
@@ -108,11 +101,7 @@ class Guide extends Component {
         >
           <div className="modal-header">
             <h5 className="modal-title">
-              {this.props.judul}
-              {' '}
-              (
-              {this.state.runtime}
-              )
+              {this.props.judul} ({this.state.runtime})
             </h5>
           </div>
           <div className="modal-body">
@@ -137,12 +126,12 @@ class Guide extends Component {
 }
 
 Guide.propTypes = {
-  score: PropTypes.string,
-  mission: PropTypes.object,
+  score: PropTypes.number,
+  mission: PropTypes.array,
   time: PropTypes.string,
-  life: PropTypes.integers,
+  life: PropTypes.number,
   judul: PropTypes.string,
-  materi: PropTypes.string,
+  materi: PropTypes.string
 };
 
 export default Guide;

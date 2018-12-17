@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import adminStore from './config/adminStore';
-import Admin from './admin';
+import Admin from './Admin';
 
 /**
  * First we will load all of this project's JavaScript dependencies which

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import connect from 'react-redux/es/connect/connect';

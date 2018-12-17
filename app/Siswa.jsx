@@ -1,9 +1,8 @@
+/* eslint-disable */
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-
-import { Provider } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
 import Layout from './containers/siswa/Layout';
 

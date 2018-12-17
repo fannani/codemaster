@@ -1,3 +1,4 @@
+/* eslint-disable  */
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Log from '../../containers/admin/Log';
