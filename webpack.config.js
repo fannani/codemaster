@@ -4,6 +4,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
+    devtool: 'cheap-module-inline-source-map',
     entry: {
         siswa : ['./app/siswaApp.js', 'webpack-hot-middleware/client'],
         admin : ['./app/adminApp.js','webpack-hot-middleware/client']
@@ -13,6 +14,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist/js'),
         filename: '[name].js',
     },
+
     module: {
         rules: [
             {

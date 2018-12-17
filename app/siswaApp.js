@@ -1,7 +1,6 @@
-
-import ReactDOM from "react-dom";
-import React from "react";
-import Siswa from "./siswa";
+import ReactDOM from 'react-dom';
+import React from 'react';
+import Siswa from './siswa';
 import siswaStore from './config/siswaStore';
 
 /**
@@ -21,5 +20,5 @@ require('./bootstrap');
 const store = siswaStore();
 
 if (document.getElementById('app')) {
-    ReactDOM.render(<Siswa store={store} />, document.getElementById('app'));
+  ReactDOM.render(<Siswa store={store} />, document.getElementById('app'));
 }
