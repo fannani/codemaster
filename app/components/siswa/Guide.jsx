@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap4-modal';
 import classNames from 'classnames';
 import { postLog } from '../../utils/Logs';
 
-export default class Guide extends Component {
+class Guide extends Component {
   constructor(props) {
     super(props);
     this.showTeory = this.showTeory.bind(this);
@@ -13,19 +13,47 @@ export default class Guide extends Component {
     this.state = {
       showModal: false,
       timer: 10,
-      runtime: 10
+      runtime: 10,
     };
   }
+
+  showTeory() {
+    postLog('materi', 'membuka materi', '');
+    this.setState({
+      showModal: true,
+      runtime: this.state.timer,
+    });
+    this.intervalHandle = setInterval(this.tick, 1000);
+  }
+
+  modalClosed() {
+    this.setState({
+      showModal: false,
+    });
+  }
+
+  tick() {
+    const second = this.state.runtime - 1;
+    if (second <= 0) {
+      clearInterval(this.intervalHandle);
+      this.modalClosed();
+    } else {
+      this.setState({
+        runtime: second,
+      });
+    }
+  }
+
   render() {
-    var missionList = this.props.mission.map((misi, index) => {
+    const missionList = this.props.mission.map((misi, index) => {
       let active = false;
       if (typeof this.props.result[index] !== 'undefined') {
-        active = this.props.result[index].result ? true : false;
+        active = !!this.props.result[index].result;
       }
-      var missionClass = classNames({
+      const missionClass = classNames({
         'mission-list': true,
         'list-group-item': true,
-        active: active
+        active,
       });
       return (
         <li key={index} className={missionClass}>
@@ -43,9 +71,18 @@ export default class Guide extends Component {
         <div className="row">
           <div className="card col-sm-12">
             <div className="card-body">
-              <h5 id="score">SCORE : {this.props.score}</h5>
-              <h5 id="time">WAKTU : {this.props.time}</h5>
-              <h5 id="life">LIFE : {this.props.life}</h5>
+              <h5 id="score">
+                SCORE :
+                {this.props.score}
+              </h5>
+              <h5 id="time">
+                WAKTU :
+                {this.props.time}
+              </h5>
+              <h5 id="life">
+                LIFE :
+                {this.props.life}
+              </h5>
             </div>
           </div>
         </div>
@@ -71,7 +108,11 @@ export default class Guide extends Component {
         >
           <div className="modal-header">
             <h5 className="modal-title">
-              {this.props.judul} ({this.state.runtime})
+              {this.props.judul}
+              {' '}
+              (
+              {this.state.runtime}
+              )
             </h5>
           </div>
           <div className="modal-body">
@@ -93,31 +134,15 @@ export default class Guide extends Component {
       </div>
     );
   }
-
-  showTeory() {
-    postLog('materi', 'membuka materi', '');
-    this.setState({
-      showModal: true,
-      runtime: this.state.timer
-    });
-    this.intervalHandle = setInterval(this.tick, 1000);
-  }
-
-  modalClosed() {
-    this.setState({
-      showModal: false
-    });
-  }
-
-  tick() {
-    let second = this.state.runtime - 1;
-    if (second <= 0) {
-      clearInterval(this.intervalHandle);
-      this.modalClosed();
-    } else {
-      this.setState({
-        runtime: second
-      });
-    }
-  }
 }
+
+Guide.propTypes = {
+  score: PropTypes.string,
+  mission: PropTypes.object,
+  time: PropTypes.string,
+  life: PropTypes.integers,
+  judul: PropTypes.string,
+  materi: PropTypes.string,
+};
+
+export default Guide;

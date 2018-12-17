@@ -1,32 +1,26 @@
-import { API_BASE } from '../config/config';
 import axios from 'axios';
-import {
-  addStageSuccess,
-  stagesFetchDataSuccess,
-  stagesHasErrored,
-  stagesIsLoading
-} from './stages';
+import { API_BASE } from '../config/config';
 
 export const missionsHasErrored = bool => ({
   type: 'MISSIONS_HAS_ERRORED',
-  hasErrored: bool
+  hasErrored: bool,
 });
 
 export const missionsIsLoading = bool => ({
   type: 'MISSIONS_IS_LOADING',
-  isLoading: bool
+  isLoading: bool,
 });
 export const missionsFetchDataSuccess = missions => ({
   type: 'MISSIONS_FETCH_DATA_SUCCESS',
-  missions
+  missions,
 });
 
 export const addMissionSuccess = mission => ({
   type: 'ADD_MISSION_SUCCESS',
-  mission
+  mission,
 });
 
-export const addMission = (stage, quest, testcase, score) => dispatch => {
+export const addMission = (stage, quest, testcase, score) => (dispatch) => {
   dispatch(missionsIsLoading(true));
 
   const promise = axios({
@@ -35,28 +29,24 @@ export const addMission = (stage, quest, testcase, score) => dispatch => {
     data: {
       query: `
                 mutation{
-                    addMission(stage:"${stage}",quest:"${quest}",testcase:"${testcase}",score:${score}){
-    		            _id,quest,score,stage{_id}}}
-            `
-    }
+                    addMission(stage:"${stage}",quest:"${quest}",testcase:"${testcase}",score:${score}){_id,quest,score,stage{_id}}}`,
+    },
   })
-    .then(response => {
+    .then((response) => {
       dispatch(missionsIsLoading(false));
       return response;
     })
-    .then(response => {
-      return response.data.data.addMission;
-    })
-    .then(stage => {
+    .then(response => response.data.data.addMission)
+    .then((mission) => {
       dispatch(addMissionSuccess(mission));
       return mission;
     })
-    .catch(err => {
+    .catch(() => {
       dispatch(missionsHasErrored(true));
     });
   return promise;
 };
-export const getMissionsByStage = stageid => dispatch => {
+export const getMissionsByStage = stageid => (dispatch) => {
   dispatch(missionsIsLoading(true));
   axios({
     url: API_BASE,
@@ -71,20 +61,18 @@ export const getMissionsByStage = stageid => dispatch => {
                         testcase
                     }
                 }
-            `
-    }
+            `,
+    },
   })
-    .then(response => {
+    .then((response) => {
       dispatch(missionsIsLoading(false));
       return response;
     })
-    .then(response => {
-      return response.data.data.missions;
-    })
+    .then(response => response.data.data.missions)
     .then(missions => dispatch(missionsFetchDataSuccess(missions)))
     .catch(() => dispatch(missionsHasErrored(true)));
 };
-export const missionsFetchData = id => dispatch => {
+export const missionsFetchData = () => (dispatch) => {
   dispatch(missionsIsLoading(true));
   axios({
     url: API_BASE,
@@ -97,16 +85,14 @@ export const missionsFetchData = id => dispatch => {
                         title
                     }
                 }
-            `
-    }
+            `,
+    },
   })
-    .then(response => {
+    .then((response) => {
       dispatch(missionsIsLoading(false));
       return response;
     })
-    .then(response => {
-      return response.data.data.missions;
-    })
+    .then(response => response.data.data.missions)
     .then(missions => dispatch(missionsFetchDataSuccess(missions)))
     .catch(() => dispatch(missionsHasErrored(true)));
 };

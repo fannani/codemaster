@@ -1,16 +1,17 @@
+/*eslint-disable*/
 import axios from 'axios';
 
 export function postLog(category, activity, value) {
   axios
     .post('localhost:3000/api/logs', {
-      category: category,
-      activity: activity,
-      value: value
+      category,
+      activity,
+      value,
     })
-    .then(function(response) {
+    .then((response) => {
       console.log(response);
     })
-    .catch(function(error) {
+    .catch((error) => {
       console.log(error);
     });
 }

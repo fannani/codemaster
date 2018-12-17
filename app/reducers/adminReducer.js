@@ -8,5 +8,5 @@ export default combineReducers({
   logs,
   courses,
   stages,
-  missions
+  missions,
 });

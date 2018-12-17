@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { stageFetchOne, updateStage } from '../../actions/stages';
-import { addMission, getMissionsByStage } from '../../actions/mission';
 import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
+import { stageFetchOne, updateStage } from '../../actions/stages';
+import { addMission, getMissionsByStage } from '../../actions/mission';
 
 class Stage extends Component {
   constructor(props) {
@@ -20,17 +20,19 @@ class Stage extends Component {
       testcase: '',
       score: '',
       time: '',
-      showModal: false
+      showModal: false,
     };
   }
+
   modalClosed() {
     this.setState({
-      showModal: false
+      showModal: false,
     });
   }
+
   componentDidMount() {
     this.props.getMissionsByStage(this.props.match.params.stageid);
-    this.props.fetchOne(this.props.match.params.stageid).then(stage => {
+    this.props.fetchOne(this.props.match.params.stageid).then((stage) => {
       this.setState(stage);
     });
   }
@@ -40,31 +42,35 @@ class Stage extends Component {
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
+
   saveData() {
     const s = this.state;
     this.props
       .update(this.props.match.params.stageid, s.title, s.teory, s.time)
-      .then(data => {});
+      .then((data) => {});
   }
+
   addMission() {
     this.setState({
-      showModal: true
+      showModal: true,
     });
   }
+
   saveMission() {
     const s = this.state;
     this.props
       .addMission(this.props.match.params.stageid, s.quest, s.testcase, s.score)
       .then(() => {
         this.setState({
-          showModal: false
+          showModal: false,
         });
         this.props.getMissionsByStage(this.props.match.params.stageid);
       });
   }
+
   render() {
     return (
       <div>
@@ -109,14 +115,12 @@ class Stage extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.missions.map(function(name, index) {
-              return (
-                <tr key={index}>
-                  <td>{name.quest}</td>
-                  <td>{name.score}</td>
-                </tr>
-              );
-            })}
+            {this.props.missions.map((name, index) => (
+              <tr key={index}>
+                <td>{name.quest}</td>
+                <td>{name.score}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <Modal
@@ -172,27 +176,21 @@ class Stage extends Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return {
-    missions: state.missions.missions,
-    hasErrored: state.stages.hasErrored,
-    isLoading: state.stages.isLoading,
-    isFinish: state.stages.isFinish
-  };
-};
+const mapStateToProps = state => ({
+  missions: state.missions.missions,
+  hasErrored: state.stages.hasErrored,
+  isLoading: state.stages.isLoading,
+  isFinish: state.stages.isFinish,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchOne: id => dispatch(stageFetchOne(id)),
-    update: (id, title, teory, time) =>
-      dispatch(updateStage(id, title, teory, time)),
-    addMission: (stage, quest, testcase, score) =>
-      dispatch(addMission(stage, quest, testcase, score)),
-    getMissionsByStage: stageid => dispatch(getMissionsByStage(stageid))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  fetchOne: id => dispatch(stageFetchOne(id)),
+  update: (id, title, teory, time) => dispatch(updateStage(id, title, teory, time)),
+  addMission: (stage, quest, testcase, score) => dispatch(addMission(stage, quest, testcase, score)),
+  getMissionsByStage: stageid => dispatch(getMissionsByStage(stageid)),
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Stage);

@@ -2,9 +2,9 @@ const reducer = (
   state = {
     hasErrored: false,
     isLoading: false,
-    missions: []
+    missions: [],
   },
-  action
+  action,
 ) => {
   switch (action.type) {
     case 'MISSIONS_HAS_ERRORED':
@@ -14,7 +14,7 @@ const reducer = (
     case 'MISSIONS_FETCH_DATA_SUCCESS':
       return Object.assign({ ...state }, { missions: action.missions });
     case 'ADD_MISSION_SUCCESS':
-
+      return null;
     default:
       return state;
   }

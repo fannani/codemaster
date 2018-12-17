@@ -2,9 +2,9 @@ const reducer = (
   state = {
     hasErrored: false,
     isLoading: false,
-    courses: []
+    courses: [],
   },
-  action
+  action,
 ) => {
   switch (action.type) {
     case 'COURSES_HAS_ERRORED':
@@ -16,7 +16,7 @@ const reducer = (
     case 'ADD_COURSE_SUCCESS':
       return Object.assign(
         { ...state },
-        { courses: [...state.courses, action.course] }
+        { courses: [...state.courses, action.course] },
       );
     default:
       return state;

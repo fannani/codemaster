@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Modal from 'react-bootstrap4-modal';
-import { addStage } from '../../actions/stages';
 import connect from 'react-redux/es/connect/connect';
+import { addStage } from '../../actions/stages';
 
 class StageList extends Component {
   constructor(props) {
@@ -15,12 +15,13 @@ class StageList extends Component {
       id: '',
       redirect: false,
       title: '',
-      showModal: false
+      showModal: false,
     };
   }
+
   render() {
     if (this.state.redirect) {
-      return <Redirect push to={'/admin/stage/' + this.state.id} />;
+      return <Redirect push to={`/admin/stage/${this.state.id}`} />;
     }
     return (
       <div>
@@ -65,52 +66,53 @@ class StageList extends Component {
       </div>
     );
   }
+
   addStage() {
     this.setState({
-      showModal: true
+      showModal: true,
     });
   }
+
   saveStage() {
     this.props
       .add(this.state.title, '', this.props.match.params.courseid, '')
-      .then(stage => {
+      .then((stage) => {
         this.setState({
           id: stage._id,
-          redirect: true
+          redirect: true,
         });
       });
   }
+
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
+
   modalClosed() {
     this.setState({
-      showModal: false
+      showModal: false,
     });
   }
 }
-const mapStateToProps = state => {
-  let data = state.stages;
+const mapStateToProps = (state) => {
+  const data = state.stages;
   return {
     hasErrored: state.stages.hasErrored,
     isLoading: state.stages.isLoading,
-    isFinish: state.stages.isFinish
+    isFinish: state.stages.isFinish,
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    add: (title, time, course, teory) =>
-      dispatch(addStage(title, time, course, teory))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  add: (title, time, course, teory) => dispatch(addStage(title, time, course, teory)),
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(StageList);

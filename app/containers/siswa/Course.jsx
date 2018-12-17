@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
-import Guide from '../../components/siswa/Guide';
 import { ToastContainer, toast } from 'react-toastify';
+import Guide from '../../components/siswa/Guide';
 import 'react-toastify/dist/ReactToastify.css';
 import { postLog } from '../../utils/Logs';
 import connect from 'react-redux/es/connect/connect';
@@ -35,16 +35,18 @@ class Course extends Component {
       showModal: false,
       modal: {
         title: '',
-        desc: ''
-      }
+        desc: '',
+      },
     };
   }
+
   componentDidMount() {
     this.props.fetchData(this.props.match.params.stageid);
     this.props.missionsFetchData(this.props.match.params.stageid);
     window.addEventListener('message', this.handleIframeTask);
     this.intervalHandle = setInterval(this.tick, 1000);
   }
+
   render() {
     return (
       <div id="container">
@@ -80,7 +82,7 @@ class Course extends Component {
                 value={this.state.initscript}
                 setOptions={{
                   fontSize: '16pt',
-                  vScrollBarAlwaysVisible: true
+                  vScrollBarAlwaysVisible: true,
                 }}
                 onChange={this.update}
               />
@@ -125,19 +127,19 @@ class Course extends Component {
     let minStr;
     if (sec > 59) {
       min = Math.floor(sec / 60);
-      sec = sec % 60;
+      sec %= 60;
     }
     if (sec < 10) {
-      secStr = '0' + sec;
+      secStr = `0${sec}`;
     } else {
       secStr = sec;
     }
     if (min < 10) {
-      minStr = '0' + min;
+      minStr = `0${min}`;
     } else {
       minStr = min;
     }
-    this.setState({ timeText: minStr + ':' + secStr });
+    this.setState({ timeText: `${minStr}:${secStr}` });
   }
 
   checkResult() {
@@ -146,31 +148,31 @@ class Course extends Component {
     value += "\x3Cscript src='localhost:3000/js/jquery.min.js'>\x3C/script>";
     value += '\x3Cscript>result=[]\x3C/script>';
     for (let i = 0; i < this.props.missions.length; i++) {
-      let misi = this.props.missions[i];
-      value +=
-        '\x3Cscript>if(' +
-        misi.testcase +
-        '){ result.push({  "index":' +
-        i +
-        ', "result":true }) } else {result.push({  "index":' +
-        i +
-        ', "result":false })}\x3C/script>';
+      const misi = this.props.missions[i];
+      value
+        += `\x3Cscript>if(${
+          misi.testcase
+        }){ result.push({  "index":${
+          i
+        }, "result":true }) } else {result.push({  "index":${
+          i
+        }, "result":false })}\x3C/script>`;
     }
-    value +=
-      '\x3Cscript>parent.postMessage({ "action":"result", "data" : result },\'*\'); result=[]\x3C/script>';
+    value
+      += '\x3Cscript>parent.postMessage({ "action":"result", "data" : result },\'*\'); result=[]\x3C/script>';
     idoc.open();
     idoc.write(value);
     idoc.close();
   }
 
   handleIframeTask(e) {
-    var pass_data = e.data;
+    const pass_data = e.data;
     if (pass_data.action == 'result') {
       let correctCount = 0;
       let correctCount2 = 0;
-      let result = [];
+      const result = [];
       let i = 0;
-      for (let data of pass_data.data) {
+      for (const data of pass_data.data) {
         result.push(data);
         if (data.result) {
           if (typeof this.state.result[i] !== 'undefined') {
@@ -186,77 +188,75 @@ class Course extends Component {
       }
 
       this.setState({
-        result: result,
-        score: correctCount * 20
+        result,
+        score: correctCount * 20,
       });
       if (correctCount2 > 0) {
         postLog('misi', 'berhasil menyelesaikan misi', correctCount2);
         toast.success(
-          'Anda berhasil menyelesaikan ' + correctCount2 + ' misi',
+          `Anda berhasil menyelesaikan ${correctCount2} misi`,
           {
-            position: toast.POSITION.TOP_CENTER
-          }
+            position: toast.POSITION.TOP_CENTER,
+          },
         );
+      } else if (this.state.life == 1) {
+        this.setState({
+          life: this.state.life - 1,
+        });
+        this.gameOver();
       } else {
-        if (this.state.life == 1) {
-          this.setState({
-            life: this.state.life - 1
-          });
-          this.gameOver();
-        } else {
-          toast.error('Tidak ada jawaban yang benar', {
-            position: toast.POSITION.TOP_CENTER
-          });
-          this.setState({
-            life: this.state.life - 1
-          });
-        }
+        toast.error('Tidak ada jawaban yang benar', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        this.setState({
+          life: this.state.life - 1,
+        });
       }
       if (correctCount >= this.props.missions.length) {
         this.showResult();
       }
     }
   }
+
   gameOver() {
     this.setState({
-      showModal: true
+      showModal: true,
     });
   }
+
   showResult() {
     this.setState({
-      showModal: true
+      showModal: true,
     });
   }
+
   update() {
-    var idoc = document.getElementById('output').contentWindow.document;
+    const idoc = document.getElementById('output').contentWindow.document;
     idoc.open();
     idoc.write(editor.getValue());
     idoc.close();
   }
+
   modalClosed() {}
 }
-const mapStateToProps = state => {
-  return {
-    title: state.stages.stage.title,
-    teory: state.stages.stage.teory,
-    time: state.stages.stage.time,
-    currentTimer: state.gameplay.currentTimer,
-    courseLoading: state.stages.isLoading,
-    courseError: state.stages.hasErrored,
-    missionsLoading: state.missions.isLoading,
-    missionsError: state.missions.hasErrored,
-    missions: state.missions.missions
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchData: id => dispatch(stageFetchOne(id)),
-    missionsFetchData: id => dispatch(missionsFetchData(id)),
-    incrementTimer: () => dispatch(incrementTimer())
-  };
-};
+const mapStateToProps = state => ({
+  title: state.stages.stage.title,
+  teory: state.stages.stage.teory,
+  time: state.stages.stage.time,
+  currentTimer: state.gameplay.currentTimer,
+  courseLoading: state.stages.isLoading,
+  courseError: state.stages.hasErrored,
+  missionsLoading: state.missions.isLoading,
+  missionsError: state.missions.hasErrored,
+  missions: state.missions.missions,
+});
+const mapDispatchToProps = dispatch => ({
+  fetchData: id => dispatch(stageFetchOne(id)),
+  missionsFetchData: id => dispatch(missionsFetchData(id)),
+  incrementTimer: () => dispatch(incrementTimer()),
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Course);

@@ -1,13 +1,15 @@
-import Header from '../../components/admin/Header';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import Header from '../../components/siswa/Header';
 
 import Home from './Home';
+import Course from './Course';
 
 const Layout = () => (
   <div>
     <Header />
     <Switch>
+      <Route path="/play/:stageid" component={Course} />
       <Route path="/" component={Home} />
     </Switch>
   </div>

@@ -1,27 +1,27 @@
-import { API_BASE } from '../config/config';
 import axios from 'axios';
+import { API_BASE } from '../config/config';
 
 export const coursesHasErrored = bool => ({
   type: 'COURSES_HAS_ERRORED',
-  hasErrored: bool
+  hasErrored: bool,
 });
 
 export const coursesIsLoading = bool => ({
   type: 'COURSES_IS_LOADING',
-  isLoading: bool
+  isLoading: bool,
 });
 
 export const coursesFetchDataSuccess = courses => ({
   type: 'COURSES_FETCH_DATA_SUCCESS',
-  courses
+  courses,
 });
 
 export const addCourseSuccess = course => ({
   type: 'ADD_COURSE_SUCCESS',
-  course
+  course,
 });
 
-export const addCourse = (name, desc) => dispatch => {
+export const addCourse = (name, desc) => (dispatch) => {
   dispatch(coursesIsLoading(true));
   const promise = axios({
     url: API_BASE,
@@ -35,27 +35,25 @@ export const addCourse = (name, desc) => dispatch => {
                         desc
                     }
                 }
-            `
-    }
+            `,
+    },
   })
-    .then(response => {
+    .then((response) => {
       dispatch(coursesIsLoading(false));
       return response;
     })
-    .then(response => {
-      return response.data.data.addCourse;
-    })
-    .then(course => {
+    .then(response => response.data.data.addCourse)
+    .then((course) => {
       dispatch(addCourseSuccess(course));
       return course;
     })
-    .catch(err => {
+    .catch(() => {
       dispatch(coursesHasErrored(true));
     });
   return promise;
 };
 
-export const coursesFetchData = () => dispatch => {
+export const coursesFetchData = () => (dispatch) => {
   dispatch(coursesIsLoading(true));
   axios({
     url: API_BASE,
@@ -68,16 +66,14 @@ export const coursesFetchData = () => dispatch => {
                         name
                     }
                 }
-            `
-    }
+            `,
+    },
   })
-    .then(response => {
+    .then((response) => {
       dispatch(coursesIsLoading(false));
       return response;
     })
-    .then(response => {
-      return response.data.data.courses;
-    })
+    .then(response => response.data.data.courses)
     .then(courses => dispatch(coursesFetchDataSuccess(courses)))
     .catch(() => dispatch(coursesHasErrored(true)));
 };

@@ -1,6 +1,6 @@
 import React from 'react';
-import adminStore from './config/adminStore';
 import ReactDOM from 'react-dom';
+import adminStore from './config/adminStore';
 import Admin from './admin';
 
 /**

@@ -1,42 +1,36 @@
-import { API_BASE } from '../config/config';
 import axios from 'axios';
-import {
-  addCourseSuccess,
-  coursesHasErrored,
-  coursesIsLoading
-} from './courses';
-import { missionsFetchDataSuccess } from './mission';
+import { API_BASE } from '../config/config';
 
 export const stagesHasErrored = bool => ({
   type: 'STAGES_HAS_ERRORED',
-  hasErrored: bool
+  hasErrored: bool,
 });
 
 export const stagesIsLoading = bool => ({
   type: 'STAGES_IS_LOADING',
-  isLoading: bool
+  isLoading: bool,
 });
 export const stagesFetchDataSuccess = stages => ({
   type: 'STAGES_FETCH_DATA_SUCCESS',
-  stages
+  stages,
 });
 
 export const addStageSuccess = stage => ({
   type: 'ADD_STAGE_SUCCESS',
-  stage
+  stage,
 });
 
 export const updateStageSuccess = stage => ({
   type: 'UPDATE_STAGE_SUCCESS',
-  stage
+  stage,
 });
 
 export const stageFetchDataSuccess = stage => ({
   type: 'STAGE_FETCH_DATA_SUCCESS',
-  stage
+  stage,
 });
 
-export const addStage = (title, time, course, teory) => dispatch => {
+export const addStage = (title, time, course, teory) => (dispatch) => {
   dispatch(stagesIsLoading(true));
   const promise = axios({
     url: API_BASE,
@@ -44,29 +38,25 @@ export const addStage = (title, time, course, teory) => dispatch => {
     data: {
       query: `
                 mutation{
-                    addStage(title:"${title}",time:"${time}",course:"${course}",teory:"${teory}"){
-    		            _id,title,time,teory,course{_id}}}
-            `
-    }
+                    addStage(title:"${title}",time:"${time}",course:"${course}",teory:"${teory}"){_id,title,time,teory,course{_id}}}`,
+    },
   })
-    .then(response => {
+    .then((response) => {
       dispatch(stagesIsLoading(false));
       return response;
     })
-    .then(response => {
-      return response.data.data.addStage;
-    })
-    .then(stage => {
+    .then(response => response.data.data.addStage)
+    .then((stage) => {
       dispatch(addStageSuccess(stage));
       return stage;
     })
-    .catch(err => {
+    .catch(() => {
       dispatch(stagesHasErrored(true));
     });
   return promise;
 };
 
-export const updateStage = (id, title, teory, time) => dispatch => {
+export const updateStage = (id, title, teory, time) => (dispatch) => {
   dispatch(stagesIsLoading(true));
 
   const promise = axios({
@@ -75,83 +65,73 @@ export const updateStage = (id, title, teory, time) => dispatch => {
     data: {
       query: `
                 mutation{
-                    updateStage(id:"${id}",title:"${title}",time:"${time}",teory:"${teory}"){
-    		            _id,title,time,teory,course{_id}}}
-            `
-    }
+                    updateStage(id:"${id}",title:"${title}",time:"${time}",teory:"${teory}"){_id,title,time,teory,course{_id}}}`,
+    },
   })
-    .then(response => {
+    .then((response) => {
       dispatch(stagesIsLoading(false));
       return response;
     })
-    .then(response => {
-      return response.data.data.updateStage;
-    })
-    .then(stage => {
+    .then(response => response.data.data.updateStage)
+    .then((stage) => {
       dispatch(updateStageSuccess(stage));
       return stage;
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       dispatch(stagesHasErrored(true));
     });
   return promise;
 };
-export const stagesFetchData = () => dispatch => {
+export const stagesFetchData = () => (dispatch) => {
   dispatch(stagesIsLoading(true));
   axios({
     url: API_BASE,
     method: 'post',
     data: {
-      query: `{ stages{_id,title,time,teory,course {_id}}}`
-    }
+      query: '{ stages{_id,title,time,teory,course {_id}}}',
+    },
   })
-    .then(response => {
+    .then((response) => {
       dispatch(stagesIsLoading(false));
       return response;
     })
-    .then(response => {
-      return response.data.data.stages;
-    })
+    .then(response => response.data.data.stages)
     .then(stages => dispatch(stagesFetchDataSuccess(stages)))
     .catch(() => dispatch(stagesHasErrored(true)));
 };
 
-export const getStageByIdCourse = courseid => dispatch => {
+export const getStageByIdCourse = courseid => (dispatch) => {
   dispatch(stagesIsLoading(true));
   axios({
     url: API_BASE,
     method: 'post',
     data: {
-      query: `{ stages(course:"${courseid}"){_id,title,time,teory,course {_id}}}`
-    }
+      query: `{ stages(course:"${courseid}"){_id,title,time,teory,course {_id}}}`,
+    },
   })
-    .then(response => {
+    .then((response) => {
       dispatch(stagesIsLoading(false));
       return response;
     })
-    .then(response => {
-      return response.data.data.stages;
-    })
+    .then(response => response.data.data.stages)
     .then(stages => dispatch(stagesFetchDataSuccess(stages)))
     .catch(() => dispatch(stagesHasErrored(true)));
 };
-export const stageFetchOne = id => dispatch => {
+export const stageFetchOne = id => (dispatch) => {
   dispatch(stagesIsLoading(true));
   const promise = axios({
     url: API_BASE,
     method: 'post',
     data: {
-      query: `{ stages(_id:"${id}"){_id,title,time,teory,course {_id}}}`
-    }
+      query: `{ stages(_id:"${id}"){_id,title,time,teory,course {_id}}}`,
+    },
   })
-    .then(response => {
+    .then((response) => {
       dispatch(stagesIsLoading(false));
       return response;
     })
-    .then(response => {
-      return response.data.data.stages[0];
-    })
+    .then(response => response.data.data.stages[0])
     .then(stage => dispatch(stageFetchDataSuccess(stage)))
     .catch(() => dispatch(stagesHasErrored(true)));
   return promise;

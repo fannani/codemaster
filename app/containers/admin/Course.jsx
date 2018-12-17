@@ -16,12 +16,13 @@ class Course extends Component {
       desc: '',
       showModal: false,
       redirect: false,
-      idcourse: ''
+      idcourse: '',
     };
   }
+
   render() {
     if (this.state.redirect) {
-      return <Redirect push to={'/admin/course/' + this.state.idcourse} />;
+      return <Redirect push to={`/admin/course/${this.state.idcourse}`} />;
     }
     return (
       <div>
@@ -76,47 +77,46 @@ class Course extends Component {
 
   createCourse() {
     this.setState({
-      showModal: true
+      showModal: true,
     });
   }
+
   modalClosed() {
     this.setState({
-      showModal: false
+      showModal: false,
     });
   }
+
   saveCourse() {
-    this.props.add(this.state.name, this.state.desc).then(course => {
+    this.props.add(this.state.name, this.state.desc).then((course) => {
       this.setState({
         showModal: false,
         idcourse: course._id,
-        redirect: true
+        redirect: true,
       });
     });
   }
+
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 }
-const mapStateToProps = state => {
-  return {
-    hasErrored: state.courses.hasErrored,
-    isLoading: state.courses.isLoading,
-    isFinish: state.courses.isFinish
-  };
-};
+const mapStateToProps = state => ({
+  hasErrored: state.courses.hasErrored,
+  isLoading: state.courses.isLoading,
+  isFinish: state.courses.isFinish,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    add: (name, desc) => dispatch(addCourse(name, desc))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  add: (name, desc) => dispatch(addCourse(name, desc)),
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Course);

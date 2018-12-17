@@ -2,9 +2,9 @@ const reducer = (
   state = {
     hasErrored: false,
     isLoading: false,
-    logs: []
+    logs: [],
   },
-  action
+  action,
 ) => {
   switch (action.type) {
     case 'LOGS_HAS_ERRORED':

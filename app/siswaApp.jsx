@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import Siswa from './siswa';
+import Siswa from './Siswa';
 import siswaStore from './config/siswaStore';
 
 /**

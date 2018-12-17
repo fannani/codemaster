@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { logsFetchData } from '../../actions/logs';
 import connect from 'react-redux/es/connect/connect';
+import { logsFetchData } from '../../actions/logs';
 
 class Log extends Component {
   componentDidMount() {
     this.props.fetchData();
   }
+
   render() {
     if (this.props.hasError) {
       return <p>Sorry! There was an error loading the items</p>;
@@ -41,20 +42,16 @@ class Log extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    logs: state.logs.logs,
-    isLoading: state.logs.isLoading,
-    hasError: state.logs.hasErrored
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchData: () => dispatch(logsFetchData())
-  };
-};
+const mapStateToProps = state => ({
+  logs: state.logs.logs,
+  isLoading: state.logs.isLoading,
+  hasError: state.logs.hasErrored,
+});
+const mapDispatchToProps = dispatch => ({
+  fetchData: () => dispatch(logsFetchData()),
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Log);

@@ -29,13 +29,15 @@ const Header = () => (
             aria-haspopup="true"
             aria-expanded="false"
           >
-            {'tes'} <span className="caret" />
+            {'tes'}
+            {' '}
+            <span className="caret" />
           </a>
           <div
             className="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdown"
           >
-            <a className="dropdown-item" href={'http://localhost:3000/logout'}>
+            <a className="dropdown-item" href="http://localhost:3000/logout">
               Logout
             </a>
           </div>

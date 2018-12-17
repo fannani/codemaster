@@ -3,9 +3,9 @@ const reducer = (
     hasErrored: false,
     isLoading: false,
     stages: [],
-    stage: {}
+    stage: {},
   },
-  action
+  action,
 ) => {
   switch (action.type) {
     case 'STAGES_HAS_ERRORED':
@@ -19,7 +19,7 @@ const reducer = (
     case 'ADD_STAGE_SUCCESS':
       return Object.assign(
         { ...state },
-        { stages: [...state.stages, action.stage] }
+        { stages: [...state.stages, action.stage] },
       );
     case 'UPDATE_STAGE_SUCCESS':
     // return state.stages.map((item, index) => {
@@ -31,6 +31,7 @@ const reducer = (
     //         ...action.stage
     //     }
     // })
+      return null;
     default:
       return state;
   }
