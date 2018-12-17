@@ -1,12 +1,21 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": [
+    "airbnb",
+    "prettier",
+    "prettier/react"
+  ],
+  "plugins": ["prettier"],
   "globals": {
     "document": false,
     "window": false
   },
+  "env": {
+    "browser": true
+  },
   "rules": {
-    "no-underscore-dangle": ["error", { "allow": ["__REDUX_DEVTOOLS_EXTENSION__"] }]
-
+    "no-underscore-dangle": ["error", { "allow": ["__REDUX_DEVTOOLS_EXTENSION__"] }],
+    "no-underscore-dangle": "off",
+    "import/no-extraneous-dependencies": ["error", { "packageDir": "." }]
   }
  }

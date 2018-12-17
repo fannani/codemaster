@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
 import Layout from './containers/admin/Layout';
+import PropTypes from 'prop-types';
 
 const Admin = ({ store }) => (
   <Provider store={store}>

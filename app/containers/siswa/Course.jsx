@@ -1,17 +1,17 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import { ToastContainer, toast } from 'react-toastify';
+import AceEditor from 'react-ace';
+import connect from 'react-redux/es/connect/connect';
+import PropTypes from 'prop-types';
 import Guide from '../../components/siswa/Guide';
 import 'react-toastify/dist/ReactToastify.css';
+import 'brace/mode/html';
+import 'brace/theme/monokai';
 import { postLog } from '../../utils/Logs';
-import connect from 'react-redux/es/connect/connect';
 import { incrementTimer } from '../../actions/gameplay';
-import { missionsFetchData } from '../../actions/mission';
-import AceEditor from 'react-ace';
+import { getMissionsByStage } from '../../actions/mission';
 import { stageFetchOne } from '../../actions/stages';
-require('brace/mode/html');
-require('brace/theme/monokai');
 
 class Course extends Component {
   constructor(props) {
@@ -44,88 +44,20 @@ class Course extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchData(this.props.match.params.stageid);
-    this.props.missionsFetchData(this.props.match.params.stageid);
+    const { match, fetchData, missionsFetchData } = this.props;
+    const { params } = match;
+    const { stageid } = params;
+    fetchData(stageid);
+    missionsFetchData(stageid);
     window.addEventListener('message', this.handleIframeTask);
     this.intervalHandle = setInterval(this.tick, 1000);
   }
 
-  render() {
-    return (
-      <div id="container">
-        <main
-          role="main"
-          className="container-fluid"
-          style={{ minHeight: '100%', height: '100%' }}
-        >
-          <div className="row" style={{ minHeight: '100%', height: '100%' }}>
-            <Guide
-              judul={this.props.judul}
-              materi={this.props.materi}
-              mission={this.props.missions}
-              result={this.state.result}
-              score={this.state.score}
-              time={this.state.timeText}
-              life={this.state.life}
-            />
-            <div className="col-sm" style={{ marginTop: '10px' }}>
-              <div style={{ marginBottom: '5px' }}>
-                <button
-                  type="button"
-                  id="run"
-                  onClick={this.checkResult}
-                  className="btn btn-primary"
-                >
-                  Periksa
-                </button>
-              </div>
-              <AceEditor
-                style={{ minHeight: '100%', height: '100%' }}
-                mode="html"
-                theme='monokai'
-                value={this.state.initscript}
-                setOptions={{
-                  fontSize: '16pt',
-                  vScrollBarAlwaysVisible: true,
-                }}
-                onChange={this.update}
-              />
-            </div>
-            <iframe
-              id="output"
-              style={{ backgroundColor: '#ffffff' }}
-              frameBorder="0"
-              className="col-sm"
-            />
-          </div>
-        </main>
-        <ToastContainer />
-        <Modal
-          visible={this.state.showModal}
-          onClickBackdrop={this.modalClosed}
-        >
-          <div className="modal-header">
-            <h5 className="modal-title">{this.state.modal.title}</h5>
-          </div>
-          <div className="modal-body">
-            <div className="card-body">{this.state.modal.desc}</div>
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary">
-              Main lagi (3)
-            </button>
-            <button type="button" className="btn btn-secondary">
-              Kembali
-            </button>
-          </div>
-        </Modal>
-      </div>
-    );
-  }
 
   tick() {
-    this.props.incrementTimer();
-    let sec = this.props.currentTimer;
+    const { tick, currentTimer } = this.props;
+    tick();
+    let sec = currentTimer;
     let min = 0;
     let secStr;
     let minStr;
@@ -148,11 +80,13 @@ class Course extends Component {
 
   checkResult() {
     const idoc = document.getElementById('output').contentWindow.document;
-    let value = editor.getValue();
+    const { initscript } = this.state;
+    let value = initscript;
+    const { missions } = this.props;
     value += "\x3Cscript src='localhost:3000/js/jquery.min.js'>\x3C/script>";
     value += '\x3Cscript>result=[]\x3C/script>';
-    for (let i = 0; i < this.props.missions.length; i++) {
-      const misi = this.props.missions[i];
+    for (let i = 0; i < missions.length; i += 1) {
+      const misi = missions[i];
       value
         += `\x3Cscript>if(${
           misi.testcase
@@ -170,29 +104,32 @@ class Course extends Component {
   }
 
   handleIframeTask(e) {
-    const pass_data = e.data;
-    if (pass_data.action == 'result') {
+    const passData = e.data;
+    const { life } = this.state;
+    const { missions } = this.props;
+    if (passData.action === 'result') {
       let correctCount = 0;
       let correctCount2 = 0;
-      const result = [];
+      const result2 = [];
       let i = 0;
-      for (const data of pass_data.data) {
-        result.push(data);
-        if (data.result) {
-          if (typeof this.state.result[i] !== 'undefined') {
-            if (!this.state.result[i].result) {
-              correctCount2++;
+      const { result } = this.state;
+      for (let a = 0; i < passData.data.length; a += 1) {
+        result.push(passData.data[a]);
+        if (passData.data[a].result) {
+          if (typeof result[i] !== 'undefined') {
+            if (!result[i].result) {
+              correctCount2 += 1;
             }
           } else {
-            correctCount2++;
+            correctCount2 += 1;
           }
-          correctCount++;
+          correctCount += 1;
         }
-        i++;
+        i += 1;
       }
 
       this.setState({
-        result,
+        result: result2,
         score: correctCount * 20,
       });
       if (correctCount2 > 0) {
@@ -203,9 +140,9 @@ class Course extends Component {
             position: toast.POSITION.TOP_CENTER,
           },
         );
-      } else if (this.state.life == 1) {
+      } else if (life === 1) {
         this.setState({
-          life: this.state.life - 1,
+          life: life - 1,
         });
         this.gameOver();
       } else {
@@ -213,10 +150,10 @@ class Course extends Component {
           position: toast.POSITION.TOP_CENTER,
         });
         this.setState({
-          life: this.state.life - 1,
+          life: life - 1,
         });
       }
-      if (correctCount >= this.props.missions.length) {
+      if (correctCount >= missions.length) {
         this.showResult();
       }
     }
@@ -234,14 +171,104 @@ class Course extends Component {
     });
   }
 
-  update() {
+  update(event) {
+    const { target } = event;
+    const { value } = target;
+    this.setState({
+      initscript: value,
+    });
     const idoc = document.getElementById('output').contentWindow.document;
+    const { initscript } = this.state;
     idoc.open();
-    idoc.write(editor.getValue());
+    idoc.write(initscript);
     idoc.close();
   }
 
-  modalClosed() {}
+  modalClosed() {
+    this.setState({
+      showModal: false,
+    });
+  }
+
+
+  render() {
+    const { missions } = this.props;
+    const {
+      judul, materi, result, score,
+      timeText, life, showModal, modal, initscript,
+    } = this.state;
+    return (
+      <div id="container">
+        <main
+          role="main"
+          className="container-fluid"
+          style={{ minHeight: '100%', height: '100%' }}
+        >
+          <div className="row" style={{ minHeight: '100%', height: '100%' }}>
+            <Guide
+              judul={judul}
+              materi={materi}
+              mission={missions}
+              result={result}
+              score={score}
+              time={timeText}
+              life={life}
+            />
+            <div className="col-sm" style={{ marginTop: '10px' }}>
+              <div style={{ marginBottom: '5px' }}>
+                <button
+                  type="button"
+                  id="run"
+                  onClick={this.checkResult}
+                  className="btn btn-primary"
+                >
+                  Periksa
+                </button>
+              </div>
+              <AceEditor
+                style={{ minHeight: '100%', height: '100%' }}
+                mode="html"
+                theme="monokai"
+                value={initscript}
+                setOptions={{
+                  fontSize: '16pt',
+                  vScrollBarAlwaysVisible: true,
+                }}
+                onChange={this.update}
+              />
+            </div>
+            <iframe
+              title="output"
+              id="output"
+              style={{ backgroundColor: '#ffffff' }}
+              frameBorder="0"
+              className="col-sm"
+            />
+          </div>
+        </main>
+        <ToastContainer />
+        <Modal
+          visible={showModal}
+          onClickBackdrop={this.modalClosed}
+        >
+          <div className="modal-header">
+            <h5 className="modal-title">{modal.title}</h5>
+          </div>
+          <div className="modal-body">
+            <div className="card-body">{modal.desc}</div>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary">
+              Main lagi (3)
+            </button>
+            <button type="button" className="btn btn-secondary">
+              Kembali
+            </button>
+          </div>
+        </Modal>
+      </div>
+    );
+  }
 }
 const mapStateToProps = state => ({
   title: state.stages.stage.title,
@@ -256,9 +283,22 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
   fetchData: id => dispatch(stageFetchOne(id)),
-  missionsFetchData: id => dispatch(missionsFetchData(id)),
-  incrementTimer: () => dispatch(incrementTimer()),
+  missionsFetchData: id => dispatch(getMissionsByStage(id)),
+  tick: () => dispatch(incrementTimer()),
 });
+
+Course.propTypes = {
+  match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  tick: PropTypes.func.isRequired,
+  fetchData: PropTypes.func.isRequired,
+  missionsFetchData: PropTypes.func.isRequired,
+  currentTimer: PropTypes.number.isRequired,
+  missions: PropTypes.arrayOf(PropTypes.object),
+};
+
+Course.defaultProps = {
+  missions: [],
+};
 
 export default connect(
   mapStateToProps,

@@ -59,7 +59,7 @@ class Guide extends Component {
       });
       return (
         <li key={index} className={missionClass}>
-          {misi.soal}
+          {misi.quest}
         </li>
       );
     });

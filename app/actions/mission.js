@@ -66,6 +66,7 @@ export const getMissionsByStage = stageid => (dispatch) => {
   })
     .then((response) => {
       dispatch(missionsIsLoading(false));
+      console.log(response);
       return response;
     })
     .then(response => response.data.data.missions)
@@ -81,8 +82,10 @@ export const missionsFetchData = () => (dispatch) => {
       query: `
                 {
                     missions {
-                        _id,
-                        title
+                       _id,
+                        quest,
+                        score,
+                        testcase
                     }
                 }
             `,

@@ -33,8 +33,8 @@ class Stage extends Component {
 
   componentDidMount() {
     this.props.getMissionsByStage(this.props.match.params.stageid);
-    this.props.fetchOne(this.props.match.params.stageid).then((stage) => {
-      this.setState(stage);
+    this.props.fetchOne(this.props.match.params.stageid).then(()=>{
+      this.setState(this.props.stage);
     });
   }
 
@@ -113,13 +113,16 @@ class Stage extends Component {
             <tr>
               <th>Soal</th>
               <th>Skor</th>
+              <th>TestCase</th>
             </tr>
           </thead>
           <tbody>
-            {this.props.missions.map((name, index) => (
+
+            { this.props.missions.map((name, index) => (
               <tr key={index}>
                 <td>{name.quest}</td>
                 <td>{name.score}</td>
+                <td>{name.testcase}</td>
               </tr>
             ))}
           </tbody>
@@ -182,6 +185,7 @@ const mapStateToProps = state => ({
   hasErrored: state.stages.hasErrored,
   isLoading: state.stages.isLoading,
   isFinish: state.stages.isFinish,
+  stage: state.stages.stage,
 });
 
 const mapDispatchToProps = dispatch => ({
