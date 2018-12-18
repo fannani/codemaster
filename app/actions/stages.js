@@ -65,7 +65,8 @@ export const updateStage = (id, title, teory, time) => (dispatch) => {
     data: {
       query: `
                 mutation{
-                    updateStage(id:"${id}",title:"${title}",time:"${time}",teory:"${teory}"){_id,title,time,teory,course{_id}}}`,
+                    updateStage(id:"${id}",title:"${title}",time:"${time}",teory:"${teory}"){_id,title,time,teory,course{_id}}
+                 }`,
     },
   })
     .then((response) => {

@@ -14,8 +14,8 @@
     "browser": true
   },
   "rules": {
-    "no-underscore-dangle": ["error", { "allow": ["__REDUX_DEVTOOLS_EXTENSION__"] }],
     "no-underscore-dangle": "off",
-    "import/no-extraneous-dependencies": ["error", { "packageDir": "." }]
+    "import/no-extraneous-dependencies": ["error", { "packageDir": "." }],
+    "prettier/prettier": "error"
   }
  }

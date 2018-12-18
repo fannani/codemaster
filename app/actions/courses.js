@@ -21,7 +21,7 @@ export const addCourseSuccess = course => ({
   course,
 });
 
-export const addCourse = (name, desc) => (dispatch) => {
+export const addCourse = (name, desc) => dispatch => {
   dispatch(coursesIsLoading(true));
   const promise = axios({
     url: API_BASE,
@@ -38,12 +38,12 @@ export const addCourse = (name, desc) => (dispatch) => {
             `,
     },
   })
-    .then((response) => {
+    .then(response => {
       dispatch(coursesIsLoading(false));
       return response;
     })
     .then(response => response.data.data.addCourse)
-    .then((course) => {
+    .then(course => {
       dispatch(addCourseSuccess(course));
       return course;
     })
@@ -53,7 +53,7 @@ export const addCourse = (name, desc) => (dispatch) => {
   return promise;
 };
 
-export const coursesFetchData = () => (dispatch) => {
+export const coursesFetchData = () => dispatch => {
   dispatch(coursesIsLoading(true));
   axios({
     url: API_BASE,
@@ -69,7 +69,7 @@ export const coursesFetchData = () => (dispatch) => {
             `,
     },
   })
-    .then((response) => {
+    .then(response => {
       dispatch(coursesIsLoading(false));
       return response;
     })

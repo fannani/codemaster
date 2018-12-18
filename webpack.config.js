@@ -21,7 +21,6 @@ module.exports = {
         test: /.jsx?$/,
         use: [
           'babel-loader',
-          'eslint-loader',
         ],
         include: path.join(__dirname, 'app'),
         exclude: /node_modules/,
@@ -40,6 +39,15 @@ module.exports = {
           'style-loader',
           'css-loader',
         ],
+      },
+      {
+        test: /\.(jpg|jpeg|png|gif)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+          },
+        }],
       },
     ],
   },

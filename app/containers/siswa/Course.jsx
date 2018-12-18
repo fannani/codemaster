@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'brace/mode/html';
 import 'brace/theme/monokai';
 import { postLog } from '../../utils/Logs';
-import { incrementTimer } from '../../actions/gameplay';
+import { incrementTimer, setPlayerStatus, setPlayMode } from '../../actions/gameplay';
 import { getMissionsByStage } from '../../actions/mission';
 import { stageFetchOne } from '../../actions/stages';
 
@@ -53,31 +53,17 @@ class Course extends Component {
     missionsFetchData(stageid);
     window.addEventListener('message', this.handleIframeTask);
     this.intervalHandle = setInterval(this.tick, 1000);
+    console.log("HAHAHAHA");
+    this.props.setPlayerStatus(0,3);
+    this.props.setPlayMode(true);
+  }
+  componentWillUnmount() {
+    this.props.setPlayMode(false);
   }
 
-
   tick() {
-    const { tick, currentTimer } = this.props;
+    const { tick } = this.props;
     tick();
-    let sec = currentTimer;
-    let min = 0;
-    let secStr;
-    let minStr;
-    if (sec > 59) {
-      min = Math.floor(sec / 60);
-      sec %= 60;
-    }
-    if (sec < 10) {
-      secStr = `0${sec}`;
-    } else {
-      secStr = sec;
-    }
-    if (min < 10) {
-      minStr = `0${min}`;
-    } else {
-      minStr = min;
-    }
-    this.setState({ timeText: `${minStr}:${secStr}` });
   }
 
   checkResult() {
@@ -154,11 +140,14 @@ class Course extends Component {
         this.setState({
           life: life - 1,
         });
+
       }
       if (correctCount >= missions.length) {
         this.showResult();
       }
+      this.props.setPlayerStatus( this.state.score, this.state.life);
     }
+
   }
 
   gameOver() {
@@ -192,10 +181,9 @@ class Course extends Component {
 
 
   render() {
-    const { missions } = this.props;
+    const { missions, teory, title } = this.props;
     const {
-      judul, materi, result, score,
-      timeText, life, showModal, modal, initscript,
+      result, showModal, modal, initscript,
     } = this.state;
     return (
       <div id="container">
@@ -206,14 +194,10 @@ class Course extends Component {
         >
           <div className="row flex-xl-nowrap" style={{ height: '100%' }}>
             <Guide
-
-              judul={judul}
-              materi={materi}
+              title={title}
+              teory={teory}
               mission={missions}
               result={result}
-              score={score}
-              time={timeText}
-              life={life}
             />
             <div className="col-sm-4" style={{ height: 'calc(100vh - 50px)' }}>
               <div style={{ height: "50px" }}>
@@ -282,11 +266,15 @@ const mapStateToProps = state => ({
   missionsLoading: state.missions.isLoading,
   missionsError: state.missions.hasErrored,
   missions: state.missions.missions,
+  life: state.gameplay.life,
+  score: state.gameplay.score,
 });
 const mapDispatchToProps = dispatch => ({
   fetchData: id => dispatch(stageFetchOne(id)),
   missionsFetchData: id => dispatch(getMissionsByStage(id)),
   tick: () => dispatch(incrementTimer()),
+  setPlayerStatus: (score,life) => dispatch(setPlayerStatus(score,life)),
+  setPlayMode: (play) => dispatch(setPlayMode(play))
 });
 
 Course.propTypes = {

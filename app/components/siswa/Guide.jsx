@@ -8,7 +8,6 @@ import { postLog } from "../../utils/Logs";
 class Guide extends Component {
   constructor(props) {
     super(props);
-    this.showTeory = this.showTeory.bind(this);
     this.modalClosed = this.modalClosed.bind(this);
     this.tick = this.tick.bind(this);
 
@@ -17,15 +16,6 @@ class Guide extends Component {
       timer: 10,
       runtime: 10
     };
-  }
-
-  showTeory() {
-    postLog("materi", "membuka materi", "");
-    this.setState({
-      showModal: true,
-      runtime: this.state.timer
-    });
-    this.intervalHandle = setInterval(this.tick, 1000);
   }
 
   modalClosed() {
@@ -70,24 +60,19 @@ class Guide extends Component {
         className="col-sm-4"
         style={{ height:"100%", overflowY: 'scroll', maxHeight: 'calc(100vh - 50px)' }}
       >
-        <div className="row">
-          <div className="card col-sm-12">
-            <div className="card-body">
-              <h5 id="score">SCORE :{this.props.score}</h5>
-              <h5 id="time">WAKTU :{this.props.time}</h5>
-              <h5 id="life">LIFE :{this.props.life}</h5>
-            </div>
-          </div>
-        </div>
+        {/*<div className="row">*/}
+          {/*<div className="card col-sm-12">*/}
+            {/*<div className="card-body">*/}
+              {/*<h5 id="score">SCORE :{this.props.score}</h5>*/}
+              {/*<h5 id="time">WAKTU :{this.props.time}</h5>*/}
+              {/*<h5 id="life">LIFE :{this.props.life}</h5>*/}
+            {/*</div>*/}
+          {/*</div>*/}
+        {/*</div>*/}
         <div className="row" style={{ marginTop: "10px" }}>
           <div className="card col-sm-12">
-            <button
-              type="button"
-              onClick={this.showTeory}
-              className="btn btn-primary"
-            >
-              Materi
-            </button>
+            <h3>{this.props.title}</h3><br/>
+            {this.props.teory}
           </div>
         </div>
         <div className="row" style={{ marginTop: "10px" }}>
@@ -95,43 +80,16 @@ class Guide extends Component {
             {missionList}
           </ul>
         </div>
-        <Modal
-          visible={this.state.showModal}
-          onClickBackdrop={this.modalClosed}
-        >
-          <div className="modal-header">
-            <h5 className="modal-title">
-              {this.props.judul} ({this.state.runtime})
-            </h5>
-          </div>
-          <div className="modal-body">
-            <div
-              className="card-body"
-              dangerouslySetInnerHTML={{ __html: this.props.materi }}
-            />
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              onClick={this.modalClosed}
-              className="btn btn-secondary"
-            >
-              Close
-            </button>
-          </div>
-        </Modal>
+
       </div>
     );
   }
 }
 
 Guide.propTypes = {
-  score: PropTypes.number,
   mission: PropTypes.array,
-  time: PropTypes.string,
-  life: PropTypes.number,
-  judul: PropTypes.string,
-  materi: PropTypes.string
+  title: PropTypes.string,
+  teory: PropTypes.string
 };
 
 export default Guide;
