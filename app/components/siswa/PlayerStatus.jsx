@@ -34,7 +34,11 @@ const PlayerStatus = ({className, life, score, time}) => (
 
 
 const StyledPlayerStatus = styled(PlayerStatus)`
-  margin-left:100px;
+  position: absolute;
+  width: 100%;
+  left: 0;          
+  text-align: center;
+
   .navbar-text {
     margin-left:20px;
     color: rgba(255, 255, 255, 1) !important;
