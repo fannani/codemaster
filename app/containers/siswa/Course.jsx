@@ -2,15 +2,19 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import { ToastContainer, toast } from 'react-toastify';
-import AceEditor from 'react-ace';
 import connect from 'react-redux/es/connect/connect';
 import PropTypes from 'prop-types';
 import Guide from '../../components/siswa/Guide';
+import Editor from '../../components/siswa/Editor';
 import 'react-toastify/dist/ReactToastify.css';
 import 'brace/mode/html';
 import 'brace/theme/monokai';
 import { postLog } from '../../utils/Logs';
-import { incrementTimer, setPlayerStatus, setPlayMode } from '../../actions/gameplay';
+import {
+  incrementTimer,
+  setPlayerStatus,
+  setPlayMode,
+} from '../../actions/gameplay';
 import { getMissionsByStage } from '../../actions/mission';
 import { stageFetchOne } from '../../actions/stages';
 
@@ -23,7 +27,7 @@ class Course extends Component {
     this.tick = this.tick.bind(this);
     this.update = this.update.bind(this);
     this.state = {
-      initscript: `<!DOCTYPE html>
+      script: `<!DOCTYPE html>
 <html>
     <head>
     </head>
@@ -53,8 +57,8 @@ class Course extends Component {
     missionsFetchData(stageid);
     window.addEventListener('message', this.handleIframeTask);
     this.intervalHandle = setInterval(this.tick, 1000);
-    console.log("HAHAHAHA");
-    this.props.setPlayerStatus(0,3);
+    console.log('HAHAHAHA');
+    this.props.setPlayerStatus(0, 3);
     this.props.setPlayMode(true);
   }
   componentWillUnmount() {
@@ -68,24 +72,19 @@ class Course extends Component {
 
   checkResult() {
     const idoc = document.getElementById('output').contentWindow.document;
-    const { initscript } = this.state;
-    let value = initscript;
+    const { script } = this.state;
+    let value = script;
     const { missions } = this.props;
     value += "\x3Cscript src='localhost:3000/js/jquery.min.js'>\x3C/script>";
     value += '\x3Cscript>result=[]\x3C/script>';
     for (let i = 0; i < missions.length; i += 1) {
       const misi = missions[i];
-      value
-        += `\x3Cscript>if(${
-          misi.testcase
-        }){ result.push({  "index":${
-          i
-        }, "result":true }) } else {result.push({  "index":${
-          i
-        }, "result":false })}\x3C/script>`;
+      value += `\x3Cscript>if(${
+        misi.testcase
+      }){ result.push({  "index":${i}, "result":true }) } else {result.push({  "index":${i}, "result":false })}\x3C/script>`;
     }
-    value
-      += '\x3Cscript>parent.postMessage({ "action":"result", "data" : result },\'*\'); result=[]\x3C/script>';
+    value +=
+      '\x3Cscript>parent.postMessage({ "action":"result", "data" : result },\'*\'); result=[]\x3C/script>';
     idoc.open();
     idoc.write(value);
     idoc.close();
@@ -122,12 +121,9 @@ class Course extends Component {
       });
       if (correctCount2 > 0) {
         postLog('misi', 'berhasil menyelesaikan misi', correctCount2);
-        toast.success(
-          `Anda berhasil menyelesaikan ${correctCount2} misi`,
-          {
-            position: toast.POSITION.TOP_CENTER,
-          },
-        );
+        toast.success(`Anda berhasil menyelesaikan ${correctCount2} misi`, {
+          position: toast.POSITION.TOP_CENTER,
+        });
       } else if (life === 1) {
         this.setState({
           life: life - 1,
@@ -140,14 +136,12 @@ class Course extends Component {
         this.setState({
           life: life - 1,
         });
-
       }
       if (correctCount >= missions.length) {
         this.showResult();
       }
-      this.props.setPlayerStatus( this.state.score, this.state.life);
+      this.props.setPlayerStatus(this.state.score, this.state.life);
     }
-
   }
 
   gameOver() {
@@ -164,12 +158,12 @@ class Course extends Component {
 
   update(value) {
     this.setState({
-      initscript: value,
+      script: value,
     });
     const idoc = document.getElementById('output').contentWindow.document;
-    const { initscript } = this.state;
+    const { script } = this.state;
     idoc.open();
-    idoc.write(initscript);
+    idoc.write(script);
     idoc.close();
   }
 
@@ -179,19 +173,12 @@ class Course extends Component {
     });
   }
 
-
   render() {
     const { missions, teory, title } = this.props;
-    const {
-      result, showModal, modal, initscript,
-    } = this.state;
+    const { result, showModal, modal, script } = this.state;
     return (
       <div id="container">
-        <main
-          role="main"
-          className="container-fluid"
-          style={{ height: '100%' }}
-        >
+        <main role="main" className="container-fluid">
           <div className="row flex-xl-nowrap" style={{ height: '100%' }}>
             <Guide
               title={title}
@@ -199,30 +186,11 @@ class Course extends Component {
               mission={missions}
               result={result}
             />
-            <div className="col-sm-4" style={{ height: 'calc(100vh - 50px)' }}>
-              <div style={{ height: "50px" }}>
-                <button
-                  type="button"
-                  id="run"
-                  onClick={this.checkResult}
-                  className="btn btn-primary"
-                >
-                  Periksa
-                </button>
-              </div>
-              <AceEditor
-                mode="html"
-                theme="monokai"
-                value={initscript}
-                width="100%"
-                style={{ height: "calc(100% - 50px)" }}
-                setOptions={{
-                  fontSize: '16pt',
-                  vScrollBarAlwaysVisible: true,
-                }}
-                onChange={this.update}
-              />
-            </div>
+            <Editor
+              checkResult={this.checkResult}
+              script={script}
+              onChange={this.update}
+            />
             <iframe
               title="output"
               id="output"
@@ -233,10 +201,7 @@ class Course extends Component {
           </div>
         </main>
         <ToastContainer />
-        <Modal
-          visible={showModal}
-          onClickBackdrop={this.modalClosed}
-        >
+        <Modal visible={showModal} onClickBackdrop={this.modalClosed}>
           <div className="modal-header">
             <h5 className="modal-title">{modal.title}</h5>
           </div>
@@ -273,8 +238,8 @@ const mapDispatchToProps = dispatch => ({
   fetchData: id => dispatch(stageFetchOne(id)),
   missionsFetchData: id => dispatch(getMissionsByStage(id)),
   tick: () => dispatch(incrementTimer()),
-  setPlayerStatus: (score,life) => dispatch(setPlayerStatus(score,life)),
-  setPlayMode: (play) => dispatch(setPlayMode(play))
+  setPlayerStatus: (score, life) => dispatch(setPlayerStatus(score, life)),
+  setPlayMode: play => dispatch(setPlayMode(play)),
 });
 
 Course.propTypes = {
