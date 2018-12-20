@@ -14,7 +14,7 @@ let ScoreMutation = {
       time: { type: new GraphQLNonNull(GraphQLInt) },
       stars: { type: new GraphQLNonNull(GraphQLInt) },
     },
-    resolve: (root, { quest, testcase, score, stage }) => {
+    resolve: (root, { userid, stageid, score, time, stars }) => {
       return new Promise((resolve, reject) => {
         let newscore = new Score({
           userid ,

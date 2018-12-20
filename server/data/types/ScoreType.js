@@ -1,4 +1,4 @@
-import {GraphQLNonNull, GraphQLObjectType, GraphQLString,GraphQLID} from "graphql";
+import {GraphQLNonNull, GraphQLObjectType, GraphQLString,GraphQLID,GraphQLInt} from "graphql";
 
 const ScoreType = new GraphQLObjectType({
   name: "Score",

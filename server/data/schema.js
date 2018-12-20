@@ -4,6 +4,7 @@ import missions from './queries/MissionQuery';
 import courseMutation from './mutations/CourseMutation';
 import stageMutation from './mutations/StageMutation';
 import missionMutation from './mutations/MissionMutation';
+import scoreMutation from './mutations/scoreMutation';
 
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 
@@ -22,6 +23,7 @@ const BKMutationRootType = new GraphQLObjectType({
   fields: () => ({
     addCourse: courseMutation.addCourse,
     addStage: stageMutation.addStage,
+    addScore: scoreMutation.addScore,
     updateStage: stageMutation.updateStage,
     addMission: missionMutation.addMission,
   }),

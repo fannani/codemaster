@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { login } from '../../actions/users';
 import connect from 'react-redux/es/connect/connect';
-import { Redirect } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
 
 class Login extends Component {
   render() {
-    if(this.props.loggingIn){
+    if (this.props.loggingIn) {
       return <Redirect push to={`/dashboard`} />;
     }
     return (
@@ -21,16 +21,16 @@ class Login extends Component {
                     email: '',
                     password: '',
                   }}
-                  onSubmit={(values,{setSubmitting}) =>{
+                  onSubmit={(values, { setSubmitting }) => {
                     const { email, password } = values;
                     if (email && password) {
-                      this.props.login(email, password).then(()=>{
+                      this.props.login(email, password).then(() => {
                         setSubmitting(false);
                       });
                     }
                   }}
-                  >
-                  {({isSubmitting}) => (
+                >
+                  {({ isSubmitting }) => (
                     <Form className="form-signin">
                       <div className="form-label-group">
                         <Field
@@ -63,13 +63,17 @@ class Login extends Component {
                           className="custom-control-input"
                           id="customCheck1"
                         />
-                        <label className="custom-control-label" for="customCheck1">
+                        <label
+                          className="custom-control-label"
+                          for="customCheck1"
+                        >
                           Remember password
                         </label>
                       </div>
                       <button
                         className="btn btn-lg btn-primary btn-block text-uppercase"
-                        type="submit" disabled={isSubmitting}
+                        type="submit"
+                        disabled={isSubmitting}
                       >
                         Sign in
                       </button>
@@ -89,7 +93,6 @@ class Login extends Component {
                       </button>
                     </Form>
                   )}
-
                 </Formik>
               </div>
             </div>

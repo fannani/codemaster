@@ -16,7 +16,7 @@ class Layout extends Component {
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/play/:stageid" component={Course} />
-          <Route path="/dashboard" component={Home} />
+          <Route path="/" component={Home} />
         </Switch>
       </div>
     )

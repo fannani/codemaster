@@ -19,6 +19,7 @@ import { getMissionsByStage } from '../../actions/missions';
 import { stageFetchOne } from '../../actions/stages';
 import Stars from '../../components/siswa/Stars';
 import styled from "styled-components";
+import { addScore } from '../../actions/scores';
 
 const StyledStars = styled(Stars)`
   text-align:center;
@@ -149,9 +150,15 @@ class Course extends Component {
   }
 
   gameOver() {
+    const { match ,user ,currentTimer,addScore} = this.props;
+    const { params } = match;
+    const { stageid } = params;
     clearInterval(this.intervalHandle);
     let stars = 0;
-    if (this.state.life > 0) stars = this.calculateStars();
+    if (this.state.life > 0) {
+      stars = this.calculateStars();
+      addScore(user._id,stageid, this.state.score, currentTimer, stars)
+    }
     this.setState({
       showModal: true,
       stars,
@@ -235,6 +242,7 @@ class Course extends Component {
   }
 }
 const mapStateToProps = state => ({
+  user : state.users.user,
   title: state.stages.stage.title,
   teory: state.stages.stage.teory,
   time: state.stages.stage.time,
@@ -254,6 +262,7 @@ const mapDispatchToProps = dispatch => ({
   tick: () => dispatch(incrementTimer()),
   setPlayerStatus: (score, life) => dispatch(setPlayerStatus(score, life)),
   setPlayMode: play => dispatch(setPlayMode(play)),
+  addScore: (userid,stageid, score, time, stars) => dispatch(addScore(userid,stageid, score, time, stars)),
 });
 
 Course.propTypes = {
