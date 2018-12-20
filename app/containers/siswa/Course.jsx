@@ -38,7 +38,6 @@ class Course extends Component {
 
 </html>`,
       score: 0,
-      scoreResult: 0,
       timeText: '00:00',
       life: 3,
       result: [],
@@ -99,26 +98,24 @@ class Course extends Component {
     if (passData.action === 'result') {
       let correctCount = 0;
       let correctCount2 = 0;
-      const result2 = [];
-      let i = 0;
-      const { result } = this.state;
-      for (let a = 0; i < passData.data.length; a += 1) {
-        result.push(passData.data[a]);
+      let result = this.state.result;
+      for (let a = 0; a < passData.data.length; a += 1) {
         if (passData.data[a].result) {
-          if (typeof result[i] !== 'undefined') {
-            if (!result[i].result) {
+          if (typeof result[a] !== 'undefined') {
+            if (!result[a].result) {
               correctCount2 += 1;
+              result[a].result = true;
             }
           } else {
+            result[a] = passData.data[a];
             correctCount2 += 1;
           }
           correctCount += 1;
         }
-        i += 1;
       }
 
       this.setState({
-        result: result2,
+        result: result,
         score: correctCount * 20,
       });
       if (correctCount2 > 0) {
@@ -140,7 +137,7 @@ class Course extends Component {
         });
       }
       if (correctCount >= missions.length) {
-        this.showResult();
+        this.gameOver();
       }
       this.props.setPlayerStatus(this.state.score, this.state.life);
     }
@@ -148,21 +145,8 @@ class Course extends Component {
 
   gameOver() {
     clearInterval(this.intervalHandle);
-    let score;
-    const { currentTimer, time } = this.props;
-    if(this.state.life > 0){
-      score = this.state.score * (time - currentTimer);
-      score = (score < 0) ? 0 : score;
-    }
     this.setState({
-      showModal: true,
-      scoreResult: score
-    });
-  }
-
-  showResult() {
-    this.setState({
-      showModal: true,
+      showModal: true
     });
   }
 
@@ -213,10 +197,10 @@ class Course extends Component {
         <ToastContainer />
         <Modal visible={showModal} onClickBackdrop={this.modalClosed}>
           <div className="modal-header">
-            <h5 className="modal-title">{ (this.state.scoreResult > 0) ? "CONGRATULATION" : "ANDA GAGAL COBA LAGI"}</h5>
+            <h5 className="modal-title">{ (this.state.score > 0) ? "CONGRATULATION" : "ANDA GAGAL COBA LAGI"}</h5>
           </div>
           <div className="modal-body">
-            <div className="card-body">SCORE : {this.state.scoreResult}</div>
+            <div className="card-body">SCORE : {this.state.score}</div>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary">
