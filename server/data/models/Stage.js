@@ -1,7 +1,5 @@
 import mongoose,{Schema} from 'mongoose';
 
-
-
 var StageSchema = new mongoose.Schema({
     title: String,
     teory: String,
