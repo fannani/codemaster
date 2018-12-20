@@ -11,7 +11,7 @@ class Layout extends Component {
   render() {
     const { life, score, time, play } = this.props;
     return  (
-      <div>
+      <div className="app-container">
         <Header play={play} life={life} score={score} time={time} />
         <Switch>
           <Route path="/login" component={Login} />

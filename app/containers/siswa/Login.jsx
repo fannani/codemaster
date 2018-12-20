@@ -3,6 +3,17 @@ import { Formik, Form, Field } from 'formik';
 import { login } from '../../actions/users';
 import connect from 'react-redux/es/connect/connect';
 import { Redirect } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  max-width:100%!important;
+  margin: 0 auto;
+  height:100%;
+  width: 100%;
+  background: #9CECFB;
+  background: -webkit-linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);
+  background: linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);
+`
 
 class Login extends Component {
   render() {
@@ -10,7 +21,7 @@ class Login extends Component {
       return <Redirect push to={`/dashboard`} />;
     }
     return (
-      <div className="container">
+      <Container className="container">
         <div className="row">
           <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div className="card card-signin my-5">
@@ -98,7 +109,7 @@ class Login extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }
