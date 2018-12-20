@@ -184,7 +184,7 @@ class Course extends Component {
 
   render() {
     const { missions, teory, title } = this.props;
-    const { result, showModal, modal, script } = this.state;
+    const { result, showModal, script } = this.state;
     return (
       <div id="container">
         <main role="main" className="container-fluid">
@@ -218,7 +218,8 @@ class Course extends Component {
           </div>
           <div className="modal-body">
             <StyledStars value={this.state.stars} />
-            SCORE : {this.state.life > 0 ? this.state.score : '0'}
+            SCORE : {this.state.life > 0 ? this.state.score : '0'}<br />
+            TIME : {this.props.timerText}
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary">
@@ -238,6 +239,7 @@ const mapStateToProps = state => ({
   teory: state.stages.stage.teory,
   time: state.stages.stage.time,
   currentTimer: state.gameplay.currentTimer,
+  timerText: state.gameplay.timerText,
   courseLoading: state.stages.isLoading,
   courseError: state.stages.hasErrored,
   missionsLoading: state.missions.isLoading,
