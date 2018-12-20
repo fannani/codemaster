@@ -5,8 +5,8 @@ const ScoreType = new GraphQLObjectType({
   description: "This represent a Score",
   fields: () => ({
     _id: {type: new GraphQLNonNull(GraphQLID)},
-    userid: {type: new GraphQLNonNull(GraphQLID)},
-    stageid: {type: new GraphQLNonNull(GraphQLID)},
+    user: {type: new GraphQLNonNull(GraphQLID)},
+    stage: {type: new GraphQLNonNull(GraphQLID)},
     score: {type: new GraphQLNonNull(GraphQLInt)},
     time: {type: new GraphQLNonNull(GraphQLInt)},
     stars: {type: new GraphQLNonNull(GraphQLInt)},

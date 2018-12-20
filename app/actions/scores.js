@@ -24,7 +24,7 @@ export const addScore = (userid,stageid, score, time, stars) => (dispatch) => {
     data: {
       query: `
                 mutation{
-                    addScore(userid:"${userid}",stageid:"${stageid}",score:${score},time:${time},stars:${stars}){_id}}`,
+                    addScore(user:"${userid}",stage:"${stageid}",score:${score},time:${time},stars:${stars}){_id}}`,
     },
   })
     .then((response) => {

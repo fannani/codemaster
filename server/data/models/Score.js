@@ -1,8 +1,8 @@
 import mongoose,{Schema} from 'mongoose';
 
 var ScoreSchema = new Schema({
-  userid: String,
-  stageid: String,
+  user: { type: Schema.Types.ObjectId, ref: 'User' },
+  stage: { type: Schema.Types.ObjectId, ref: 'Stage' },
   score: Number,
   time: Number,
   stars: Number,
