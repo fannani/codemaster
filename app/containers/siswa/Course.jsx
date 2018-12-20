@@ -38,6 +38,7 @@ class Course extends Component {
 
 </html>`,
       score: 0,
+      scoreResult: 0,
       timeText: '00:00',
       life: 3,
       result: [],
@@ -57,7 +58,6 @@ class Course extends Component {
     missionsFetchData(stageid);
     window.addEventListener('message', this.handleIframeTask);
     this.intervalHandle = setInterval(this.tick, 1000);
-    console.log('HAHAHAHA');
     this.props.setPlayerStatus(0, 3);
     this.props.setPlayMode(true);
   }
@@ -75,10 +75,11 @@ class Course extends Component {
     const { script } = this.state;
     let value = script;
     const { missions } = this.props;
-    value += "\x3Cscript src='localhost:3000/js/jquery.min.js'>\x3C/script>";
+    value += "\x3Cscript src='http://localhost:3000/js/jquery.min.js'>\x3C/script>";
     value += '\x3Cscript>result=[]\x3C/script>';
     for (let i = 0; i < missions.length; i += 1) {
       const misi = missions[i];
+      console.log(misi);
       value += `\x3Cscript>if(${
         misi.testcase
       }){ result.push({  "index":${i}, "result":true }) } else {result.push({  "index":${i}, "result":false })}\x3C/script>`;
@@ -94,6 +95,7 @@ class Course extends Component {
     const passData = e.data;
     const { life } = this.state;
     const { missions } = this.props;
+    console.log(passData);
     if (passData.action === 'result') {
       let correctCount = 0;
       let correctCount2 = 0;
@@ -145,8 +147,16 @@ class Course extends Component {
   }
 
   gameOver() {
+    clearInterval(this.intervalHandle);
+    let score;
+    const { currentTimer, time } = this.props;
+    if(this.state.life > 0){
+      score = this.state.score * (time - currentTimer);
+      score = (score < 0) ? 0 : score;
+    }
     this.setState({
       showModal: true,
+      scoreResult: score
     });
   }
 
@@ -203,10 +213,10 @@ class Course extends Component {
         <ToastContainer />
         <Modal visible={showModal} onClickBackdrop={this.modalClosed}>
           <div className="modal-header">
-            <h5 className="modal-title">{modal.title}</h5>
+            <h5 className="modal-title">{ (this.state.scoreResult > 0) ? "CONGRATULATION" : "ANDA GAGAL COBA LAGI"}</h5>
           </div>
           <div className="modal-body">
-            <div className="card-body">{modal.desc}</div>
+            <div className="card-body">SCORE : {this.state.scoreResult}</div>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary">

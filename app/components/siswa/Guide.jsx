@@ -60,15 +60,6 @@ class Guide extends Component {
         className="col-sm-4"
         style={{ height:"100%", overflowY: 'scroll', maxHeight: 'calc(100vh - 50px)' }}
       >
-        {/*<div className="row">*/}
-          {/*<div className="card col-sm-12">*/}
-            {/*<div className="card-body">*/}
-              {/*<h5 id="score">SCORE :{this.props.score}</h5>*/}
-              {/*<h5 id="time">WAKTU :{this.props.time}</h5>*/}
-              {/*<h5 id="life">LIFE :{this.props.life}</h5>*/}
-            {/*</div>*/}
-          {/*</div>*/}
-        {/*</div>*/}
         <div className="row" style={{ marginTop: "10px" }}>
           <div className="card col-sm-12">
             <h3>{this.props.title}</h3><br/>
@@ -76,11 +67,13 @@ class Guide extends Component {
           </div>
         </div>
         <div className="row" style={{ marginTop: "10px" }}>
+          <h3>Misi</h3><br/>
+        </div>
+        <div className="row" style={{ marginTop: "10px" }}>
           <ul className="list-group col-sm" style={{ paddingRight: "0px" }}>
             {missionList}
           </ul>
         </div>
-
       </div>
     );
   }

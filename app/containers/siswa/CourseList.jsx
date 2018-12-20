@@ -18,7 +18,7 @@ class CourseList extends Component {
     }
     return (
       <ul>
-        {this.props.courses.map(item => (
+        {this.props.courses.length > 0 && this.props.courses.map(item => (
           <li key={item._id}>
             <Link to={`/course/${item._id}`}>{item.name}</Link>
           </li>
