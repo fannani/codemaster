@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
 import { stageFetchOne, updateStage } from '../../actions/stages';
-import { addMission, getMissionsByStage } from '../../actions/mission';
+import { addMission, getMissionsByStage } from '../../actions/missions';
 
 class Stage extends Component {
   constructor(props) {

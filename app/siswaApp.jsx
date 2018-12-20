@@ -10,6 +10,7 @@ import siswaStore from './config/siswaStore';
  */
 
 require('./bootstrap');
+import {login} from './services/userService'
 
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -18,7 +19,6 @@ require('./bootstrap');
  */
 
 const store = siswaStore();
-
 if (document.getElementById('app')) {
   ReactDOM.render(<Siswa store={store} />, document.getElementById('app'));
 }

@@ -15,7 +15,7 @@ import {
   setPlayerStatus,
   setPlayMode,
 } from '../../actions/gameplay';
-import { getMissionsByStage } from '../../actions/mission';
+import { getMissionsByStage } from '../../actions/missions';
 import { stageFetchOne } from '../../actions/stages';
 import Stars from '../../components/siswa/Stars';
 import styled from "styled-components";

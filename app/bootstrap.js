@@ -1,4 +1,4 @@
-import './styles/app.scss';
+import './assets/styles/app.scss';
 
 require('bootstrap');
 window.Popper = require('popper.js').default;
