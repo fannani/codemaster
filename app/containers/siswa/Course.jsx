@@ -17,6 +17,12 @@ import {
 } from '../../actions/gameplay';
 import { getMissionsByStage } from '../../actions/mission';
 import { stageFetchOne } from '../../actions/stages';
+import Stars from '../../components/siswa/Stars';
+import styled from "styled-components";
+
+const StyledStars = styled(Stars)`
+  text-align:center;
+`
 
 class Course extends Component {
   constructor(props) {
@@ -72,13 +78,13 @@ class Course extends Component {
   checkResult() {
     const idoc = document.getElementById('output').contentWindow.document;
     const { script } = this.state;
-    let value = script;
     const { missions } = this.props;
-    value += "\x3Cscript src='http://localhost:3000/js/jquery.min.js'>\x3C/script>";
+    let value = script;
+    value +=
+      "\x3Cscript src='http://localhost:3000/js/jquery.min.js'>\x3C/script>";
     value += '\x3Cscript>result=[]\x3C/script>';
     for (let i = 0; i < missions.length; i += 1) {
       const misi = missions[i];
-      console.log(misi);
       value += `\x3Cscript>if(${
         misi.testcase
       }){ result.push({  "index":${i}, "result":true }) } else {result.push({  "index":${i}, "result":false })}\x3C/script>`;
@@ -94,7 +100,6 @@ class Course extends Component {
     const passData = e.data;
     const { life } = this.state;
     const { missions } = this.props;
-    console.log(passData);
     if (passData.action === 'result') {
       let correctCount = 0;
       let correctCount2 = 0;
@@ -146,22 +151,17 @@ class Course extends Component {
   gameOver() {
     clearInterval(this.intervalHandle);
     let stars = 0;
-    if(this.state.life >0){
-      stars = this.calculateStars();
-    }
+    if (this.state.life > 0) stars = this.calculateStars();
     this.setState({
       showModal: true,
-      stars
+      stars,
     });
   }
-  calculateStars(){
+  calculateStars() {
     let stars = 1;
-    if(this.state.currentTimer < this.state.timer){
-      stars += 1;
-    }
-    if(this.state.life > 1 ){
-      stars += 1;
-    }
+    let { currentTimer, time } = this.props;
+    if (currentTimer < time) stars += 1;
+    if (this.state.life > 1) stars += 1;
     return stars;
   }
 
@@ -212,11 +212,13 @@ class Course extends Component {
         <ToastContainer />
         <Modal visible={showModal} onClickBackdrop={this.modalClosed}>
           <div className="modal-header">
-            <h5 className="modal-title">{ (this.state.life > 0) ? "CONGRATULATION" : "ANDA GAGAL COBA LAGI"}</h5>
+            <h5 className="modal-title">
+              {this.state.life > 0 ? 'CONGRATULATION' : 'ANDA GAGAL COBA LAGI'}
+            </h5>
           </div>
           <div className="modal-body">
-            <div className="card-body">SCORE : {(this.state.life > 0) ? this.state.score : "0"}</div>
-            <div className="card-body">STARS : { this.state.stars}</div>
+            <StyledStars value={this.state.stars} />
+            SCORE : {this.state.life > 0 ? this.state.score : '0'}
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary">
