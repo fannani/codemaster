@@ -145,9 +145,24 @@ class Course extends Component {
 
   gameOver() {
     clearInterval(this.intervalHandle);
+    let stars = 0;
+    if(this.state.life >0){
+      stars = this.calculateStars();
+    }
     this.setState({
-      showModal: true
+      showModal: true,
+      stars
     });
+  }
+  calculateStars(){
+    let stars = 1;
+    if(this.state.currentTimer < this.state.timer){
+      stars += 1;
+    }
+    if(this.state.life > 1 ){
+      stars += 1;
+    }
+    return stars;
   }
 
   update(value) {
@@ -197,10 +212,11 @@ class Course extends Component {
         <ToastContainer />
         <Modal visible={showModal} onClickBackdrop={this.modalClosed}>
           <div className="modal-header">
-            <h5 className="modal-title">{ (this.state.score > 0) ? "CONGRATULATION" : "ANDA GAGAL COBA LAGI"}</h5>
+            <h5 className="modal-title">{ (this.state.life > 0) ? "CONGRATULATION" : "ANDA GAGAL COBA LAGI"}</h5>
           </div>
           <div className="modal-body">
-            <div className="card-body">SCORE : {this.state.score}</div>
+            <div className="card-body">SCORE : {(this.state.life > 0) ? this.state.score : "0"}</div>
+            <div className="card-body">STARS : { this.state.stars}</div>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary">
