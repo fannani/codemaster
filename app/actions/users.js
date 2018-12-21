@@ -10,7 +10,6 @@ export const login = (email, password) => dispatch => {
         dispatch(success(user));
       },
       (error) => {
-
         dispatch(failure(error));
       }
     );

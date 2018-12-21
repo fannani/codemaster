@@ -1,6 +1,8 @@
 import courses from './queries/CourseQuery';
 import stages from './queries/StageQuery';
 import missions from './queries/MissionQuery';
+import scores from './queries/ScoreQuery';
+import siswa from './queries/SiswaQuery';
 import courseMutation from './mutations/CourseMutation';
 import stageMutation from './mutations/StageMutation';
 import missionMutation from './mutations/MissionMutation';
@@ -15,6 +17,8 @@ const BKQueryRootType = new GraphQLObjectType({
     courses,
     stages,
     missions,
+    scores,
+    siswa
   }),
 });
 const BKMutationRootType = new GraphQLObjectType({

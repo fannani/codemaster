@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from "mongoose";
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 
@@ -9,6 +9,7 @@ var UserSchema = new mongoose.Schema({
   salt: String,
   name: String,
   password: String,
+  userdetailid: Schema.Types.ObjectId,
   updated_at: { type: Date, default: Date.now },
 });
 
