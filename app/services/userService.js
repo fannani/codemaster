@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { API_BASE, BASE_URL } from "../config/config";
-import { addMissionSuccess, missionsHasErrored, missionsIsLoading } from "../actions/missions";
 
 const login = (email, password) => {
     return axios({
@@ -12,13 +11,14 @@ const login = (email, password) => {
     },
   })
     .then(response => {
-      localStorage.setItem('user',JSON.stringify(response.data.user));
       if(response.data.user.role === 'siswa'){
         const {user} = response.data;
         return getUserDetail(user);
       }
     }).then( userdetail => {
-      return userdetail;
+        localStorage.setItem('user',JSON.stringify(userdetail));
+
+        return userdetail;
     })
 
 };
@@ -33,6 +33,33 @@ const getUserDetail =(user) => {
     method: 'post',
     data: {
       query,
+    },
+  })
+    .then((response) => {
+      return response;
+    })
+    .then(response => {
+      return Object.assign(user,{userdetail : response.data.data.siswa[0]})
+    })
+}
+
+
+export const testFileUpload =(image) => {
+  let query = `mutation{ uploadFile(image:"$image"){}}`;
+  console.log(image);
+  var formData = new FormData();
+  formData.append("image", image);
+  return axios(API_BASE,formData,{
+    url: API_BASE,
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    data: {
+      query,
+      variables: {
+        formData
+      }
     },
   })
     .then((response) => {
