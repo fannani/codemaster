@@ -11,8 +11,6 @@ const reducer = (
       return Object.assign({ ...state }, { hasErrored: action.hasErrored });
     case 'COURSES_IS_LOADING':
       return Object.assign({ ...state }, { isLoading: action.isLoading });
-    case 'COURSES_FETCH_DATA_SUCCESS':
-      return Object.assign({ ...state }, { courses: action.courses });
     case 'ADD_COURSE_SUCCESS':
       return Object.assign(
         { ...state },

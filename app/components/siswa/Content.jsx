@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import CourseList from '../../containers/siswa/CourseList';
-import CourseDetail from '../../containers/siswa/CourseDetail';
+import CourseDetail from './CourseDetail';
 
 class Content extends Component {
   render() {

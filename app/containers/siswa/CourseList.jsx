@@ -1,17 +1,9 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import CourseItem from '../../components/siswa/CourseItem';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { GET_COURSES } from '../../queries/coursesQuery';
 
-const GET_COURSES = gql`
-  {
-    courses {
-      _id
-      name
-    }
-  }
-`;
 class CourseList extends Component {
   render() {
     return (

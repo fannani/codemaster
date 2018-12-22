@@ -12,8 +12,6 @@ const reducer = (
       return Object.assign({ ...state }, { hasErrored: action.hasErrored });
     case 'STAGES_IS_LOADING':
       return Object.assign({ ...state }, { isLoading: action.isLoading });
-    case 'STAGES_FETCH_DATA_SUCCESS':
-      return Object.assign({ ...state }, { stages: action.stages });
     case 'STAGE_FETCH_DATA_SUCCESS':
       return Object.assign({ ...state }, { stage: action.stage });
     case 'ADD_STAGE_SUCCESS':
@@ -22,7 +20,7 @@ const reducer = (
         { stages: [...state.stages, action.stage] },
       );
     case 'UPDATE_STAGE_SUCCESS':
-      return state.stages.map((item) => {
+      return state.stages.map(item => {
         if (item._id !== action.stage._id) {
           return item;
         }

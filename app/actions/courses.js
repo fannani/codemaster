@@ -11,11 +11,6 @@ export const coursesIsLoading = bool => ({
   isLoading: bool,
 });
 
-export const coursesFetchDataSuccess = courses => ({
-  type: 'COURSES_FETCH_DATA_SUCCESS',
-  courses,
-});
-
 export const addCourseSuccess = course => ({
   type: 'ADD_COURSE_SUCCESS',
   course,
@@ -53,27 +48,3 @@ export const addCourse = (name, desc) => dispatch => {
   return promise;
 };
 
-export const coursesFetchData = () => dispatch => {
-  dispatch(coursesIsLoading(true));
-  axios({
-    url: API_BASE,
-    method: 'post',
-    data: {
-      query: `
-                {
-                    courses {
-                        _id,
-                        name
-                    }
-                }
-            `,
-    },
-  })
-    .then(response => {
-      dispatch(coursesIsLoading(false));
-      return response;
-    })
-    .then(response => response.data.data.courses)
-    .then(courses => dispatch(coursesFetchDataSuccess(courses)))
-    .catch(() => dispatch(coursesHasErrored(true)));
-};
