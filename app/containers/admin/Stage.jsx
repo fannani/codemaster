@@ -4,11 +4,13 @@ import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
 import { stageFetchOne, updateStage } from '../../actions/stages';
 import { addMission, getMissionsByStage } from '../../actions/missions';
+import { testFileUpload } from '../../services/userService'
 
 class Stage extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
     this.saveData = this.saveData.bind(this);
     this.addMission = this.addMission.bind(this);
     this.saveMission = this.saveMission.bind(this);
@@ -45,6 +47,16 @@ class Stage extends Component {
     this.setState({
       [name]: value,
     });
+  }
+  handleImageChange({
+    target: {
+      validity,
+      files: [file]
+    }
+  }){
+
+
+    testFileUpload(file);
   }
 
   saveData() {
@@ -99,6 +111,13 @@ class Stage extends Component {
           onChange={this.handleInputChange}
           value={this.state.time}
           placeholder="Waktu"
+        />
+        <br />
+        <input
+          type="file"
+          name="image"
+          onChange={this.handleImageChange}
+          placeholder="Gambar"
         />
         <br />
         <button className="btn btn-primary" onClick={this.saveData}>

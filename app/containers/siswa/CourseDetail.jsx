@@ -17,13 +17,46 @@ class CourseDetail extends Component {
       return <p>Loading…</p>;
     }
     return (
-      <ul>
-        {this.props.stages.map(item => (
-          <li key={item._id}>
-            <Link to={`/play/${item._id}`}>{item.title}</Link>
-          </li>
-        ))}
-      </ul>
+      <div>
+      <div className="row">
+        <h2>JUDUL COURSE</h2>
+      </div>
+      <div className="row">
+        <div className="col-8">
+          <div className="card" >
+            <div className="card-body">
+
+              <ul>
+                {this.props.stages.map(item => (
+                  <li key={item._id}>
+                    <Link to={`/play/${item._id}`}>{item.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="col-4">
+          <div className="row">
+          <div className="card" style={{"width" : "100%"}} >
+            <div className="card-body">
+              <h5 className="card-title">Daily Target</h5>
+
+            </div>
+          </div>
+          </div>
+          <div className="row" style={{'marginTop' : '10px'}}>
+            <div className="card" style={{"width" : "100%"}}>
+              <div className="card-body">
+                <h5 className="card-title">Leaderboard</h5>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
     );
   }
 }

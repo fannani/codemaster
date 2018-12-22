@@ -7,7 +7,7 @@ import CourseDetail from '../../containers/siswa/CourseDetail';
 class Content extends Component {
   render() {
     return (
-      <main className="col-9 ">
+      <main className="col-9 main-container">
         <Switch>
           <Route exact path="/course" component={CourseList} />
           <Route path="/course/:courseid" component={CourseDetail} />

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import CourseItem from '../../components/siswa/CourseItem'
 import { coursesFetchData } from '../../actions/courses';
 
 class CourseList extends Component {
@@ -10,21 +10,24 @@ class CourseList extends Component {
   }
 
   render() {
+    let content;
     if (this.props.hasErrored) {
-      return <p>Sorry! There was an error loading the items</p>;
-    }
-    if (this.props.isLoading) {
-      return <p>Loading…</p>;
+      content =  <p>Sorry! There was an error loading the items</p>;
+    } else if (this.props.isLoading) {
+      content =  <p>Loading…</p>;
+    } else {
+      content = <div>
+        {this.props.courses.length > 0 && this.props.courses.map(item => (
+          <CourseItem key={item._id} item={item} />
+        ))}
+      </div>
     }
     return (
-      <ul>
-        {this.props.courses.length > 0 && this.props.courses.map(item => (
-          <li key={item._id}>
-            <Link to={`/course/${item._id}`}>{item.name}</Link>
-          </li>
-        ))}
-      </ul>
-    );
+      <div>
+        <h2>COURSE</h2>
+        {content}
+      </div>
+    )
   }
 }
 const mapStateToProps = state => ({
