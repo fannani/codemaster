@@ -31,6 +31,10 @@ const apollo = new ApolloServer({
   context: ({ req }) => ({
     user: req.user,
   }),
+  uploads: {
+    maxFileSize: 10000000, // 10 MB
+    maxFiles: 20
+  }
 });
 
 app.use(

@@ -1,10 +1,7 @@
 import {GraphQLInt, GraphQLNonNull, GraphQLObjectType, GraphQLString,GraphQLID} from "graphql";
-import {Schema} from "mongoose";
 import StageType from "./StageType"
 import Stage from "../models/Stage";
-import Course from "../models/Course";
 import Mission from "../models/Mission";
-
 const MissionType = new GraphQLObjectType({
     name: "Mission",
     description: "This represent a Mission",

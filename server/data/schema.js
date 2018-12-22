@@ -26,6 +26,7 @@ const BKMutationRootType = new GraphQLObjectType({
   description: 'BelajarKode Application Schema Mutation Root',
   fields: () => ({
     addCourse: courseMutation.addCourse,
+    uploadImage: courseMutation.uploadImage,
     addStage: stageMutation.addStage,
     addScore: scoreMutation.addScore,
     updateStage: stageMutation.updateStage,
