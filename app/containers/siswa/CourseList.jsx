@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import CourseItem from '../../components/siswa/CourseItem';
 import { Query } from 'react-apollo';
-import { GET_COURSES } from '../../queries/coursesQuery';
+import { GET_COURSES } from '../../graphql/queries/coursesQuery';
 
 class CourseList extends Component {
   render() {

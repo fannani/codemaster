@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
-import { GET_STAGE_BY_IDCOURSE } from '../../queries/stagesQuery';
+import { GET_STAGE_BY_IDCOURSE } from '../../graphql/queries/stagesQuery';
 
 const CourseDetail = ({ match }) => (
   <div>
