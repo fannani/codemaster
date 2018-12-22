@@ -1,6 +1,6 @@
 
 let user = JSON.parse(localStorage.getItem('user'));
-const initialState = user ? { loggedIn: true, user } : {};
+const initialState = user ? { loggedIn: true, user } : { loggedIn: false, user : {userdetail: {energy : 0}}};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'LOGIN_REQUEST':

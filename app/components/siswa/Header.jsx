@@ -1,14 +1,27 @@
 /* eslint-disable */
 import React from 'react';
 import PlayerStatus from './PlayerStatus'
+import energyImage from '../../assets/images/energy.png';
+import styled from 'styled-components';
 
-const Header = ({play,life,score,time}) => {
+const EnergyDiv = styled.div`
+  color:white!important;
+  margin-left:30px;
+`
+const EnergyImg = styled.img`
+  width:12px;
+`
+
+const Header = ({play,life,score,time,energy}) => {
   const playerStatus = (play) ? <PlayerStatus life={life} score={score} time={time} /> : "";
   return (
     <nav className="navbar navbar-expand-md navbar-dark bg-dark" style={{height: "50px"}} >
       <a className="navbar-brand" href="#">
         belajarkode;
       </a>
+      <EnergyDiv className="navbar-text">
+        <EnergyImg width="20px"  src={energyImage} /> : {energy}
+      </EnergyDiv>
       { playerStatus }
       <button
         className="navbar-toggler"
