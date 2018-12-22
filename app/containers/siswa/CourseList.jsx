@@ -1,45 +1,38 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import CourseItem from '../../components/siswa/CourseItem'
-import { coursesFetchData } from '../../actions/courses';
+import CourseItem from '../../components/siswa/CourseItem';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
-class CourseList extends Component {
-  componentDidMount() {
-    this.props.fetchData();
-  }
-
-  render() {
-    let content;
-    if (this.props.hasErrored) {
-      content =  <p>Sorry! There was an error loading the items</p>;
-    } else if (this.props.isLoading) {
-      content =  <p>Loading…</p>;
-    } else {
-      content = <div>
-        {this.props.courses.length > 0 && this.props.courses.map(item => (
-          <CourseItem key={item._id} item={item} />
-        ))}
-      </div>
+const GET_COURSES = gql`
+  {
+    courses {
+      _id
+      name
     }
+  }
+`;
+class CourseList extends Component {
+  render() {
     return (
       <div>
         <h2>COURSE</h2>
-        {content}
+        <Query query={GET_COURSES}>
+          {({ loading, error, data }) => {
+            if (loading) return <p>Loading…</p>;
+            if (error)
+              return <p>Sorry! There was an error loading the items</p>;
+            return (
+              <div>
+                {data.courses.map(course => (
+                  <CourseItem key={course._id} item={course} />
+                ))}
+              </div>
+            );
+          }}
+        </Query>
       </div>
-    )
+    );
   }
 }
-const mapStateToProps = state => ({
-  courses: state.courses.courses,
-  hasErrored: state.courses.hasErrored,
-  isLoading: state.courses.isLoading,
-});
-const mapDispatchToProps = dispatch => ({
-  fetchData: () => dispatch(coursesFetchData()),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CourseList);
+export default CourseList
