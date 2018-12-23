@@ -1,17 +1,45 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import { BASE_URL } from "../../config/config";
+import styled from "styled-components";
+import classnames from "classnames";
 
-const CourseItem  = ({item}) => {
+const CourseItem  = ({className,item}) => {
   return(
-    <div className="card" style={{'width': '18rem'}}>
-      {/*<img className="card-img-top" src=".../100px180/" alt="Card image cap" />*/}
+    <Link className={classnames(className,'m-2')} to={`/course/${item._id}`}>
+    <div className="card" >
+      <img className="card-img-top" src={`${BASE_URL}uploads/${item.imageid}`} />
       <div className="card-body">
         <h5 className="card-title">{item.name}</h5>
         <p className="card-text">{item.desc}</p>
-        <Link className="btn btn-primary" to={`/course/${item._id}`}>   <a href="#" >Start</a></Link>
       </div>
     </div>
+    </Link>
   )}
 
-
-export default CourseItem;
+const StyledCourseItem = styled(CourseItem)`
+  .card {
+    width:200px;
+    border-radius:10px !important;
+    text-align:center;
+    border: 0;
+    
+  }
+  h5{
+    font-style:bold;
+    font-size:18px;
+    font-family:sans-serif;
+  }
+  a {
+    
+  }
+  img {
+    display: block;
+  width: 70%;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:20px;
+  height: auto;
+  }
+`
+export default StyledCourseItem;

@@ -9,6 +9,7 @@ const CourseType = new GraphQLObjectType({
         _id: {type: new GraphQLNonNull(GraphQLID)},
         name: {type: new GraphQLNonNull(GraphQLString)},
         desc: {type: new GraphQLNonNull(GraphQLString)},
+        imageid: {type : GraphQLString },
         stages: {
             type: new GraphQLList(StageType),
             resolve : ( {_id}) => {

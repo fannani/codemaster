@@ -5,8 +5,19 @@ export const GET_COURSES = gql`
     courses {
       _id
       name
+      imageid
     }
   }
+`;
+
+export const GET_COURSE_BYID = gql`
+    query GetCourseByID($courseid: ID!) {
+      courses(_id: $courseid){
+        name
+        desc
+        imageid
+      }
+    }
 `;
 
 export const ADD_COURSE = gql`

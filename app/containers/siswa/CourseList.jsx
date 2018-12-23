@@ -8,14 +8,14 @@ class CourseList extends Component {
   render() {
     return (
       <div>
-        <h2>COURSE</h2>
+        <h2 style={{marginLeft : '30px',fontSize:'40px'}}>All Course</h2>
         <Query query={GET_COURSES}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading…</p>;
             if (error)
               return <p>Sorry! There was an error loading the items</p>;
             return (
-              <div>
+              <div className="d-flex flex-wrap">
                 {data.courses.map(course => (
                   <CourseItem key={course._id} item={course} />
                 ))}
