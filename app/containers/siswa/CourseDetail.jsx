@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import StageItem from '../../components/siswa/StageItem';
 import { Query } from 'react-apollo';
 import { GET_COURSE_BYID } from '../../graphql/queries/coursesQuery';
 import { GET_STAGE_BY_IDCOURSE  } from '../../graphql/queries/stagesQuery';
@@ -29,13 +29,11 @@ const CourseDetail = ({ match }) => (
                       if (error)
                         return <p>Sorry! There was an error loading the items</p>;
                       return (
-                        <ul>
+                        <div>
                           {data.stages.map(stage => (
-                            <li key={stage._id}>
-                              <Link to={`/play/${stage._id}`}>{stage.title}</Link>
-                            </li>
+                            <StageItem  stage={stage}/>
                           ))}
-                        </ul>
+                        </div>
                       );
                     }}
                   </Query>
