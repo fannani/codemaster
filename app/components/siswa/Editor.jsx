@@ -1,17 +1,28 @@
 import React from 'react';
 import AceEditor from "react-ace";
+import styled from "styled-components";
+import classNames from 'classnames';
+import 'brace/mode/html';
+import 'brace/theme/monokai';
 
-const Editor = ({checkResult,script,onChange}) => (
-  <div className="col-sm-4" style={{ height: 'calc(100vh - 50px)' }}>
+const Button = styled.button`
+  border-radius: 0px!important;
+  background-color:#FFC107;
+  margin:5px;
+  color:#343A40;
+`
+
+const Editor = ({checkResult,script,onChange,className}) => (
+  <div className={classNames(className,"col-sm-4")} style={{ height: 'calc(100vh - 50px)' }}>
     <div style={{ height: "50px" }}>
-      <button
+      <Button
         type="button"
         id="run"
         onClick={checkResult}
-        className="btn btn-primary"
+        className="btn "
       >
         Periksa
-      </button>
+      </Button>
     </div>
     <AceEditor
       mode="html"
@@ -28,4 +39,10 @@ const Editor = ({checkResult,script,onChange}) => (
   </div>
 );
 
-export default Editor;
+const StyledEditor = styled(Editor)`
+  padding-left:0!important;
+  padding-right:0!important;
+  background-color:#EBEBEB;
+`
+
+export default StyledEditor;

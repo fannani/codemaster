@@ -7,8 +7,7 @@ import PropTypes from 'prop-types';
 import Guide from '../../components/siswa/Guide';
 import Editor from '../../components/siswa/Editor';
 import 'react-toastify/dist/ReactToastify.css';
-import 'brace/mode/html';
-import 'brace/theme/monokai';
+
 import { postLog } from '../../utils/Logs';
 import {
   incrementTimer,
@@ -202,11 +201,13 @@ class Course extends Component {
               mission={missions}
               result={result}
             />
+
             <Editor
               checkResult={this.checkResult}
               script={script}
               onChange={this.update}
             />
+
             <iframe
               title="output"
               id="output"
