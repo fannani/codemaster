@@ -8,3 +8,13 @@ export const GET_COURSES = gql`
     }
   }
 `;
+
+export const ADD_COURSE = gql`
+  mutation addCourse($file: Upload, $name: String!, $desc: String!) {
+    addCourse(file: $file, name: $name, desc: $desc) {
+      _id
+      name
+      desc
+    }
+  }
+`;

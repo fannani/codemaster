@@ -1,22 +1,10 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
-import connect from 'react-redux/es/connect/connect';
+import { Formik, Form, Field } from 'formik';
 import { Redirect } from 'react-router-dom';
-import { addCourse } from '../../actions/courses';
-import gql from 'graphql-tag';
-
 import { Mutation } from 'react-apollo';
-
-export const UPLOAD_FILE = gql`
-  mutation addCourse($file: Upload,$name: String!, $desc: String!) {
-    addCourse(file: $file, name: $name, desc: $desc) {
-      _id
-      name
-      desc
-    }
-  }
-`;
+import { ADD_COURSE } from '../../graphql/queries/coursesQuery';
 
 class Course extends Component {
   constructor(props) {
@@ -24,15 +12,10 @@ class Course extends Component {
     this.createCourse = this.createCourse.bind(this);
     this.modalClosed = this.modalClosed.bind(this);
     this.addCourseSuccess = this.addCourseSuccess.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleImageChange = this.handleImageChange.bind(this);
     this.state = {
-      name: '',
-      desc: '',
       showModal: false,
       redirect: false,
       idcourse: '',
-      file: null,
     };
   }
 
@@ -52,55 +35,66 @@ class Course extends Component {
           <div className="modal-header">
             <h5 className="modal-title">Tambah Course</h5>
           </div>
-          <div className="modal-body">
-            <div className="card-body">
-              <input
-                type="text"
-                value={this.state.name}
-                onChange={this.handleInputChange}
-                placeholder="name"
-                name="name"
-              />
-              <input
-                type="text"
-                value={this.state.desc}
-                onChange={this.handleInputChange}
-                placeholder="description"
-                name="desc"
-              />
-              <input type="file" required onChange={this.handleImageChange} />
+          <Mutation mutation={ADD_COURSE}>
+            {addCourse => (
+              <Formik
+                initialValues={{ name: '', desc: '', file: null }}
+                onSubmit={(values, { setSubmitting }) => {
+                  let success = this.addCourseSuccess;
+                  const { image, name, desc } = values;
+                  addCourse({
+                    variables: {
+                      file: image,
+                      name,
+                      desc,
+                    },
+                  }).then(({ data: { addCourse } }) => {
+                    success(addCourse._id);
+                  });
+                }}
+              >
+                {({ isSubmitting, setFieldValue }) => (
+                  <Form>
+                    <div className="modal-body">
+                      <div className="card-body">
+                        <Field type="text" placeholder="name" name="name" />
+                        <Field
+                          type="text"
+                          placeholder="description"
+                          name="desc"
+                        />
+                        <input
+                          id="file"
+                          name="file"
+                          type="file"
+                          onChange={event => {
+                            setFieldValue(
+                              'image',
+                              event.currentTarget.files[0],
+                            );
+                          }}
+                          className="form-control"
+                        />
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <button type="submit" className="btn btn-primary">
+                        Tambah
+                      </button>
 
-            </div>
-          </div>
-          <div className="modal-footer">
-            <Mutation mutation={UPLOAD_FILE}>
-              {addCourse => (
-                <button
-                  type="button"
-                  onClick={() => {
-                    let success = this.addCourseSuccess;
-                    addCourse({ variables: {
-                      file: this.state.file,
-                      name: this.state.name,
-                      desc: this.state.desc} }).then(({data : {addCourse}}) => {
-                          success(addCourse._id)
-                    });
-
-                  }}
-                  className="btn btn-primary"
-                >
-                  Tambah
-                </button>
-              )}
-            </Mutation>
-            <button
-              type="button"
-              onClick={this.modalClosed}
-              className="btn btn-secondary"
-            >
-              Close
-            </button>
-          </div>
+                      <button
+                        type="button"
+                        onClick={this.modalClosed}
+                        className="btn btn-secondary"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            )}
+          </Mutation>
         </Modal>
       </div>
     );
@@ -119,44 +113,11 @@ class Course extends Component {
   }
 
   addCourseSuccess(id) {
-
-      this.setState({
-        showModal: false,
-        idcourse: id,
-        redirect: true,
-      });
-
-  }
-  handleImageChange({
-    target: {
-      validity,
-      files: [file],
-    },
-  }) {
     this.setState({
-      file,
-    });
-  }
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
+      showModal: false,
+      idcourse: id,
+      redirect: true,
     });
   }
 }
-const mapStateToProps = state => ({
-  hasErrored: state.courses.hasErrored,
-  isLoading: state.courses.isLoading,
-  isFinish: state.courses.isFinish,
-});
-
-const mapDispatchToProps = dispatch => ({
-  add: (name, desc) => dispatch(addCourse(name, desc)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Course);
+export default Course;
