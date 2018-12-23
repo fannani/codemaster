@@ -4,25 +4,19 @@ import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
 import { stageFetchOne, updateStage } from '../../actions/stages';
 import { addMission, getMissionsByStage } from '../../actions/missions';
-import { testFileUpload } from '../../services/userService'
+import { Formik, Form, Field } from 'formik';
+import { GET_STAGE_BY_ID } from '../../graphql/queries/stagesQuery';
+import { Mutation, Query } from 'react-apollo';
+import { UPDATE_STAGE } from '../../graphql/queries/stagesQuery';
 
 class Stage extends Component {
   constructor(props) {
     super(props);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleImageChange = this.handleImageChange.bind(this);
     this.saveData = this.saveData.bind(this);
     this.addMission = this.addMission.bind(this);
     this.saveMission = this.saveMission.bind(this);
     this.modalClosed = this.modalClosed.bind(this);
     this.state = {
-      _id: '',
-      title: '',
-      teory: '',
-      quest: '',
-      testcase: '',
-      score: '',
-      time: '',
       showModal: false,
     };
   }
@@ -35,35 +29,16 @@ class Stage extends Component {
 
   componentDidMount() {
     this.props.getMissionsByStage(this.props.match.params.stageid);
-    this.props.fetchOne(this.props.match.params.stageid).then(()=>{
+    this.props.fetchOne(this.props.match.params.stageid).then(() => {
       this.setState(this.props.stage);
     });
-  }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
-  }
-  handleImageChange({
-    target: {
-      validity,
-      files: [file]
-    }
-  }){
-
-
-    testFileUpload(file);
   }
 
   saveData() {
     const s = this.state;
     this.props
       .update(this.props.match.params.stageid, s.title, s.teory, s.time)
-      .then((data) => {});
+      .then(data => {});
   }
 
   addMission() {
@@ -87,42 +62,82 @@ class Stage extends Component {
   render() {
     return (
       <div>
-        <input
-          type="text"
-          name="title"
-          onChange={this.handleInputChange}
-          value={this.state.title}
-          placeholder="Judul"
-        />
-        <br />
-        <textarea
-          name="teory"
-          id="teory"
-          cols="30"
-          rows="10"
-          onChange={this.handleInputChange}
-          value={this.state.teory}
-          placeholder="Teory"
-        />
-        <br />
-        <input
-          type="text"
-          name="time"
-          onChange={this.handleInputChange}
-          value={this.state.time}
-          placeholder="Waktu"
-        />
-        <br />
-        <input
-          type="file"
-          name="image"
-          onChange={this.handleImageChange}
-          placeholder="Gambar"
-        />
-        <br />
-        <button className="btn btn-primary" onClick={this.saveData}>
-          Simpan
-        </button>
+        <Query
+          query={GET_STAGE_BY_ID}
+          variables={{ id: this.props.match.params.stageid }}
+        >
+          {({ loading, error, data: { stages } }) => {
+            if (loading) return <p>Loading…</p>;
+            if (error)
+              return <p>Sorry! There was an error loading the items</p>;
+            return (
+              <Mutation mutation={UPDATE_STAGE}>
+                {updateStage => (
+                  <Formik
+                    initialValues={{
+                      title: stages[0].title,
+                      teory: stages[0].teory,
+                      time: stages[0].time,
+                      image: null,
+                    }}
+                    onSubmit={(values, { setSubmitting }) => {
+                      const { image, title, time, teory } = values;
+                      updateStage({
+                        variables: {
+                          file: image,
+                          title,
+                          time,
+                          teory,
+                          id: this.props.match.params.stageid,
+                        },
+                      }).then(({ data: { addCourse } }) => {});
+                    }}
+                  >
+                    {({
+                      isSubmitting,
+                      setFieldValue,
+                      handleChange,
+                      values,
+                    }) => (
+                      <Form>
+                        <Field type="text" name="title" placeholder="Judul" />
+                        <br />
+                        <textarea
+                          name="teory"
+                          id="teory"
+                          cols="30"
+                          rows="10"
+                          value={values.teory}
+                          onChange={handleChange}
+                          placeholder="Teory"
+                        />
+                        <br />
+                        <Field type="text" name="time" placeholder="Waktu" />
+                        <br />
+                        <input
+                          id="file"
+                          name="file"
+                          type="file"
+                          onChange={event => {
+                            setFieldValue(
+                              'image',
+                              event.currentTarget.files[0],
+                            );
+                          }}
+                          className="form-control"
+                        />
+                        <br />
+                        <button className="btn btn-primary" type="submit">
+                          Simpan
+                        </button>
+                      </Form>
+                    )}
+                  </Formik>
+                )}
+              </Mutation>
+            );
+          }}
+        </Query>
         <br />
         <button className="btn btn-primary" onClick={this.addMission}>
           Tambah Misi
@@ -136,8 +151,7 @@ class Stage extends Component {
             </tr>
           </thead>
           <tbody>
-
-            { this.props.missions.map((name, index) => (
+            {this.props.missions.map((name, index) => (
               <tr key={index}>
                 <td>{name.quest}</td>
                 <td>{name.score}</td>
@@ -153,47 +167,48 @@ class Stage extends Component {
           <div className="modal-header">
             <h5 className="modal-title">Tambah Misi</h5>
           </div>
-          <div className="modal-body">
-            <div className="card-body">
-              <input
-                type="text"
-                value={this.state.quest}
-                onChange={this.handleInputChange}
-                placeholder="quest"
-                name="quest"
-              />
-              <input
-                type="text"
-                value={this.state.score}
-                onChange={this.handleInputChange}
-                placeholder="score"
-                name="score"
-              />
-              <input
-                type="text"
-                value={this.state.testcase}
-                onChange={this.handleInputChange}
-                placeholder="testcase"
-                name="testcase"
-              />
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              onClick={this.saveMission}
-              className="btn btn-primary"
-            >
-              Tambah
-            </button>
-            <button
-              type="button"
-              onClick={this.modalClosed}
-              className="btn btn-secondary"
-            >
-              Close
-            </button>
-          </div>
+          <Formik>
+            <Form>
+              <div className="modal-body">
+                <div className="card-body">
+                  <Field
+                    type="text"
+                    value={this.state.quest}
+                    placeholder="quest"
+                    name="quest"
+                  />
+                  <Field
+                    type="text"
+                    value={this.state.score}
+                    placeholder="score"
+                    name="score"
+                  />
+                  <input
+                    type="text"
+                    value={this.state.testcase}
+                    placeholder="testcase"
+                    name="testcase"
+                  />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  onClick={this.saveMission}
+                  className="btn btn-primary"
+                >
+                  Tambah
+                </button>
+                <button
+                  type="button"
+                  onClick={this.modalClosed}
+                  className="btn btn-secondary"
+                >
+                  Close
+                </button>
+              </div>
+            </Form>
+          </Formik>
         </Modal>
       </div>
     );
@@ -209,8 +224,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchOne: id => dispatch(stageFetchOne(id)),
-  update: (id, title, teory, time) => dispatch(updateStage(id, title, teory, time)),
-  addMission: (stage, quest, testcase, score) => dispatch(addMission(stage, quest, testcase, score)),
+  update: (id, title, teory, time) =>
+    dispatch(updateStage(id, title, teory, time)),
+  addMission: (stage, quest, testcase, score) =>
+    dispatch(addMission(stage, quest, testcase, score)),
   getMissionsByStage: stageid => dispatch(getMissionsByStage(stageid)),
 });
 

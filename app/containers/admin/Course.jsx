@@ -5,7 +5,6 @@ import { Formik, Form, Field } from 'formik';
 import { Redirect } from 'react-router-dom';
 import { Mutation, Query } from 'react-apollo';
 import { ADD_COURSE, GET_COURSES } from '../../graphql/queries/coursesQuery';
-import CourseItem from '../../components/siswa/CourseItem';
 
 class Course extends Component {
   constructor(props) {
@@ -65,7 +64,7 @@ class Course extends Component {
                   <Mutation mutation={ADD_COURSE}>
                     {addCourse => (
                       <Formik
-                        initialValues={{ name: '', desc: '', file: null }}
+                        initialValues={{ name: '', desc: '', image: null }}
                         onSubmit={(values, { setSubmitting }) => {
                           let success = this.addCourseSuccess;
                           const { image, name, desc } = values;

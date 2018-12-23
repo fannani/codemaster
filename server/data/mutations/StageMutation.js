@@ -4,7 +4,8 @@ import StageType from '../types/StageType';
 import Stage from '../models/Stage';
 import shortid from 'shortid';
 import fs from 'fs';
-import { GraphQLUpload } from 'graphql-upload/lib';
+import { GraphQLUpload } from 'graphql-upload';
+const UPLOAD_DIR = './dist/uploads';
 
 const storeFS = ({ stream, filename }) => {
   const id = shortid.generate();
@@ -32,27 +33,18 @@ let StageMutation = {
       teory: { type: GraphQLString },
       time: { type: GraphQLString },
       course: { type: GraphQLNonNull(GraphQLID) },
-      file: {
-        description: 'Image file.',
-        type: GraphQLUpload,
-      },
+
     },
-    async resolve(root, { file, title, teory, time, course }) {
-      let id = '';
-      if (file) {
-        const { filename, mimetype, createReadStream } = await file;
-        const stream = createReadStream();
-        const filestore = await storeFS({ stream, filename });
-        id = filestore.id;
-      }
+     async resolve(root, {  title, teory, time, course }) {
       let stage = new Stage({
         title,
         teory,
         time,
         course,
+        imageid : id
       });
       let newstage = await stage.save();
-      return newcourse;
+      return newstage;
     },
   },
   updateStage: {
@@ -64,17 +56,22 @@ let StageMutation = {
       teory: { type: GraphQLString },
       time: { type: GraphQLString },
       course: { type: GraphQLID },
+      file: { type: GraphQLUpload },
     },
-    resolve: (root, args) => {
-      return new Promise((resolve, reject) => {
-        Stage.findById(args.id, (err, data) => {
-          delete args.id;
-          data.set(args);
-          data.save(err => {
-            err ? reject(err) : resolve(data);
-          });
-        });
-      });
+    async resolve (root, args) {
+      let id = '';
+      if (args.file) {
+        const { filename, mimetype, createReadStream } = await args.file;
+        const stream = createReadStream();
+        const filestore = await storeFS({ stream, filename });
+        id = filestore.id;
+      }
+      let editstage =  await Stage.findById(args.id)
+      delete args.id;
+      delete args.file;
+      editstage.set(args);
+      editstage.imageid = id;
+      return await editstage.save();
     },
   },
 };
