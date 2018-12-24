@@ -8,6 +8,7 @@ import { Formik, Form, Field } from 'formik';
 import { GET_STAGE_BY_ID } from '../../graphql/queries/stagesQuery';
 import { Mutation, Query } from 'react-apollo';
 import { UPDATE_STAGE } from '../../graphql/queries/stagesQuery';
+import { ADD_MISSION } from '../../graphql/queries/missionsQuery';
 
 class Stage extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class Stage extends Component {
     this.modalClosed = this.modalClosed.bind(this);
     this.state = {
       showModal: false,
+      testcaseCount: 0,
     };
   }
 
@@ -147,7 +149,6 @@ class Stage extends Component {
             <tr>
               <th>Soal</th>
               <th>Skor</th>
-              <th>TestCase</th>
             </tr>
           </thead>
           <tbody>
@@ -155,7 +156,6 @@ class Stage extends Component {
               <tr key={index}>
                 <td>{name.quest}</td>
                 <td>{name.score}</td>
-                <td>{name.testcase}</td>
               </tr>
             ))}
           </tbody>
@@ -167,48 +167,86 @@ class Stage extends Component {
           <div className="modal-header">
             <h5 className="modal-title">Tambah Misi</h5>
           </div>
-          <Formik>
-            <Form>
-              <div className="modal-body">
-                <div className="card-body">
-                  <Field
-                    type="text"
-                    value={this.state.quest}
-                    placeholder="quest"
-                    name="quest"
-                  />
-                  <Field
-                    type="text"
-                    value={this.state.score}
-                    placeholder="score"
-                    name="score"
-                  />
-                  <input
-                    type="text"
-                    value={this.state.testcase}
-                    placeholder="testcase"
-                    name="testcase"
-                  />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  onClick={this.saveMission}
-                  className="btn btn-primary"
-                >
-                  Tambah
-                </button>
-                <button
-                  type="button"
-                  onClick={this.modalClosed}
-                  className="btn btn-secondary"
-                >
-                  Close
-                </button>
-              </div>
-            </Form>
-          </Formik>
+          <Mutation mutation={ADD_MISSION}>
+            {addMission => (
+              <Formik
+                initialValues={{
+                  quest: '',
+                  score: 0,
+                  testcase: [],
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                  addMission({
+                    variables: {
+                      quest: values.quest,
+                      testcase: values.testcase,
+                      score: values.score,
+                      stageid: this.props.match.params.stageid,
+                    },
+                  }).then(() => {});
+                }}
+              >
+                {({ isSubmitting, values, setFieldValue }) => (
+                  <Form>
+                    <div className="modal-body">
+                      <div className="card-body">
+                        <Field type="text" placeholder="quest" name="quest" />
+                        <Field type="number" placeholder="score" name="score" />
+                        <div>
+                          <button
+                            type="button"
+                            onClick={function() {
+                              let { testcaseCount } = this.state;
+                              testcaseCount++;
+                              this.setState({
+                                testcaseCount: testcaseCount,
+                              });
+                            }.bind(this)}
+                          >
+                            Tambah Testcase
+                          </button>
+                          {function() {
+                            let render = [];
+                            for (
+                              let i = 0;
+                              i <= this.state.testcaseCount;
+                              i++
+                            ) {
+                              render.push(
+                                <input
+                                  key={i}
+                                  type="text"
+                                  onChange={event => {
+                                    event.persist();
+                                    let testcase = values.testcase.slice();
+                                    testcase[i] = event.target.value;
+                                    setFieldValue('testcase', testcase);
+                                  }}
+                                />,
+                              );
+                            }
+                            return render;
+                          }.bind(this)()}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <button type="submit" className="btn btn-primary">
+                        Tambah
+                      </button>
+                      <button
+                        type="button"
+                        onClick={this.modalClosed}
+                        className="btn btn-secondary"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            )}
+          </Mutation>
         </Modal>
       </div>
     );

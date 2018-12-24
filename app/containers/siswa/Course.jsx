@@ -196,6 +196,7 @@ class Course extends Component {
         <main role="main" className="container-fluid">
           <div className="row flex-xl-nowrap" style={{ height: '100%' }}>
             <Guide
+              visible={false}
               title={title}
               teory={teory}
               mission={missions}

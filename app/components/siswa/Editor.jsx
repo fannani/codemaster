@@ -7,9 +7,9 @@ import 'brace/theme/monokai';
 
 const Button = styled.button`
   border-radius: 0px!important;
-  background-color:#FFC107;
+  background-color:#6D7FCC;
   margin:5px;
-  color:#343A40;
+  color:white;
 `
 
 const Editor = ({checkResult,script,onChange,className}) => (
@@ -23,6 +23,12 @@ const Editor = ({checkResult,script,onChange,className}) => (
       >
         Periksa
       </Button>
+      <Button
+        type="button"
+        className="btn btn-right"
+      >
+        Expand
+      </Button>
     </div>
     <AceEditor
       mode="html"
@@ -31,7 +37,7 @@ const Editor = ({checkResult,script,onChange,className}) => (
       width="100%"
       style={{ height: "calc(100% - 50px)" }}
       setOptions={{
-        fontSize: '16pt',
+        fontSize: '15pt',
         vScrollBarAlwaysVisible: true,
       }}
       onChange={onChange}
@@ -43,6 +49,9 @@ const StyledEditor = styled(Editor)`
   padding-left:0!important;
   padding-right:0!important;
   background-color:#EBEBEB;
+  .btn-right {
+    float:right;
+  }
 `
 
 export default StyledEditor;
