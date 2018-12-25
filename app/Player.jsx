@@ -10,8 +10,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
 import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
-import { ApolloProvider } from "react-apollo";
-
+import { ApolloProvider } from 'react-apollo';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -25,19 +25,21 @@ const client = new ApolloClient({
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
     new createUploadLink({
-      uri: "http://localhost:3000/api/"
-    })
+      uri: 'http://localhost:3000/api/',
+    }),
   ]),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 
-const Player = ({ store }) => (
+const Player = ({ store,persistor }) => (
   <Provider store={store}>
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <Layout />
-      </BrowserRouter>
-    </ApolloProvider>
+    <PersistGate loading={null} persistor={persistor}>
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <Layout />
+        </BrowserRouter>
+      </ApolloProvider>
+    </PersistGate>
   </Provider>
 );
 

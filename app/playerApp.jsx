@@ -1,8 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import Player from './Player';
-import siswaStore from './config/siswaStore';
-
+import playerStore from './config/playerStore';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes React and other helpers. It's a great starting point while
@@ -18,7 +17,6 @@ import {login} from './services/userService'
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const store = siswaStore();
 if (document.getElementById('app')) {
-  ReactDOM.render(<Player store={store} />, document.getElementById('app'));
+  ReactDOM.render(<Player store={playerStore.store} persistor={playerStore.persistor}/>, document.getElementById('app'));
 }

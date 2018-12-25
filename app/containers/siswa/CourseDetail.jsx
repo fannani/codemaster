@@ -30,8 +30,8 @@ const CourseDetail = ({ match }) => (
                         return <p>Sorry! There was an error loading the items</p>;
                       return (
                         <div>
-                          {data.stages.map(stage => (
-                            <StageItem  stage={stage}/>
+                          {data.stages.map((stage) => (
+                            <StageItem key={stage._id} stage={stage}/>
                           ))}
                         </div>
                       );
