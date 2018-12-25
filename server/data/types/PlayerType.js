@@ -21,7 +21,7 @@ const PlayerType = new GraphQLObjectType({
         let mapping = {};
         for (let i = 0; i < score.length; i++) {
           let stars;
-          if (mapping[score[i].stage]) stars = mapping[score.stage];
+          if (mapping[score[i].stage]) stars = mapping[score[i].stage];
           else stars = [false, false, false];
           for (let a = 0; a < 3; a++) {
             if (score[i].stars[a]) {

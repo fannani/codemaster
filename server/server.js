@@ -62,6 +62,10 @@ app.use('/api', (req, res, next) => {
     })(req, res, next);
   });
 });
+
+
 app.use(routes);
+
+
 
 app.listen(port);

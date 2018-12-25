@@ -7,6 +7,7 @@ import {
 } from 'graphql';
 import StageType from './StageType';
 import Stage from '../models/Stage';
+import PlayerType from "./PlayerType";
 
 const CourseType = new GraphQLObjectType({
   name: 'Course',
@@ -24,6 +25,16 @@ const CourseType = new GraphQLObjectType({
             resolve(stages);
           });
         });
+      },
+    },
+    leaderboard: {
+      type: GraphQLList(PlayerType),
+      async resolve({ _id }) {
+        let score = await Score.find({course : _id});
+        let mapping = {};
+        for (let i = 0; i < score.length; i++) {
+
+        }
       },
     },
     updated_at: { type: new GraphQLNonNull(GraphQLString) },
