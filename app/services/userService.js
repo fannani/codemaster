@@ -27,7 +27,7 @@ const login = (email, password) => {
 const getUserDetail = user => {
   let query;
   if (user.role === 'siswa') {
-    query = `player(_id:"${user.userdetailid}"){_id,address,energy}`;
+    query = `player(_id:"${user.userdetailid}"){_id,address,energy,stars}`;
   }
   ApiService.query(query).then(response => {
     return Object.assign(user, { userdetail: response.data.data.player[0] });
