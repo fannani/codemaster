@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const StageItem = ({className,stage}) => {
   return (
-    <Link className={className} to={`/play/${stage._id}`}>
+    <Link className={className} to={`/play/${stage._id}`} >
       <div className="d-flex flex-wrap stageitem">
       <div className="circle" >
 

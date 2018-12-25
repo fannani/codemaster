@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
-import { stageFetchOne, updateStage } from '../../actions/stages';
-import { addMission, getMissionsByStage } from '../../actions/missions';
+import {  updateStage } from '../../actions/stages';
+import { getMissionsByStage } from '../../actions/missions';
 import { Formik, Form, Field } from 'formik';
 import { GET_STAGE_BY_ID } from '../../graphql/queries/stagesQuery';
 import { Mutation, Query } from 'react-apollo';
@@ -14,8 +14,6 @@ class Stage extends Component {
   constructor(props) {
     super(props);
     this.saveData = this.saveData.bind(this);
-    this.addMission = this.addMission.bind(this);
-    this.saveMission = this.saveMission.bind(this);
     this.modalClosed = this.modalClosed.bind(this);
     this.state = {
       showModal: false,
@@ -47,18 +45,6 @@ class Stage extends Component {
     this.setState({
       showModal: true,
     });
-  }
-
-  saveMission() {
-    const s = this.state;
-    this.props
-      .addMission(this.props.match.params.stageid, s.quest, s.testcase, s.score)
-      .then(() => {
-        this.setState({
-          showModal: false,
-        });
-        this.props.getMissionsByStage(this.props.match.params.stageid);
-      });
   }
 
   render() {
@@ -261,11 +247,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchOne: id => dispatch(stageFetchOne(id)),
   update: (id, title, teory, time) =>
     dispatch(updateStage(id, title, teory, time)),
-  addMission: (stage, quest, testcase, score) =>
-    dispatch(addMission(stage, quest, testcase, score)),
   getMissionsByStage: stageid => dispatch(getMissionsByStage(stageid)),
 });
 

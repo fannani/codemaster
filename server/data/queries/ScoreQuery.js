@@ -6,7 +6,7 @@ const scores =  {
   type: new GraphQLList(ScoreType),
   description: "List of all Score",
   args: {
-    user: {type: GraphQLID}
+    player: {type: GraphQLID}
   },
   resolve: function(parent,args) {
     return new Promise((resolve,reject)=>{

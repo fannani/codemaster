@@ -31,7 +31,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const Siswa = ({ store }) => (
+const Player = ({ store }) => (
   <Provider store={store}>
     <ApolloProvider client={client}>
       <BrowserRouter>
@@ -41,8 +41,8 @@ const Siswa = ({ store }) => (
   </Provider>
 );
 
-Siswa.propTypes = {
+Player.propTypes = {
   store: PropTypes.object.isRequired,
 };
 
-export default hot(Siswa);
+export default hot(Player);

@@ -6,7 +6,7 @@ module.exports = {
   mode: 'development',
   devtool: 'cheap-module-inline-source-map',
   entry: {
-    siswa: ['./app/siswaApp.jsx', 'webpack-hot-middleware/client'],
+    player: ['./app/playerApp.jsx', 'webpack-hot-middleware/client'],
     admin: ['./app/adminApp.jsx', 'webpack-hot-middleware/client'],
   },
   output: {
@@ -60,9 +60,9 @@ module.exports = {
 
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
-      chunks: ['siswa'],
-      template: './app/siswa.html',
-      filename: '../siswa.html',
+      chunks: ['player'],
+      template: './app/player.html',
+      filename: '../player.html',
     }),
     new HtmlWebpackPlugin({
       chunks: ['admin'],

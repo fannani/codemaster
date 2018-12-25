@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import Siswa from './Siswa';
+import Player from './Player';
 import siswaStore from './config/siswaStore';
 
 /**
@@ -20,5 +20,5 @@ import {login} from './services/userService'
 
 const store = siswaStore();
 if (document.getElementById('app')) {
-  ReactDOM.render(<Siswa store={store} />, document.getElementById('app'));
+  ReactDOM.render(<Player store={store} />, document.getElementById('app'));
 }

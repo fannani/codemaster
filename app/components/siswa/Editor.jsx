@@ -37,7 +37,7 @@ const Editor = ({checkResult,script,onChange,className}) => (
       width="100%"
       style={{ height: "calc(100% - 50px)" }}
       setOptions={{
-        fontSize: '15pt',
+        fontSize: '12pt',
         vScrollBarAlwaysVisible: true,
       }}
       onChange={onChange}

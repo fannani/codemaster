@@ -26,7 +26,7 @@ const login = (email, password) => {
 const getUserDetail = user => {
   let query;
   if (user.role === 'siswa') {
-    query = `{ siswa(_id:"${user.userdetailid}"){_id,address,energy}}`;
+    query = `{ player(_id:"${user.userdetailid}"){_id,address,energy}}`;
   }
   return axios({
     url: API_BASE,
@@ -39,33 +39,27 @@ const getUserDetail = user => {
       return response;
     })
     .then(response => {
-      return Object.assign(user, { userdetail: response.data.data.siswa[0] });
+      return Object.assign(user, { userdetail: response.data.data.player[0] });
     });
 };
 
-export const testFileUpload = image => {
-  let query = `mutation{ uploadFile(image:"$image"){}}`;
-  console.log(image);
-  var formData = new FormData();
-  formData.append('image', image);
-  return axios(API_BASE, formData, {
+const reduceEnergy = (userid, energy) => {
+  return axios({
     url: API_BASE,
     method: 'post',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
     data: {
-      query,
-      variables: {
-        formData,
-      },
+      query: `mutation {
+        reduceEnergy(userid : "${userid}", energy: ${energy}){
+          _id,energy
+        }
+      }`,
     },
   })
     .then(response => {
       return response;
     })
     .then(response => {
-      return Object.assign(user, { userdetail: response.data.data.siswa[0] });
+      return response.data.data.reduceEnergy;
     });
 };
 
@@ -76,4 +70,5 @@ const logout = () => {
 export default {
   login,
   logout,
+  reduceEnergy
 };

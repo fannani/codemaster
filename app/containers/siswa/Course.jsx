@@ -17,12 +17,13 @@ import {
 import { getMissionsByStage } from '../../actions/missions';
 import { stageFetchOne } from '../../actions/stages';
 import Stars from '../../components/siswa/Stars';
-import styled from "styled-components";
+import styled from 'styled-components';
 import { addScore } from '../../actions/scores';
+import { reduceEnergy } from '../../actions/users';
 
 const StyledStars = styled(Stars)`
-  text-align:center;
-`
+  text-align: center;
+`;
 
 class Course extends Component {
   constructor(props) {
@@ -52,15 +53,17 @@ class Course extends Component {
         title: '',
         desc: '',
       },
+      stars: [],
     };
   }
 
   componentDidMount() {
-    const { match, fetchData, missionsFetchData } = this.props;
+    const { match, fetchData, missionsFetchData, user, reduceEnergy } = this.props;
     const { params } = match;
     const { stageid } = params;
     fetchData(stageid);
     missionsFetchData(stageid);
+    reduceEnergy(user.userdetail._id,20);
     window.addEventListener('message', this.handleIframeTask);
     this.intervalHandle = setInterval(this.tick, 1000);
     this.props.setPlayerStatus(0, 3);
@@ -69,12 +72,10 @@ class Course extends Component {
   componentWillUnmount() {
     this.props.setPlayMode(false);
   }
-
   tick() {
     const { tick } = this.props;
     tick();
   }
-
   checkResult() {
     const idoc = document.getElementById('output').contentWindow.document;
     const { script } = this.state;
@@ -86,7 +87,7 @@ class Course extends Component {
     for (let i = 0; i < missions.length; i += 1) {
       const misi = missions[i];
       value += `\x3Cscript>if(${
-        misi.testcase
+        misi.testcase[0]
       }){ result.push({  "index":${i}, "result":true }) } else {result.push({  "index":${i}, "result":false })}\x3C/script>`;
     }
     value +=
@@ -123,23 +124,25 @@ class Course extends Component {
         result: result,
         score: correctCount * 20,
       });
-      if (correctCount2 > 0) {
-        postLog('misi', 'berhasil menyelesaikan misi', correctCount2);
-        toast.success(`Anda berhasil menyelesaikan ${correctCount2} misi`, {
-          position: toast.POSITION.TOP_CENTER,
-        });
-      } else if (life === 1) {
-        this.setState({
-          life: life - 1,
-        });
-        this.gameOver();
-      } else {
-        toast.error('Tidak ada jawaban yang benar', {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        this.setState({
-          life: life - 1,
-        });
+      if (correctCount2 < missions.length) {
+        if (correctCount2 > 0) {
+          postLog('misi', 'berhasil menyelesaikan misi', correctCount2);
+          toast.success(`Anda berhasil menyelesaikan ${correctCount2} misi`, {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+        } else if (life === 1) {
+          this.setState({
+            life: life - 1,
+          });
+          this.gameOver();
+        } else {
+          toast.error('Tidak ada jawaban yang benar', {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+          this.setState({
+            life: life - 1,
+          });
+        }
       }
       if (correctCount >= missions.length) {
         this.gameOver();
@@ -149,25 +152,28 @@ class Course extends Component {
   }
 
   gameOver() {
-    const { match ,user ,currentTimer,addScore} = this.props;
+    const { match, user, currentTimer, addScore } = this.props;
     const { params } = match;
     const { stageid } = params;
-    clearInterval(this.intervalHandle);
-    let stars = 0;
+
+    let stars = [];
+
     if (this.state.life > 0) {
       stars = this.calculateStars();
-      addScore(user._id,stageid, this.state.score, currentTimer, stars)
+      addScore(user._id, stageid, this.state.score, currentTimer, stars);
     }
     this.setState({
       showModal: true,
       stars,
     });
+
+    clearInterval(this.intervalHandle);
   }
   calculateStars() {
-    let stars = 1;
+    let stars = [1, 0, 0];
     let { currentTimer, time } = this.props;
-    if (currentTimer < time) stars += 1;
-    if (this.state.life > 1) stars += 1;
+    if (currentTimer < time) stars[1] = 1;
+    if (this.state.life > 1) stars[2] = 1;
     return stars;
   }
 
@@ -195,6 +201,7 @@ class Course extends Component {
       <div id="container">
         <main role="main" className="container-fluid">
           <div className="row flex-xl-nowrap" style={{ height: '100%' }}>
+
             <Guide
               visible={false}
               title={title}
@@ -227,12 +234,13 @@ class Course extends Component {
           </div>
           <div className="modal-body">
             <StyledStars value={this.state.stars} />
-            SCORE : {this.state.life > 0 ? this.state.score : '0'}<br />
+            SCORE : {this.state.life > 0 ? this.state.score : '0'}
+            <br />
             TIME : {this.props.timerText}
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary">
-              Main lagi (3)
+              Main lagi
             </button>
             <button type="button" className="btn btn-secondary">
               Kembali
@@ -244,7 +252,7 @@ class Course extends Component {
   }
 }
 const mapStateToProps = state => ({
-  user : state.users.user,
+  user: state.users.user,
   title: state.stages.stage.title,
   teory: state.stages.stage.teory,
   time: state.stages.stage.time,
@@ -264,7 +272,9 @@ const mapDispatchToProps = dispatch => ({
   tick: () => dispatch(incrementTimer()),
   setPlayerStatus: (score, life) => dispatch(setPlayerStatus(score, life)),
   setPlayMode: play => dispatch(setPlayMode(play)),
-  addScore: (userid,stageid, score, time, stars) => dispatch(addScore(userid,stageid, score, time, stars)),
+  reduceEnergy: (userid,energy) => dispatch(reduceEnergy(userid,energy)),
+  addScore: (userid, stageid, courseid, score, time, stars) =>
+    dispatch(addScore(userid, stageid, courseid, score, time, stars)),
 });
 
 Course.propTypes = {

@@ -1,11 +1,12 @@
 import mongoose,{Schema} from 'mongoose';
 
 var ScoreSchema = new Schema({
-  user: { type: Schema.Types.ObjectId, ref: 'User' },
+  player: { type: Schema.Types.ObjectId, ref: 'Player' },
   stage: { type: Schema.Types.ObjectId, ref: 'Stage' },
   score: Number,
+  course: { type: Schema.Types.ObjectId, ref: 'Course' },
   time: Number,
-  stars: Number,
+  stars: [Boolean],
   updated_at: { type: Date, default: Date.now }
 });
 

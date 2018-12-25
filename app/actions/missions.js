@@ -66,7 +66,6 @@ export const getMissionsByStage = stageid => (dispatch) => {
   })
     .then((response) => {
       dispatch(missionsIsLoading(false));
-      console.log(response);
       return response;
     })
     .then(response => response.data.data.missions)

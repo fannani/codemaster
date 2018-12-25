@@ -20,3 +20,23 @@ export const login = (email, password) => dispatch => {
     },
   );
 };
+
+export const reduceEnergy = (userid, energy) => dispatch => {
+  const request = user => {
+    return { type: 'REDUCE_ENERGY_REQUEST', user };
+  };
+  const success = user => {
+    return { type: 'REDUCE_ENERGY_SUCCESS', user };
+  };
+  const failure = error => {
+    return { type: 'REDUCE_ENERGY_FAILURE', error };
+  };
+  return userService.reduceEnergy(userid, energy).then(
+    player => {
+      dispatch(success(player));
+    },
+    error => {
+      dispatch(failure(error));
+    },
+  );
+};
