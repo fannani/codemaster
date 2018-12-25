@@ -17,10 +17,13 @@ const reducer = (state = initialState, action) => {
     case 'LOGIN_FAILURE':
       return {};
     case 'REDUCE_ENERGY_SUCCESS':
-      let userdetail =  Object.assign({...state.user.userdetail },{energy : action.user.energy})
+      let userdetail = Object.assign(
+        { ...state.user.userdetail },
+        { energy: action.user.energy },
+      );
       return Object.assign(
         { ...state },
-        { user: Object.assign({ ...state.user },{userdetail}  )}
+        { user: Object.assign({ ...state.user }, { userdetail }) },
       );
     case 'LOGOUT':
       return {};
@@ -28,6 +31,5 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 };
-
 
 export default reducer;

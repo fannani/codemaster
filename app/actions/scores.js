@@ -16,7 +16,14 @@ export const addScoreSuccess = stage => ({
   stage,
 });
 
-export const addScore = (playerid,stageid,courseid, score, time, stars) => (dispatch) => {
+export const addScore = (
+  playerid,
+  stageid,
+  courseid,
+  score,
+  time,
+  stars,
+) => dispatch => {
   dispatch(scoreIsLoading(true));
   const promise = axios({
     url: API_BASE,
@@ -27,12 +34,12 @@ export const addScore = (playerid,stageid,courseid, score, time, stars) => (disp
                     addScore(player:"${playerid}",course:"${courseid}",stage:"${stageid}",score:${score},time:${time},stars:${stars}){_id}}`,
     },
   })
-    .then((response) => {
+    .then(response => {
       dispatch(scoreIsLoading(false));
       return response;
     })
     .then(response => response.data.data.addScore)
-    .then((stage) => {
+    .then(stage => {
       dispatch(addScoreSuccess(stage));
       return stage;
     })
@@ -41,4 +48,3 @@ export const addScore = (playerid,stageid,courseid, score, time, stars) => (disp
     });
   return promise;
 };
-

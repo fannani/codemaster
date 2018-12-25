@@ -15,38 +15,7 @@ export const missionsFetchDataSuccess = missions => ({
   missions,
 });
 
-export const addMissionSuccess = mission => ({
-  type: 'ADD_MISSION_SUCCESS',
-  mission,
-});
-
-export const addMission = (stage, quest, testcase, score) => (dispatch) => {
-  dispatch(missionsIsLoading(true));
-
-  const promise = axios({
-    url: API_BASE,
-    method: 'post',
-    data: {
-      query: `
-                mutation{
-                    addMission(stage:"${stage}",quest:"${quest}",testcase:"${testcase}",score:${score}){_id,quest,score,stage{_id}}}`,
-    },
-  })
-    .then((response) => {
-      dispatch(missionsIsLoading(false));
-      return response;
-    })
-    .then(response => response.data.data.addMission)
-    .then((mission) => {
-      dispatch(addMissionSuccess(mission));
-      return mission;
-    })
-    .catch(() => {
-      dispatch(missionsHasErrored(true));
-    });
-  return promise;
-};
-export const getMissionsByStage = stageid => (dispatch) => {
+export const getMissionsByStage = stageid => dispatch => {
   dispatch(missionsIsLoading(true));
   axios({
     url: API_BASE,
@@ -64,33 +33,7 @@ export const getMissionsByStage = stageid => (dispatch) => {
             `,
     },
   })
-    .then((response) => {
-      dispatch(missionsIsLoading(false));
-      return response;
-    })
-    .then(response => response.data.data.missions)
-    .then(missions => dispatch(missionsFetchDataSuccess(missions)))
-    .catch(() => dispatch(missionsHasErrored(true)));
-};
-export const missionsFetchData = () => (dispatch) => {
-  dispatch(missionsIsLoading(true));
-  axios({
-    url: API_BASE,
-    method: 'post',
-    data: {
-      query: `
-                {
-                    missions {
-                       _id,
-                        quest,
-                        score,
-                        testcase
-                    }
-                }
-            `,
-    },
-  })
-    .then((response) => {
+    .then(response => {
       dispatch(missionsIsLoading(false));
       return response;
     })

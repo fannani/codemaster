@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_BASE, BASE_URL } from '../config/config';
+import ApiService from './ApiService';
 
 const login = (email, password) => {
   return axios({
@@ -26,41 +27,21 @@ const login = (email, password) => {
 const getUserDetail = user => {
   let query;
   if (user.role === 'siswa') {
-    query = `{ player(_id:"${user.userdetailid}"){_id,address,energy}}`;
+    query = `player(_id:"${user.userdetailid}"){_id,address,energy}`;
   }
-  return axios({
-    url: API_BASE,
-    method: 'post',
-    data: {
-      query,
-    },
-  })
-    .then(response => {
-      return response;
-    })
-    .then(response => {
-      return Object.assign(user, { userdetail: response.data.data.player[0] });
-    });
+  ApiService.query(query).then(response => {
+    return Object.assign(user, { userdetail: response.data.data.player[0] });
+  });
 };
 
 const reduceEnergy = (userid, energy) => {
-  return axios({
-    url: API_BASE,
-    method: 'post',
-    data: {
-      query: `mutation {
-        reduceEnergy(userid : "${userid}", energy: ${energy}){
+  return ApiService.mutation(
+    `reduceEnergy(userid : "${userid}", energy: ${energy}){
           _id,energy
-        }
-      }`,
-    },
-  })
-    .then(response => {
-      return response;
-    })
-    .then(response => {
-      return response.data.data.reduceEnergy;
-    });
+        }`,
+  ).then(response => {
+    return response.data.data.reduceEnergy;
+  });
 };
 
 const logout = () => {
@@ -70,5 +51,5 @@ const logout = () => {
 export default {
   login,
   logout,
-  reduceEnergy
+  reduceEnergy,
 };

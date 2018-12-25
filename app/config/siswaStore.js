@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers/siswaReducer';
 
+
 const siswaStore = initialState => createStore(
   rootReducer,
   initialState,
