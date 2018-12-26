@@ -1,7 +1,9 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import Leaderboard from '../../components/siswa/Leaderboard';
+import DailyTarget from '../../components/siswa/DailyTarget';
 import StageItem from '../../components/siswa/StageItem';
-import { Query } from 'react-apollo';
+import {  Query } from "react-apollo";
 import { GET_COURSE_BYID } from '../../graphql/queries/coursesQuery';
 import { GET_STAGE_BY_IDCOURSE  } from '../../graphql/queries/stagesQuery';
 
@@ -39,20 +41,11 @@ const CourseDetail = ({ match }) => (
                   </Query>
             </div>
             <div className="col-4">
-              <div className="row">
-                <div className="card" style={{ width: '100%' }}>
-                  <div className="card-body">
-                    <h5 className="card-title">Daily Target</h5>
-                  </div>
-                </div>
-              </div>
-              <div className="row" style={{ marginTop: '10px' }}>
-                <div className="card" style={{ width: '100%' }}>
-                  <div className="card-body">
-                    <h5 className="card-title">Leaderboard</h5>
-                  </div>
-                </div>
-              </div>
+              <DailyTarget />
+
+                    <Leaderboard data={courses[0].leaderboard} />
+
+
             </div>
           </div>
         </div>

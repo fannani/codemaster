@@ -9,7 +9,6 @@ import webpack from 'webpack';
 import webpackConfig from '../webpack.config';
 import routes from './routes';
 import schema from './data/schema';
-import Player from './data/models/Player';
 
 const { ObjectId } = mongoose.Types;
 var compiler = webpack(webpackConfig);
@@ -63,11 +62,7 @@ app.use('/api', (req, res, next) => {
     })(req, res, next);
   });
 });
-Player.findById("5c229116a5db1a0f64af300c").then((data) => {
-  data.courseScore().then((a)=>{
-    console.log(a);
-  })
-})
+
 
 app.use(routes);
 

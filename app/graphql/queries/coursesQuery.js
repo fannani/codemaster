@@ -16,6 +16,16 @@ export const GET_COURSE_BYID = gql`
         name
         desc
         imageid
+        leaderboard {
+          _id
+          score
+        	player {
+            _id
+            user {
+              name
+            }
+          }
+        }
       }
     }
 `;

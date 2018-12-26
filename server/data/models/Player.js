@@ -12,10 +12,11 @@ var PlayerSchema = new Schema({
 PlayerSchema.methods.scores = async function() {
   let score = await Score.aggregate([
     { $match: { player: this._id } },
-    { $group: {
+    {
+      $group: {
         _id: '$stage',
-        score : { $max: '$score'},
-        course : { $first: '$course'}
+        score: { $max: '$score' },
+        course: { $first: '$course' },
       },
     },
   ]);
@@ -25,16 +26,19 @@ PlayerSchema.methods.scores = async function() {
 PlayerSchema.methods.courseScore = async function() {
   let score = await Score.aggregate([
     { $match: { player: this._id } },
-    { $group: {
+    {
+      $group: {
         _id: '$stage',
-        score : { $max: '$score'},
-        course : { $first: '$course'}
+        score: { $max: '$score' },
+        course: { $first: '$course' },
       },
     },
-    { $group: {
+    {
+      $group: {
         _id: '$course',
-        score : { $max: '$score'}
-    }}
+        score: { $max: '$score' },
+      },
+    },
   ]);
   return score;
 };

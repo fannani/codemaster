@@ -6,12 +6,20 @@ import {
   GraphQLInt,
 } from 'graphql';
 import Score from '../models/Score';
+import User from '../models/User';
+import UserType from './UserType';
 
 const PlayerType = new GraphQLObjectType({
   name: 'Player',
   description: 'This represent a Player',
   fields: () => ({
     _id: { type: new GraphQLNonNull(GraphQLID) },
+    user: {
+      type: new GraphQLNonNull(UserType),
+      async resolve({ _id }) {
+        return await User.findOne({userdetailid : _id});
+      },
+    },
     energy: { type: new GraphQLNonNull(GraphQLInt) },
     address: { type: GraphQLString },
     stars: {
