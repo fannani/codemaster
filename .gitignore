@@ -10,3 +10,4 @@ gen
 /node_modules/
 /dist/
 !/dist/js/jquery.min.js
+.vscode
