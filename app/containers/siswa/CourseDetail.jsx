@@ -4,8 +4,8 @@ import Leaderboard from '../../components/siswa/Leaderboard';
 import DailyTarget from '../../components/siswa/DailyTarget';
 import StageItem from '../../components/siswa/StageItem';
 import {  Query } from "react-apollo";
-import { GET_COURSE_BYID } from '../../graphql/queries/coursesQuery';
-import { GET_STAGE_BY_IDCOURSE  } from '../../graphql/queries/stagesQuery';
+import { GET_COURSE_BYID } from '../../graphql/coursesQuery';
+import { GET_STAGE_BY_IDCOURSE  } from '../../graphql/stagesQuery';
 
 const CourseDetail = ({ match }) => (
   <Query

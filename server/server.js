@@ -9,7 +9,7 @@ import webpack from 'webpack';
 import webpackConfig from '../webpack.config';
 import routes from './routes';
 import schema from './data/schema';
-
+import { achievement} from './data/seeder';
 const { ObjectId } = mongoose.Types;
 var compiler = webpack(webpackConfig);
 let port = 3000;
@@ -65,7 +65,4 @@ app.use('/api', (req, res, next) => {
 
 
 app.use(routes);
-
-
-
 app.listen(port);

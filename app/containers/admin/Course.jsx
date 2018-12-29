@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap4-modal';
 import { Formik, Form, Field } from 'formik';
 import { Redirect } from 'react-router-dom';
 import { Mutation, Query } from 'react-apollo';
-import { ADD_COURSE, GET_COURSES } from '../../graphql/queries/coursesQuery';
+import { ADD_COURSE, GET_COURSES } from '../../graphql/coursesQuery';
 
 class Course extends Component {
   constructor(props) {

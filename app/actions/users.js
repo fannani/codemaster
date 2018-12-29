@@ -21,9 +21,31 @@ export const login = (email, password) => dispatch => {
   );
 };
 
+
+export const addPlayerAchievement = (userid, energy) => dispatch => {
+  const request  = () => {
+    return { type: 'ADD_PLAYER_ACHIEVEMENT_REQUEST' };
+  };
+  const success = user => {
+    return { type: 'ADD_PLAYER_ACHIEVEMENT_SUCCESS', user };
+  };
+  const failure = error => {
+    return { type: 'ADD_PLAYER_ACHIEVEMENT_FAILURE', error };
+  };
+  dispatch(request());
+  return userService.addPlayerAchievement(userid, energy).then(
+    player => {
+      dispatch(success(player));
+    },
+    error => {
+      dispatch(failure(error));
+    },
+  );
+};
+
 export const reduceEnergy = (userid, energy) => dispatch => {
-  const request = user => {
-    return { type: 'REDUCE_ENERGY_REQUEST', user };
+  const request  = () => {
+    return { type: 'REDUCE_ENERGY_REQUEST' };
   };
   const success = user => {
     return { type: 'REDUCE_ENERGY_SUCCESS', user };
@@ -31,6 +53,7 @@ export const reduceEnergy = (userid, energy) => dispatch => {
   const failure = error => {
     return { type: 'REDUCE_ENERGY_FAILURE', error };
   };
+  dispatch(request());
   return userService.reduceEnergy(userid, energy).then(
     player => {
       dispatch(success(player));

@@ -1,8 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 
-var PlayerAchievementSchema = new Schema({
+var AchievementSchema = new Schema({
   title: String,
+  continuous: Boolean,
   updated_at: { type: Date, default: Date.now },
 });
 
-export default mongoose.model('PlayerAchievement', PlayerAchievementSchema);
+export default mongoose.model('Achievement', AchievementSchema);

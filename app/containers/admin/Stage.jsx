@@ -5,10 +5,10 @@ import Modal from 'react-bootstrap4-modal';
 import {  updateStage } from '../../actions/stages';
 import { getMissionsByStage } from '../../actions/missions';
 import { Formik, Form, Field } from 'formik';
-import { GET_STAGE_BY_ID } from '../../graphql/queries/stagesQuery';
+import { GET_STAGE_BY_ID } from '../../graphql/stagesQuery';
 import { Mutation, Query } from 'react-apollo';
-import { UPDATE_STAGE } from '../../graphql/queries/stagesQuery';
-import { ADD_MISSION } from '../../graphql/queries/missionsQuery';
+import { UPDATE_STAGE } from '../../graphql/stagesQuery';
+import { ADD_MISSION } from '../../graphql/missionsQuery';
 
 class Stage extends Component {
   constructor(props) {
