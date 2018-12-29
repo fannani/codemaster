@@ -18,7 +18,7 @@ const Container = styled.div`
 class Login extends Component {
   render() {
     if (this.props.loggingIn) {
-      return <Redirect push to={`/dashboard`} />;
+      return <Redirect push to={`/`} />;
     }
     return (
       <Container className="container">

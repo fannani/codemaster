@@ -36,15 +36,7 @@ const Loader = () => {
   );
 };
 class CourseList extends Component {
-  constructor(props) {
-    super(props);
-    // this.state = {
-    //   show: false
-    // }
-    // setTimeout(function() {
-    //   this.setState({show: true});
-    // }.bind(this),700)
-  }
+
   render() {
     return (
       <div>
