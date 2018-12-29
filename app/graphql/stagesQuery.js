@@ -8,6 +8,7 @@ export const GET_STAGE_BY_IDCOURSE = gql`
       time
       teory
       win
+      imageid
       course {
         _id
       }

@@ -29,9 +29,7 @@ class Stage extends Component {
 
   componentDidMount() {
     this.props.getMissionsByStage(this.props.match.params.stageid);
-    this.props.fetchOne(this.props.match.params.stageid).then(() => {
-      this.setState(this.props.stage);
-    });
+
   }
 
   saveData() {
