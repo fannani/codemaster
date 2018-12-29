@@ -18,7 +18,7 @@ class Layout extends Component {
           score={score}
           time={time}
           energy={
-            user.hasOwnProperty('userdetail') ? user.userdetail.energy : 0
+            (user && user.hasOwnProperty('userdetail')) ? user.userdetail.energy : 0
           }
         />
 

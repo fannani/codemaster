@@ -6,8 +6,10 @@ import StageItem from '../../components/siswa/StageItem';
 import {  Query } from "react-apollo";
 import { GET_COURSE_BYID } from '../../graphql/coursesQuery';
 import { GET_STAGE_BY_IDCOURSE  } from '../../graphql/stagesQuery';
+import connect from 'react-redux/es/connect/connect';
 
-const CourseDetail = ({ match }) => (
+const CourseDetail = ({ match ,user}) =>
+ (
   <Query
     query={GET_COURSE_BYID}
     variables={{ courseid: match.params.courseid }}
@@ -21,20 +23,24 @@ const CourseDetail = ({ match }) => (
           </div>
           <div className="row">
             <div className="col-8">
-
                   <Query
                     query={GET_STAGE_BY_IDCOURSE}
-                    variables={{ courseid: match.params.courseid }}
+                    variables={{ courseid: match.params.courseid, playerid: user.userdetailid  }}
                   >
                     {({ loading, error, data }) => {
                       if (loading) return <p>Loading…</p>;
                       if (error)
                         return <p>Sorry! There was an error loading the items</p>;
+                      let unlock = true;
+                      let render = [];
+                      let { stages } = data;
+                      for(let i=0;i<stages.length;i++){
+                         render.push( <StageItem key={stages[i]._id} stage={stages[i]} unlock={unlock}/>) 
+                         unlock = stages[i].win;
+                      }
                       return (
                         <div>
-                          {data.stages.map((stage) => (
-                            <StageItem key={stage._id} stage={stage}/>
-                          ))}
+                          {render}
                         </div>
                       );
                     }}
@@ -52,5 +58,10 @@ const CourseDetail = ({ match }) => (
       )}}
   </Query>
 );
-
-export default CourseDetail;
+const mapStateToProps = state => ({
+  user: state.users.user,
+});
+export default connect(
+  mapStateToProps,
+  null,
+)(CourseDetail);

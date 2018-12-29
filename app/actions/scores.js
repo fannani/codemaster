@@ -31,7 +31,7 @@ export const addScore = (
     data: {
       query: `
                 mutation{
-                    addScore(player:"${playerid}",course:"${courseid}",stage:"${stageid}",score:${score},time:${time},stars:${stars}){_id}}`,
+                    addScore(player:"${playerid}",course:"${courseid}",stage:"${stageid}",score:${score},time:${time},stars:[${stars}]){_id}}`,
     },
   })
     .then(response => {

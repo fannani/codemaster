@@ -9,4 +9,9 @@ var StageSchema = new mongoose.Schema({
   updated_at: { type: Date, default: Date.now },
 });
 
+StageSchema.virtual('win').
+  get(function() { return this._win; }).
+  set(function(v) { this._win = v; });
+
+
 export default mongoose.model('Stage', StageSchema);

@@ -15,10 +15,10 @@ let ScoreMutation = {
       time: { type: new GraphQLNonNull(GraphQLInt) },
       stars: { type: new GraphQLNonNull(GraphQLList(GraphQLBoolean)) },
     },
-    resolve: (root, { user, stage, score, time, stars }) => {
+    resolve: (root, { player, stage, score, time, stars,course }) => {
       return new Promise((resolve, reject) => {
         let newscore = new Score({
-          user ,
+          player,
           stage,
           score,
           time,

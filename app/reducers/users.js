@@ -7,7 +7,7 @@ const reducer = (state = initialState, action) => {
     case 'LOGIN_REQUEST':
       return {
         loggingIn: true,
-        user: action.user,
+        user: action.user, 
       };
     case 'LOGIN_SUCCESS':
       return {

@@ -152,7 +152,7 @@ class Course extends Component {
   }
 
   gameOver() {
-    const { match, user, currentTimer, addScore } = this.props;
+    const { match, user, currentTimer, addScore, course } = this.props;
     const { params } = match;
     const { stageid } = params;
 
@@ -160,7 +160,7 @@ class Course extends Component {
 
     if (this.state.life > 0) {
       stars = this.calculateStars();
-      addScore(user._id, stageid, this.state.score, currentTimer, stars);
+      addScore(user.userdetailid, stageid,course._id ,this.state.score, currentTimer, stars);
     }
     this.setState({
       showModal: true,
@@ -170,10 +170,10 @@ class Course extends Component {
     clearInterval(this.intervalHandle);
   }
   calculateStars() {
-    let stars = [1, 0, 0];
+    let stars = [true, false, false];
     let { currentTimer, time } = this.props;
-    if (currentTimer < time) stars[1] = 1;
-    if (this.state.life > 1) stars[2] = 1;
+    if (currentTimer < time) stars[1] = true;
+    if (this.state.life > 1) stars[2] = true;
     return stars;
   }
 
@@ -256,6 +256,7 @@ const mapStateToProps = state => ({
   title: state.stages.stage.title,
   teory: state.stages.stage.teory,
   time: state.stages.stage.time,
+  course: state.stages.stage.course,
   currentTimer: state.gameplay.currentTimer,
   timerText: state.gameplay.timerText,
   courseLoading: state.stages.isLoading,

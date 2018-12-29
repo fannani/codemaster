@@ -22,18 +22,18 @@ export const login = (email, password) => dispatch => {
 };
 
 
-export const addPlayerAchievement = (userid, energy) => dispatch => {
+export const addPlayerAchievement = (player,achievement,star,point) => dispatch => {
   const request  = () => {
     return { type: 'ADD_PLAYER_ACHIEVEMENT_REQUEST' };
   };
-  const success = user => {
-    return { type: 'ADD_PLAYER_ACHIEVEMENT_SUCCESS', user };
+  const success = achievement => {
+    return { type: 'ADD_PLAYER_ACHIEVEMENT_SUCCESS', achievement };
   };
   const failure = error => {
     return { type: 'ADD_PLAYER_ACHIEVEMENT_FAILURE', error };
   };
   dispatch(request());
-  return userService.addPlayerAchievement(userid, energy).then(
+  return userService.addPlayerAchievement(player,achievement,star,point).then(
     player => {
       dispatch(success(player));
     },

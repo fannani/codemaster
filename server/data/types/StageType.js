@@ -3,6 +3,7 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
+  GraphQLBoolean
 } from 'graphql';
 
 import CourseType from './CourseType';
@@ -17,6 +18,7 @@ const StageType = new GraphQLObjectType({
     title: { type: new GraphQLNonNull(GraphQLString) },
     teory: { type: new GraphQLNonNull(GraphQLString) },
     time: { type: new GraphQLNonNull(GraphQLString) },
+    win: { type: GraphQLBoolean},
     imageid: { type: GraphQLString },
     course: {
       type: CourseType,

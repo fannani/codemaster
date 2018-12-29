@@ -20,7 +20,7 @@ let PlayerAchievementMutation = {
         star,
         point,
       });
-      return await newachiev.save();
+      return await newachiev.save(); 
     },
   },
 };

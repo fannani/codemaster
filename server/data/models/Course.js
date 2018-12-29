@@ -1,5 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema ,Type} from 'mongoose';
+
 import Score from '../models/Score';
+import Stage from './Stage';
 
 var CourseSchema = new mongoose.Schema({
   name: String,
@@ -26,5 +28,30 @@ CourseSchema.methods.leaderboard = async function() {
   ]);
   return score;
 };
+
+
+
+CourseSchema.methods.player = async function(player){
+  let stage = await Stage.find({course: this._id});
+  for(let i = 0;i<stage.length;i++){
+    let win = false;
+    let score = await Score.aggregate([
+      { $match: { stage: mongoose.Types.ObjectId(stage[i]._id), 
+        player: mongoose.Types.ObjectId(player)
+      } },
+      {
+        $group: {
+          _id: {stage : '$stage'},
+          score: { $max: '$score' },
+        },
+      },
+    ]);
+    if(score.length > 0 && score[0].score > 0){
+        win = true;
+    }
+    stage[i].win = win;
+  }
+  return stage;
+}
 
 export default mongoose.model('Course', CourseSchema);

@@ -4,14 +4,14 @@ import { BASE_URL } from "../../config/config";
 import styled from "styled-components";
 
 
-const StageItem = ({className,stage}) => {
+const StageItem = ({className,stage,unlock}) => {
   return (
     <Link className={className} to={`/play/${stage._id}`} >
       <div className="d-flex flex-wrap stageitem">
       <div className="circle" >
 
       </div>
-      <h4>{stage.title}</h4>
+      <h4>{stage.title}{(!unlock) ?'-kunci': '' }</h4>
       </div>
     </Link>
   )
