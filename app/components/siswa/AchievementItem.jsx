@@ -6,32 +6,32 @@ import starOff from "../../assets/images/star-off.png";
 import { Line, Circle } from 'rc-progress';
 
 
-class AchievementItem extends Component {
-  render() {
+const AchievementItem = ({achievement,className}) => {
+    const {target_point,title,point} = achievement;
     return (
-      <div className={classnames(this.props.className,"row")}>
+      <div className={classnames(className,"row")}>
         <div className="card" >
           <div className="card-body">
             <h5 className="card-title row">
-              <div className="col-7">{this.props.achievement.title}
+              <div className="col-7">{title}
               </div>
               <div className="col-1">
-                <img width="30px"  src={ star } />
+                <img width="30px"  src={ achievement.star > 0 ? star : starOff } />
               </div>
               <div className="col-1">
-                <img width="30px"  src={ star } />
+                <img width="30px"  src={ achievement.star > 1 ? star : starOff } />
               </div>
               <div className="col-1">
-                <img width="30px"  src={ star } />
+                <img width="30px"  src={ achievement.star > 2 ? star : starOff } />
               </div>
               </h5>
-            <p>{this.props.achievement.caption}</p>
+            <p>{achievement.caption}</p>
             <div className="row">
               <div className="col-10">
-            <Line percent="20" strokeWidth="4" strokeColor="#7386D5" />
+            <Line percent={(point/target_point) * 100} strokeWidth="4" strokeColor="#7386D5" />
               </div>
               <div className="col-2">
-              1/10
+                {point}/{target_point}
               </div>
             </div>
 
@@ -41,7 +41,6 @@ class AchievementItem extends Component {
       </div>
     );
   }
-}
 const StyledAchievementItem = styled(AchievementItem)`
   .card {
     width:400px;
