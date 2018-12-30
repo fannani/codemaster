@@ -13,7 +13,7 @@ const EnergyImg = styled.img`
   width: 12px;
 `;
 
-const Header = ({ play, life, score, time, energy }) => {
+const Header = ({ play, life, score, time, energy, onAddEnergy }) => {
   const playerStatus = play ? (
     <PlayerStatus life={life} score={score} time={time} />
   ) : (
@@ -29,7 +29,7 @@ const Header = ({ play, life, score, time, energy }) => {
       </a>
       <EnergyDiv className="navbar-text">
         <EnergyImg width="20px" src={energyImage} /> : {energy}
-        <button style={{marginLeft: "10px",height:"33px",backgroundColor:"#7386D5", border:"0"}} className="btn btn-primary">Tambah</button>
+        <button style={{marginLeft: "10px",height:"33px",backgroundColor:"#7386D5", border:"0"}} className="btn btn-primary" onClick={onAddEnergy}>Tambah</button>
       </EnergyDiv>
       {playerStatus}
       <button
@@ -64,12 +64,7 @@ const Header = ({ play, life, score, time, energy }) => {
 
         </ul>
         <ul className="navbar-nav ml-auto">
-          <li className="nav-item">
-            <a className="nav-link" href="#">Link</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">Link</a>
-          </li>
+
           <li className="nav-item dropdown">
             <a
               id="navbarDropdown"
