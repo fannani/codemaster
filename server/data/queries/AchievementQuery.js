@@ -1,9 +1,6 @@
 import {GraphQLID, GraphQLList,GraphQLInt} from "graphql";
 import AchievementType from "../types/AchievementType";
 import Achievement from '../models/Achievement';
-import Stage from "../models/Stage";
-import PlayerAchievement from "../models/PlayerAchievement";
-import DetailAchievement from "../models/DetailAchievement";
 
 const achievement = {
   type: new GraphQLList(AchievementType),

@@ -40,7 +40,6 @@ AchievementSchema.methods.player = async function(player){
     this.target_point = detail.target_point;
     this.caption = detail.caption;
   }
-  console.log(this);
   return this;
 }
 
