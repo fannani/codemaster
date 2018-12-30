@@ -13,7 +13,7 @@ const AchievementItem = ({achievement,className}) => {
         <div className="card" >
           <div className="card-body">
             <h5 className="card-title row">
-              <div className="col-7">{title}
+              <div className="col-8">{title}
               </div>
               <div className="col-1">
                 <img width="30px"  src={ achievement.star > 0 ? star : starOff } />
@@ -43,7 +43,7 @@ const AchievementItem = ({achievement,className}) => {
   }
 const StyledAchievementItem = styled(AchievementItem)`
   .card {
-    width:400px;
+    width:100%;
     margin-top:10px;
     border-radius:10px !important;
     border: 0;

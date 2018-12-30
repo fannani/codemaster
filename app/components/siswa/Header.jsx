@@ -1,28 +1,36 @@
 /* eslint-disable */
 import React from 'react';
-import PlayerStatus from './PlayerStatus'
+import PlayerStatus from './PlayerStatus';
 import energyImage from '../../assets/images/energy.png';
 import styled from 'styled-components';
 
 const EnergyDiv = styled.div`
-  color:white!important;
-  margin-left:30px;
-`
+  color: white !important;
+  margin-left: 30px;
+`;
 const EnergyImg = styled.img`
-  width:12px;
-`
+  width: 12px;
+`;
 
-const Header = ({play,life,score,time,energy}) => {
-  const playerStatus = (play) ? <PlayerStatus life={life} score={score} time={time} /> : "";
+const Header = ({ play, life, score, time, energy }) => {
+  const playerStatus = play ? (
+    <PlayerStatus life={life} score={score} time={time} />
+  ) : (
+    ''
+  );
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-dark" style={{height: "50px"}} >
+    <nav
+      className="navbar navbar-expand-md navbar-dark bg-dark"
+      style={{ height: '50px' }}
+    >
       <a className="navbar-brand" href="#">
         belajarkode;
       </a>
       <EnergyDiv className="navbar-text">
-        <EnergyImg width="20px"  src={energyImage} /> : {energy}
+        <EnergyImg width="20px" src={energyImage} /> : {energy}
+        <button style={{marginLeft: "10px",height:"33px",backgroundColor:"#7386D5", border:"0"}} className="btn btn-primary">Tambah</button>
       </EnergyDiv>
-      { playerStatus }
+      {playerStatus}
       <button
         className="navbar-toggler"
         type="button"
@@ -47,9 +55,7 @@ const Header = ({play,life,score,time,energy}) => {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              {'tes'}
-              {' '}
-              <span className="caret" />
+              {'tes'} <span className="caret" />
             </a>
             <div
               className="dropdown-menu dropdown-menu-right"
@@ -64,6 +70,6 @@ const Header = ({play,life,score,time,energy}) => {
       </div>
     </nav>
   );
-}
+};
 
 export default Header;
