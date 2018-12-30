@@ -4,6 +4,7 @@ import {
   GraphQLString,
   GraphQLID,
   GraphQLBoolean,
+  GraphQLInt,
   GraphQLList,
 } from 'graphql';
 import AchievementDetailType from './AchievementDetailType';
@@ -16,6 +17,10 @@ const AchievementType = new GraphQLObjectType({
     _id: { type: new GraphQLNonNull(GraphQLID) },
     title: { type: new GraphQLNonNull(GraphQLString) },
     continuous: { type: new GraphQLNonNull(GraphQLBoolean) },
+    caption: { type: GraphQLString },
+    star: { type: GraphQLInt },
+    target_point: { type: GraphQLInt },
+    point: { type: GraphQLInt },
     detail: {
       type: GraphQLList(AchievementDetailType),
       async resolve({ _id }) {

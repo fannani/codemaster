@@ -24,6 +24,7 @@ const StyledCourseItem = styled(CourseItem)`
     text-align:center;
     border: 0;
     
+    
   }
   h5{
     font-style:bold;

@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import CourseList from '../../containers/siswa/CourseList';
 import CourseDetail from '../../containers/siswa/CourseDetail';
 import Dashboard from '../../containers/siswa/Dashboard';
+import Achievement from '../../containers/siswa/Achievement';
 
 class Content extends Component {
   render() {
@@ -12,6 +13,7 @@ class Content extends Component {
         <Switch>
           <Route exact path="/" component={Dashboard} />
           <Route exact path="/course" component={CourseList} />
+          <Route exact path="/achievement" component={Achievement} />
           <Route path="/course/:courseid" component={CourseDetail} />
         </Switch>
       </main>

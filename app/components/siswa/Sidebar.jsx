@@ -8,7 +8,7 @@ const Sidebar = () => (
         <Link to="/">Dashboard</Link>
         <Link to="/">Learn</Link>
         <Link to="/course">Course</Link>
-        <Link to="/">Achievements</Link>
+        <Link to="/achievement">Achievements</Link>
         <Link to="/">Badges</Link>
         <Link to="/">Friends</Link>
         <Link to="/">Settings</Link>
