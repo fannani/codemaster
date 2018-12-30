@@ -1,10 +1,44 @@
 import React, { Component } from 'react';
 
 import styled from 'styled-components';
-import { Line } from 'rc-progress';
+import { Line, Circle } from 'rc-progress';
 import star from '../../assets/images/star-circle.png';
 import badge from '../../assets/images/badges.png';
 import achievement from '../../assets/images/achievement.png';
+import { Query } from "react-apollo";
+import { GET_COURSES } from "../../graphql/coursesQuery";
+import CourseItem from "../../components/siswa/CourseItem";
+import ContentLoader from "react-content-loader";
+
+const Loader = () => {
+  const content = (
+    <div
+      className="card m-2"
+      style={{
+        width: '200px',
+        height: '250px',
+        borderRadius: '10px !important',
+        border: '0',
+      }}
+    >
+      <ContentLoader width={200} height={250}>
+        <circle cx="100" cy="80" r="60" />
+        <rect x="20" y="160" rx="4" ry="4" width="160" height="15" />
+        <rect x="20" y="185" rx="4" ry="4" width="160" height="15" />
+        <rect x="20" y="210" rx="4" ry="4" width="130" height="15" />
+      </ContentLoader>
+    </div>
+  );
+  let all = [];
+  for (let i = 0; i < 6; i++) {
+    all.push(content);
+  }
+  return (
+    <div>
+      <div className="d-flex flex-wrap">{all}</div>
+    </div>
+  );
+};
 
 class Dashboard extends Component {
   render() {
@@ -14,7 +48,7 @@ class Dashboard extends Component {
           <div className="card-body">
             <div className="row">
               <div className="col-2">
-                <Circle />
+                <Ava />
               </div>
               <div className="col-4">
                 <h5>Rahadyan Fannani Arif</h5>
@@ -68,6 +102,20 @@ class Dashboard extends Component {
             <div className="card ">
               <div className="card-body">
                 <h5 className="card-title">My Course</h5>
+                <Query query={GET_COURSES}>
+                  {({ loading, error, data }) => {
+                    if (loading) return <Loader />
+                    if (error)
+                      return <p>Sorry! There was an error loading the items</p>;
+                    return (
+                      <div className="d-flex flex-wrap">
+                        {data.courses.map(course => (
+                          <CourseItem key={course._id} item={course} />
+                        ))}
+                      </div>
+                    );
+                  }}
+                </Query>
               </div>
             </div>
           </div>
@@ -75,6 +123,12 @@ class Dashboard extends Component {
             <div className="card ">
               <div className="card-body">
                 <h5 className="card-title">Daily Target</h5>
+                <div className="row justify-content-center">
+                  <div className="col-9">
+                    <Circle  percent={20} strokeWidth="4" strokeColor="#7386D5"/>
+                    <p className="xp-caption"><span>0/300</span><br/>XP Diperoleh</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -84,7 +138,7 @@ class Dashboard extends Component {
   }
 }
 
-const Circle = styled.div`
+const Ava = styled.div`
   background-color: white;
   background-position: center;
   background-size: cover;
@@ -114,6 +168,18 @@ const StyledDashboard = styled(Dashboard)`
   .card {
     border-radius: 10px !important;
     border: 0;
+  }
+  .xp-caption span {
+    color:#FFC149;
+    font-weight:bold;
+    margin-bottom:0px;
+    font-size:30px;
+  }
+  .xp-caption {
+    text-align:center;
+    position:absolute;
+    top: 60px;
+    width:87%
   }
 `;
 

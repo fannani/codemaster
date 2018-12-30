@@ -49,6 +49,9 @@ const StyledAchievementItem = styled(AchievementItem)`
     border: 0;
     margin-left:20px;
   }
+  .card-title {
+    font-weight:bold;
+  }
 `
 
 export default StyledAchievementItem;

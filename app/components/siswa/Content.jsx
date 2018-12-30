@@ -9,7 +9,7 @@ import Achievement from '../../containers/siswa/Achievement';
 class Content extends Component {
   render() {
     return (
-      <main className="col-9 main-container">
+      <main className="col-12 main-container" style={{maxWidth:"1100px"}}>
         <Switch>
           <Route exact path="/" component={Dashboard} />
           <Route exact path="/course" component={CourseList} />

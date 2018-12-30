@@ -3,6 +3,7 @@ import React from 'react';
 import PlayerStatus from './PlayerStatus';
 import energyImage from '../../assets/images/energy.png';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const EnergyDiv = styled.div`
   color: white !important;
@@ -42,9 +43,33 @@ const Header = ({ play, life, score, time, energy }) => {
       >
         <span className="navbar-toggler-icon" />
       </button>
+
+
+
+
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto" />
+        <ul className="navbar-nav mx-auto" >
+          <li className="nav-item">
+            <Link className="nav-link" to="/">Dashboard</Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/course">Course</Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/achievement">Achievements</Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/">Friends</Link>
+          </li>
+
+        </ul>
         <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+            <a className="nav-link" href="#">Link</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#">Link</a>
+          </li>
           <li className="nav-item dropdown">
             <a
               id="navbarDropdown"

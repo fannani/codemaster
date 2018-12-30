@@ -4,8 +4,8 @@ import Content from '../../components/siswa/Content';
 
 const Home = () => (
   <div className="container-fluid">
-    <div className="row">
-      <Sidebar />
+    <div className="row justify-content-center">
+      {/*<Sidebar/>*/}
       <Content />
     </div>
   </div>
