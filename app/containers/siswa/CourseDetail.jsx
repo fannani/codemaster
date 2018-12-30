@@ -47,7 +47,6 @@ const CourseDetail = ({ match ,user}) =>
                   </Query>
             </div>
             <div className="col-4">
-              <DailyTarget />
 
                     <Leaderboard data={courses[0].leaderboard} />
 

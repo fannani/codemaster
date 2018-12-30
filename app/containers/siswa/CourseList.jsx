@@ -4,7 +4,6 @@ import CourseItem from '../../components/siswa/CourseItem';
 import { Query } from 'react-apollo';
 import { GET_COURSES } from '../../graphql/coursesQuery';
 import ContentLoader, { Facebook } from 'react-content-loader';
-import { BASE_URL } from '../../config/config';
 
 const Loader = () => {
   const content = (
