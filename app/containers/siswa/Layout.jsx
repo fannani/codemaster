@@ -7,6 +7,8 @@ import Login from './Login';
 import Course from './Course';
 import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
+import { logout } from "../../actions/users";
+
 
 class Layout extends Component {
   constructor(props){
@@ -16,6 +18,7 @@ class Layout extends Component {
     }
     this.onAddEnergy = this.onAddEnergy.bind(this);
     this.onClickBackdrop = this.onClickBackdrop.bind(this);
+    this.logout = this.logout.bind(this);
   }
   onAddEnergy(){
     this.setState({
@@ -27,8 +30,12 @@ class Layout extends Component {
       showModal: false
     })
   }
+  logout(){
+    this.props.logout();
+  }
   render() {
-    const { life, score, time, play, user } = this.props;
+    const { life, score, time, play, user, isLogin } = this.props;
+
     return (
       <div className="app-container">
         <Header
@@ -36,6 +43,9 @@ class Layout extends Component {
           life={life}
           score={score}
           time={time}
+          logout={this.logout}
+          user={this.props.user}
+          isLogin={(this.props.isLogin) ? true : false }
           onAddEnergy={this.onAddEnergy}
           energy={
             (user && user.hasOwnProperty('userdetail')) ? user.userdetail.energy : 0
@@ -75,11 +85,15 @@ const mapStateToProps = state => ({
   time: state.gameplay.timerText,
   play: state.gameplay.play,
   user: state.users.user,
+  isLogin: state.users.loggedIn
 });
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logout()),
 
+});
 export default withRouter(
   connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
   )(Layout),
 );

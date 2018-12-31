@@ -17,7 +17,7 @@ const Container = styled.div`
 
 class Login extends Component {
   render() {
-    if (this.props.loggingIn) {
+    if (this.props.isLogin) {
       return <Redirect push to={`/`} />;
     }
     return (
@@ -114,12 +114,9 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { loggingIn } = state.users;
-  return {
-    loggingIn,
-  };
-};
+const mapStateToProps = state => ({
+  isLogin: state.users.loggedIn
+});
 
 const mapDispatchToProps = dispatch => ({
   login: (email, password) => dispatch(login(email, password)),

@@ -1,14 +1,8 @@
-let user = JSON.parse(localStorage.getItem('user'));
-const initialState = user
-  ? { loggedIn: true, user }
-  : { loggedIn: false, user: { userdetail: { energy: 0 } } };
-const reducer = (state = initialState, action) => {
+const reducer = (
+  state = { loggedIn: false, user: { userdetail: { energy: 0 } } },
+  action,
+) => {
   switch (action.type) {
-    case 'LOGIN_REQUEST':
-      return {
-        loggingIn: true,
-        user: action.user, 
-      };
     case 'LOGIN_SUCCESS':
       return {
         loggedIn: true,
@@ -25,7 +19,7 @@ const reducer = (state = initialState, action) => {
         { ...state },
         { user: Object.assign({ ...state.user }, { userdetail }) },
       );
-    case 'LOGOUT':
+    case 'LOGOUT_SUCCESS':
       return {};
     default:
       return state;

@@ -23,14 +23,12 @@ const login = (email, password) => {
       }
     })
     .then(userdetail => {
-      localStorage.setItem('user', JSON.stringify(userdetail));
       return userdetail;
     });
 }; 
 
 const getUserDetail = async function(user){
   let query;
-
   if (user.role === 'siswa') {
     query = `players(_id:"${user.userdetailid}"){_id,address,energy,stars}`;
   }

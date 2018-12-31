@@ -16,7 +16,6 @@ router.post('/login', (req, res, next) => {
       if (err) {
         res.send(err);
       }
-      console.log(user);
       const token = jwt.sign(user.toJSON(), 'iloveskripsisobad');
       return res.json({ user, token });
     });
