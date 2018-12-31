@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import Header from '../../components/siswa/Header';
-import Home from './Home';
+import route from './route';
 import Login from './Login';
-import Course from './Course';
 import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
 import { logout } from "../../actions/users";
@@ -54,8 +53,7 @@ class Layout extends Component {
 
         <Switch>
           <Route path="/login" component={Login} />
-          <Route path="/play/:stageid" component={Course} />
-          <Route path="/" component={Home} />
+          <Route path="/" component={route} />
         </Switch>
         <Modal
           visible={this.state.showModal}

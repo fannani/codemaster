@@ -9,7 +9,7 @@ import webpack from 'webpack';
 import webpackConfig from '../webpack.config';
 import routes from './routes';
 import schema from './data/schema';
-import { achievement} from './data/seeder';
+import { achievement } from './data/seeder';
 const { ObjectId } = mongoose.Types;
 var compiler = webpack(webpackConfig);
 let port = 3000;
@@ -33,8 +33,8 @@ const apollo = new ApolloServer({
   }),
   uploads: {
     maxFileSize: 10000000, // 10 MB
-    maxFiles: 20
-  }
+    maxFiles: 20,
+  },
 });
 
 app.use(
@@ -50,17 +50,15 @@ app.use(passport.initialize());
 app.use(express.static(path.resolve(__dirname, '../dist')));
 apollo.applyMiddleware({
   app,
-  path: '/api'
+  path: '/api',
 });
 app.use('/api', (req, res, next) => {
-  return new Promise((resolve, reject) => {
-    passport.authenticate('jwt', { session: false }, (err, user) => {
-      if (user) {
-        req.user = user;
-      }
-      next();
-    })(req, res, next);
-  });
+  passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    if (user) {
+      req.user = user;
+    }
+    next();
+  })(req, res, next);
 });
 
 //achievement();
