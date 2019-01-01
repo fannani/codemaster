@@ -34,7 +34,6 @@ class Layout extends Component {
   }
   render() {
     const { life, score, time, play, user, isLogin } = this.props;
-    console.log("DISINI");
 
     return (
       <div className="app-container">
