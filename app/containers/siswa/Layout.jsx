@@ -6,34 +6,35 @@ import route from './route';
 import Login from './Login';
 import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
-import { logout } from "../../actions/users";
-
+import { logout } from '../../actions/users';
+import Notfound from "../../components/siswa/Notfound";
 
 class Layout extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state ={
-      showModal : false
-    }
+    this.state = {
+      showModal: false,
+    };
     this.onAddEnergy = this.onAddEnergy.bind(this);
     this.onClickBackdrop = this.onClickBackdrop.bind(this);
     this.logout = this.logout.bind(this);
   }
-  onAddEnergy(){
+  onAddEnergy() {
     this.setState({
-      showModal: true
-    })
+      showModal: true,
+    });
   }
-  onClickBackdrop(){
+  onClickBackdrop() {
     this.setState({
-      showModal: false
-    })
+      showModal: false,
+    });
   }
-  logout(){
+  logout() {
     this.props.logout();
   }
   render() {
     const { life, score, time, play, user, isLogin } = this.props;
+    console.log("DISINI");
 
     return (
       <div className="app-container">
@@ -44,16 +45,19 @@ class Layout extends Component {
           time={time}
           logout={this.logout}
           user={this.props.user}
-          isLogin={(this.props.isLogin) ? true : false }
+          isLogin={this.props.isLogin ? true : false}
           onAddEnergy={this.onAddEnergy}
           energy={
-            (user && user.hasOwnProperty('userdetail')) ? user.userdetail.energy : 0
+            user && user.hasOwnProperty('userdetail')
+              ? user.userdetail.energy
+              : 0
           }
         />
 
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/" component={route} />
+
         </Switch>
         <Modal
           visible={this.state.showModal}
@@ -65,12 +69,17 @@ class Layout extends Component {
           <div className="modal-body">
             <div className="row">
               <div className="col-6">
-              <button style={{width:"100%"}} className="btn btn-primary">Lihat Video</button></div>
+                <button style={{ width: '100%' }} className="btn btn-primary">
+                  Lihat Video
+                </button>
+              </div>
               <div className="col-6">
-            <button  style={{width:"100%"}} className="btn btn-primary">Kerjakan Latihan</button></div>
+                <button style={{ width: '100%' }} className="btn btn-primary">
+                  Kerjakan Latihan
+                </button>
+              </div>
             </div>
           </div>
-
         </Modal>
       </div>
     );
@@ -83,11 +92,10 @@ const mapStateToProps = state => ({
   time: state.gameplay.timerText,
   play: state.gameplay.play,
   user: state.users.user,
-  isLogin: state.users.loggedIn
+  isLogin: state.users.loggedIn,
 });
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logout()),
-
 });
 export default withRouter(
   connect(

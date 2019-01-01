@@ -8,13 +8,10 @@ import Achievement from './Achievement';
 import CourseDetail from './CourseDetail';
 import Course from './Course';
 import Redirect from "react-router-dom/es/Redirect";
+import Notfound from "../../components/siswa/Notfound";
 
 class route extends Component {
-  componentDidMount() {
-    if (!this.props.isLogin) {
-      //window.location.href = `${BASE_URL}login`;
-    }
-  }
+
 
   render() {
     if (this.props.isLogin) {
@@ -25,10 +22,14 @@ class route extends Component {
           <Route exact path="/achievement" component={Achievement}/>
           <Route path="/course/:courseid" component={CourseDetail}/>
           <Route path="/play/:stageid" component={Course}/>
+
         </Switch>
       );
     } else {
-      return (<Redirect push to={'../login'} />)
+      return <Redirect to={{
+        pathname: '/login',
+        state: { from: this.props.location }
+      }} />
     }
   }
 }
