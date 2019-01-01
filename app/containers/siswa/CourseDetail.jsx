@@ -7,8 +7,10 @@ import { Query } from 'react-apollo';
 import { GET_COURSE_BYID } from '../../graphql/coursesQuery';
 import { GET_STAGE_BY_IDCOURSE } from '../../graphql/stagesQuery';
 import connect from 'react-redux/es/connect/connect';
+import classnames from 'classnames';
+import styled from 'styled-components';
 
-const CourseDetail = ({ match, user }) => (
+const CourseDetail = ({ match, user,className }) => (
   <Query
     query={GET_COURSE_BYID}
     variables={{ courseid: match.params.courseid }}
@@ -16,20 +18,22 @@ const CourseDetail = ({ match, user }) => (
     {({ loading, error, data: { courses } }) => {
       if (loading) return <p>Loading…</p>;
       return (
-        <div className="container-fluid">
+        <div className={classnames(className,"container-fluid")}>
           <div className="row justify-content-center">
             <main
               className="col-12 main-container"
               style={{ maxWidth: '1100px' }}
             >
               <div>
-                <div className="row">
-                  <h2 style={{ marginLeft: '30px', fontSize: '40px' }}>
-                    {courses[0].name}
-                  </h2>
-                </div>
+
                 <div className="row">
                   <div className="col-8">
+                    <div className="row">
+                      <h2 style={{ marginLeft: '30px', fontSize: '40px' }}>
+                        {courses[0].name}
+                      </h2>
+                    </div>
+                    <div className="card" style={{ marginTop: '10px' ,paddingLeft:"30px",paddingBottom:"100px"}}>
                     <Query
                       query={GET_STAGE_BY_IDCOURSE}
                       variables={{
@@ -59,6 +63,7 @@ const CourseDetail = ({ match, user }) => (
                         return <div>{render}</div>;
                       }}
                     </Query>
+                    </div>
                   </div>
                   <div className="col-4">
                     <Leaderboard data={courses[0].leaderboard} />
@@ -72,10 +77,17 @@ const CourseDetail = ({ match, user }) => (
     }}
   </Query>
 );
+
+const StyledCourseDetail = styled(CourseDetail)`
+    .card {
+    border-radius: 10px !important;
+    border: 0;
+  }
+`
 const mapStateToProps = state => ({
   user: state.users.user,
 });
 export default connect(
   mapStateToProps,
   null,
-)(CourseDetail);
+)(StyledCourseDetail);

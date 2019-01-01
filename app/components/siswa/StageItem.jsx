@@ -3,24 +3,36 @@ import { Link } from 'react-router-dom';
 import { BASE_URL } from '../../config/config';
 import styled from 'styled-components';
 import lock from '../../assets/images/lock.png';
+import star from '../../assets/images/star.png';
+import starOff from '../../assets/images/star-off.png';
 
 const StageItem = ({ className, stage, unlock }) => {
+  console.log(stage);
   const child = (
-    <div className="d-flex flex-wrap stageitem">
-      <div
-        className="circle"
-        style={{
-          backgroundImage: `url("${BASE_URL}uploads/${stage.imageid}")`,
-        }}
-      >
-        {!unlock ? (
-          <div>
-            <div className="circle-back" /> <img src={lock} alt="" />
-          </div>
-        ) : (
-          <div />
-        )}
+    <div className="d-flex flex-wrap stageitem ">
+      <div className="wrapper">
+        <div className=" stars">
+          <img width="30px" src={star} className="star star-left" />
+          <img width="30px" src={star} className="star star-middle" />
+          <img width="30px" src={star} className="star star-right" />
+        </div>
+        <div
+          className="circle"
+          style={{
+            backgroundImage: `url("${BASE_URL}uploads/${stage.imageid}")`,
+          }}
+        >
+          {!unlock ? (
+            <div>
+              <div className="circle-back" />{' '}
+              <img className="lock" src={lock} alt="" />
+            </div>
+          ) : (
+            <div />
+          )}
+        </div>
       </div>
+
       <h4>{stage.title}</h4>
     </div>
   );
@@ -34,15 +46,34 @@ const StageItem = ({ className, stage, unlock }) => {
 };
 
 const StyledStageItem = styled(StageItem)`
+  .stars {
+    width: 90px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:5px;
+  }
+  .wrapper {
+    width: 150px;
+  }
+
+ 
+  .star-left {
+    position: relative;
+    top: 5px;
+  }
+  .star-right {
+    position: relative;
+    top: 5px;
+  }
   .stageitem {
     height: 100px;
-    margin-top: 20px;
+    margin-top: 50px;
+    margin-left:30px;
   }
   h4 {
     height: 100%;
     display: inline-block;
-    line-height: 100px;
-    margin-left: 20px;
+    line-height: 140px;
   }
   .circle-back {
     background-color: black;
@@ -53,7 +84,8 @@ const StyledStageItem = styled(StageItem)`
     opacity: 0.5;
   }
   .circle {
-    margin-left: 100px;
+    margin-left: auto;
+    margin-right: auto;
     background-color: white;
     background-position: center;
     background-size: cover;
@@ -62,10 +94,11 @@ const StyledStageItem = styled(StageItem)`
     border: 6px solid #dddddd;
     border-radius: 100px;
   }
-  img {
+  .lock {
     width: 35px;
+    margin-left: 25px;
+
     position: absolute;
-    left: 147px;
     margin-top: 18px;
   }
 `;
