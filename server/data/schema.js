@@ -9,8 +9,8 @@ import achievements from './queries/AchievementQuery';
 import courseMutation from './mutations/CourseMutation';
 import stageMutation from './mutations/StageMutation';
 import missionMutation from './mutations/MissionMutation';
-import scoreMutation from './mutations/scoreMutation';
-import playerMutation from './mutations/playerMutation';
+import scoreMutation from './mutations/ScoreMutation';
+import playerMutation from './mutations/PlayerMutation';
 import playerAchievementMutation from './mutations/PlayerAchievementMutation';
 
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';

@@ -1,0 +1,22 @@
+version: "3"
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - "27017:27017"
+  app:
+    container_name: app
+    restart: always
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    volumes:
+      - c:/xampp/htdocs/belajarkode/dist:/usr/src/app/dist
+
+volumes:
+  mongodata:
