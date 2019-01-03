@@ -6,11 +6,9 @@ const router = express.Router();
 router.get("/protected", passport.authenticate('jwt', { session: false }), (req, res) => {
   return res.status(200).send("YAY! this is a protected Route")
 })
-router.get(['/admin', '/admin/*'], (req, res) => {
-  res.sendFile(path.join(__dirname + '/../../dist/admin.html'));
-});
+
 router.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/../../dist/player.html'));
+  res.sendFile(path.join(__dirname + '/../../dist/index.html'));
 });
 
 export default router;

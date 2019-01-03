@@ -7,7 +7,7 @@ import Login from './Login';
 import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
 import { logout } from '../../actions/users';
-import Notfound from "../../components/siswa/Notfound";
+import Notfound from "../../components/Notfound";
 
 class Layout extends Component {
   constructor(props) {

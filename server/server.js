@@ -6,7 +6,7 @@ import path from 'path';
 import passport from 'passport';
 import './config/passport';
 import webpack from 'webpack';
-import webpackConfig from '../webpack.config';
+import webpackConfig from '../webpack.dev';
 import routes from './routes';
 import schema from './data/schema';
 import { achievement } from './data/seeder';

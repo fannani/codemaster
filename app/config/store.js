@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from '../reducers/siswaReducer';
+import rootReducer from '../reducers/reducer';
 import storage from 'redux-persist/lib/storage'
 import { persistStore,persistReducer} from 'redux-persist';
 

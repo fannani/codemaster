@@ -3,12 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  devtool: 'cheap-module-inline-source-map',
-  entry: {
-    player: ['./app/playerApp.jsx', 'webpack-hot-middleware/client'],
-    admin: ['./app/adminApp.jsx', 'webpack-hot-middleware/client'],
-  },
+  entry: ['./app/app.jsx', 'webpack-hot-middleware/client'],
   output: {
     publicPath: 'http://localhost:3000/js',
     path: path.resolve(__dirname, 'dist/js'),
@@ -55,20 +50,12 @@ module.exports = {
     extensions: ['.mjs','.js', '.jsx'],
   },
   plugins: [
-
-    new webpack.HotModuleReplacementPlugin(),
-
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
-      chunks: ['player'],
-      template: './app/player.html',
-      filename: '../player.html',
+      template: './app/template.html',
+      filename: '../index.html',
     }),
-    new HtmlWebpackPlugin({
-      chunks: ['admin'],
-      template: './app/admin.html',
-      filename: '../admin.html',
-    }),
+
 
   ],
 };

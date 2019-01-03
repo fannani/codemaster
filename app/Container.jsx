@@ -1,10 +1,11 @@
 /* eslint-disable */
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
-import Layout from './containers/siswa/Layout';
+import LoadingScreen from './components/LoadingScreen';
+import { Route, Switch } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
@@ -12,6 +13,8 @@ import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
 import { ApolloProvider } from 'react-apollo';
 import { PersistGate } from 'redux-persist/integration/react';
+const SiswaLayout = lazy(() => import('./containers/siswa/Layout'));
+const AdminLayout = lazy(() => import('./containers/admin/Layout'));
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -31,20 +34,25 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const Player = ({ store,persistor }) => (
+const Container = ({ store, persistor }) => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <Layout />
+          <Suspense fallback={<LoadingScreen />}>
+            <Switch>
+              <Route path="/admin" component={AdminLayout} />
+              <Route path="/" component={SiswaLayout} />
+            </Switch>
+          </Suspense>
         </BrowserRouter>
       </ApolloProvider>
     </PersistGate>
   </Provider>
 );
 
-Player.propTypes = {
+Container.propTypes = {
   store: PropTypes.object.isRequired,
 };
 
-export default hot(Player);
+export default hot(Container);
