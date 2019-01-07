@@ -17,6 +17,17 @@ let PlayerMutation = {
       return await player.save();
     },
   },
+  register: {
+    type: PlayerType,
+    description: 'Register a player'
+    args: {
+      email: {type: new GraphQLNonNull(GraphQLString)},
+      password: {type: new GraphQLNonNull(GraphQLString)}
+    },
+    async resolve(root, {email,password}){
+      let user
+    }
+  }
 };
 
 export default PlayerMutation;

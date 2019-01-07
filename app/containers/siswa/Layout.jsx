@@ -4,10 +4,10 @@ import { withRouter } from 'react-router';
 import Header from '../../components/siswa/Header';
 import route from './route';
 import Login from './Login';
+import Register from './Register';
 import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
 import { logout } from '../../actions/users';
-import Notfound from "../../components/Notfound";
 
 class Layout extends Component {
   constructor(props) {
@@ -55,6 +55,7 @@ class Layout extends Component {
 
         <Switch>
           <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
           <Route path="/" component={route} />
 
         </Switch>

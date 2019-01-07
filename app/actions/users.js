@@ -21,6 +21,27 @@ export const login = (email, password) => dispatch => {
   );
 };
 
+export const register = (email, password) => dispatch => {
+  const request = () => {
+    return { type: 'REGISTER_REQUEST'  };
+  };
+  const success = user => {
+    return { type: 'REGISTER_SUCCESS', user };
+  };
+  const failure = error => {
+    return { type: 'REGISTER_FAILURE', error };
+  };
+  dispatch(request());
+  return userService.register(email, password).then(
+    user => {
+      dispatch(success(user));
+    },
+    error => {
+      dispatch(failure(error));
+    },
+  );
+};
+
 export const logout = () => dispatch => {
   const request = () => {
     return { type: 'LOGOUT_REQUEST'  };

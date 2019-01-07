@@ -25,7 +25,11 @@ const login = (email, password) => {
     .then(userdetail => {
       return userdetail;
     });
-}; 
+};
+
+const register = (email,password) => {
+
+}
 
 const getUserDetail = async function(user){
   let query;
