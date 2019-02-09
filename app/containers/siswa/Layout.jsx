@@ -8,6 +8,8 @@ import Register from './Register';
 import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
 import { logout } from '../../actions/users';
+import socketIOClient from "socket.io-client";
+
 
 class Layout extends Component {
   constructor(props) {
@@ -19,6 +21,13 @@ class Layout extends Component {
     this.onClickBackdrop = this.onClickBackdrop.bind(this);
     this.logout = this.logout.bind(this);
   }
+  componentDidMount() {
+    const socket = socketIOClient("http://localhost:3000/");
+    socket.emit('TESAPI', "TESTESTES");
+
+
+  }
+
   onAddEnergy() {
     this.setState({
       showModal: true,

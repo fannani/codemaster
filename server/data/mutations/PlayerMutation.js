@@ -19,7 +19,7 @@ let PlayerMutation = {
   },
   register: {
     type: PlayerType,
-    description: 'Register a player'
+    description: 'Register a player',
     args: {
       email: {type: new GraphQLNonNull(GraphQLString)},
       password: {type: new GraphQLNonNull(GraphQLString)}

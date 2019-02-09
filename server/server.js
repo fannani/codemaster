@@ -1,18 +1,20 @@
 import express from 'express';
+import http from 'http';
+import socket from 'socket.io';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import { ApolloServer } from 'apollo-server-express';
+import webpack from 'webpack';
 import path from 'path';
 import passport from 'passport';
-import './config/passport';
-import webpack from 'webpack';
 import webpackConfig from '../webpack.dev';
 import routes from './routes';
 import schema from './data/schema';
-import { achievement } from './data/seeder';
+import './config/passport';
+import { ApolloServer } from 'apollo-server-express';
 const { ObjectId } = mongoose.Types;
 var compiler = webpack(webpackConfig);
 let port = 3000;
+
 mongoose.connect(
   'mongodb://localhost:27017/belajarkode',
   { useNewUrlParser: true },
@@ -26,6 +28,8 @@ db.once('open', () => console.log('connected to the database'));
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
+const server = http.createServer(app);
+const io = socket(server);
 const apollo = new ApolloServer({
   schema,
   context: ({ req }) => ({
@@ -61,6 +65,13 @@ app.use('/api', (req, res, next) => {
   })(req, res, next);
 });
 
-//achievement();
 app.use(routes);
-app.listen(port);
+
+
+
+io.on('connection', (socket) => {
+  socket.on('TESAPI', function(msg){
+    console.log('message: ' + msg);
+  });
+});
+server.listen(port);
