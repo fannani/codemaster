@@ -19,7 +19,7 @@ const ScoreType = new GraphQLObjectType({
   name: 'Score',
   description: 'This represent a Score',
   fields: () => ({
-    _id: { type:  GraphQLNonNull(GraphQLID) },
+    _id: { type: GraphQLNonNull(GraphQLID) },
     player: {
       type: PlayerType,
       async resolve({ _id }) {

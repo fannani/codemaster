@@ -3,7 +3,7 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
-  GraphQLBoolean
+  GraphQLBoolean,
 } from 'graphql';
 
 import CourseType from './CourseType';
@@ -18,14 +18,14 @@ const StageType = new GraphQLObjectType({
     title: { type: GraphQLNonNull(GraphQLString) },
     teory: { type: GraphQLNonNull(GraphQLString) },
     time: { type: GraphQLNonNull(GraphQLString) },
-    win: { type: GraphQLBoolean},
+    win: { type: GraphQLBoolean },
     imageid: { type: GraphQLString },
     course: {
       type: CourseType,
-      async resolve({ _id }){
-          let stage = await Stage.findOne({ _id });
-          let course = await Course.findOne({ _id: stage.course });
-          return course;
+      async resolve({ _id }) {
+        let stage = await Stage.findOne({ _id });
+        let course = await Course.findOne({ _id: stage.course });
+        return course;
       },
     },
     updated_at: { type: GraphQLNonNull(GraphQLString) },
