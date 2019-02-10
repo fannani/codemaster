@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { withRouter } from 'react-router';
 import Header from '../../components/siswa/Header';
 import route from './route';
 import Login from './Login';
@@ -104,9 +103,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logout()),
 });
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Layout),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Layout)

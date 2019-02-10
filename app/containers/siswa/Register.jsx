@@ -15,6 +15,7 @@ const Container = styled.div`
 `
 
 class Register extends Component {
+
   render() {
 
     return (
@@ -35,6 +36,7 @@ class Register extends Component {
                     if (name && email && password) {
                       this.props.register(name,email, password).then(() => {
                         setSubmitting(false);
+                        this.props.history.push('login');
                       });
                     }
                   }}

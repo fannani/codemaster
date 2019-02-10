@@ -14,16 +14,13 @@ class StageList extends Component {
     this.modalClosed = this.modalClosed.bind(this);
     this.state = {
       id: '',
-      redirect: false,
       title: '',
       showModal: false,
     };
   }
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect push to={`/admin/stage/${this.state.id}`} />;
-    }
+
     return (
       <div>
         <button onClick={this.addStage} className="btn btn-primary">
@@ -80,9 +77,10 @@ class StageList extends Component {
       .then((stage) => {
         this.setState({
           id: stage._id,
-          redirect: true,
         });
+        this.props.history.push(`/admin/stage/${this.state.id}`);
       });
+
   }
 
   handleInputChange(event) {

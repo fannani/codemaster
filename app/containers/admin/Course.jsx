@@ -14,15 +14,12 @@ class Course extends Component {
     this.addCourseSuccess = this.addCourseSuccess.bind(this);
     this.state = {
       showModal: false,
-      redirect: false,
       idcourse: '',
     };
   }
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect push to={`/admin/course/${this.state.idcourse}`} />;
-    }
+
     return (
       <div>
         <div onClick={this.createCourse} className="btn btn-primary">
@@ -150,8 +147,9 @@ class Course extends Component {
     this.setState({
       showModal: false,
       idcourse: id,
-      redirect: true,
     });
+    this.props.history.push(`/admin/course/${this.state.idcourse}`);
+
   }
 }
 export default Course;

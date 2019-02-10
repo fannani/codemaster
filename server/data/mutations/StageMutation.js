@@ -41,10 +41,9 @@ let StageMutation = {
         teory,
         time,
         course,
-        imageid : id
+        // imageid : id
       });
-      let newstage = await stage.save();
-      return newstage;
+      return await stage.save();
     },
   },
   updateStage: {
