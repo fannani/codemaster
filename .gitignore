@@ -11,3 +11,4 @@ gen
 /dist/
 !/dist/js/jquery.min.js
 .vscode
+/build/

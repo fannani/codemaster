@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: ['./app/app.jsx', 'webpack-hot-middleware/client'],
   output: {
-    publicPath: 'http://localhost:3000/js',
     path: path.resolve(__dirname, 'dist/js'),
     filename: '[name].js',
   },
@@ -54,7 +53,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './app/template.html',
       filename: '../index.html',
-      title:'codelegend'
+      title:'kodelegend'
     }),
 
 

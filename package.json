@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch --info-verbosity verbose --config webpack.dev.js",
-    "serve": "nodemon  --exec babel-node ./server/index ",
+    "serve-dev": "nodemon  --exec babel-node ./server/index ",
+    "serve" : "node ./build/index",
+    "build-server": "babel -d ./build ./server/index.js -s",
     "build": "webpack --config webpack.prod.js"
   },
   "nodemonConfig": {
@@ -71,6 +73,7 @@
     "yup": "^0.26.6"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.0",
     "@babel/node": "^7.2.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
