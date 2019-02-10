@@ -88,7 +88,6 @@ class Register extends Component {
                       >
                         Sign Up
                       </button>
-
                     </Form>
                   )}
                 </Formik>

@@ -14,12 +14,12 @@ const CourseType = new GraphQLObjectType({
   name: 'Course',
   description: 'This represent an course',
   fields: () => ({
-    _id: { type: new GraphQLNonNull(GraphQLID) },
-    name: { type: new GraphQLNonNull(GraphQLString) },
-    desc: { type: new GraphQLNonNull(GraphQLString) },
+    _id: { type: GraphQLNonNull(GraphQLID) },
+    name: { type:  GraphQLNonNull(GraphQLString) },
+    desc: { type:  GraphQLNonNull(GraphQLString) },
     imageid: { type: GraphQLString },
     stages: {
-      type: new GraphQLList(StageType),
+      type:  GraphQLList(StageType),
       resolve: ({ _id }) => {
         return new Promise((resolve, reject) => {
           Stage.find({ course: _id }, (err, stages) => {

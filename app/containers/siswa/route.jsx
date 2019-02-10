@@ -9,6 +9,7 @@ const CourseList = lazy(() => import('./CourseList'));
 const Achievement = lazy(() => import('./Achievement'));
 const CourseDetail = lazy(() => import('./CourseDetail'));
 const Course = lazy(() => import('./Course'));
+const Friends = lazy(() => import('./Friends'));
 
 class route extends Component {
   render() {
@@ -19,6 +20,7 @@ class route extends Component {
             <Route exact path="/" component={Dashboard} />
             <Route exact path="/course" component={CourseList} />
             <Route exact path="/achievement" component={Achievement} />
+            <Route exact path="/friends" component={Friends} />
             <Route path="/course/:courseid" component={CourseDetail} />
             <Route path="/play/:stageid" component={Course} />
           </Switch>

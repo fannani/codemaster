@@ -5,6 +5,7 @@ var PlayerSchema = new Schema({
   energy: Number,
   birthday: Date,
   exp: Number,
+  friends: [Schema.Types.ObjectId],
   updated_at: { type: Date, default: Date.now },
 });
 

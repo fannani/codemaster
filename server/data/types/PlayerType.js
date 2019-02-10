@@ -3,8 +3,8 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
-  GraphQLInt,
-} from 'graphql';
+  GraphQLInt, GraphQLList
+} from "graphql";
 import Score from '../models/Score';
 import User from '../models/User';
 import UserType from './UserType';
@@ -15,13 +15,14 @@ const PlayerType = new GraphQLObjectType({
   fields: () => ({
     _id: { type: new GraphQLNonNull(GraphQLID) },
     user: {
-      type: new GraphQLNonNull(UserType),
+      type: GraphQLNonNull(UserType),
       async resolve({ _id }) {
         return await User.findOne({userdetailid : _id});
       },
     },
-    energy: { type: new GraphQLNonNull(GraphQLInt) },
+    energy: { type: GraphQLNonNull(GraphQLInt) },
     address: { type: GraphQLString },
+    friends: {type: GraphQLList(GraphQLID)},
     stars: {
       type: GraphQLInt,
       async resolve({ _id }) {
@@ -50,8 +51,8 @@ const PlayerType = new GraphQLObjectType({
         return total;
       },
     },
-    birthday: { type: new GraphQLNonNull(GraphQLString) },
-    updated_at: { type: new GraphQLNonNull(GraphQLString) },
+    birthday: { type: GraphQLNonNull(GraphQLString) },
+    updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),
 });
 

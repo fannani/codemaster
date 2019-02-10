@@ -14,8 +14,8 @@ const LeaderboardType = new GraphQLObjectType({
   name: 'Leaderboard',
   description: 'This represent a Leaderboard',
   fields: () => ({
-    _id: { type: new GraphQLNonNull(GraphQLID) },
-    score: { type: new GraphQLNonNull(GraphQLInt) },
+    _id: { type:  GraphQLNonNull(GraphQLID) },
+    score: { type:  GraphQLNonNull(GraphQLInt) },
     player: {
       type: PlayerType,
       async resolve({ _id }) {

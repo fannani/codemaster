@@ -14,9 +14,9 @@ const AchievementType = new GraphQLObjectType({
   name: 'Achievement',
   description: 'This represent an course',
   fields: () => ({
-    _id: { type: new GraphQLNonNull(GraphQLID) },
-    title: { type: new GraphQLNonNull(GraphQLString) },
-    continuous: { type: new GraphQLNonNull(GraphQLBoolean) },
+    _id: { type: GraphQLNonNull(GraphQLID) },
+    title: { type: GraphQLNonNull(GraphQLString) },
+    continuous: { type: GraphQLNonNull(GraphQLBoolean) },
     caption: { type: GraphQLString },
     star: { type: GraphQLInt },
     target_point: { type: GraphQLInt },

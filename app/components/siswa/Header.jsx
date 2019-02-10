@@ -67,7 +67,7 @@ const Header = ({ play, life, score, time, energy, onAddEnergy, isLogin,user,log
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <Link className="nav-link" to="/friends">
                 Friends
               </Link>
             </li>

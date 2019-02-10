@@ -20,6 +20,19 @@ let PlayerMutation = {
       return await player.save();
     },
   },
+  addFriend: {
+    type: PlayerType,
+    description: 'add friend',
+    args: {
+      playerid: {type: new GraphQLNonNull(GraphQLID)},
+      friendid: {type: new GraphQLNonNull(GraphQLID)}
+    },
+    async resolve(root, {playerid,friendid}){
+      let player = await Player.findById(playerid);
+      player.friends.push(friendid);
+      return await player.save();
+    }
+  },
   register: {
     type: UserType,
     description: 'Register a player',

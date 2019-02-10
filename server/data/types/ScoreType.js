@@ -19,7 +19,7 @@ const ScoreType = new GraphQLObjectType({
   name: 'Score',
   description: 'This represent a Score',
   fields: () => ({
-    _id: { type: new GraphQLNonNull(GraphQLID) },
+    _id: { type:  GraphQLNonNull(GraphQLID) },
     player: {
       type: PlayerType,
       async resolve({ _id }) {
@@ -41,10 +41,10 @@ const ScoreType = new GraphQLObjectType({
         return await Stage.findOne({ _id: score.stage });
       },
     },
-    score: { type: new GraphQLNonNull(GraphQLInt) },
-    time: { type: new GraphQLNonNull(GraphQLInt) },
-    stars: { type: new GraphQLNonNull(GraphQLList(GraphQLBoolean)) },
-    updated_at: { type: new GraphQLNonNull(GraphQLString) },
+    score: { type: GraphQLNonNull(GraphQLInt) },
+    time: { type: GraphQLNonNull(GraphQLInt) },
+    stars: { type: GraphQLNonNull(GraphQLList(GraphQLBoolean)) },
+    updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),
 });
 

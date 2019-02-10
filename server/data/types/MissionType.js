@@ -13,7 +13,7 @@ const MissionType = new GraphQLObjectType({
   name: 'Mission',
   description: 'This represent a Mission',
   fields: () => ({
-    _id: { type: new GraphQLNonNull(GraphQLID) },
+    _id: { type:  GraphQLNonNull(GraphQLID) },
     stage: {
       type: StageType,
       resolve: ({ _id }) => {
