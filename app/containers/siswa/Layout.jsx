@@ -24,8 +24,6 @@ class Layout extends Component {
   componentDidMount() {
     const socket = socketIOClient("http://localhost:3000/");
     socket.emit('TESAPI', "TESTESTES");
-
-
   }
 
   onAddEnergy() {

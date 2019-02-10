@@ -5,10 +5,6 @@ import {
   GraphQLID,
 } from 'graphql';
 
-import CourseType from './CourseType';
-import Stage from '../models/Stage';
-import Course from '../models/Course';
-
 const UserType = new GraphQLObjectType({
   name: 'User',
   description: 'This represent a User',
@@ -18,6 +14,7 @@ const UserType = new GraphQLObjectType({
     name: { type: new GraphQLNonNull(GraphQLString) },
     role: { type: new GraphQLNonNull(GraphQLString) },
     userdetailid: { type: new GraphQLNonNull(GraphQLString) },
+    password: {type: new GraphQLNonNull(GraphQLString)},
     updated_at: { type: new GraphQLNonNull(GraphQLString) },
   }),
 });

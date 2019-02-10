@@ -27,8 +27,14 @@ const login = (email, password) => {
     });
 };
 
-const register = (email,password) => {
-
+const register = (name,email,password) => {
+  return ApiService.mutation(
+    `register(name : "${name}", email: "${email}", password : "${password}"){
+          email,password
+        }`,
+  ).then(response => {
+    return response.data.data.reduceEnergy;
+  });
 }
 
 const getUserDetail = async function(user){
@@ -68,6 +74,7 @@ const logout = () => {
 
 export default {
   login,
+  register,
   logout,
   reduceEnergy,
   addPlayerAchievement

@@ -41,6 +41,7 @@ const BKMutationRootType = new GraphQLObjectType({
     addMission: missionMutation.addMission,
     reduceEnergy: playerMutation.reduceEnergy,
     addPlayerAchievement: playerAchievementMutation.addPlayerAchievement,
+    register: playerMutation.register,
   }),
 });
 

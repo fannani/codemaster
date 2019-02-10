@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import connect from 'react-redux/es/connect/connect';
 import styled from 'styled-components';
+import { register } from '../../actions/users';
 
 const Container = styled.div`
   max-width:100%!important;
@@ -22,16 +23,17 @@ class Register extends Component {
           <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div className="card card-signin my-5">
               <div className="card-body">
-                <h5 className="card-title text-center">Sign In</h5>
+                <h5 className="card-title text-center">Sign Up</h5>
                 <Formik
                   initialValues={{
                     email: '',
                     password: '',
+                    name: '',
                   }}
                   onSubmit={(values, { setSubmitting }) => {
-                    const { email, password } = values;
-                    if (email && password) {
-                      this.props.login(email, password).then(() => {
+                    const {name, email, password } = values;
+                    if (name && email && password) {
+                      this.props.register(name,email, password).then(() => {
                         setSubmitting(false);
                       });
                     }
@@ -39,6 +41,18 @@ class Register extends Component {
                 >
                   {({ isSubmitting }) => (
                     <Form className="form-signin">
+                      <div className="form-label-group">
+                        <Field
+                          type="text"
+                          name="name"
+                          id="inputName"
+                          className="form-control"
+                          placeholder="Name"
+                          required
+                          autoFocus
+                        />
+                        <label htmlFor="inputName">Name</label>
+                      </div>
                       <div className="form-label-group">
                         <Field
                           type="email"
@@ -64,25 +78,13 @@ class Register extends Component {
                         <label for="inputPassword">Password</label>
                       </div>
 
-                      <div className="custom-control custom-checkbox mb-3">
-                        <Field
-                          type="checkbox"
-                          className="custom-control-input"
-                          id="customCheck1"
-                        />
-                        <label
-                          className="custom-control-label"
-                          for="customCheck1"
-                        >
-                          Remember password
-                        </label>
-                      </div>
+
                       <button
                         className="btn btn-lg btn-primary btn-block text-uppercase"
                         type="submit"
                         disabled={isSubmitting}
                       >
-                        Sign in
+                        Sign Up
                       </button>
 
                     </Form>
@@ -100,7 +102,7 @@ class Register extends Component {
 
 
 const mapDispatchToProps = dispatch => ({
-  register: (email, password) => dispatch(register(email, password)),
+  register: (name,email, password) => dispatch(register(name,email, password)),
 });
 
 export default connect(

@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { login } from '../../actions/users';
 import connect from 'react-redux/es/connect/connect';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  max-width:100%!important;
+  max-width: 100% !important;
   margin: 0 auto;
-  height:100%;
+  height: 100%;
   width: 100%;
-  background: #9CECFB;
-  background: -webkit-linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);
-  background: linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);
-`
+  background: #9cecfb;
+  background: -webkit-linear-gradient(to right, #0052d4, #65c7f7, #9cecfb);
+  background: linear-gradient(to right, #0052d4, #65c7f7, #9cecfb);
+`;
 
 class Login extends Component {
   render() {
@@ -88,19 +88,26 @@ class Login extends Component {
                       >
                         Sign in
                       </button>
-                      {/*<hr className="my-4" />*/}
+                      <hr className="my-4" />
+                      <Link
+                        to="register"
+                        className="btn btn-lg  btn-block text-uppercase"
+                      >
+                        Sign Up
+                      </Link>
+
                       {/*<button*/}
-                        {/*className="btn btn-lg btn-google btn-block text-uppercase"*/}
-                        {/*type="submit"*/}
+                      {/*className="btn btn-lg btn-google btn-block text-uppercase"*/}
+                      {/*type="submit"*/}
                       {/*>*/}
-                        {/*<i className="fab fa-google mr-2" /> Sign in with Google*/}
+                      {/*<i className="fab fa-google mr-2" /> Sign in with Google*/}
                       {/*</button>*/}
                       {/*<button*/}
-                        {/*className="btn btn-lg btn-facebook btn-block text-uppercase"*/}
-                        {/*type="submit"*/}
+                      {/*className="btn btn-lg btn-facebook btn-block text-uppercase"*/}
+                      {/*type="submit"*/}
                       {/*>*/}
-                        {/*<i className="fab fa-facebook-f mr-2" /> Sign in with*/}
-                        {/*Facebook*/}
+                      {/*<i className="fab fa-facebook-f mr-2" /> Sign in with*/}
+                      {/*Facebook*/}
                       {/*</button>*/}
                     </Form>
                   )}
@@ -115,7 +122,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLogin: state.users.loggedIn
+  isLogin: state.users.loggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({

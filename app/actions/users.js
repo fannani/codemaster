@@ -21,7 +21,7 @@ export const login = (email, password) => dispatch => {
   );
 };
 
-export const register = (email, password) => dispatch => {
+export const register = (name,email, password) => dispatch => {
   const request = () => {
     return { type: 'REGISTER_REQUEST'  };
   };
@@ -32,7 +32,7 @@ export const register = (email, password) => dispatch => {
     return { type: 'REGISTER_FAILURE', error };
   };
   dispatch(request());
-  return userService.register(email, password).then(
+  return userService.register(name,email, password).then(
     user => {
       dispatch(success(user));
     },

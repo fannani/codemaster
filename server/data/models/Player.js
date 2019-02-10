@@ -3,7 +3,6 @@ import Score from './Score';
 
 var PlayerSchema = new Schema({
   energy: Number,
-  address: String,
   birthday: Date,
   exp: Number,
   updated_at: { type: Date, default: Date.now },
