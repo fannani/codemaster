@@ -7,9 +7,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = {
-  entry: ['./app/app.jsx', 'webpack-hot-middleware/client'],
   output: {
-    publicPath: `${process.env.BASE_URL}js`,
+    publicPath: `${process.env.BASE_URL}js/`,
     path: path.resolve(__dirname, 'dist/js'),
     filename: '[name].js',
   },
