@@ -16,7 +16,7 @@ dotenv.config({path: path.join(__dirname, "../.env")});
 const { ObjectId } = mongoose.Types;
 var compiler = webpack(webpackConfig);
 let port = process.env.PORT;
-
+console.log(process.env.DB_HOST);
 mongoose.connect(
   process.env.DB_HOST,
   { useNewUrlParser: true },

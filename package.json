@@ -5,11 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack --watch --info-verbosity verbose --config webpack.dev.js",
-    "serve-dev": "nodemon  --exec babel-node ./server/index ",
-    "serve": "node ./build/index",
+    "dev-client": "webpack --watch --info-verbosity verbose --config webpack.dev.js",
+    "dev-server": "nodemon  --exec babel-node ./server/index ",
     "build-server": "babel -d ./build ./server -s",
-    "build": "webpack --config webpack.prod.js"
+    "build-client": "webpack --config webpack.prod.js"
   },
   "nodemonConfig": {
     "watch": [
