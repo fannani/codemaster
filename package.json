@@ -8,7 +8,7 @@
     "watch": "webpack --watch --info-verbosity verbose --config webpack.dev.js",
     "serve-dev": "nodemon  --exec babel-node ./server/index ",
     "serve" : "node ./build/index",
-    "build-server": "babel -d ./build ./server/index.js -s",
+    "build-server": "babel -d ./build ./server -s",
     "build": "webpack --config webpack.prod.js"
   },
   "nodemonConfig": {
