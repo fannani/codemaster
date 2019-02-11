@@ -19,7 +19,7 @@ var compiler = webpack(webpackConfig);
 let port = process.env.PORT;
 
 mongoose.connect(
-  process.env.BASE_URL,
+  process.env.DB_HOST,
   { useNewUrlParser: true },
 );
 mongoose.Promise = global.Promise;
