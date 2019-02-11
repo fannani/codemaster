@@ -1,8 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
+const DotenvWebpack = require('dotenv-webpack');
+const dotenv = require('dotenv');
 
+dotenv.config();
 
 module.exports = {
   entry: ['./app/app.jsx', 'webpack-hot-middleware/client'],
@@ -51,6 +53,6 @@ module.exports = {
       filename: '../index.html',
       title: 'kodelegend',
     }),
-    new Dotenv(),
+    new DotenvWebpack(),
   ],
 };
