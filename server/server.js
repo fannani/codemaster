@@ -12,8 +12,7 @@ import schema from './data/schema';
 import './config/passport';
 import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
-
-dotenv.config();
+dotenv.config({path: path.join(__dirname, "../.env")});
 const { ObjectId } = mongoose.Types;
 var compiler = webpack(webpackConfig);
 let port = process.env.PORT;
