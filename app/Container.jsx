@@ -55,7 +55,8 @@ let Container = ({ store, persistor }) => (
 Container.propTypes = {
   store: PropTypes.object.isRequired,
 };
-if(process.env.MODE == 'developement'){
+
+if(process.env.MODE == 'development'){
   Container = hot(Container);
 }
 

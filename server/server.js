@@ -12,11 +12,10 @@ import schema from './data/schema';
 import './config/passport';
 import { ApolloServer } from 'apollo-server-express';
 import dotenv from 'dotenv';
-dotenv.config({path: path.join(__dirname, "../.env")});
+dotenv.config({ path: path.join(__dirname, '../.env') });
 const { ObjectId } = mongoose.Types;
 var compiler = webpack(webpackConfig);
 let port = process.env.PORT;
-console.log(process.env.DB_HOST);
 mongoose.connect(
   process.env.DB_HOST,
   { useNewUrlParser: true },
@@ -43,7 +42,7 @@ const apollo = new ApolloServer({
   },
 });
 
-if(process.env.MODE == 'development') {
+if (process.env.MODE == 'development') {
   app.use(
     require('webpack-dev-middleware')(compiler, {
       noInfo: true,
@@ -72,9 +71,8 @@ app.use('/api', (req, res, next) => {
 
 app.use(routes);
 
-
-io.on('connection', (socket) => {
-  socket.on('TESAPI', function(msg){
+io.on('connection', socket => {
+  socket.on('TESAPI', function(msg) {
     console.log('message: ' + msg);
   });
 });

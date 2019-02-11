@@ -22,7 +22,7 @@ class Layout extends Component {
     this.logout = this.logout.bind(this);
   }
   componentDidMount() {
-    const socket = socketIOClient(BASE_URL);
+    const socket = socketIOClient(process.env.SOCKET_URL);
     socket.emit('TESAPI', "TESTESTES");
   }
 
