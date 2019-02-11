@@ -1,14 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const dotenv = require('dotenv');
+const Dotenv = require('dotenv-webpack');
 
-const env = dotenv.config().parsed;
-
-const envKeys = Object.keys(env).reduce((prev, next) => {
-  prev[`process.env.${next}`] = JSON.stringify(env[next]);
-  return prev;
-}, {});
 
 module.exports = {
   entry: ['./app/app.jsx', 'webpack-hot-middleware/client'],
@@ -57,6 +51,6 @@ module.exports = {
       filename: '../index.html',
       title: 'kodelegend',
     }),
-    new webpack.DefinePlugin(envKeys),
+    new Dotenv(),
   ],
 };
