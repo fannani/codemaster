@@ -35,7 +35,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const Container = ({ store, persistor }) => (
+let Container = ({ store, persistor }) => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ApolloProvider client={client}>
@@ -56,4 +56,8 @@ Container.propTypes = {
   store: PropTypes.object.isRequired,
 };
 
-export default hot(Container);
+if(process.env.MODE == 'developement'){
+  Container = hot(Container);
+}
+
+export default Container;
