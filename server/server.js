@@ -13,7 +13,7 @@ import './config/passport';
 import { ApolloServer } from 'apollo-server-express';
 const { ObjectId } = mongoose.Types;
 var compiler = webpack(webpackConfig);
-let port = 3000;
+let port = 80;
 
 mongoose.connect(
   'mongodb://localhost:27017/belajarkode',
