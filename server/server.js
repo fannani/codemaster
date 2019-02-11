@@ -16,7 +16,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const { ObjectId } = mongoose.Types;
 var compiler = webpack(webpackConfig);
-let port = 3000;
+let port = process.env.PORT;
 
 mongoose.connect(
   process.env.BASE_URL,
