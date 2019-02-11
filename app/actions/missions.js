@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE } from '../config/config';
+import { API_URL } from '../config/config';
 
 export const missionsHasErrored = bool => ({
   type: 'MISSIONS_HAS_ERRORED',
@@ -18,7 +18,7 @@ export const missionsFetchDataSuccess = missions => ({
 export const getMissionsByStage = stageid => dispatch => {
   dispatch(missionsIsLoading(true));
   axios({
-    url: API_BASE,
+    url: API_URL,
     method: 'post',
     data: {
       query: `

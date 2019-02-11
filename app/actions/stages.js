@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE } from '../config/config';
+import { API_URL } from '../config/config';
 
 export const stagesHasErrored = bool => ({
   type: 'STAGES_HAS_ERRORED',
@@ -29,7 +29,7 @@ export const stageFetchDataSuccess = stage => ({
 export const addStage = (title, time, course, teory) => dispatch => {
   dispatch(stagesIsLoading(true));
   const promise = axios({
-    url: API_BASE,
+    url: API_URL,
     method: 'post',
     data: {
       query: `
@@ -56,7 +56,7 @@ export const updateStage = (id, title, teory, time) => dispatch => {
   dispatch(stagesIsLoading(true));
 
   const promise = axios({
-    url: API_BASE,
+    url: API_URL,
     method: 'post',
     data: {
       query: `
@@ -84,7 +84,7 @@ export const updateStage = (id, title, teory, time) => dispatch => {
 export const stageFetchOne = id => dispatch => {
   dispatch(stagesIsLoading(true));
   const promise = axios({
-    url: API_BASE,
+    url: API_URL,
     method: 'post',
     data: {
       query: `{ stages(_id:"${id}"){_id,title,time,teory,course {_id}}}`,

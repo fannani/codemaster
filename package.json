@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch --info-verbosity verbose --config webpack.dev.js",
     "serve-dev": "nodemon  --exec babel-node ./server/index ",
-    "serve" : "node ./build/index",
+    "serve": "node ./build/index",
     "build-server": "babel -d ./build ./server -s",
     "build": "webpack --config webpack.prod.js"
   },
@@ -75,7 +75,7 @@
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.0",
-    "@babel/node": "^7.2.0",
+    "@babel/node": "^7.2.2",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
@@ -84,6 +84,7 @@
     "babel-loader": "^8.0.4",
     "babel-plugin-emotion": "^10.0.5",
     "css-loader": "^2.0.0",
+    "dotenv": "^6.2.0",
     "eslint": "^5.10.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.3.0",

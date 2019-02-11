@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from 'react';
+import { BASE_URL } from "../../config/config";
 
 const Header = () => (
   <nav className="navbar navbar-expand-md navbar-dark bg-dark">
@@ -41,7 +42,7 @@ const Header = () => (
             className="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdown"
           >
-            <a className="dropdown-item" href="localhost:3000/admin/logout">
+            <a className="dropdown-item" href={`${BASE_URL}admin/logout`}>
               Logout
             </a>
           </div>

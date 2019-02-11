@@ -12,3 +12,4 @@ gen
 !/dist/js/jquery.min.js
 .vscode
 /build/
+.env

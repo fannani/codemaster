@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  API_BASE,
+  API_URL,
   BASE_URL
 } from '../config/config';
 import ApiService from './ApiService';

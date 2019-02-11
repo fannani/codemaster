@@ -13,6 +13,7 @@ import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
 import { ApolloProvider } from 'react-apollo';
 import { PersistGate } from 'redux-persist/integration/react';
+import { API_URL } from "./config/config";
 const SiswaLayout = lazy(() => import('./containers/siswa/Layout'));
 const AdminLayout = lazy(() => import('./containers/admin/Layout'));
 
@@ -28,7 +29,7 @@ const client = new ApolloClient({
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
     new createUploadLink({
-      uri: 'http://localhost:3000/api/',
+      uri: API_URL,
     }),
   ]),
   cache: new InMemoryCache(),

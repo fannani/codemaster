@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE } from '../config/config';
+import { API_URL } from '../config/config';
 
 export const scoreHasErrored = bool => ({
   type: 'SCORE_HAS_ERRORED',
@@ -26,7 +26,7 @@ export const addScore = (
 ) => dispatch => {
   dispatch(scoreIsLoading(true));
   const promise = axios({
-    url: API_BASE,
+    url: API_URL,
     method: 'post',
     data: {
       query: `

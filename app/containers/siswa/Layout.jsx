@@ -8,6 +8,7 @@ import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
 import { logout } from '../../actions/users';
 import socketIOClient from "socket.io-client";
+import { BASE_URL } from "../../config/config";
 
 
 class Layout extends Component {
@@ -21,7 +22,7 @@ class Layout extends Component {
     this.logout = this.logout.bind(this);
   }
   componentDidMount() {
-    const socket = socketIOClient("http://localhost:3000/");
+    const socket = socketIOClient(BASE_URL);
     socket.emit('TESAPI', "TESTESTES");
   }
 

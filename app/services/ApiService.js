@@ -1,9 +1,9 @@
 import axios from "axios";
-import { API_BASE } from "../config/config";
+import { API_URL } from "../config/config";
 
 const q = query => {
   return axios({
-    url: API_BASE,
+    url: API_URL,
     method: 'post',
     data: {
       query

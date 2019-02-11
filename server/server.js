@@ -11,12 +11,15 @@ import routes from './routes';
 import schema from './data/schema';
 import './config/passport';
 import { ApolloServer } from 'apollo-server-express';
+import dotenv from 'dotenv';
+
+dotenv.config();
 const { ObjectId } = mongoose.Types;
 var compiler = webpack(webpackConfig);
-let port = 80;
+let port = 3000;
 
 mongoose.connect(
-  'mongodb://localhost:27017/belajarkode',
+  process.env.BASE_URL,
   { useNewUrlParser: true },
 );
 mongoose.Promise = global.Promise;
@@ -73,4 +76,5 @@ io.on('connection', (socket) => {
     console.log('message: ' + msg);
   });
 });
+
 server.listen(port);

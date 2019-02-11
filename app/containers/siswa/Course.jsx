@@ -20,6 +20,7 @@ import Stars from '../../components/siswa/Stars';
 import styled from 'styled-components';
 import { addScore } from '../../actions/scores';
 import { reduceEnergy } from '../../actions/users';
+import { BASE_URL } from "../../config/config";
 
 const StyledStars = styled(Stars)`
   text-align: center;
@@ -82,7 +83,7 @@ class Course extends Component {
     const { missions } = this.props;
     let value = script;
     value +=
-      "\x3Cscript src='http://localhost:3000/js/jquery.min.js'>\x3C/script>";
+      `\x3Cscript src='${BASE_URL}js/jquery.min.js'>\x3C/script>`;
     value += '\x3Cscript>result=[]\x3C/script>';
     for (let i = 0; i < missions.length; i += 1) {
       const misi = missions[i];
