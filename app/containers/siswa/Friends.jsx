@@ -1,26 +1,16 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import classnames from "classnames";
-import styled from "styled-components";
+import styled from 'styled-components';
 
-class Friends extends Component {
-  render() {
-    return (
-      <div className="container-fluid">
-        <div className="row justify-content-center">
-          <main
-            className="col-12 main-container"
-            style={{ maxWidth: '1100px' }}
-          >
-            <div className="row">
-
-            </div>
-          </main>
-        </div>
-      </div>
-    );
-  }
-}
+const Friends = () => (
+  <div className="container-fluid">
+    <div className="row justify-content-center">
+      <main className="col-12 main-container" style={{ maxWidth: '1100px' }}>
+        <div className="row" />
+      </main>
+    </div>
+  </div>
+);
 
 const Card = styled.div`
   width: 100%;

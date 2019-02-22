@@ -5,17 +5,20 @@
     "prettier",
     "prettier/react"
   ],
-  "plugins": ["prettier"],
+  "plugins": ["prettier","react-hooks"],
   "globals": {
     "document": false,
     "window": false
   },
+
   "env": {
     "browser": true
   },
   "rules": {
     "no-underscore-dangle": "off",
     "import/no-extraneous-dependencies": ["error", { "packageDir": "." }],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
  }

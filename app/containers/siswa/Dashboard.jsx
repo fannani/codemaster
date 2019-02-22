@@ -41,137 +41,127 @@ const Loader = () => {
   );
 };
 
-class Dashboard extends Component {
-  render() {
-    return (
-      <div className={classnames(this.props.className,"container-fluid")} >
-        <div className="row justify-content-center">
-          <main
-            className="col-12 main-container"
-            style={{ maxWidth: '1100px' }}
-          >
-            <div>
-              <div className="card">
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-2">
-                      <Ava />
-                    </div>
-                    <div className="col-4">
-                      <h5>Rahadyan Fannani Arif</h5>
-                      <p>Malang, Jawa Timur</p>
-                      <Level>Level 5 : </Level>
-                      <div className="row">
-                        <div className="col-5" style={{ paddingRight: '0px' }}>
-                          <Line
-                            percent={20}
-                            strokeWidth="4"
-                            strokeColor="#7386D5"
-                          />
-                        </div>
-                        <Progress className="col-4">2130/3000</Progress>
-                      </div>
-                    </div>
-                    <div className="col-2">
-                      <div className="row">
-                        <div className="col-4">
-                          <img src={achievement} width={40} alt="" />
-                        </div>
-                        <div className="col-8 caption">
-                          <p>Achievements</p>
-                          <div className="value">11</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-2">
-                      <div className="row">
-                        <div className="col-4">
-                          <img src={badge} width={40} alt="" />
-                        </div>
-                        <div className="col-8 caption">
-                          <p>Badges</p>
-                          <div className="value">11</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-2">
-                      <div className="row">
-                        <div className="col-4">
-                          <img src={star} width={40} alt="" />
-                        </div>
-                        <div className="col-8 caption">
-                          <p>Stars</p>
-                          <div className="value">11</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row " style={{ marginTop: '20px' }}>
-                <div className="col-8">
-                  <div className="card ">
-                    <div className="card-body">
-                      <h5 className="card-title">My Course</h5>
-                      <Query query={GET_COURSES}>
-                        {({ loading, error, data }) => {
-                          if (loading) return <Loader />;
-                          if (error)
-                            return (
-                              <p>Sorry! There was an error loading the items</p>
-                            );
-                          return (
-                            <div className="d-flex flex-wrap">
-                              {data.courses.map(course => (
-                                <CourseItem key={course._id} item={course} />
-                              ))}
-                            </div>
-                          );
-                        }}
-                      </Query>
-                    </div>
-                  </div>
+const Dashboard = ({className}) => (
+  <div className={classnames(className, 'container-fluid')}>
+    <div className="row justify-content-center">
+      <main className="col-12 main-container" style={{ maxWidth: '1100px' }}>
+        <div>
+          <div className="card">
+            <div className="card-body">
+              <div className="row">
+                <div className="col-2">
+                  <Ava />
                 </div>
                 <div className="col-4">
-                  <div className="card ">
-                    <div className="card-body">
-                      <h5 className="card-title">Daily Target</h5>
-                      <div className="row justify-content-center">
-                        <div className="col-9">
-                          <Circle
-                            percent={20}
-                            strokeWidth="4"
-                            strokeColor="#7386D5"
-                          />
-                          <p className="xp-caption">
-                            <span>0/300</span>
-                            <br />
-                            XP Diperoleh
-                          </p>
-                        </div>
-                      </div>
+                  <h5>Rahadyan Fannani Arif</h5>
+                  <p>Malang, Jawa Timur</p>
+                  <Level>Level 5 : </Level>
+                  <div className="row">
+                    <div className="col-5" style={{ paddingRight: '0px' }}>
+                      <Line
+                        percent={20}
+                        strokeWidth="4"
+                        strokeColor="#7386D5"
+                      />
+                    </div>
+                    <Progress className="col-4">2130/3000</Progress>
+                  </div>
+                </div>
+                <div className="col-2">
+                  <div className="row">
+                    <div className="col-4">
+                      <img src={achievement} width={40} alt="" />
+                    </div>
+                    <div className="col-8 caption">
+                      <p>Achievements</p>
+                      <div className="value">11</div>
                     </div>
                   </div>
-                  <div className="card " style={{marginTop:'20px'}}>
-                    <div className="card-body">
-                      <h5 className="card-title" >Friends</h5>
-                      <div className="row justify-content-center">
-                        <div className="col-9">
-
-
-                        </div>
-                      </div>
+                </div>
+                <div className="col-2">
+                  <div className="row">
+                    <div className="col-4">
+                      <img src={badge} width={40} alt="" />
+                    </div>
+                    <div className="col-8 caption">
+                      <p>Badges</p>
+                      <div className="value">11</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-2">
+                  <div className="row">
+                    <div className="col-4">
+                      <img src={star} width={40} alt="" />
+                    </div>
+                    <div className="col-8 caption">
+                      <p>Stars</p>
+                      <div className="value">11</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </main>
+          </div>
+          <div className="row " style={{ marginTop: '20px' }}>
+            <div className="col-8">
+              <div className="card ">
+                <div className="card-body">
+                  <h5 className="card-title">My Course</h5>
+                  <Query query={GET_COURSES}>
+                    {({ loading, error, data }) => {
+                      if (loading) return <Loader />;
+                      if (error)
+                        return (
+                          <p>Sorry! There was an error loading the items</p>
+                        );
+                      return (
+                        <div className="d-flex flex-wrap">
+                          {data.courses.map(course => (
+                            <CourseItem key={course._id} item={course} />
+                          ))}
+                        </div>
+                      );
+                    }}
+                  </Query>
+                </div>
+              </div>
+            </div>
+            <div className="col-4">
+              <div className="card ">
+                <div className="card-body">
+                  <h5 className="card-title">Daily Target</h5>
+                  <div className="row justify-content-center">
+                    <div className="col-9">
+                      <Circle
+                        percent={20}
+                        strokeWidth="4"
+                        strokeColor="#7386D5"
+                      />
+                      <p className="xp-caption">
+                        <span>0/300</span>
+                        <br />
+                        XP Diperoleh
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="card " style={{ marginTop: '20px' }}>
+                <div className="card-body">
+                  <h5 className="card-title">Friends</h5>
+                  <div className="row justify-content-center">
+                    <div className="col-9" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    );
-  }
-}
+      </main>
+    </div>
+  </div>
+);
 
 const Ava = styled.div`
   background-color: white;

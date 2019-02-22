@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 
-class Leaderboard extends Component {
-  render() {
-    return <div />;
-  }
-}
+const Leaderboard = () => (<div />);
 
 export default Leaderboard;

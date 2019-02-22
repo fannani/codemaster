@@ -3,6 +3,8 @@ import http from 'http';
 import socket from 'socket.io';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import { ApolloServer } from 'apollo-server-express';
 import webpack from 'webpack';
 import path from 'path';
 import passport from 'passport';
@@ -10,12 +12,12 @@ import webpackConfig from '../webpack.dev';
 import routes from './routes';
 import schema from './data/schema';
 import './config/passport';
-import { ApolloServer } from 'apollo-server-express';
-import dotenv from 'dotenv';
+
+
 dotenv.config({ path: path.join(__dirname, '../.env') });
 const { ObjectId } = mongoose.Types;
-var compiler = webpack(webpackConfig);
-let port = process.env.PORT;
+const compiler = webpack(webpackConfig);
+
 mongoose.connect(
   process.env.DB_HOST,
   { useNewUrlParser: true },
@@ -24,7 +26,8 @@ mongoose.Promise = global.Promise;
 ObjectId.prototype.valueOf = function() {
   return this.toString();
 };
-let db = mongoose.connection;
+
+const db = mongoose.connection;
 db.once('open', () => console.log('connected to the database'));
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
@@ -68,7 +71,6 @@ app.use('/api', (req, res, next) => {
     next();
   })(req, res, next);
 });
-
 app.use(routes);
 
 io.on('connection', socket => {
@@ -77,4 +79,4 @@ io.on('connection', socket => {
   });
 });
 
-server.listen(port);
+server.listen(process.env.PORT);

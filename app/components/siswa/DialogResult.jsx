@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 
-export default class DialogResult extends Component {
-  render() {
-    return (
+const DialogResult  = ( ) =>
+   (
       <Modal
         visible={this.props.show}
         onClickBackdrop={this.props.onClickBackdrop}
@@ -32,5 +31,5 @@ export default class DialogResult extends Component {
         </div>
       </Modal>
     );
-  }
-}
+
+export default DialogResult;

@@ -1,7 +1,6 @@
 import {
   GraphQLString,
   GraphQLNonNull,
-  GraphQLBoolean,
   GraphQLID,
 } from 'graphql';
 import { GraphQLUpload } from 'graphql-upload';

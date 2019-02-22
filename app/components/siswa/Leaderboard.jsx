@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import styled from 'styled-components'
 import classnames from 'classnames';
 const Leaderboard = ({data,className}) => {
-  console.log(data);
   return(
     <div className={classnames('row',className)} >
       <h2 style={{ marginLeft: '30px', fontSize: '20px',marginTop:"24px" }}>Leaderboard</h2>

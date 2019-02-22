@@ -16,6 +16,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { API_URL } from "./config/config";
 const SiswaLayout = lazy(() => import('./containers/siswa/Layout'));
 const AdminLayout = lazy(() => import('./containers/admin/Layout'));
+const WebLayout = lazy(() => import('./containers/web/Layout'));
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -43,6 +44,7 @@ let Container = ({ store, persistor }) => (
           <Suspense fallback={<LoadingScreen />}>
             <Switch>
               <Route path="/admin" component={AdminLayout} />
+              <Route path="/welcome" component={WebLayout} />
               <Route path="/" component={SiswaLayout} />
             </Switch>
           </Suspense>
