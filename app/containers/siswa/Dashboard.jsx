@@ -11,7 +11,7 @@ import { GET_COURSES } from '../../graphql/coursesQuery';
 import CourseItem from '../../components/siswa/CourseItem';
 
 const Loader = () => {
-  const content = ( 
+  const content = (
     <div
       className="card m-2"
       style={{
@@ -29,7 +29,7 @@ const Loader = () => {
       </ContentLoader>
     </div>
   );
-  let all = [];
+  const all = [];
   for (let i = 0; i < 6; i += 1) {
     all.push(content);
   }
@@ -40,7 +40,7 @@ const Loader = () => {
   );
 };
 
-const Dashboard = ({className}) => (
+const Dashboard = ({ className }) => (
   <div className={classnames(className, 'container-fluid')}>
     <div className="row justify-content-center">
       <main className="col-12 main-container" style={{ maxWidth: '1100px' }}>

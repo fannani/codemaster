@@ -44,14 +44,9 @@ class Course extends Component {
 
 </html>`,
       score: 0,
-      timeText: '00:00',
       life: 3,
       result: [],
       showModal: false,
-      modal: {
-        title: '',
-        desc: '',
-      },
       stars: [],
     };
   }

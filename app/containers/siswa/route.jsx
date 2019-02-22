@@ -18,12 +18,12 @@ const route = ({ isLogin, location }) => {
     return (
       <Suspense fallback={<LoadingScreen />}>
         <Switch>
-          <Route exact path="/" render={() => <Dashboard />} />
-          <Route exact path="/course" render={() => <CourseList />} />
-          <Route exact path="/achievement" render={() => <Achievement />} />
-          <Route exact path="/friends" render={() => <Friends />} />
-          <Route path="/course/:courseid" render={() => <CourseDetail />} />
-          <Route path="/play/:stageid" render={() => <Course />} />
+          <Route exact path="/" component={Dashboard} />
+          <Route exact path="/course" component={CourseList} />
+          <Route exact path="/achievement" component={Achievement} />
+          <Route exact path="/friends" component={Friends} />
+          <Route path="/course/:courseid" component={CourseDetail} />
+          <Route path="/play/:stageid" component={Course} />
         </Switch>
       </Suspense>
     );

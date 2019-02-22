@@ -42,9 +42,9 @@ let Container = ({ store, persistor }) => (
         <BrowserRouter>
           <Suspense fallback={<LoadingScreen />}>
             <Switch>
-              <Route path="/admin" render={() => <AdminLayout />} />
-              <Route path="/welcome" render={() => <WebLayout />} />
-              <Route path="/" render={() => <SiswaLayout />} />
+              <Route path="/admin" component={AdminLayout} />
+              <Route path="/welcome" component={WebLayout} />
+              <Route path="/" component={SiswaLayout} />
             </Switch>
           </Suspense>
         </BrowserRouter>

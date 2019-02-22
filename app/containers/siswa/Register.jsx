@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import connect from 'react-redux/es/connect/connect';
 import styled from 'styled-components';
@@ -14,7 +14,7 @@ const Container = styled.div`
   background: linear-gradient(to right, #0052d4, #65c7f7, #9cecfb);
 `;
 
-const Register = ({register,history}) => (
+const Register = ({ register, history }) => (
   <Container className="container">
     <div className="row">
       <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -61,7 +61,7 @@ const Register = ({register,history}) => (
                       required
                       autoFocus
                     />
-                    <label for="inputEmail">Email address</label>
+                    <label htmlFor="inputEmail">Email address</label>
                   </div>
 
                   <div className="form-label-group">
@@ -73,7 +73,7 @@ const Register = ({register,history}) => (
                       placeholder="Password"
                       required
                     />
-                    <label for="inputPassword">Password</label>
+                    <label htmlFor="inputPassword">Password</label>
                   </div>
 
                   <button
