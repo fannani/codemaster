@@ -16,9 +16,17 @@
   },
   "rules": {
     "no-underscore-dangle": "off",
+    "linebreak-style": "off",
     "import/no-extraneous-dependencies": ["error", { "packageDir": "." }],
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "react/forbid-prop-types": "off",
+    "new-cap": "off",
+    "import/no-mutable-exports": "off",
+    "spaced-comment": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/label-has-for": "off"
+
   }
  }

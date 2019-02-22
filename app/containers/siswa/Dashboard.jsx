@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
-
+import React from 'react';
 import styled from 'styled-components';
 import { Line, Circle } from 'rc-progress';
+import { Query } from 'react-apollo';
+import ContentLoader from 'react-content-loader';
+import classnames from 'classnames';
 import star from '../../assets/images/star-circle.png';
 import badge from '../../assets/images/badges.png';
 import achievement from '../../assets/images/achievement.png';
-import { Query } from 'react-apollo';
 import { GET_COURSES } from '../../graphql/coursesQuery';
 import CourseItem from '../../components/siswa/CourseItem';
-import ContentLoader from 'react-content-loader';
-import classnames from 'classnames';
 
 const Loader = () => {
-  const content = (
+  const content = ( 
     <div
       className="card m-2"
       style={{
@@ -31,7 +30,7 @@ const Loader = () => {
     </div>
   );
   let all = [];
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 6; i += 1) {
     all.push(content);
   }
   return (

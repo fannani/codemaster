@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Query } from 'react-apollo';
-import { GET_ACHIEVEMENTS } from '../../graphql/achievementQuery';
-import AchievementItem from '../../components/siswa/AchievementItem';
 import connect from 'react-redux/es/connect/connect';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { GET_ACHIEVEMENTS } from '../../graphql/achievementQuery';
+import AchievementItem from '../../components/siswa/AchievementItem';
 
-const Achievement = () => (
+const Achievement = ({ user }) => (
   <div className="container-fluid">
     <div className="row justify-content-center">
       <main className="col-12 main-container" style={{ maxWidth: '1100px' }}>
@@ -17,7 +18,7 @@ const Achievement = () => (
             </h2>
             <Query
               query={GET_ACHIEVEMENTS}
-              variables={{ player: this.props.user.userdetailid }}
+              variables={{ player: user.userdetailid }}
             >
               {({ loading, error, data }) => {
                 if (loading) return <div>Loading</div>;
@@ -38,7 +39,7 @@ const Achievement = () => (
             <div className={classnames('row')}>
               <Card className="card">
                 <div className="card-body">
-                  <h5 className="card-title row" />
+                  <h5 className="card-title row">Judul</h5>
                 </div>
               </Card>
             </div>
@@ -48,6 +49,11 @@ const Achievement = () => (
     </div>
   </div>
 );
+
+Achievement.propTypes = {
+  user: PropTypes.any.isRequired,
+};
+
 const Card = styled.div`
   width: 100%;
   margin-top: 10px;

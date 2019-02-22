@@ -4,6 +4,7 @@ const reducer = (
     life: 0,
     score: 0,
     timerText: "00:00",
+    play: false,
   },
   action,
 ) => {

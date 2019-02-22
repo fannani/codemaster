@@ -1,11 +1,8 @@
-/* eslint-disable */
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
-import LoadingScreen from './components/LoadingScreen';
-import { Route, Switch } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
@@ -13,7 +10,9 @@ import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
 import { ApolloProvider } from 'react-apollo';
 import { PersistGate } from 'redux-persist/integration/react';
-import { API_URL } from "./config/config";
+import LoadingScreen from './components/LoadingScreen';
+import { API_URL } from './config/config';
+
 const SiswaLayout = lazy(() => import('./containers/siswa/Layout'));
 const AdminLayout = lazy(() => import('./containers/admin/Layout'));
 const WebLayout = lazy(() => import('./containers/web/Layout'));
@@ -43,9 +42,9 @@ let Container = ({ store, persistor }) => (
         <BrowserRouter>
           <Suspense fallback={<LoadingScreen />}>
             <Switch>
-              <Route path="/admin" component={AdminLayout} />
-              <Route path="/welcome" component={WebLayout} />
-              <Route path="/" component={SiswaLayout} />
+              <Route path="/admin" render={() => <AdminLayout />} />
+              <Route path="/welcome" render={() => <WebLayout />} />
+              <Route path="/" render={() => <SiswaLayout />} />
             </Switch>
           </Suspense>
         </BrowserRouter>
@@ -56,9 +55,10 @@ let Container = ({ store, persistor }) => (
 
 Container.propTypes = {
   store: PropTypes.object.isRequired,
+  persistor: PropTypes.any.isRequired,
 };
 
-if(process.env.MODE == 'development'){
+if (process.env.MODE === 'development') {
   Container = hot(Container);
 }
 

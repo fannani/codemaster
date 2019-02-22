@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Formik, Form, Field } from 'formik';
-import { login } from '../../actions/users';
 import connect from 'react-redux/es/connect/connect';
+import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
+import { login as loginAction } from '../../actions/users';
 
 const Container = styled.div`
   max-width: 100% !important;
@@ -17,7 +18,7 @@ const Container = styled.div`
 
 const Login = ({ isLogin, login }) => {
   if (isLogin) {
-    return <Redirect push to={`/`} />;
+    return <Redirect push to="/" />;
   }
   return (
     <Container className="container">
@@ -52,7 +53,7 @@ const Login = ({ isLogin, login }) => {
                         required
                         autoFocus
                       />
-                      <label for="inputEmail">Email address</label>
+                      <label htmlFor="inputEmail">Email address</label>
                     </div>
 
                     <div className="form-label-group">
@@ -64,7 +65,7 @@ const Login = ({ isLogin, login }) => {
                         placeholder="Password"
                         required
                       />
-                      <label for="inputPassword">Password</label>
+                      <label htmlFor="inputPassword">Password</label>
                     </div>
 
                     <div className="custom-control custom-checkbox mb-3">
@@ -75,7 +76,7 @@ const Login = ({ isLogin, login }) => {
                       />
                       <label
                         className="custom-control-label"
-                        for="customCheck1"
+                        htmlFor="customCheck1"
                       >
                         Remember password
                       </label>
@@ -119,12 +120,17 @@ const Login = ({ isLogin, login }) => {
   );
 };
 
+Login.propTypes = {
+  isLogin: PropTypes.bool.isRequired,
+  login: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
   isLogin: state.users.loggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({
-  login: (email, password) => dispatch(login(email, password)),
+  login: (email, password) => dispatch(loginAction(email, password)),
 });
 
 export default connect(

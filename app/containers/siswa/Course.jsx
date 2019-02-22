@@ -1,13 +1,12 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import { ToastContainer, toast } from 'react-toastify';
 import connect from 'react-redux/es/connect/connect';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Guide from '../../components/siswa/Guide';
 import Editor from '../../components/siswa/Editor';
 import 'react-toastify/dist/ReactToastify.css';
-
 import { postLog } from '../../utils/Logs';
 import {
   incrementTimer,
@@ -17,10 +16,9 @@ import {
 import { getMissionsByStage } from '../../actions/missions';
 import { stageFetchOne } from '../../actions/stages';
 import Stars from '../../components/siswa/Stars';
-import styled from 'styled-components';
 import { addScore } from '../../actions/scores';
 import { reduceEnergy } from '../../actions/users';
-import { BASE_URL } from "../../config/config";
+import { BASE_URL } from '../../config/config';
 
 const StyledStars = styled(Stars)`
   text-align: center;

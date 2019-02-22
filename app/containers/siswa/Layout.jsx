@@ -1,25 +1,20 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
+import PropTypes from 'prop-types';
 import Header from '../../components/siswa/Header';
 import route from './route';
 import Login from './Login';
 import Register from './Register';
-import { logout } from '../../actions/users';
+import { logout as logoutAction } from '../../actions/users';
 
-const Layout = ({ logout, life, score, time, play, user }) => {
+const Layout = ({ logout, life, score, time, play, user, isLogin }) => {
   const [showModal, setShowModal] = useState(false);
-
-  // componentDidMount() {
-  //    const socket = socketIOClient(process.env.SOCKET_URL);
-  //    socket.emit('TESAPI', "TESTESTES");
-  // }
 
   const onAddEnergy = () => {
     setShowModal(true);
   };
-
   const onClickBackdrop = () => {
     setShowModal(false);
   };
@@ -36,10 +31,12 @@ const Layout = ({ logout, life, score, time, play, user }) => {
         time={time}
         logout={onLogout}
         user={user}
-        isLogin={isLogin ? true : false}
+        isLogin={isLogin}
         onAddEnergy={onAddEnergy}
         energy={
-          user && user.hasOwnProperty('userdetail') ? user.userdetail.energy : 0
+          user && Object.prototype.hasOwnProperty.call(user, 'userdetail')
+            ? user.userdetail.energy
+            : 0
         }
       />
 
@@ -55,12 +52,20 @@ const Layout = ({ logout, life, score, time, play, user }) => {
         <div className="modal-body">
           <div className="row">
             <div className="col-6">
-              <button style={{ width: '100%' }} className="btn btn-primary">
+              <button
+                type="button"
+                style={{ width: '100%' }}
+                className="btn btn-primary"
+              >
                 Lihat Video
               </button>
             </div>
             <div className="col-6">
-              <button style={{ width: '100%' }} className="btn btn-primary">
+              <button
+                type="button"
+                style={{ width: '100%' }}
+                className="btn btn-primary"
+              >
                 Kerjakan Latihan
               </button>
             </div>
@@ -69,6 +74,16 @@ const Layout = ({ logout, life, score, time, play, user }) => {
       </Modal>
     </div>
   );
+};
+
+Layout.propTypes = {
+  logout: PropTypes.func.isRequired,
+  life: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
+  time: PropTypes.string.isRequired,
+  play: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
+  isLogin: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -80,7 +95,7 @@ const mapStateToProps = state => ({
   isLogin: state.users.loggedIn,
 });
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout()),
+  logout: () => dispatch(logoutAction()),
 });
 export default connect(
   mapStateToProps,
