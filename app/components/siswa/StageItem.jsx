@@ -7,7 +7,6 @@ import star from '../../assets/images/star.png';
 import starOff from '../../assets/images/star-off.png';
 
 const StageItem = ({ className, stage, unlock }) => {
-  console.log(stage);
   const child = (
     <div className="d-flex flex-wrap stageitem ">
       <div className="wrapper">

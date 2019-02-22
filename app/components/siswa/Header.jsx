@@ -50,6 +50,7 @@ const Header = ({ play, life, score, time, energy, onAddEnergy, isLogin,user,log
 
       {isLogin ? (
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
+         { !play ? (
           <ul className="navbar-nav mx-auto">
             <li className="nav-item">
               <Link className="nav-link" to="/">
@@ -72,6 +73,7 @@ const Header = ({ play, life, score, time, energy, onAddEnergy, isLogin,user,log
               </Link>
             </li>
           </ul>
+          ) :  ''}
           <ul className="navbar-nav ml-auto">
             <li className="nav-item dropdown">
               <a

@@ -46,7 +46,7 @@ const CourseDetail = ({ match, user, className }) => (
                           playerid: user.userdetailid,
                         }}
                       >
-                        {({ loadingStage, error, data }) => {
+                        {({ loading: loadingStage, error, data }) => {
                           if (loadingStage) return <p>Loading…</p>;
                           if (error)
                             return (

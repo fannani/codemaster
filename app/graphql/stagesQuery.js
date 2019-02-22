@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const GET_STAGE_BY_IDCOURSE = gql`
-  query GetStageByIDCourse($courseid: ID!,$playerid: ID) {
-    stages(course: $courseid, player :$playerid) {
+  query GetStageByIDCourse($courseid: ID!, $playerid: ID) {
+    stages(course: $courseid, player: $playerid) {
       _id
       title
       time
@@ -19,7 +19,7 @@ export const GET_STAGE_BY_IDCOURSE = gql`
 export const GET_STAGE_BY_ID = gql`
   query GetStageByID($id: ID!) {
     stages(_id: $id) {
-      _id,title,time,teory,course {_id}
+      _id, title, time, teory, course {_id}
     }
   }
 `;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import { ToastContainer, toast } from 'react-toastify';
 import connect from 'react-redux/es/connect/connect';
@@ -10,241 +10,186 @@ import 'react-toastify/dist/ReactToastify.css';
 import { postLog } from '../../utils/Logs';
 import {
   incrementTimer,
-  setPlayerStatus,
-  setPlayMode,
+  setPlayerStatus as setPlayerStatusAction,
+  setPlayMode as setPlayModeAction,
 } from '../../actions/gameplay';
 import { getMissionsByStage } from '../../actions/missions';
 import { stageFetchOne } from '../../actions/stages';
 import Stars from '../../components/siswa/Stars';
-import { addScore } from '../../actions/scores';
-import { reduceEnergy } from '../../actions/users';
-import { BASE_URL } from '../../config/config';
+import { addScore as addScoreAction } from '../../actions/scores';
+import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
+import {
+  calculateStars,
+  checkResult,
+  compareResult,
+} from '../../utils/CourseUtil';
 
 const StyledStars = styled(Stars)`
   text-align: center;
 `;
 
-class Course extends Component {
-  constructor(props) {
-    super(props);
-    this.handleIframeTask = this.handleIframeTask.bind(this);
-    this.checkResult = this.checkResult.bind(this);
-    this.modalClosed = this.modalClosed.bind(this);
-    this.tick = this.tick.bind(this);
-    this.update = this.update.bind(this);
-    this.state = {
-      script: `<!DOCTYPE html>
-<html>
-    <head>
-    </head>
+const Course = ({
+  match,
+  missions,
+  fetchData,
+  missionsFetchData,
+  user,
+  reduceEnergy,
+  currentTimer,
+  addScore,
+  course,
+  time,
+  teory,
+  title,
+  timerText,
+  tick,
+  setPlayMode,
+  setPlayerStatus,
+}) => {
+  const [script, setScript] = useState(`<!DOCTYPE html>
+    <html>
+        <head>
+        </head>
+    
+        <body>
+    
+        </body>
+    
+    </html>`);
+  const [score, setScore] = useState(0);
+  const [life, setLife] = useState(3);
+  const [result, setResult] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [stars, setStars] = useState([]);
+  const { params } = match;
+  const { stageid } = params;
 
-    <body>
+  let intervalHandle;
 
-    </body>
-
-</html>`,
-      score: 0,
-      life: 3,
-      result: [],
-      showModal: false,
-      stars: [],
-    };
-  }
-
-  componentDidMount() {
-    const { match, fetchData, missionsFetchData, user, reduceEnergy } = this.props;
-    const { params } = match;
-    const { stageid } = params;
-    fetchData(stageid);
-    missionsFetchData(stageid);
-    reduceEnergy(user.userdetail._id,20);
-    window.addEventListener('message', this.handleIframeTask);
-    this.intervalHandle = setInterval(this.tick, 1000);
-    this.props.setPlayerStatus(0, 3);
-    this.props.setPlayMode(true);
-  }
-  componentWillUnmount() {
-    this.props.setPlayMode(false);
-  }
-  tick() {
-    const { tick } = this.props;
-    tick();
-  }
-  checkResult() {
-    const idoc = document.getElementById('output').contentWindow.document;
-    const { script } = this.state;
-    const { missions } = this.props;
-    let value = script;
-    value +=
-      `\x3Cscript src='${BASE_URL}js/jquery.min.js'>\x3C/script>`;
-    value += '\x3Cscript>result=[]\x3C/script>';
-    for (let i = 0; i < missions.length; i += 1) {
-      const misi = missions[i];
-      value += `\x3Cscript>if(${
-        misi.testcase[0]
-      }){ result.push({  "index":${i}, "result":true }) } else {result.push({  "index":${i}, "result":false })}\x3C/script>`;
+  const gameOver = () => {
+    if (life > 0) {
+      addScore(
+        user.userdetailid,
+        stageid,
+        course._id,
+        score,
+        currentTimer,
+        calculateStars(currentTimer, time, life),
+      );
     }
-    value +=
-      '\x3Cscript>parent.postMessage({ "action":"result", "data" : result },\'*\'); result=[]\x3C/script>';
-    idoc.open();
-    idoc.write(value);
-    idoc.close();
-  }
+    setShowModal(true);
+    setStars([]);
+    clearInterval(intervalHandle);
+  };
 
-  handleIframeTask(e) {
+  const handleIframeTask = e => {
     const passData = e.data;
-    const { life } = this.state;
-    const { missions } = this.props;
     if (passData.action === 'result') {
-      let correctCount = 0;
-      let correctCount2 = 0;
-      let result = this.state.result;
-      for (let a = 0; a < passData.data.length; a += 1) {
-        if (passData.data[a].result) {
-          if (typeof result[a] !== 'undefined') {
-            if (!result[a].result) {
-              correctCount2 += 1;
-              result[a].result = true;
-            }
-          } else {
-            result[a] = passData.data[a];
-            correctCount2 += 1;
-          }
-          correctCount += 1;
-        }
-      }
-
-      this.setState({
-        result: result,
-        score: correctCount * 20,
-      });
-      if (correctCount2 < missions.length) {
-        if (correctCount2 > 0) {
-          postLog('misi', 'berhasil menyelesaikan misi', correctCount2);
-          toast.success(`Anda berhasil menyelesaikan ${correctCount2} misi`, {
+      const compare = compareResult(result, passData.data);
+      if (compare.last < missions.length) {
+        if (compare.last > 0) {
+          postLog('misi', 'berhasil menyelesaikan misi', compare.last);
+          toast.success(`Anda berhasil menyelesaikan ${compare.last} misi`, {
             position: toast.POSITION.BOTTOM_CENTER,
           });
         } else if (life === 1) {
-          this.setState({
-            life: life - 1,
-          });
-          this.gameOver();
+          setLife(life - 1);
+          gameOver();
         } else {
           toast.error('Tidak ada jawaban yang benar', {
             position: toast.POSITION.BOTTOM_CENTER,
           });
-          this.setState({
-            life: life - 1,
-          });
+          setLife(life - 1);
         }
       }
-      if (correctCount >= missions.length) {
-        this.gameOver();
-      }
-      this.props.setPlayerStatus(this.state.score, this.state.life);
+      if (compare.all >= missions.length) gameOver();
+      setResult(compare.result);
+      setScore(compare.all * 20);
+      setPlayerStatus(score, life);
     }
-  }
+  };
 
-  gameOver() {
-    const { match, user, currentTimer, addScore, course } = this.props;
-    const { params } = match;
-    const { stageid } = params;
-
-    let stars = [];
-
-    if (this.state.life > 0) {
-      stars = this.calculateStars();
-      addScore(user.userdetailid, stageid,course._id ,this.state.score, currentTimer, stars);
-    }
-    this.setState({
-      showModal: true,
-      stars,
-    });
-
-    clearInterval(this.intervalHandle);
-  }
-  calculateStars() {
-    let stars = [true, false, false];
-    let { currentTimer, time } = this.props;
-    if (currentTimer < time) stars[1] = true;
-    if (this.state.life > 1) stars[2] = true;
-    return stars;
-  }
-
-  update(value) {
-    this.setState({
-      script: value,
-    });
+  const update = value => {
+    setScript(value);
     const idoc = document.getElementById('output').contentWindow.document;
-    const { script } = this.state;
     idoc.open();
-    idoc.write(script);
+    idoc.write(value);
     idoc.close();
-  }
+  };
 
-  modalClosed() {
-    this.setState({
-      showModal: false,
-    });
-  }
+  useEffect(() => {
+    fetchData(stageid);
+    missionsFetchData(stageid);
+    reduceEnergy(user.userdetail._id, 20);
+    window.addEventListener('message', handleIframeTask);
+    intervalHandle = setInterval(tick, 1000);
+    setPlayerStatus(0, 3);
+    setPlayMode(true);
+    return () => {
+      setPlayMode(false);
+      window.removeEventListener('message');
+      clearInterval(intervalHandle);
+    };
+  }, []);
 
-  render() {
-    const { missions, teory, title } = this.props;
-    const { result, showModal, script } = this.state;
-    return (
-      <div id="container">
-        <main role="main" className="container-fluid">
-          <div className="row flex-xl-nowrap" style={{ height: '100%' }}>
+  return (
+    <div id="container">
+      <main role="main" className="container-fluid">
+        <div className="row flex-xl-nowrap" style={{ height: '100%' }}>
+          <Guide
+            visible={false}
+            title={title}
+            teory={teory}
+            mission={missions}
+            result={result}
+          />
 
-            <Guide
-              visible={false}
-              title={title}
-              teory={teory}
-              mission={missions}
-              result={result}
-            />
+          <Editor
+            checkResult={checkResult(script, missions)}
+            script={script}
+            onChange={update}
+          />
 
-            <Editor
-              checkResult={this.checkResult}
-              script={script}
-              onChange={this.update}
-            />
+          <iframe
+            title="output"
+            id="output"
+            style={{ backgroundColor: '#ffffff' }}
+            frameBorder="0"
+            className="col-sm-4"
+          />
+        </div>
+      </main>
+      <ToastContainer />
+      <Modal
+        visible={showModal}
+        onClickBackdrop={() => {
+          setShowModal(false);
+        }}
+      >
+        <div className="modal-header">
+          <h5 className="modal-title">
+            {life > 0 ? 'CONGRATULATION' : 'ANDA GAGAL COBA LAGI'}
+          </h5>
+        </div>
+        <div className="modal-body">
+          <StyledStars value={stars} />
+          SCORE : {life > 0 ? score : '0'}
+          <br />
+          TIME : {timerText}
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary">
+            Main lagi
+          </button>
+          <button type="button" className="btn btn-secondary">
+            Kembali
+          </button>
+        </div>
+      </Modal>
+    </div>
+  );
+};
 
-            <iframe
-              title="output"
-              id="output"
-              style={{ backgroundColor: '#ffffff' }}
-              frameBorder="0"
-              className="col-sm-4"
-            />
-          </div>
-        </main>
-        <ToastContainer />
-        <Modal visible={showModal} onClickBackdrop={this.modalClosed}>
-          <div className="modal-header">
-            <h5 className="modal-title">
-              {this.state.life > 0 ? 'CONGRATULATION' : 'ANDA GAGAL COBA LAGI'}
-            </h5>
-          </div>
-          <div className="modal-body">
-            <StyledStars value={this.state.stars} />
-            SCORE : {this.state.life > 0 ? this.state.score : '0'}
-            <br />
-            TIME : {this.props.timerText}
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary">
-              Main lagi
-            </button>
-            <button type="button" className="btn btn-secondary">
-              Kembali
-            </button>
-          </div>
-        </Modal>
-      </div>
-    );
-  }
-}
 const mapStateToProps = state => ({
   user: state.users.user,
   title: state.stages.stage.title,
@@ -265,20 +210,32 @@ const mapDispatchToProps = dispatch => ({
   fetchData: id => dispatch(stageFetchOne(id)),
   missionsFetchData: id => dispatch(getMissionsByStage(id)),
   tick: () => dispatch(incrementTimer()),
-  setPlayerStatus: (score, life) => dispatch(setPlayerStatus(score, life)),
-  setPlayMode: play => dispatch(setPlayMode(play)),
-  reduceEnergy: (userid,energy) => dispatch(reduceEnergy(userid,energy)),
+  setPlayerStatus: (score, life) =>
+    dispatch(setPlayerStatusAction(score, life)),
+  setPlayMode: play => dispatch(setPlayModeAction(play)),
+  reduceEnergy: (userid, energy) =>
+    dispatch(reduceEnergyAction(userid, energy)),
   addScore: (userid, stageid, courseid, score, time, stars) =>
-    dispatch(addScore(userid, stageid, courseid, score, time, stars)),
+    dispatch(addScoreAction(userid, stageid, courseid, score, time, stars)),
 });
 
 Course.propTypes = {
-  match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  match: PropTypes.any.isRequired,
   tick: PropTypes.func.isRequired,
   fetchData: PropTypes.func.isRequired,
   missionsFetchData: PropTypes.func.isRequired,
   currentTimer: PropTypes.number.isRequired,
   missions: PropTypes.arrayOf(PropTypes.object),
+  user: PropTypes.any.isRequired,
+  reduceEnergy: PropTypes.any.isRequired,
+  addScore: PropTypes.any.isRequired,
+  course: PropTypes.any.isRequired,
+  time: PropTypes.any.isRequired,
+  teory: PropTypes.any.isRequired,
+  title: PropTypes.any.isRequired,
+  timerText: PropTypes.any.isRequired,
+  setPlayMode: PropTypes.any.isRequired,
+  setPlayerStatus: PropTypes.any.isRequired,
 };
 
 Course.defaultProps = {

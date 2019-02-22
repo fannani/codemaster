@@ -1,14 +1,13 @@
-/* eslint-disable */
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-const Guide = ({ mission }) => {
+const Guide = ({ mission, result, className, title, teory }) => {
   const missionList = mission.map((misi, index) => {
     let active = false;
-    if (typeof this.props.result[index] !== 'undefined') {
-      active = !!this.props.result[index].result;
+    if (typeof result[index] !== 'undefined') {
+      active = !!result[index].result;
     }
     const missionClass = classNames({
       'mission-list': true,
@@ -25,13 +24,13 @@ const Guide = ({ mission }) => {
   return (
     <div
       id="guide"
-      className={classNames(this.props.className, 'col-sm-4')}
+      className={classNames(className, 'col-sm-4')}
       style={{ overflowY: 'scroll', height: 'calc(100vh - 50px)' }}
     >
       <div className="row" id="teory">
         <div className=" col-sm-12">
-          <h3>{this.props.title}</h3>
-          {this.props.teory}
+          <h3>{title}</h3>
+          {teory}
         </div>
       </div>
 
