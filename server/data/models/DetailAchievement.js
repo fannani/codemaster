@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-var DetailAchievementSchema = new Schema({
+const DetailAchievementSchema = new Schema({
   achievement: Schema.Types.ObjectId,
   star: Number,
   caption: String,

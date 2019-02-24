@@ -1,10 +1,10 @@
 import { GraphQLString, GraphQLNonNull, GraphQLID } from 'graphql';
 
-import StageType from '../types/StageType';
 import Stage from '../models/Stage';
 import shortid from 'shortid';
 import fs from 'fs';
 import { GraphQLUpload } from 'graphql-upload';
+import StageType from '../types/StageType';
 const UPLOAD_DIR = './dist/uploads';
 
 const storeFS = ({ stream, filename }) => {
@@ -24,7 +24,7 @@ const storeFS = ({ stream, filename }) => {
   );
 };
 
-let StageMutation = {
+const StageMutation = {
   addStage: {
     type: StageType,
     description: 'Add Stage',
@@ -33,10 +33,9 @@ let StageMutation = {
       teory: { type: GraphQLString },
       time: { type: GraphQLString },
       course: { type: GraphQLNonNull(GraphQLID) },
-
     },
-     async resolve(root, {  title, teory, time, course }) {
-      let stage = new Stage({
+    async resolve(root, { title, teory, time, course }) {
+      const stage = new Stage({
         title,
         teory,
         time,
@@ -57,7 +56,7 @@ let StageMutation = {
       course: { type: GraphQLID },
       file: { type: GraphQLUpload },
     },
-    async resolve (root, args) {
+    async resolve(root, args) {
       let id = '';
       if (args.file) {
         const { filename, mimetype, createReadStream } = await args.file;
@@ -65,7 +64,7 @@ let StageMutation = {
         const filestore = await storeFS({ stream, filename });
         id = filestore.id;
       }
-      let editstage =  await Stage.findById(args.id)
+      const editstage = await Stage.findById(args.id);
       delete args.id;
       delete args.file;
       editstage.set(args);

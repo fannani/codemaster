@@ -13,7 +13,6 @@ import routes from './routes';
 import schema from './data/schema';
 import './config/passport';
 
-
 dotenv.config({ path: path.join(__dirname, '../.env') });
 const { ObjectId } = mongoose.Types;
 const compiler = webpack(webpackConfig);
@@ -45,7 +44,7 @@ const apollo = new ApolloServer({
   },
 });
 
-if (process.env.MODE == 'development') {
+if (process.env.MODE === 'development') {
   app.use(
     require('webpack-dev-middleware')(compiler, {
       noInfo: true,
@@ -73,10 +72,10 @@ app.use('/api', (req, res, next) => {
 });
 app.use(routes);
 
-io.on('connection', socket => {
-  socket.on('TESAPI', function(msg) {
-    console.log('message: ' + msg);
-  });
-});
+// io.on('connection', socket => {
+//   socket.on('TESAPI', function(msg) {
+//     console.log('message: ' + msg);
+//   });
+// });
 
 server.listen(process.env.PORT);

@@ -1,7 +1,7 @@
-import User from '../data/models/User';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import passportJWT from 'passport-jwt';
+import User from '../data/models/User';
 
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
@@ -35,14 +35,9 @@ passport.use(
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
       secretOrKey: 'iloveskripsisobad',
     },
-    function(jwtPayload, cb) {
-      return User.findById(jwtPayload._id) //ga perlu
-        .then(user => {
-          return cb(null, user);
-        })
-        .catch(err => {
-          return cb(err);
-        });
-    },
+    (jwtPayload, cb) =>
+      User.findById(jwtPayload._id) //ga perlu
+        .then(user => cb(null, user))
+        .catch(err => cb(err)),
   ),
 );

@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-var StageSchema = new mongoose.Schema({
+const StageSchema = new mongoose.Schema({
   title: String,
   teory: String,
   time: String,
@@ -9,9 +9,12 @@ var StageSchema = new mongoose.Schema({
   updated_at: { type: Date, default: Date.now },
 });
 
-StageSchema.virtual('win').
-  get(function() { return this._win; }).
-  set(function(v) { this._win = v; });
-
+StageSchema.virtual('win')
+  .get(function() {
+    return this._win;
+  })
+  .set(function(v) {
+    this._win = v;
+  });
 
 export default mongoose.model('Stage', StageSchema);

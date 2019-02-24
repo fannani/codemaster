@@ -3,7 +3,7 @@ import { GraphQLNonNull, GraphQLID, GraphQLInt, GraphQLList } from 'graphql';
 import PlayerAchievementType from '../types/PlayerAchievementType';
 import PlayerAchievement from '../models/PlayerAchievement';
 
-let PlayerAchievementMutation = {
+const PlayerAchievementMutation = {
   addPlayerAchievement: {
     type: PlayerAchievementType,
     description: 'Add Player Achievement',
@@ -14,13 +14,13 @@ let PlayerAchievementMutation = {
       point: { type: new GraphQLNonNull(GraphQLInt) },
     },
     async resolve(root, { player, achievement, star, point }) {
-      let newachiev = new PlayerAchievement({
+      const newachiev = new PlayerAchievement({
         player,
         achievement,
         star,
         point,
       });
-      return await newachiev.save(); 
+      return await newachiev.save();
     },
   },
 };

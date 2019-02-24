@@ -1,3 +1,4 @@
+import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 import courses from './queries/CourseQuery';
 import stages from './queries/StageQuery';
 import missions from './queries/MissionQuery';
@@ -13,8 +14,6 @@ import scoreMutation from './mutations/ScoreMutation';
 import playerMutation from './mutations/PlayerMutation';
 import playerAchievementMutation from './mutations/PlayerAchievementMutation';
 
-import { GraphQLObjectType, GraphQLSchema } from 'graphql';
-
 const BKQueryRootType = new GraphQLObjectType({
   name: 'BKQueryRootType',
   description: 'BelajarKode Application Schema Query Root',
@@ -26,7 +25,7 @@ const BKQueryRootType = new GraphQLObjectType({
     players,
     users,
     achievements,
-    playerAchievements
+    playerAchievements,
   }),
 });
 const BKMutationRootType = new GraphQLObjectType({

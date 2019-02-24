@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import Score from './Score';
 
-var PlayerSchema = new Schema({
+const PlayerSchema = new Schema({
   energy: Number,
   birthday: Date,
   exp: Number,
@@ -10,7 +10,7 @@ var PlayerSchema = new Schema({
 });
 
 PlayerSchema.methods.scores = async function() {
-  let score = await Score.aggregate([
+  const score = await Score.aggregate([
     { $match: { player: this._id } },
     {
       $group: {
@@ -24,7 +24,7 @@ PlayerSchema.methods.scores = async function() {
 };
 
 PlayerSchema.methods.courseScore = async function() {
-  let score = await Score.aggregate([
+  const score = await Score.aggregate([
     { $match: { player: this._id } },
     {
       $group: {

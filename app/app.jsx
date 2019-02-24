@@ -6,9 +6,8 @@ import store from './config/store';
 require('./bootstrap');
 
 if (document.getElementById('app')) {
-  ReactDOM.render(<Container store={store.store} persistor={store.persistor}/>, document.getElementById('app'));
+  ReactDOM.render(
+    <Container store={store.store} persistor={store.persistor} />,
+    document.getElementById('app'),
+  );
 }
-
-
-
-

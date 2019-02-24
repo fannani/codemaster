@@ -1,8 +1,6 @@
-import mongoose, { Schema } from "mongoose";
-import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
+import mongoose, { Schema } from 'mongoose';
 
-var UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   email: String,
   role: String,
   hash: String,

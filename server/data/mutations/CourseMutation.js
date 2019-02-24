@@ -1,13 +1,10 @@
-import {
-  GraphQLString,
-  GraphQLNonNull,
-  GraphQLID,
-} from 'graphql';
+import { GraphQLString, GraphQLNonNull, GraphQLID } from 'graphql';
+import fs from 'fs';
 import { GraphQLUpload } from 'graphql-upload';
+import shortid from 'shortid';
 import CourseType from '../types/CourseType';
 import Course from '../models/Course';
-import shortid from 'shortid';
-import fs from 'fs';
+
 const UPLOAD_DIR = './dist/uploads';
 
 const storeFS = ({ stream, filename }) => {
@@ -27,7 +24,7 @@ const storeFS = ({ stream, filename }) => {
   );
 };
 
-let CourseMutation = {
+const CourseMutation = {
   addCourse: {
     type: CourseType,
     description: 'Add Course',
@@ -47,8 +44,8 @@ let CourseMutation = {
         const filestore = await storeFS({ stream, filename });
         id = filestore.id;
       }
-      let course = new Course({ name, desc, imageid: id });
-      let newcourse = await course.save();
+      const course = new Course({ name, desc, imageid: id });
+      const newcourse = await course.save();
       return newcourse;
     },
   },

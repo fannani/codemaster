@@ -87,7 +87,7 @@ CourseDetail.propTypes = {
   match: PropTypes.any.isRequired,
   user: PropTypes.any.isRequired,
   className: PropTypes.any.isRequired,
-}
+};
 
 const StyledCourseDetail = styled(CourseDetail)`
   .card {

@@ -1,9 +1,15 @@
-import { GraphQLString, GraphQLNonNull, GraphQLID, GraphQLInt, GraphQLList } from "graphql";
+import {
+  GraphQLString,
+  GraphQLNonNull,
+  GraphQLID,
+  GraphQLInt,
+  GraphQLList,
+} from 'graphql';
 
 import MissionType from '../types/MissionType';
 import Mission from '../models/Mission';
 
-let MissionMutation = {
+const MissionMutation = {
   addMission: {
     type: MissionType,
     description: 'Add Mission',
@@ -13,20 +19,17 @@ let MissionMutation = {
       score: { type: new GraphQLNonNull(GraphQLInt) },
       stage: { type: new GraphQLNonNull(GraphQLID) },
     },
-    resolve: (root, { quest, testcase, score, stage }) => {
-      return new Promise((resolve, reject) => {
-        let newmission = new Mission({
+    resolve: (root, { quest, testcase, score, stage }) => new Promise((resolve, reject) => {
+        const newmission = new Mission({
           quest,
           score,
           testcase,
           stage,
         });
-      
         newmission.save(err => {
           err ? reject(err) : resolve(newmission);
         });
-      });
-    },
+      }),
   },
 };
 

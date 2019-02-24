@@ -1,9 +1,15 @@
-import {GraphQLNonNull, GraphQLID, GraphQLInt, GraphQLList, GraphQLBoolean } from "graphql";
+import {
+  GraphQLNonNull,
+  GraphQLID,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLBoolean,
+} from 'graphql';
 
 import ScoreType from '../types/ScoreType';
 import Score from '../models/Score';
 
-let ScoreMutation = {
+const ScoreMutation = {
   addScore: {
     type: ScoreType,
     description: 'Add Score',
@@ -15,9 +21,9 @@ let ScoreMutation = {
       time: { type: new GraphQLNonNull(GraphQLInt) },
       stars: { type: new GraphQLNonNull(GraphQLList(GraphQLBoolean)) },
     },
-    async resolve(root, { player, stage, score, time, stars,course })  {
+    async resolve(root, { player, stage, score, time, stars, course }) {
       return new Promise((resolve, reject) => {
-        let newscore = new Score({
+        const newscore = new Score({
           player,
           stage,
           score,

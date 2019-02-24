@@ -1,15 +1,15 @@
-import {GraphQLID, GraphQLList,GraphQLInt} from "graphql";
-import AchievementType from "../types/AchievementType";
+import { GraphQLID, GraphQLList, GraphQLInt } from 'graphql';
+import AchievementType from '../types/AchievementType';
 import Achievement from '../models/Achievement';
 
 const achievement = {
   type: new GraphQLList(AchievementType),
-  description: "List of all Player",
+  description: 'List of all Player',
   args: {
-    _id: {type: GraphQLID},
+    _id: { type: GraphQLID },
     player: {
-      type: GraphQLID
-    }
+      type: GraphQLID,
+    },
   },
   async resolve(parent,args) {
       if (args.player) {
@@ -18,10 +18,10 @@ const achievement = {
           achievements[i] = achievements[i].player(args.player);
         }
         return achievements;
-      } else {
+      } 
         return await Achievement.find(args);
-      }
+      
     }
-}
+};
 
 export default achievement;
