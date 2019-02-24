@@ -18,7 +18,7 @@ const route = ({ isLogin, location }) => {
     return (
       <Suspense fallback={<LoadingScreen />}>
         <Switch>
-          <Route exact path="/" component={Dashboard} />
+          <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/course" component={CourseList} />
           <Route exact path="/achievement" component={Achievement} />
           <Route exact path="/friends" component={Friends} />
