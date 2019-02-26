@@ -11,14 +11,13 @@ import newsletterBackground from '../../assets/images/newsletter_background.png'
 import instagram from '../../assets/images/instagram.png';
 import twitter from '../../assets/images/twitter.png';
 import facebook from '../../assets/images/facebook.png';
+import Logo from '../../components/Logo.jsx';
 
 const Layout = ({ className }) => (
   <div className={classnames('container-fluid', className)}>
     <nav className="navbar navbar-expand-lg">
       <a className="navbar-brand" href="#">
-        <h1 className="logo">
-          Kode<span>Master</span>
-        </h1>
+        <Logo />
       </a>
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav ml-auto">
@@ -38,12 +37,8 @@ const Layout = ({ className }) => (
     <div id="main">
       <img height={280} src={illustration} alt="illustration" />
       <h2>Cara baru untuk belajar pemrograman</h2>
-      <p>
-        Selesaikan semua Tantangan dan jadilah yang Teratas
-      </p>
-      <p>
-        Suka bermain Game, Pasti jago disini
-      </p>
+      <p>Selesaikan semua Tantangan dan jadilah yang Teratas</p>
+      <p>Suka bermain Game, Pasti jago disini</p>
       <button type="button" className="btn btn-primary btn-circle btn-start">
         Mulai
       </button>
@@ -51,7 +46,7 @@ const Layout = ({ className }) => (
     <div id="features" className="row">
       <div className="col-12">
         <div className="row justify-content-md-center">
-          <h2>Kenapa KodeMaster</h2>
+          <h2>Kenapa KodeKurawal</h2>
         </div>
         <div className="row justify-content-md-center">
           <div className="feature col-3">
@@ -163,14 +158,6 @@ Layout.propTypes = {
 };
 
 const styledLayout = styled(Layout)`
-  .logo {
-    font-weight: bold;
-    font-size: 1.3rem;
-    color: #242223;
-  }
-  .logo span {
-    color: #4891e3;
-  }
   background-color: white;
   color: #242223;
   font-family: open sans;
@@ -191,8 +178,8 @@ const styledLayout = styled(Layout)`
     background-size: cover;
   }
   #newsletter h3 {
-      margin-bottom:30px;
-      margin-top:30px;
+    margin-bottom: 30px;
+    margin-top: 30px;
   }
   #main {
     text-align: center;

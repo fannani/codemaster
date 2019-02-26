@@ -18,7 +18,7 @@ const Container = styled.div`
 
 const Login = ({ isLogin, login }) => {
   if (isLogin) {
-    return <Redirect push to="/" />;
+    return <Redirect push to="/dashboard" />;
   }
   return (
     <Container className="container">
