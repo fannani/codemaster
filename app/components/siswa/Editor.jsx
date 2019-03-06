@@ -3,7 +3,7 @@ import AceEditor from "react-ace";
 import styled from "styled-components";
 import classNames from 'classnames';
 import 'brace/mode/html';
-import 'brace/theme/monokai';
+import 'brace/theme/tomorrow';
 
 const Button = styled.button`
   border-radius: 0px!important;
@@ -32,7 +32,7 @@ const Editor = ({checkResult,script,onChange,className, size = 4}) => (
     </div>
     <AceEditor
       mode="html"
-      theme="monokai"
+      theme="tomorrow"
       value={script}
       width="100%"
       style={{ height: "calc(100% - 50px)" }}

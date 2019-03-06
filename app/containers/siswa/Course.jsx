@@ -4,7 +4,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import connect from 'react-redux/es/connect/connect';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Guide from '../../components/siswa/Guide';
+import CourseFooter from '../../components/siswa/CourseFooter';
 import Editor from '../../components/siswa/Editor';
 import 'react-toastify/dist/ReactToastify.css';
 import { postLog } from '../../utils/Logs';
@@ -19,6 +21,7 @@ import Stars from '../../components/siswa/Stars';
 import { addScore as addScoreAction } from '../../actions/scores';
 import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
 import Output from '../../components/siswa/Output.jsx';
+
 import {
   calculateStars,
   checkResult,
@@ -47,16 +50,15 @@ const Course = ({
   setPlayMode,
   setPlayerStatus,
 }) => {
-  const [script, setScript] = useState(`<!DOCTYPE html>
-    <html>
-        <head>
-        </head>
-    
-        <body>
-    
-        </body>
-    
-    </html>`);
+  const [script, setScript] = useState(
+    `<html>
+    <head>
+    </head>
+
+    <body>
+
+    </body>
+</html>`);
   const [score, setScore] = useState(0);
   const [life, setLife] = useState(3);
   const [result, setResult] = useState([]);
@@ -136,7 +138,7 @@ const Course = ({
   return (
     <div id="container">
       <main role="main" className="container-fluid">
-        <div className="row flex-xl-nowrap" >
+        <div className="row flex-xl-nowrap">
           <Guide
             visible={false}
             title={title}
@@ -153,9 +155,7 @@ const Course = ({
           />
           <Output />
         </div>
-        <div className="row flex-xl-nowrap" style={{ height: '50px',backgroundColor:'#343A40' }}>
-          testestes
-        </div>
+        <CourseFooter />
       </main>
       <ToastContainer />
       <Modal
