@@ -18,6 +18,7 @@ import { stageFetchOne } from '../../actions/stages';
 import Stars from '../../components/siswa/Stars';
 import { addScore as addScoreAction } from '../../actions/scores';
 import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
+import Output from '../../components/siswa/Output.jsx';
 import {
   calculateStars,
   checkResult,
@@ -135,7 +136,7 @@ const Course = ({
   return (
     <div id="container">
       <main role="main" className="container-fluid">
-        <div className="row flex-xl-nowrap" style={{ height: '100%' }}>
+        <div className="row flex-xl-nowrap" >
           <Guide
             visible={false}
             title={title}
@@ -147,16 +148,13 @@ const Course = ({
           <Editor
             checkResult={checkResult(script, missions)}
             script={script}
+            size={4}
             onChange={update}
           />
-
-          <iframe
-            title="output"
-            id="output"
-            style={{ backgroundColor: '#ffffff' }}
-            frameBorder="0"
-            className="col-sm-4"
-          />
+          <Output />
+        </div>
+        <div className="row flex-xl-nowrap" style={{ height: '50px',backgroundColor:'#343A40' }}>
+          testestes
         </div>
       </main>
       <ToastContainer />

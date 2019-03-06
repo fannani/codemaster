@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-const Guide = ({ mission, result, className, title, teory }) => {
+const Guide = ({ mission, result, className, title, teory, show = true }) => {
   const missionList = mission.map((misi, index) => {
     let active = false;
     if (typeof result[index] !== 'undefined') {
@@ -24,26 +24,32 @@ const Guide = ({ mission, result, className, title, teory }) => {
   return (
     <div
       id="guide"
-      className={classNames(className, 'col-sm-4')}
-      style={{ overflowY: 'scroll', height: 'calc(100vh - 50px)' }}
+      className={classNames(className, !show ? 'col-sm-1' : 'col-sm-4')}
+      style={{ overflowY: 'scroll', height: 'calc(100vh - 100px)' }}
     >
-      <div className="row" id="teory">
-        <div className=" col-sm-12">
-          <h3>{title}</h3>
-          {teory}
-        </div>
-      </div>
+      {show ? (
+        <>
+          <div className="row" id="teory">
+            <div className=" col-sm-12">
+              <h3>{title}</h3>
+              {teory}
+            </div>
+          </div>
 
-      <div className="row" id="mission">
-        <div className="title col-sm-12">
-          <h3>Misi</h3>
-        </div>
-      </div>
-      <div className="row">
-        <ul className="list-group col-sm" style={{ paddingRight: '0px' }}>
-          {missionList}
-        </ul>
-      </div>
+          <div className="row" id="mission">
+            <div className="title col-sm-12">
+              <h3>Misi</h3>
+            </div>
+          </div>
+          <div className="row">
+            <ul className="list-group col-sm" style={{ paddingRight: '0px' }}>
+              {missionList}
+            </ul>
+          </div>
+        </>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

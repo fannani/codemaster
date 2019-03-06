@@ -239,6 +239,7 @@ const styledLayout = styled(Layout)`
     text-align: center;
     width: 100%;
     font-size: 1rem;
+    color:white;
   }
   .feature h3 {
     font-weight: bold;
@@ -246,6 +247,7 @@ const styledLayout = styled(Layout)`
     margin-bottom: 5px;
     margin-top: 20px;
   }
+ 
   #newsletter p {
     text-align: left;
     color: white;

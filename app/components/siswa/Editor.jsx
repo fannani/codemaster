@@ -12,8 +12,8 @@ const Button = styled.button`
   color:white;
 `
 
-const Editor = ({checkResult,script,onChange,className}) => (
-  <div className={classNames(className,"col-sm-4")} style={{ height: 'calc(100vh - 50px)' }}>
+const Editor = ({checkResult,script,onChange,className, size = 4}) => (
+  <div className={classNames(className,"col-sm-"+size)} style={{ height: 'calc(100vh - 100px)' }}>
     <div style={{ height: "50px" }}>
       <Button
         type="button"
