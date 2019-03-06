@@ -1,53 +1,53 @@
 import axios from 'axios';
-import {
-  API_URL,
-  BASE_URL
-} from '../config/config';
+import { API_URL, BASE_URL } from '../config/config';
 import ApiService from './ApiService';
 
 const login = (email, password) => {
   return axios({
-      url: `${BASE_URL}auth/login`,
-      method: 'post',
-      data: {
-        email,
-        password,
-      },
-    })
+    url: `${BASE_URL}auth/login`,
+    method: 'post',
+    data: {
+      email,
+      password,
+    },
+  })
     .then(async function(response) {
       if (response.data.user.role === 'siswa') {
-        const {
-          user
-        } = response.data;
+        const { user } = response.data;
         return await getUserDetail(user);
       }
     })
     .then(userdetail => {
       return userdetail;
+    })
+    .catch(err => {
+      console.log(err);
     });
 };
 
-const register = (name,email,password) => {
+const register = (name, email, password) => {
   return ApiService.mutation(
     `register(name : "${name}", email: "${email}", password : "${password}"){
           email,password
         }`,
   ).then(response => {
-    return response.data.data.reduceEnergy;
+    if (response.data.errors.length > 0) {
+      console.log('EREROIEORIE');
+    } else {
+      return response.data;
+    }
   });
-}
+};
 
-const getUserDetail = async function(user){
+const getUserDetail = async function(user) {
   let query;
   if (user.role === 'siswa') {
     query = `players(_id:"${user.userdetailid}"){_id,address,energy,stars}`;
   }
   let result = await ApiService.query(query);
   return Object.assign(user, {
-    userdetail: result.data.data.players[0]
+    userdetail: result.data.data.players[0],
   });
-
-  
 };
 
 const reduceEnergy = (userid, energy) => {
@@ -62,11 +62,11 @@ const reduceEnergy = (userid, energy) => {
 
 const addPlayerAchievement = (player, achievement, star, point) => {
   return ApiService.mutation(
-    `addPlayerAchievement(player : "${player}", achievement : "${achievement}" star: ${star}, point: ${point})`
+    `addPlayerAchievement(player : "${player}", achievement : "${achievement}" star: ${star}, point: ${point})`,
   ).then(response => {
     return response.data.data.addPlayerAchievement;
   });
-}
+};
 
 const logout = () => {
   localStorage.removeItem('user');
@@ -77,5 +77,5 @@ export default {
   register,
   logout,
   reduceEnergy,
-  addPlayerAchievement
+  addPlayerAchievement,
 };

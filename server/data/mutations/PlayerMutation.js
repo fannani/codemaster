@@ -1,4 +1,5 @@
 import { GraphQLString, GraphQLNonNull, GraphQLInt, GraphQLID } from 'graphql';
+import { UserInputError } from 'apollo-server-express';
 import Player from '../models/Player';
 import User from '../models/User';
 import PlayerType from '../types/PlayerType';
@@ -40,19 +41,26 @@ const PlayerMutation = {
       password: { type: new GraphQLNonNull(GraphQLString) },
     },
     async resolve(root, { name, email, password }) {
-      const newplayer = new Player({
-        energy: 0,
-        birthday: Date.now(),
-        exp: 0,
-      });
-      await newplayer.save();
-      const newuser = new User({
-        name,
-        email,
-        password,
-        userdetailid: newplayer._id,
-      });
-      return await newuser.save();
+      const exist = await User.find({ email });
+      const validationErrors = {};
+      if (exist.length <= 0) {
+        const newplayer = new Player({
+          energy: 0,
+          birthday: Date.now(),
+          exp: 0,
+        });
+        await newplayer.save();
+        const newuser = new User({
+          name,
+          email,
+          password,
+          userdetailid: newplayer._id,
+        });
+        return await newuser.save();
+      } else {
+        validationErrors.email = 'Email sudah ada';
+        throw new UserInputError('error', { validationErrors });
+      }
     },
   },
 };

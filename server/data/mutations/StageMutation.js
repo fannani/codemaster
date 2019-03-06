@@ -59,7 +59,7 @@ const StageMutation = {
     async resolve(root, args) {
       let id = '';
       if (args.file) {
-        const { filename, mimetype, createReadStream } = await args.file;
+        const { filename, createReadStream } = await args.file;
         const stream = createReadStream();
         const filestore = await storeFS({ stream, filename });
         id = filestore.id;

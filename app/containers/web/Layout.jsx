@@ -12,6 +12,7 @@ import instagram from '../../assets/images/instagram.png';
 import twitter from '../../assets/images/twitter.png';
 import facebook from '../../assets/images/facebook.png';
 import Logo from '../../components/Logo.jsx';
+import { Link } from 'react-router-dom';
 
 const Layout = ({ className }) => (
   <div className={classnames('container-fluid', className)}>
@@ -22,14 +23,20 @@ const Layout = ({ className }) => (
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav ml-auto">
           <li className="nav-item daftar">
-            <a className="nav-link " href="#">
+            <Link
+              className={classnames(className, 'nav-link')}
+              to="/register"
+            >
               Daftar
-            </a>
+            </Link>
           </li>
           <li className="nav-item ">
-            <button type="button" className="btn btn-primary btn-circle">
+            <Link
+              className={classnames(className, 'btn btn-primary', 'btn-circle')}
+              to="/login"
+            >
               Masuk
-            </button>
+            </Link>
           </li>
         </ul>
       </div>
@@ -239,7 +246,7 @@ const styledLayout = styled(Layout)`
     text-align: center;
     width: 100%;
     font-size: 1rem;
-    color:white;
+    color: white;
   }
   .feature h3 {
     font-weight: bold;
@@ -247,7 +254,7 @@ const styledLayout = styled(Layout)`
     margin-bottom: 5px;
     margin-top: 20px;
   }
- 
+
   #newsletter p {
     text-align: left;
     color: white;
