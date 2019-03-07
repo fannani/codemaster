@@ -1,66 +1,101 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import Modal from 'react-bootstrap4-modal';
 import connect from 'react-redux/es/connect/connect';
 import { addStage } from '../../actions/stages';
+import Card from '../../components/Card';
+import { Formik, Form, Field } from 'formik';
+import { Mutation, Query } from 'react-apollo';
+import { ADD_STAGE } from '../../graphql/stagesQuery';
 
 class StageList extends Component {
   constructor(props) {
     super(props);
+    this.success = this.success.bind(this);
     this.addStage = this.addStage.bind(this);
-    this.saveStage = this.saveStage.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.modalClosed = this.modalClosed.bind(this);
     this.state = {
       id: '',
-      title: '',
       showModal: false,
     };
   }
 
   render() {
-
     return (
-      <div>
-        <button onClick={this.addStage} className="btn btn-primary">
-          Tambah Stage
-        </button>
-        <Modal
-          visible={this.state.showModal}
-          onClickBackdrop={this.modalClosed}
-        >
-          <div className="modal-header">
-            <h5 className="modal-title">Tambah Course</h5>
-          </div>
-          <div className="modal-body">
-            <div className="card-body">
-              <input
-                type="text"
-                value={this.state.title}
-                onChange={this.handleInputChange}
-                placeholder="judul"
-                name="title"
-              />
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              onClick={this.saveStage}
-              className="btn btn-primary"
-            >
-              Tambah
-            </button>
-            <button
-              type="button"
-              onClick={this.modalClosed}
-              className="btn btn-secondary"
-            >
-              Close
-            </button>
-          </div>
-        </Modal>
+      <div className="container-fluid">
+        <div className="row justify-content-center">
+          <main className="col-12 main-container">
+            <Card className="card">
+              <div className="card-body">
+                <div className="d-flex justify-content-between">
+                  <h5 className="card-title">Judul Course</h5>
+                  <button onClick={this.addStage} className="btn btn-primary">
+                    Tambah Stage
+                  </button>
+                </div>
+                <Modal
+                  visible={this.state.showModal}
+                  onClickBackdrop={this.modalClosed}
+                >
+                  <div className="modal-header">
+                    <h5 className="modal-title">Add Stage</h5>
+                  </div>
+                  <Mutation mutation={ADD_STAGE}>
+                    {addStage => (
+                      <Formik
+                        initialValues={{
+                          title: '',
+                        }}
+                        onSubmit={(values, { setSubmitting }) => {
+                          const { title } = values;
+                          const success = this.success;
+                          addStage({
+                            variables: {
+                              title,
+                              course : this.props.match.params.courseid
+                            },
+                          }).then(({ data: { addStage } }) => {
+                            success(addStage._id);
+                          });
+                        }}
+                      >
+                        {() => (
+                          <Form>
+                            <div className="modal-body">
+                              <div className="card-body">
+                                <div className="form-group">
+                                  <label htmlFor="name">Title</label>
+                                  <Field
+                                    className="form-control"
+                                    type="text"
+                                    placeholder="title"
+                                    name="title"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="modal-footer">
+                              <button type="submit" className="btn btn-primary">
+                                Tambah
+                              </button>
+                              <button
+                                type="button"
+                                onClick={this.modalClosed}
+                                className="btn btn-secondary"
+                              >
+                                Close
+                              </button>
+                            </div>
+                          </Form>
+                        )}
+                      </Formik>
+                    )}
+                  </Mutation>
+                </Modal>
+              </div>
+            </Card>
+          </main>
+        </div>
       </div>
     );
   }
@@ -71,25 +106,11 @@ class StageList extends Component {
     });
   }
 
-  saveStage() {
-    this.props
-      .add(this.state.title, '', this.props.match.params.courseid, '')
-      .then((stage) => {
-        this.setState({
-          id: stage._id,
-        });
-        this.props.history.push(`/admin/stage/${this.state.id}`);
-      });
-
-  }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+  success(id) {
     this.setState({
-      [name]: value,
+      id,
     });
+    this.props.history.push(`/admin/stage/${this.state.id}`);
   }
 
   modalClosed() {
@@ -98,7 +119,7 @@ class StageList extends Component {
     });
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const data = state.stages;
   return {
     hasErrored: state.stages.hasErrored,
@@ -107,11 +128,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  add: (title, time, course, teory) => dispatch(addStage(title, time, course, teory)),
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  null,
 )(StageList);

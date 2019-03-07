@@ -8,11 +8,12 @@ import star from '../../assets/images/star-circle.png';
 import badge from '../../assets/images/badges.png';
 import achievement from '../../assets/images/achievement.png';
 import { GET_COURSES } from '../../graphql/coursesQuery';
+import Card from '../../components/Card';
 import CourseItem from '../../components/siswa/CourseItem';
 
 const Loader = () => {
   const content = (
-    <div
+    <Card
       className="card m-2"
       style={{
         width: '200px',
@@ -27,7 +28,7 @@ const Loader = () => {
         <rect x="20" y="185" rx="4" ry="4" width="160" height="15" />
         <rect x="20" y="210" rx="4" ry="4" width="130" height="15" />
       </ContentLoader>
-    </div>
+    </Card>
   );
   const all = [];
   for (let i = 0; i < 6; i += 1) {
@@ -44,117 +45,109 @@ const Dashboard = ({ className }) => (
   <div className={classnames(className, 'container-fluid')}>
     <div className="row justify-content-center">
       <main className="col-12 main-container" style={{ maxWidth: '1100px' }}>
-        <div>
-          <div className="card">
-            <div className="card-body">
-              <div className="row">
-                <div className="col-2">
-                  <Ava />
+        <Card className="card">
+          <div className="card-body">
+            <div className="row">
+              <div className="col-2">
+                <Ava />
+              </div>
+              <div className="col-4">
+                <h5>Rahadyan Fannani Arif</h5>
+                <p>Malang, Jawa Timur</p>
+                <Level>Level 5 : </Level>
+                <div className="row">
+                  <div className="col-5" style={{ paddingRight: '0px' }}>
+                    <Line percent={20} strokeWidth="4" strokeColor="#7386D5" />
+                  </div>
+                  <Progress className="col-4">2130/3000</Progress>
                 </div>
-                <div className="col-4">
-                  <h5>Rahadyan Fannani Arif</h5>
-                  <p>Malang, Jawa Timur</p>
-                  <Level>Level 5 : </Level>
-                  <div className="row">
-                    <div className="col-5" style={{ paddingRight: '0px' }}>
-                      <Line
-                        percent={20}
-                        strokeWidth="4"
-                        strokeColor="#7386D5"
-                      />
-                    </div>
-                    <Progress className="col-4">2130/3000</Progress>
+              </div>
+              <div className="col-2">
+                <div className="row">
+                  <div className="col-4">
+                    <img src={achievement} width={40} alt="" />
+                  </div>
+                  <div className="col-8 caption">
+                    <p>Achievements</p>
+                    <div className="value">11</div>
                   </div>
                 </div>
-                <div className="col-2">
-                  <div className="row">
-                    <div className="col-4">
-                      <img src={achievement} width={40} alt="" />
-                    </div>
-                    <div className="col-8 caption">
-                      <p>Achievements</p>
-                      <div className="value">11</div>
-                    </div>
+              </div>
+              <div className="col-2">
+                <div className="row">
+                  <div className="col-4">
+                    <img src={badge} width={40} alt="" />
+                  </div>
+                  <div className="col-8 caption">
+                    <p>Badges</p>
+                    <div className="value">11</div>
                   </div>
                 </div>
-                <div className="col-2">
-                  <div className="row">
-                    <div className="col-4">
-                      <img src={badge} width={40} alt="" />
-                    </div>
-                    <div className="col-8 caption">
-                      <p>Badges</p>
-                      <div className="value">11</div>
-                    </div>
+              </div>
+              <div className="col-2">
+                <div className="row">
+                  <div className="col-4">
+                    <img src={star} width={40} alt="" />
                   </div>
-                </div>
-                <div className="col-2">
-                  <div className="row">
-                    <div className="col-4">
-                      <img src={star} width={40} alt="" />
-                    </div>
-                    <div className="col-8 caption">
-                      <p>Stars</p>
-                      <div className="value">11</div>
-                    </div>
+                  <div className="col-8 caption">
+                    <p>Stars</p>
+                    <div className="value">11</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="row " style={{ marginTop: '20px' }}>
-            <div className="col-8">
-              <div className="card ">
-                <div className="card-body">
-                  <h5 className="card-title">My Course</h5>
-                  <Query query={GET_COURSES}>
-                    {({ loading, error, data }) => {
-                      if (loading) return <Loader />;
-                      if (error)
-                        return (
-                          <p>Sorry! There was an error loading the items</p>
-                        );
-                      return (
-                        <div className="d-flex flex-wrap">
-                          {data.courses.map(course => (
-                            <CourseItem key={course._id} item={course} />
-                          ))}
-                        </div>
-                      );
-                    }}
-                  </Query>
-                </div>
+        </Card>
+        <div className="row " style={{ marginTop: '20px' }}>
+          <div className="col-8">
+            <Card className="card ">
+              <div className="card-body">
+                <h5 className="card-title">My Course</h5>
+                <Query query={GET_COURSES}>
+                  {({ loading, error, data }) => {
+                    if (loading) return <Loader />;
+                    if (error)
+                      return <p>Sorry! There was an error loading the items</p>;
+                    return (
+                      <div className="d-flex flex-wrap">
+                        {data.courses.map(course => (
+                          <CourseItem key={course._id} item={course} />
+                        ))}
+                      </div>
+                    );
+                  }}
+                </Query>
               </div>
-            </div>
-            <div className="col-4">
-              <div className="card ">
-                <div className="card-body">
-                  <h5 className="card-title">Daily Target</h5>
-                  <div className="row justify-content-center">
-                    <div className="col-9">
-                      <Circle
-                        percent={20}
-                        strokeWidth="4"
-                        strokeColor="#7386D5"
-                      />
-                      <p className="xp-caption">
-                        <span>0/300</span>
-                        <br />
-                        XP Diperoleh
-                      </p>
-                    </div>
+            </Card>
+          </div>
+          <div className="col-4">
+            <Card className="card ">
+              <div className="card-body">
+                <h5 className="card-title">Daily Target</h5>
+                <div className="row justify-content-center">
+                  <div className="col-9">
+                    <Circle
+                      percent={20}
+                      strokeWidth="4"
+                      strokeColor="#7386D5"
+                    />
+                    <p className="xp-caption">
+                      <span>0/300</span>
+                      <br />
+                      XP Diperoleh
+                    </p>
                   </div>
                 </div>
               </div>
-              <div className="card " style={{ marginTop: '20px' }}>
-                <div className="card-body">
-                  <h5 className="card-title">Friends</h5>
-                  <div className="row justify-content-center">
-                    <div className="col-9" />
-                  </div>
+            </Card>
+            <Card className="card " style={{ marginTop: '20px' }}>
+              <div className="card-body">
+                <h5 className="card-title">Friends</h5>
+                <div className="row justify-content-center">
+                  <div className="col-9" />
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       </main>
@@ -189,10 +182,7 @@ const StyledDashboard = styled(Dashboard)`
     margin-top: 0px;
   }
 
-  .card {
-    border-radius: 10px !important;
-    border: 0;
-  }
+  
   .xp-caption span {
     color: #ffc149;
     font-weight: bold;

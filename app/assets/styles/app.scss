@@ -20,10 +20,6 @@ html, body{
 #app {
     height:100%;
 }
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
 
 a, a:hover, a:focus {
     color: inherit;
@@ -33,13 +29,12 @@ a, a:hover, a:focus {
 
 #sidebar {
     min-width: 250px;
-
     min-height: 100vh;
-    /* don't forget to add all the previously mentioned styles here too */
-    background: #7386D5;
+    background: #4891E3;
     color: #fff;
     transition: all 0.3s;
-
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 #sidebar .sidebar-header {
     padding: 20px;
@@ -47,11 +42,9 @@ a, a:hover, a:focus {
 }
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
 }
 #sidebar ul p {
     color: #fff;
-    padding: 10px;
 }
 #sidebar ul li a {
     padding: 10px;

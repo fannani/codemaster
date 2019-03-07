@@ -43,8 +43,8 @@ let Container = ({ store, persistor }) => (
           <Suspense fallback={<LoadingScreen />}>
             <Switch>
               <Route path="/(|tentang|pelajari)" exact component={WebLayout} />
-              <Route path="/" component={SiswaLayout} />
               <Route path="/admin" component={AdminLayout} />
+              <Route path="/" component={SiswaLayout} />
             </Switch>
           </Suspense>
         </BrowserRouter>

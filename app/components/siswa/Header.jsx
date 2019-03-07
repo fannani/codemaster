@@ -119,9 +119,13 @@ const Header = ({
                   className="dropdown-menu dropdown-menu-right"
                   aria-labelledby="navbarDropdown"
                 >
+                  <Link className="dropdown-item" to="/settings">
+                    Pengaturan
+                  </Link>
                   <button onClick={logout} className="dropdown-item">
                     Logout
                   </button>
+
                 </div>
               </li>
             </ul>

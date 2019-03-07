@@ -1,11 +1,12 @@
 /* eslint-disable */
 import React from 'react';
 import { BASE_URL } from "../../config/config";
+import Logo from '../Logo';
 
 const Header = () => (
-  <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+  <nav className="navbar navbar-expand-md navbar-dark bg-dark" style={{ height: '50px' }}>
     <a className="navbar-brand" href="#">
-      belajarkode;
+      <Logo mode="dark" style={{ marginTop: '0px' }} />
     </a>
     <button
       className="navbar-toggler"

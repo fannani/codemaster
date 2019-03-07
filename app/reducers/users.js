@@ -8,8 +8,6 @@ const reducer = (
         loggedIn: true,
         user: action.user,
       };
-    case 'LOGIN_FAILURE':
-      return {};
     case 'REDUCE_ENERGY_SUCCESS':
       let userdetail = Object.assign(
         { ...state.user.userdetail },

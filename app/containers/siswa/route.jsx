@@ -12,6 +12,7 @@ const Achievement = lazy(() => import('./Achievement'));
 const CourseDetail = lazy(() => import('./CourseDetail'));
 const Course = lazy(() => import('./Course'));
 const Friends = lazy(() => import('./Friends'));
+const Settings = lazy(() => import('./Settings'));
 
 const route = ({ isLogin, location }) => {
   if (isLogin) {
@@ -20,6 +21,7 @@ const route = ({ isLogin, location }) => {
         <Switch>
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/course" component={CourseList} />
+          <Route exact path="/settings" component={Settings} />
           <Route exact path="/achievement" component={Achievement} />
           <Route exact path="/friends" component={Friends} />
           <Route path="/course/:courseid" component={CourseDetail} />

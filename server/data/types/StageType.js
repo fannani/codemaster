@@ -16,8 +16,8 @@ const StageType = new GraphQLObjectType({
   fields: () => ({
     _id: { type: GraphQLNonNull(GraphQLID) },
     title: { type: GraphQLNonNull(GraphQLString) },
-    teory: { type: GraphQLNonNull(GraphQLString) },
-    time: { type: GraphQLNonNull(GraphQLString) },
+    teory: { type: GraphQLString },
+    time: { type: GraphQLString },
     win: { type: GraphQLBoolean },
     imageid: { type: GraphQLString },
     course: {
