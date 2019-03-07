@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Leaderboard from '../../components/siswa/Leaderboard';
 import StageItem from '../../components/siswa/StageItem';
 import { GET_COURSE_BYID } from '../../graphql/coursesQuery';
-import { GET_STAGE_BY_IDCOURSE } from '../../graphql/stagesQuery';
+import { GET_STAGE_BY_COURSE_PLAYER } from '../../graphql/stagesQuery';
 
 const CourseDetail = ({ match, user, className }) => (
   <Query
@@ -40,7 +40,7 @@ const CourseDetail = ({ match, user, className }) => (
                       }}
                     >
                       <Query
-                        query={GET_STAGE_BY_IDCOURSE}
+                        query={GET_STAGE_BY_COURSE_PLAYER}
                         variables={{
                           courseid: match.params.courseid,
                           playerid: user.userdetailid,

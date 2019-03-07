@@ -1,13 +1,28 @@
 import gql from 'graphql-tag';
 
-export const GET_STAGE_BY_IDCOURSE = gql`
-  query GetStageByIDCourse($courseid: ID!, $playerid: ID) {
+export const GET_STAGE_BY_COURSE_PLAYER = gql`
+  query GetStageByCoursePlayer($courseid: ID!, $playerid: ID) {
     stages(course: $courseid, player: $playerid) {
       _id
       title
       time
       teory
       win
+      imageid
+      course {
+        _id
+      }
+    }
+  }
+`;
+
+export const GET_STAGE_BY_COURSE = gql`
+  query GetStageByIDCourse($courseid: ID!) {
+    stages(course: $courseid) {
+      _id
+      title
+      time
+      teory
       imageid
       course {
         _id

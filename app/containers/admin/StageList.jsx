@@ -7,6 +7,8 @@ import Card from '../../components/Card';
 import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';
 import { ADD_STAGE } from '../../graphql/stagesQuery';
+import { GET_STAGE_BY_COURSE } from '../../graphql/stagesQuery';
+import { Link } from 'react-router-dom';
 
 class StageList extends Component {
   constructor(props) {
@@ -33,6 +35,47 @@ class StageList extends Component {
                     Tambah Stage
                   </button>
                 </div>
+                <div className="row" style={{ marginTop: '20px' }}>
+                  <div className="col-12">
+                    <Query
+                      query={GET_STAGE_BY_COURSE}
+                      variables={{
+                        courseid: this.props.match.params.courseid,
+                      }}
+                    >
+                      {({ loading, error, data }) => {
+                        if (loading) return <p>Loading…</p>;
+                        if (error)
+                          return (
+                            <p>Sorry! There was an error loading the items</p>
+                          );
+                        return (
+                          <table className="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">TITLE</th>
+                                <th scope="col">ACTION</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {data.stages.map(stage => (
+                                <tr>
+                                  <td>{stage.title}</td>
+                                  <td>
+                                    <Link to={`/admin/stage/${stage._id}`}>
+                                      Detail
+                                    </Link>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        );
+                      }}
+                    </Query>
+                  </div>
+                </div>
+
                 <Modal
                   visible={this.state.showModal}
                   onClickBackdrop={this.modalClosed}
@@ -52,7 +95,7 @@ class StageList extends Component {
                           addStage({
                             variables: {
                               title,
-                              course : this.props.match.params.courseid
+                              course: this.props.match.params.courseid,
                             },
                           }).then(({ data: { addStage } }) => {
                             success(addStage._id);

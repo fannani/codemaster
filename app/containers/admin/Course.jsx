@@ -36,15 +36,15 @@ class Course extends Component {
                 </div>
                 <div className="row" style={{ marginTop: '20px' }}>
                   <div className="col-12">
-                    <Query query={GET_COURSES}>
-                      {({ loading, error, data }) => {
-                        if (loading) return <p>Loading…</p>;
-                        if (error)
+                    <div>
+                      <Query query={GET_COURSES}>
+                        {({ loading, error, data }) => {
+                          if (loading) return <p>Loading…</p>;
+                          if (error)
+                            return (
+                              <p>Sorry! There was an error loading the items</p>
+                            );
                           return (
-                            <p>Sorry! There was an error loading the items</p>
-                          );
-                        return (
-                          <div>
                             <table className="table">
                               <thead>
                                 <tr>
@@ -67,106 +67,105 @@ class Course extends Component {
                                 ))}
                               </tbody>
                             </table>
-                            <Modal
-                              visible={this.state.showModal}
-                              onClickBackdrop={this.modalClosed}
+                          );
+                        }}
+                      </Query>
+                      <Modal
+                        visible={this.state.showModal}
+                        onClickBackdrop={this.modalClosed}
+                      >
+                        <div className="modal-header">
+                          <h5 className="modal-title">Add Course</h5>
+                        </div>
+
+                        <Mutation mutation={ADD_COURSE}>
+                          {addCourse => (
+                            <Formik
+                              initialValues={{
+                                name: '',
+                                desc: '',
+                                image: null,
+                              }}
+                              onSubmit={values => {
+                                const success = this.success;
+                                const { image, name, desc } = values;
+                                addCourse({
+                                  variables: {
+                                    file: image,
+                                    name,
+                                    desc,
+                                  },
+                                }).then(({ data: { addCourse } }) => {
+                                  success(addCourse._id);
+                                });
+                              }}
                             >
-                              <div className="modal-header">
-                                <h5 className="modal-title">Add Course</h5>
-                              </div>
+                              {({ isSubmitting, setFieldValue }) => (
+                                <Form>
+                                  <div className="modal-body">
+                                    <div className="card-body">
+                                      <div className="form-group">
+                                        <label htmlFor="name">Name</label>
+                                        <Field
+                                          class="form-control"
+                                          type="text"
+                                          placeholder="name"
+                                          name="name"
+                                        />
+                                      </div>
+                                      <div className="form-group">
+                                        <label htmlFor="desc">
+                                          Description
+                                        </label>
+                                        <Field
+                                          class="form-control"
+                                          type="text"
+                                          placeholder="description"
+                                          name="desc"
+                                        />
+                                      </div>
+                                      <div className="form-group">
+                                        <label htmlFor="file">
+                                          Course Image
+                                        </label>
+                                        <input
+                                          id="file"
+                                          name="file"
+                                          type="file"
+                                          onChange={event => {
+                                            setFieldValue(
+                                              'image',
+                                              event.currentTarget.files[0],
+                                            );
+                                          }}
+                                          className="form-control-file"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="modal-footer">
+                                    <button
+                                      type="submit"
+                                      className="btn btn-primary"
+                                    >
+                                      Tambah
+                                    </button>
 
-                              <Mutation mutation={ADD_COURSE}>
-                                {addCourse => (
-                                  <Formik
-                                    initialValues={{
-                                      name: '',
-                                      desc: '',
-                                      image: null,
-                                    }}
-                                    onSubmit={values => {
-                                      const success = this.success;
-                                      const { image, name, desc } = values;
-                                      addCourse({
-                                        variables: {
-                                          file: image,
-                                          name,
-                                          desc,
-                                        },
-                                      }).then(({ data: { addCourse } }) => {
-                                        success(addCourse._id);
-                                      });
-                                    }}
-                                  >
-                                    {({ isSubmitting, setFieldValue }) => (
-                                      <Form>
-                                        <div className="modal-body">
-                                          <div className="card-body">
-                                            <div className="form-group">
-                                              <label htmlFor="name">Name</label>
-                                              <Field
-                                                class="form-control"
-                                                type="text"
-                                                placeholder="name"
-                                                name="name"
-                                              />
-                                            </div>
-                                            <div className="form-group">
-                                              <label htmlFor="desc">
-                                                Description
-                                              </label>
-                                              <Field
-                                                class="form-control"
-                                                type="text"
-                                                placeholder="description"
-                                                name="desc"
-                                              />
-                                            </div>
-                                            <div className="form-group">
-                                              <label htmlFor="file">
-                                                Course Image
-                                              </label>
-                                              <input
-                                                id="file"
-                                                name="file"
-                                                type="file"
-                                                onChange={event => {
-                                                  setFieldValue(
-                                                    'image',
-                                                    event.currentTarget
-                                                      .files[0],
-                                                  );
-                                                }}
-                                                className="form-control-file"
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="modal-footer">
-                                          <button
-                                            type="submit"
-                                            className="btn btn-primary"
-                                          >
-                                            Tambah
-                                          </button>
-
-                                          <button
-                                            type="button"
-                                            onClick={this.modalClosed}
-                                            className="btn btn-secondary"
-                                          >
-                                            Close
-                                          </button>
-                                        </div>
-                                      </Form>
-                                    )}
-                                  </Formik>
-                                )}
-                              </Mutation>
-                            </Modal>
-                          </div>
-                        );
-                      }}
-                    </Query>
+                                    <button
+                                      type="button"
+                                      onClick={this.modalClosed}
+                                      className="btn btn-secondary"
+                                    >
+                                      Close
+                                    </button>
+                                  </div>
+                                </Form>
+                              )}
+                            </Formik>
+                          )}
+                        </Mutation>
+                      </Modal>
+                    </div>
                   </div>
                 </div>
               </div>
