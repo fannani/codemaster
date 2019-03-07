@@ -1,9 +1,20 @@
 import axios from 'axios';
-import { API_URL, BASE_URL } from '../config/config';
+import { BASE_URL } from '../config/config';
 import ApiService from './ApiService';
 
-const login = (email, password) => {
-  return axios({
+const getUserDetail = async function(user) {
+  let query;
+  if (user.role === 'siswa') {
+    query = `players(_id:"${user.userdetailid}"){_id,address,energy,stars}`;
+  }
+  const result = await ApiService.query(query);
+  return Object.assign(user, {
+    userdetail: result.data.data.players[0],
+  });
+};
+
+const login = (email, password) =>
+  axios({
     url: `${BASE_URL}auth/login`,
     method: 'post',
     data: {
@@ -11,62 +22,27 @@ const login = (email, password) => {
       password,
     },
   })
-    .then(async function(response) {
+    .then(async response => {
       if (response.data.user.role === 'siswa') {
         const { user } = response.data;
-        return await getUserDetail(user);
+        const detail = await getUserDetail(user);
+        return detail;
       }
+      throw Error('Email atau Password salah');
     })
-    .then(userdetail => {
-      return userdetail;
-    })
-    .catch(err => {
-      console.log(err);
-    });
-};
+    .then(userdetail => userdetail);
 
-const register = (name, email, password) => {
-  return ApiService.mutation(
-    `register(name : "${name}", email: "${email}", password : "${password}"){
-          email,password
-        }`,
-  ).then(response => {
-    if (response.data.errors.length > 0) {
-      console.log('EREROIEORIE');
-    } else {
-      return response.data;
-    }
-  });
-};
-
-const getUserDetail = async function(user) {
-  let query;
-  if (user.role === 'siswa') {
-    query = `players(_id:"${user.userdetailid}"){_id,address,energy,stars}`;
-  }
-  let result = await ApiService.query(query);
-  return Object.assign(user, {
-    userdetail: result.data.data.players[0],
-  });
-};
-
-const reduceEnergy = (userid, energy) => {
-  return ApiService.mutation(
+const reduceEnergy = (userid, energy) =>
+  ApiService.mutation(
     `reduceEnergy(userid : "${userid}", energy: ${energy}){
           _id,energy
         }`,
-  ).then(response => {
-    return response.data.data.reduceEnergy;
-  });
-};
+  ).then(response => response.data.data.reduceEnergy);
 
-const addPlayerAchievement = (player, achievement, star, point) => {
-  return ApiService.mutation(
+const addPlayerAchievement = (player, achievement, star, point) =>
+  ApiService.mutation(
     `addPlayerAchievement(player : "${player}", achievement : "${achievement}" star: ${star}, point: ${point})`,
-  ).then(response => {
-    return response.data.data.addPlayerAchievement;
-  });
-};
+  ).then(response => response.data.data.addPlayerAchievement);
 
 const logout = () => {
   localStorage.removeItem('user');
@@ -74,7 +50,6 @@ const logout = () => {
 
 export default {
   login,
-  register,
   logout,
   reduceEnergy,
   addPlayerAchievement,

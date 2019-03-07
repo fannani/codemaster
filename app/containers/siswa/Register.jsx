@@ -1,9 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Mutation } from 'react-apollo';
-import connect from 'react-redux/es/connect/connect';
 import styled from 'styled-components';
-import { register } from '../../actions/users';
 import { REGISTER } from '../../graphql/usersQuery';
 
 const Container = styled.div`
@@ -16,7 +14,7 @@ const Container = styled.div`
   background: linear-gradient(to right, #0052d4, #65c7f7, #9cecfb);
 `;
 
-const Register = ({ register, history }) => (
+const Register = ({ history }) => (
   <Container className="container">
     <div className="row">
       <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -39,17 +37,15 @@ const Register = ({ register, history }) => (
                       password,
                     },
                   })
-                    .then(({ error, data }) => {
-                      console.log(error);
-                      console.log(data);
+                    .then(() => {
                       setSubmitting(false);
                       history.push('login');
                     })
-                    .catch(err => {
-                      err.graphQLErrors.map(({ message, extensions }, i) => {
-                        setStatus({
-                          email: extensions.exception.validationErrors.email,
-                        });
+                    .catch(({ graphQLErrors }) => {
+                      setStatus({
+                        email:
+                          graphQLErrors[0].extensions.exception.validationErrors
+                            .email,
                       });
                     });
                 }
@@ -123,12 +119,4 @@ const Register = ({ register, history }) => (
   </Container>
 );
 
-const mapDispatchToProps = dispatch => ({
-  register: (name, email, password) =>
-    dispatch(register(name, email, password)),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Register);
+export default Register;

@@ -7,39 +7,11 @@ export const login = (email, password) => dispatch => {
   const success = user => {
     return { type: 'LOGIN_SUCCESS', user };
   };
-  const failure = error => {
-    return { type: 'LOGIN_FAILURE', error };
-  };
   dispatch(request());
-  return userService.login(email, password).then(
-    user => {
-      dispatch(success(user));
-    },
-    error => {
-      dispatch(failure(error));
-    },
-  );
-};
-
-export const register = (name, email, password) => dispatch => {
-  const request = () => {
-    return { type: 'REGISTER_REQUEST' };
-  };
-  const success = user => {
-    return { type: 'REGISTER_SUCCESS', user };
-  };
-  const failure = error => {
-    return { type: 'REGISTER_FAILURE', error };
-  };
-  dispatch(request());
-  return userService.register(name, email, password).then(
-    user => {
-      dispatch(success(user));
-    },
-    error => {
-      dispatch(failure(error));
-    },
-  );
+  return userService.login(email, password).then(user => {
+    dispatch(success(user));
+    return user;
+  });
 };
 
 export const logout = () => dispatch => {
