@@ -30,7 +30,7 @@ class StageList extends Component {
             <Card className="card">
               <div className="card-body">
                 <div className="d-flex justify-content-between">
-                  <h5 className="card-title">Judul Course</h5>
+                  <h5 className="card-title">Detail Course</h5>
                   <button onClick={this.addStage} className="btn btn-primary">
                     Tambah Stage
                   </button>
