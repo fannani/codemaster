@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import Score from './Score';
+import Course from './Course';
 
 const PlayerSchema = new Schema({
   energy: Number,
@@ -43,7 +44,7 @@ PlayerSchema.methods.courseScore = async function() {
   return score;
 };
 
-PlayerSchema.methods.getCourse = async function(){
+PlayerSchema.methods.getCourse = async function() {
   const score = await Score.aggregate([
     { $match: { player: this._id } },
     {
@@ -52,7 +53,14 @@ PlayerSchema.methods.getCourse = async function(){
       },
     },
   ]);
-  return score;
-}
+  let temp = [];
+  for (let index in score) {
+    temp.push(score[index]._id);
+  }
+  let courses = await Course.find({
+    _id: { $in: temp },
+  });
+  return courses;
+};
 
 export default mongoose.model('Player', PlayerSchema);

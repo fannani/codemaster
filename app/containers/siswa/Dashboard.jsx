@@ -7,9 +7,19 @@ import classnames from 'classnames';
 import star from '../../assets/images/star-circle.png';
 import badge from '../../assets/images/badges.png';
 import achievement from '../../assets/images/achievement.png';
-import { GET_COURSES } from '../../graphql/coursesQuery';
+import { GET_COURSE_BY_PLAYER } from '../../graphql/playerQuery';
 import Card from '../../components/Card';
 import CourseItem from '../../components/siswa/CourseItem';
+import connect from 'react-redux/es/connect/connect';
+import { stageFetchOne } from '../../actions/stages';
+import { getMissionsByStage } from '../../actions/missions';
+import {
+  incrementTimer,
+  setPlayerStatus as setPlayerStatusAction,
+  setPlayMode as setPlayModeAction,
+} from '../../actions/gameplay';
+import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
+import { addScore as addScoreAction } from '../../actions/scores';
 
 const Loader = () => {
   const content = (
@@ -41,119 +51,128 @@ const Loader = () => {
   );
 };
 
-const Dashboard = ({ className }) => (
-  <div className={classnames(className, 'container-fluid')}>
-    <div className="row justify-content-center">
-      <main className="col-12 main-container" style={{ maxWidth: '1100px' }}>
-        <Card className="card">
-          <div className="card-body">
-            <div className="row">
-              <div className="col-2">
-                <Ava />
-              </div>
-              <div className="col-4">
-                <h5>Rahadyan Fannani Arif</h5>
-                <p>Malang, Jawa Timur</p>
-                <Level>Level 5 : </Level>
-                <div className="row">
-                  <div className="col-5" style={{ paddingRight: '0px' }}>
-                    <Line percent={20} strokeWidth="4" strokeColor="#7386D5" />
-                  </div>
-                  <Progress className="col-4">2130/3000</Progress>
+const Dashboard = ({ className, user }) => {
+  console.log(user);
+  return (
+    <div className={classnames(className, 'container-fluid')}>
+      <div className="row justify-content-center">
+        <main className="col-12 main-container" style={{ maxWidth: '1100px' }}>
+          <Card className="card">
+            <div className="card-body">
+              <div className="row">
+                <div className="col-2">
+                  <Ava />
                 </div>
-              </div>
-              <div className="col-2">
-                <div className="row">
-                  <div className="col-4">
-                    <img src={achievement} width={40} alt="" />
-                  </div>
-                  <div className="col-8 caption">
-                    <p>Achievements</p>
-                    <div className="value">11</div>
+                <div className="col-4">
+                  <h5>Rahadyan Fannani Arif</h5>
+                  <p>Malang, Jawa Timur</p>
+                  <Level>Level 5 : </Level>
+                  <div className="row">
+                    <div className="col-5" style={{ paddingRight: '0px' }}>
+                      <Line
+                        percent={20}
+                        strokeWidth="4"
+                        strokeColor="#7386D5"
+                      />
+                    </div>
+                    <Progress className="col-4">2130/3000</Progress>
                   </div>
                 </div>
-              </div>
-              <div className="col-2">
-                <div className="row">
-                  <div className="col-4">
-                    <img src={badge} width={40} alt="" />
-                  </div>
-                  <div className="col-8 caption">
-                    <p>Badges</p>
-                    <div className="value">11</div>
+                <div className="col-2">
+                  <div className="row">
+                    <div className="col-4">
+                      <img src={achievement} width={40} alt="" />
+                    </div>
+                    <div className="col-8 caption">
+                      <p>Achievements</p>
+                      <div className="value">11</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-2">
-                <div className="row">
-                  <div className="col-4">
-                    <img src={star} width={40} alt="" />
+                <div className="col-2">
+                  <div className="row">
+                    <div className="col-4">
+                      <img src={badge} width={40} alt="" />
+                    </div>
+                    <div className="col-8 caption">
+                      <p>Badges</p>
+                      <div className="value">11</div>
+                    </div>
                   </div>
-                  <div className="col-8 caption">
-                    <p>Stars</p>
-                    <div className="value">11</div>
+                </div>
+                <div className="col-2">
+                  <div className="row">
+                    <div className="col-4">
+                      <img src={star} width={40} alt="" />
+                    </div>
+                    <div className="col-8 caption">
+                      <p>Stars</p>
+                      <div className="value">11</div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </Card>
-        <div className="row " style={{ marginTop: '20px' }}>
-          <div className="col-8">
-            <Card className="card ">
-              <div className="card-body">
-                <h5 className="card-title">My Course</h5>
-                <Query query={GET_COURSES}>
-                  {({ loading, error, data }) => {
-                    if (loading) return <Loader />;
-                    if (error)
-                      return <p>Sorry! There was an error loading the items</p>;
-                    return (
-                      <div className="d-flex flex-wrap">
-                        {data.courses.map(course => (
-                          <CourseItem key={course._id} item={course} />
-                        ))}
-                      </div>
-                    );
-                  }}
-                </Query>
-              </div>
-            </Card>
-          </div>
-          <div className="col-4">
-            <Card className="card ">
-              <div className="card-body">
-                <h5 className="card-title">Daily Target</h5>
-                <div className="row justify-content-center">
-                  <div className="col-9">
-                    <Circle
-                      percent={20}
-                      strokeWidth="4"
-                      strokeColor="#7386D5"
-                    />
-                    <p className="xp-caption">
-                      <span>0/300</span>
-                      <br />
-                      XP Diperoleh
-                    </p>
+          </Card>
+          <div className="row " style={{ marginTop: '20px' }}>
+            <div className="col-8">
+              <Card className="card ">
+                <div className="card-body">
+                  <h5 className="card-title">My Course</h5>
+                  <Query
+                    query={GET_COURSE_BY_PLAYER}
+                    variables={{ playerid: user.userdetailid }}
+                  >
+                    {({ loading, error, data }) => {
+                      if (loading) return <Loader />;
+                      if (error) return <p />;
+                      return (
+                        <div className="d-flex flex-wrap">
+                          {data.players[0].course.map(course => (
+                            <CourseItem key={course._id} item={course} />
+                          ))}
+                        </div>
+                      );
+                    }}
+                  </Query>
+                </div>
+              </Card>
+            </div>
+            <div className="col-4">
+              <Card className="card ">
+                <div className="card-body">
+                  <h5 className="card-title">Daily Target</h5>
+                  <div className="row justify-content-center">
+                    <div className="col-9">
+                      <Circle
+                        percent={20}
+                        strokeWidth="4"
+                        strokeColor="#7386D5"
+                      />
+                      <p className="xp-caption">
+                        <span>0/300</span>
+                        <br />
+                        XP Diperoleh
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
-            <Card className="card " style={{ marginTop: '20px' }}>
-              <div className="card-body">
-                <h5 className="card-title">Friends</h5>
-                <div className="row justify-content-center">
-                  <div className="col-9" />
+              </Card>
+              <Card className="card " style={{ marginTop: '20px' }}>
+                <div className="card-body">
+                  <h5 className="card-title">Friends</h5>
+                  <div className="row justify-content-center">
+                    <div className="col-9" />
+                  </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Ava = styled.div`
   background-color: white;
@@ -182,7 +201,6 @@ const StyledDashboard = styled(Dashboard)`
     margin-top: 0px;
   }
 
-  
   .xp-caption span {
     color: #ffc149;
     font-weight: bold;
@@ -197,4 +215,11 @@ const StyledDashboard = styled(Dashboard)`
   }
 `;
 
-export default StyledDashboard;
+const mapStateToProps = state => ({
+  user: state.users.user,
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(StyledDashboard);

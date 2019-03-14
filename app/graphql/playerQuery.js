@@ -1,16 +1,23 @@
-
+import gql from 'graphql-tag';
 
 export const GET_COURSE_BY_PLAYER = gql`
-    query GetCourseByPlayer($courseid: ID!) {
-        stages(course: $courseid) {
+  query GetCourseByPlayer($playerid: ID!) {
+    players(_id: $playerid) {
+      course {
+        name
+        desc
+        imageid
+        leaderboard {
+          _id
+          score
+          player {
             _id
-            title
-            time
-            teory
-            imageid
-            course {
-                _id
+            user {
+              name
             }
+          }
         }
+      }
     }
+  }
 `;
