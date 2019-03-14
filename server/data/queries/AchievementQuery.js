@@ -11,17 +11,16 @@ const achievement = {
       type: GraphQLID,
     },
   },
-  async resolve(parent,args) {
-      if (args.player) {
-        let achievements = await Achievement.find();
-        for(let i = 0;i<achievements.length;i++){
-          achievements[i] = achievements[i].player(args.player);
-        }
-        return achievements;
-      } 
-        return await Achievement.find(args);
-      
+  async resolve(parent, args) {
+    if (args.player) {
+      let achievements = await Achievement.find();
+      for (let i = 0; i < achievements.length; i++) {
+        achievements[i] = achievements[i].player(args.player);
+      }
+      return achievements;
     }
+    return await Achievement.find(args);
+  },
 };
 
 export default achievement;

@@ -86,18 +86,18 @@ const Header = ({
             {isLogin ? (
               <EnergyDiv className="navbar-text ml-auto">
                 <EnergyImg width="20px" src={energyImage} /> : {energy}
-                <button
-                  style={{
-                    marginLeft: '10px',
-                    height: '33px',
-                    backgroundColor: '#7386D5',
-                    border: '0',
-                  }}
-                  className="btn btn-primary"
-                  onClick={onAddEnergy}
-                >
-                  Tambah
-                </button>
+                {/*<button*/}
+                  {/*style={{*/}
+                    {/*marginLeft: '10px',*/}
+                    {/*height: '33px',*/}
+                    {/*backgroundColor: '#7386D5',*/}
+                    {/*border: '0',*/}
+                  {/*}}*/}
+                  {/*className="btn btn-primary"*/}
+                  {/*onClick={onAddEnergy}*/}
+                {/*>*/}
+                  {/*Tambah*/}
+                {/*</button>*/}
               </EnergyDiv>
             ) : (
               ''

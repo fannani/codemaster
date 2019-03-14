@@ -7,7 +7,7 @@ import 'brace/theme/tomorrow';
 
 const Button = styled.button`
   border-radius: 0px!important;
-  background-color:#6D7FCC;
+  background-color:#4891E3;
   margin:5px;
   color:white;
 `

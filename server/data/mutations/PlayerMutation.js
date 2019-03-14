@@ -54,6 +54,7 @@ const PlayerMutation = {
           name,
           email,
           password,
+          role: 'siswa',
           userdetailid: newplayer._id,
         });
         return await newuser.save();

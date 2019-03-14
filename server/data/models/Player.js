@@ -43,4 +43,16 @@ PlayerSchema.methods.courseScore = async function() {
   return score;
 };
 
+PlayerSchema.methods.getCourse = async function(){
+  const score = await Score.aggregate([
+    { $match: { player: this._id } },
+    {
+      $group: {
+        _id: '$course',
+      },
+    },
+  ]);
+  return score;
+}
+
 export default mongoose.model('Player', PlayerSchema);

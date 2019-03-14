@@ -3,11 +3,14 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
-  GraphQLInt, GraphQLList
-} from "graphql";
+  GraphQLInt,
+  GraphQLList,
+} from 'graphql';
 import Score from '../models/Score';
 import User from '../models/User';
+import Player from '../models/Player';
 import UserType from './UserType';
+import CourseType from './CourseType';
 
 const PlayerType = new GraphQLObjectType({
   name: 'Player',
@@ -17,12 +20,12 @@ const PlayerType = new GraphQLObjectType({
     user: {
       type: GraphQLNonNull(UserType),
       async resolve({ _id }) {
-        return await User.findOne({userdetailid : _id});
+        return await User.findOne({ userdetailid: _id });
       },
     },
     energy: { type: GraphQLNonNull(GraphQLInt) },
     address: { type: GraphQLString },
-    friends: {type: GraphQLList(GraphQLID)},
+    friends: { type: GraphQLList(GraphQLID) },
     stars: {
       type: GraphQLInt,
       async resolve({ _id }) {
@@ -49,6 +52,13 @@ const PlayerType = new GraphQLObjectType({
           }
         }
         return total;
+      },
+    },
+    course: {
+      type: GraphQLList(CourseType),
+      async resolve({ _id }) {
+        const score = await Player.findById(_id);
+        return await score.getCourse();
       },
     },
     birthday: { type: GraphQLNonNull(GraphQLString) },
