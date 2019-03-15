@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Modal from 'react-bootstrap4-modal';
 import { ToastContainer, toast } from 'react-toastify';
 import connect from 'react-redux/es/connect/connect';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Guide from '../../components/siswa/Guide';
 import CourseFooter from '../../components/siswa/CourseFooter';
 import Editor from '../../components/siswa/Editor';
@@ -16,20 +14,16 @@ import {
 } from '../../actions/gameplay';
 import { getMissionsByStage } from '../../actions/missions';
 import { stageFetchOne } from '../../actions/stages';
-import Stars from '../../components/siswa/Stars';
 import { addScore as addScoreAction } from '../../actions/scores';
 import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
 import Output from '../../components/siswa/Output';
+import ScoreBoard from '../../components/siswa/ScoreBoard';
 
 import {
   calculateStars,
   checkResult,
   compareResult,
 } from '../../utils/CourseUtil';
-
-const StyledStars = styled(Stars)`
-  text-align: center;
-`;
 
 const Course = ({
   match,
@@ -152,7 +146,6 @@ const Course = ({
             mission={missions}
             result={result}
           />
-
           <Editor
             checkResult={checkResult(script, missions)}
             script={script}
@@ -164,32 +157,16 @@ const Course = ({
         <CourseFooter />
       </main>
       <ToastContainer />
-      <Modal
-        visible={showModal}
+      <ScoreBoard
+        show={showModal}
+        stars={stars}
+        timer={timerText}
+        life={lifeResult}
+        score={scoreResult}
         onClickBackdrop={() => {
           setShowModal(false);
         }}
-      >
-        <div className="modal-header">
-          <h5 className="modal-title">
-            {lifeResult > 0 ? 'CONGRATULATION' : 'ANDA GAGAL COBA LAGI'}
-          </h5>
-        </div>
-        <div className="modal-body">
-          <StyledStars value={stars} />
-          SCORE : {lifeResult > 0 ? scoreResult : '0'}
-          <br />
-          TIME : {timerText}
-        </div>
-        <div className="modal-footer">
-          <button type="button" className="btn btn-secondary">
-            Main lagi
-          </button>
-          <button type="button" className="btn btn-secondary">
-            Kembali
-          </button>
-        </div>
-      </Modal>
+      />
     </div>
   );
 };
