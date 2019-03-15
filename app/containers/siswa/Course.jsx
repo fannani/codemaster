@@ -58,15 +58,19 @@ const Course = ({
     <body>
 
     </body>
-</html>`);
-  const [score, setScore] = useState(0);
-  const [life, setLife] = useState(3);
+</html>`,
+  );
+  const [scoreResult, setScoreResult] = useState(0);
+  const [lifeResult, setLifeResult] = useState(0);
   const [result, setResult] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [stars, setStars] = useState([]);
   const { params } = match;
   const { stageid } = params;
-
+  let life = 3;
+  let score = 0;
+  const scorePoint = 20;
+  const energyNeed = 20;
   let intervalHandle;
 
   const gameOver = () => {
@@ -80,6 +84,9 @@ const Course = ({
         calculateStars(currentTimer, time, life),
       );
     }
+    setLifeResult(life);
+    setScoreResult(score);
+    console.log("score :"+score);
     setShowModal(true);
     setStars([]);
     clearInterval(intervalHandle);
@@ -89,6 +96,9 @@ const Course = ({
     const passData = e.data;
     if (passData.action === 'result') {
       const compare = compareResult(result, passData.data);
+      score = compare.all * scorePoint;
+      setResult(compare.result);
+      setPlayerStatus(score, life);
       if (compare.last < missions.length) {
         if (compare.last > 0) {
           postLog('misi', 'berhasil menyelesaikan misi', compare.last);
@@ -96,21 +106,16 @@ const Course = ({
             position: toast.POSITION.BOTTOM_CENTER,
           });
         } else if (life === 1) {
-          setLife(life - 1);
+          life -= 1;
           gameOver();
         } else {
           toast.error('Tidak ada jawaban yang benar', {
             position: toast.POSITION.BOTTOM_CENTER,
           });
-          setLife(life - 1);
+          life -= 1;
         }
       }
       if (compare.all >= missions.length) gameOver();
-      setResult(compare.result);
-      setScore(compare.all * 20);
-      console.log(score);
-
-      setPlayerStatus(score, life);
     }
   };
 
@@ -125,7 +130,7 @@ const Course = ({
   useEffect(() => {
     fetchData(stageid);
     missionsFetchData(stageid);
-    reduceEnergy(user.userdetail._id, 20);
+    reduceEnergy(user.userdetail._id, energyNeed);
     window.addEventListener('message', handleIframeTask);
     intervalHandle = setInterval(tick, 1000);
     setPlayerStatus(0, 3);
@@ -168,12 +173,12 @@ const Course = ({
       >
         <div className="modal-header">
           <h5 className="modal-title">
-            {life > 0 ? 'CONGRATULATION' : 'ANDA GAGAL COBA LAGI'}
+            {lifeResult > 0 ? 'CONGRATULATION' : 'ANDA GAGAL COBA LAGI'}
           </h5>
         </div>
         <div className="modal-body">
           <StyledStars value={stars} />
-          SCORE : {life > 0 ? score : '0'}
+          SCORE : {lifeResult > 0 ? scoreResult : '0'}
           <br />
           TIME : {timerText}
         </div>
@@ -204,6 +209,7 @@ const mapStateToProps = state => ({
   missionsError: state.missions.hasErrored,
   missions: state.missions.missions,
   life: state.gameplay.life,
+  score: state.gameplay.score,
 });
 const mapDispatchToProps = dispatch => ({
   fetchData: id => dispatch(stageFetchOne(id)),
