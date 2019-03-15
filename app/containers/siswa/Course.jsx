@@ -163,6 +163,7 @@ const Course = ({
         timer={timerText}
         life={lifeResult}
         score={scoreResult}
+        courseid={course._id}
         onClickBackdrop={() => {
           setShowModal(false);
         }}
@@ -208,15 +209,15 @@ Course.propTypes = {
   currentTimer: PropTypes.number.isRequired,
   missions: PropTypes.arrayOf(PropTypes.object),
   user: PropTypes.any.isRequired,
-  reduceEnergy: PropTypes.any.isRequired,
-  addScore: PropTypes.any.isRequired,
-  course: PropTypes.any.isRequired,
+  reduceEnergy: PropTypes.func.isRequired,
+  addScore: PropTypes.func.isRequired,
+  course: PropTypes.object.isRequired,
   time: PropTypes.any.isRequired,
   teory: PropTypes.any.isRequired,
   title: PropTypes.any.isRequired,
   timerText: PropTypes.any.isRequired,
-  setPlayMode: PropTypes.any.isRequired,
-  setPlayerStatus: PropTypes.any.isRequired,
+  setPlayMode: PropTypes.func.isRequired,
+  setPlayerStatus: PropTypes.func.isRequired,
 };
 
 Course.defaultProps = {
