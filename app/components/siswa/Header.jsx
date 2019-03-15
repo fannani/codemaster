@@ -40,9 +40,9 @@ const Header = ({
       className="navbar navbar-expand-md navbar-dark bg-dark"
       style={{ height: '50px' }}
     >
-      <a className="navbar-brand" href="#">
+      <Link to="/dashboard" className="navbar-brand">
         <Logo mode="dark" style={{ marginTop: '0px' }} />
-      </a>
+      </Link>
 
       {playerStatus}
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -87,16 +87,16 @@ const Header = ({
               <EnergyDiv className="navbar-text ml-auto">
                 <EnergyImg width="20px" src={energyImage} /> : {energy}
                 {/*<button*/}
-                  {/*style={{*/}
-                    {/*marginLeft: '10px',*/}
-                    {/*height: '33px',*/}
-                    {/*backgroundColor: '#7386D5',*/}
-                    {/*border: '0',*/}
-                  {/*}}*/}
-                  {/*className="btn btn-primary"*/}
-                  {/*onClick={onAddEnergy}*/}
+                {/*style={{*/}
+                {/*marginLeft: '10px',*/}
+                {/*height: '33px',*/}
+                {/*backgroundColor: '#7386D5',*/}
+                {/*border: '0',*/}
+                {/*}}*/}
+                {/*className="btn btn-primary"*/}
+                {/*onClick={onAddEnergy}*/}
                 {/*>*/}
-                  {/*Tambah*/}
+                {/*Tambah*/}
                 {/*</button>*/}
               </EnergyDiv>
             ) : (
@@ -125,7 +125,6 @@ const Header = ({
                   <button onClick={logout} className="dropdown-item">
                     Logout
                   </button>
-
                 </div>
               </li>
             </ul>

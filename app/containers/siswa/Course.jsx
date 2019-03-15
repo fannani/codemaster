@@ -108,6 +108,8 @@ const Course = ({
       if (compare.all >= missions.length) gameOver();
       setResult(compare.result);
       setScore(compare.all * 20);
+      console.log(score);
+
       setPlayerStatus(score, life);
     }
   };
@@ -202,7 +204,6 @@ const mapStateToProps = state => ({
   missionsError: state.missions.hasErrored,
   missions: state.missions.missions,
   life: state.gameplay.life,
-  score: state.gameplay.score,
 });
 const mapDispatchToProps = dispatch => ({
   fetchData: id => dispatch(stageFetchOne(id)),

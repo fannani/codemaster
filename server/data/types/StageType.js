@@ -4,6 +4,8 @@ import {
   GraphQLString,
   GraphQLID,
   GraphQLBoolean,
+  GraphQLList,
+  GraphQLInt,
 } from 'graphql';
 
 import CourseType from './CourseType';
@@ -19,6 +21,8 @@ const StageType = new GraphQLObjectType({
     teory: { type: GraphQLString },
     time: { type: GraphQLString },
     win: { type: GraphQLBoolean },
+    score: { type: GraphQLInt },
+    stars: { type: GraphQLList(GraphQLBoolean) },
     imageid: { type: GraphQLString },
     course: {
       type: CourseType,

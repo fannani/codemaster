@@ -29,6 +29,7 @@ CourseSchema.methods.leaderboard = async function() {
 };
 
 CourseSchema.methods.player = async function(player) {
+  console.log('TESTESTES');
   const stage = await Stage.find({ course: this._id });
   for (let i = 0; i < stage.length; i += 1) {
     let win = false;
@@ -43,14 +44,18 @@ CourseSchema.methods.player = async function(player) {
         $group: {
           _id: { stage: '$stage' },
           score: { $max: '$score' },
+          stars: { $first: '$stars' },
         },
       },
     ]);
     if (score.length > 0 && score[0].score > 0) {
       win = true;
+      stage[i].score = score.score;
+      stage[i].stars = score.stars;
     }
     stage[i].win = win;
   }
+  console.log(stage);
   return stage;
 };
 

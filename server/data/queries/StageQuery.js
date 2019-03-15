@@ -1,7 +1,6 @@
 import { GraphQLID, GraphQLList } from 'graphql';
 import StageType from '../types/StageType';
 import Stage from '../models/Stage';
-import Score from '../models/Score';
 import Course from '../models/Course';
 
 const stages = {
@@ -19,13 +18,12 @@ const stages = {
     },
   },
   async resolve(parent, args) {
-        if (args.player) {
-            let course = await Course.findById(args.course);
-            return await course.player(args.player);
-        } return await Stage.find(args);
-        
-
+    if (args.player) {
+      let course = await Course.findById(args.course);
+      return await course.player(args.player);
     }
+    return await Stage.find(args);
+  },
 };
 
 export default stages;

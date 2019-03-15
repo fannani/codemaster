@@ -8,6 +8,8 @@ export const GET_STAGE_BY_COURSE_PLAYER = gql`
       time
       teory
       win
+      score
+      stars
       imageid
       course {
         _id
