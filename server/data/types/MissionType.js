@@ -13,7 +13,7 @@ const MissionType = new GraphQLObjectType({
   name: 'Mission',
   description: 'This represent a Mission',
   fields: () => ({
-    _id: { type:  GraphQLNonNull(GraphQLID) },
+    _id: { type: GraphQLNonNull(GraphQLID) },
     stage: {
       type: StageType,
       resolve: ({ _id }) => {
@@ -26,10 +26,11 @@ const MissionType = new GraphQLObjectType({
         });
       },
     },
-    quest: { type: new GraphQLNonNull(GraphQLString) },
-    testcase: { type: new GraphQLList(GraphQLString) },
-    score: { type: new GraphQLNonNull(GraphQLInt) },
-    updated_at: { type: new GraphQLNonNull(GraphQLString) },
+    quest: { type: GraphQLNonNull(GraphQLString) },
+    testcase: { type: GraphQLList(GraphQLID) },
+    params: { type: GraphQLList(GraphQLString) },
+    score: { type: GraphQLNonNull(GraphQLInt) },
+    updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),
 });
 

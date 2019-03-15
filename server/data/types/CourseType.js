@@ -8,18 +8,18 @@ import {
 import StageType from './StageType';
 import Stage from '../models/Stage';
 import Course from '../models/Course';
-import LeaderboardType from "./LeaderboardType";
+import LeaderboardType from './LeaderboardType';
 
 const CourseType = new GraphQLObjectType({
   name: 'Course',
   description: 'This represent an course',
   fields: () => ({
     _id: { type: GraphQLNonNull(GraphQLID) },
-    name: { type:  GraphQLNonNull(GraphQLString) },
-    desc: { type:  GraphQLNonNull(GraphQLString) },
+    name: { type: GraphQLNonNull(GraphQLString) },
+    desc: { type: GraphQLNonNull(GraphQLString) },
     imageid: { type: GraphQLString },
     stages: {
-      type:  GraphQLList(StageType),
+      type: GraphQLList(StageType),
       resolve: ({ _id }) => {
         return new Promise((resolve, reject) => {
           Stage.find({ course: _id }, (err, stages) => {

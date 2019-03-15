@@ -14,16 +14,19 @@ const MissionMutation = {
     type: MissionType,
     description: 'Add Mission',
     args: {
-      quest: { type: new GraphQLNonNull(GraphQLString) },
-      testcase: { type: new GraphQLList(GraphQLString) },
-      score: { type: new GraphQLNonNull(GraphQLInt) },
-      stage: { type: new GraphQLNonNull(GraphQLID) },
+      quest: { type: GraphQLNonNull(GraphQLString) },
+      testcase: { type: GraphQLList(GraphQLID) },
+      params: { type: GraphQLList(GraphQLString) },
+      score: { type: GraphQLNonNull(GraphQLInt) },
+      stage: { type: GraphQLNonNull(GraphQLID) },
     },
-    resolve: (root, { quest, testcase, score, stage }) => new Promise((resolve, reject) => {
+    resolve: (root, { quest, testcase, score, stage, params }) =>
+      new Promise((resolve, reject) => {
         const newmission = new Mission({
           quest,
           score,
           testcase,
+          params,
           stage,
         });
         newmission.save(err => {
