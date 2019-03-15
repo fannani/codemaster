@@ -4,7 +4,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import connect from 'react-redux/es/connect/connect';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Guide from '../../components/siswa/Guide';
 import CourseFooter from '../../components/siswa/CourseFooter';
 import Editor from '../../components/siswa/Editor';
@@ -20,7 +19,7 @@ import { stageFetchOne } from '../../actions/stages';
 import Stars from '../../components/siswa/Stars';
 import { addScore as addScoreAction } from '../../actions/scores';
 import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
-import Output from '../../components/siswa/Output.jsx';
+import Output from '../../components/siswa/Output';
 
 import {
   calculateStars,
@@ -74,6 +73,7 @@ const Course = ({
   let intervalHandle;
 
   const gameOver = () => {
+    const starCount = calculateStars(currentTimer, time, life);
     if (life > 0) {
       addScore(
         user.userdetailid,
@@ -81,14 +81,13 @@ const Course = ({
         course._id,
         score,
         currentTimer,
-        calculateStars(currentTimer, time, life),
+        starCount,
       );
     }
     setLifeResult(life);
     setScoreResult(score);
-    console.log("score :"+score);
     setShowModal(true);
-    setStars([]);
+    setStars(starCount);
     clearInterval(intervalHandle);
   };
 
