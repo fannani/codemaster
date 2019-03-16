@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import { Query } from 'react-apollo';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Field, Form, FieldArray } from 'formik';
 import Card from '../../components/Card';
 import { GET_MISSION_BY_ID } from '../../graphql/missionsQuery';
 import { GET_TESTCASES } from '../../graphql/testcaseQuery';
@@ -26,35 +26,6 @@ const Mission = ({ match }) => {
     setTestCase(testcase);
     setShowModal(false);
     setShowModalTestCase(true);
-  };
-
-  const renderTestCase = () => {
-    const render = [];
-    let testCaseCap = testCase.caption;
-    let start;
-    let end;
-    let index;
-    let text;
-    do {
-      start = testCaseCap.indexOf('$$');
-      if (start !== -1) {
-        end = testCaseCap.indexOf('$$', start + 2);
-        index = testCaseCap.substring(start + 2, end);
-        text = testCaseCap.substring(0, start);
-        testCaseCap = testCaseCap.substring(end + 2, testCaseCap.length);
-        render.push(
-          <span className="form-span">{text}</span>,
-          <input
-            className="form-control short"
-            type="text"
-            name={index}
-            placeholder={index}
-          />,
-        );
-      } else render.push(<span className="form-span">{testCaseCap}</span>);
-    } while (start !== -1);
-
-    return render;
   };
 
   return (
@@ -217,24 +188,70 @@ const Mission = ({ match }) => {
           <h5 className="modal-title">Add Test Case</h5>
         </div>
 
-        <div className="modal-body">
-          <div className="card-body">
-            <div className="d-flex">{renderTestCase()}</div>
-          </div>
-        </div>
-        <div className="modal-footer">
-          <button type="submit" className="btn btn-primary">
-            Tambah
-          </button>
+        <Formik
+          initialValues={{ params: [] }}
+          onSubmit={values => {
+            console.log(values);
+          }}
+        >
+          {() => {
+            const render = [];
+            let testCaseCap = testCase.caption;
+            let start;
+            let end;
+            let index;
+            let text;
+            let i = 0;
+            do {
+              start = testCaseCap.indexOf('$$');
+              if (start !== -1) {
+                end = testCaseCap.indexOf('$$', start + 2);
+                index = testCaseCap.substring(start + 2, end);
+                text = testCaseCap.substring(0, start);
+                testCaseCap = testCaseCap.substring(
+                  end + 2,
+                  testCaseCap.length,
+                );
+                render.push(
+                  <span className="form-span">{text}</span>,
+                  <Field
+                    className="form-control short"
+                    type="text"
+                    name={`params.${i}`}
+                    placeholder={index}
+                  />,
+                );
+              } else {
+                render.push(<span className="form-span">{testCaseCap}</span>);
+              }
+              i += 1;
+            } while (start !== -1);
+            return (
+              <Form>
+                <div className="modal-body">
+                  <div className="card-body">
+                    <div className="d-flex">
+                      <div className="d-flex">{render}</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button type="submit" className="btn btn-primary">
+                    Tambah
+                  </button>
 
-          <button
-            type="button"
-            onClick={modalClosed}
-            className="btn btn-secondary"
-          >
-            Close
-          </button>
-        </div>
+                  <button
+                    type="button"
+                    onClick={modalClosed}
+                    className="btn btn-secondary"
+                  >
+                    Close
+                  </button>
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
       </Modal>
     </div>
   );
