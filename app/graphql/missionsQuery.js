@@ -6,6 +6,8 @@ export const GET_MISSION_BY_ID = gql`
       _id
       quest
       score
+      testcase
+      params
     }
   }
 `;

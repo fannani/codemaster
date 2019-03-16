@@ -1,12 +1,62 @@
-import React from 'react';
-import Card from '../../components/Card';
-import { GET_MISSION_BY_ID } from '../../graphql/missionsQuery';
+import React, { useState } from 'react';
+import Modal from 'react-bootstrap4-modal';
 import { Query } from 'react-apollo';
 import { Formik, Field, Form } from 'formik';
+import Card from '../../components/Card';
+import { GET_MISSION_BY_ID } from '../../graphql/missionsQuery';
+import { GET_TESTCASES } from '../../graphql/testcaseQuery';
 
 const Mission = ({ match }) => {
   const { params } = match;
   const { missionid } = params;
+  const [showModal, setShowModal] = useState(false);
+  const [showModalTestCase, setShowModalTestCase] = useState(false);
+  const [testCase, setTestCase] = useState({ caption: '', script: '' });
+
+  const createTestCase = () => {
+    setShowModal(true);
+  };
+
+  const modalClosed = () => {
+    setShowModal(false);
+    setShowModalTestCase(false);
+  };
+
+  const choose = testcase => () => {
+    setTestCase(testcase);
+    setShowModal(false);
+    setShowModalTestCase(true);
+  };
+
+  const renderTestCase = () => {
+    const render = [];
+    let testCaseCap = testCase.caption;
+    let start;
+    let end;
+    let index;
+    let text;
+    do {
+      start = testCaseCap.indexOf('$$');
+      if (start !== -1) {
+        end = testCaseCap.indexOf('$$', start + 2);
+        index = testCaseCap.substring(start + 2, end);
+        text = testCaseCap.substring(0, start);
+        testCaseCap = testCaseCap.substring(end + 2, testCaseCap.length);
+        render.push(
+          <span className="form-span">{text}</span>,
+          <input
+            className="form-control short"
+            type="text"
+            name={index}
+            placeholder={index}
+          />,
+        );
+      } else render.push(<span className="form-span">{testCaseCap}</span>);
+    } while (start !== -1);
+
+    return render;
+  };
+
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">
@@ -59,27 +109,38 @@ const Mission = ({ match }) => {
                     <div className="card-body">
                       <div className="d-flex justify-content-between">
                         <h5 className="card-title">Test Case</h5>
+                        <button
+                          type="button"
+                          onClick={createTestCase}
+                          className="btn btn-primary"
+                        >
+                          Add Test Case
+                        </button>
                       </div>
-                      <ul className="list-group">
-                        <li className="list-group-item">
-                          <div className="form-group">
-                            <label>Testcase 0</label>
-                            <div className="d-flex">
-                              <span className="form-span">Belajar</span>
-                              <input
-                                className="form-control short"
-                                type="text"
-                              />
-                              <span className="form-span">Adalah</span>{' '}
-                              <input
-                                className="form-control short"
-                                type="text"
-                              />{' '}
-                              Salah satu
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
+                      <div className="row" style={{ marginTop: '20px' }}>
+                        <div className="col-12">
+                          <ul className="list-group">
+                            <li className="list-group-item">
+                              <div className="form-group">
+                                <label>Testcase 0</label>
+                                <div className="d-flex">
+                                  <span className="form-span">Belajar</span>
+                                  <input
+                                    className="form-control short"
+                                    type="text"
+                                  />
+                                  <span className="form-span">Adalah</span>{' '}
+                                  <input
+                                    className="form-control short"
+                                    type="text"
+                                  />{' '}
+                                  Salah satu
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
                   </Card>
                 </>
@@ -88,52 +149,95 @@ const Mission = ({ match }) => {
           </Query>
         </main>
       </div>
+      <Modal visible={showModal} onClickBackdrop={modalClosed}>
+        <div className="modal-header">
+          <h5 className="modal-title">Add Test Case</h5>
+        </div>
+
+        <div className="modal-body">
+          <div className="card-body">
+            <Query query={GET_TESTCASES}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading…</p>;
+                if (error)
+                  return <p>Sorry! There was an error loading the items</p>;
+                return (
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">TEST CASE</th>
+                        <th style={{ width: '10%' }} scope="col">
+                          ACTION
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.testcase.map(testcase => (
+                        <tr>
+                          <td>{testcase.caption}</td>
+                          <td>
+                            <button
+                              type="button"
+                              className="btn"
+                              onClick={choose(testcase)}
+                            >
+                              Choose
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                );
+              }}
+            </Query>
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button type="submit" className="btn btn-primary">
+            Tambah
+          </button>
+
+          <button
+            type="button"
+            onClick={modalClosed}
+            className="btn btn-secondary"
+          >
+            Close
+          </button>
+        </div>
+      </Modal>
+
+      <Modal
+        dialogClassName="modal-lg"
+        visible={showModalTestCase}
+        onClickBackdrop={modalClosed}
+      >
+        <div className="modal-header">
+          <h5 className="modal-title">Add Test Case</h5>
+        </div>
+
+        <div className="modal-body">
+          <div className="card-body">
+            <div className="d-flex">{renderTestCase()}</div>
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button type="submit" className="btn btn-primary">
+            Tambah
+          </button>
+
+          <button
+            type="button"
+            onClick={modalClosed}
+            className="btn btn-secondary"
+          >
+            Close
+          </button>
+        </div>
+      </Modal>
     </div>
   );
-  // return <div>
-  //
-  //   <ul className="list-group">
-  //     {function() {
-  //       const render = [];
-  //       let { testcaseCount } = this.state;
-  //       for (let i = 0; i <= testcaseCount; i++) {
-  //         render.push(
-  //           <li className="list-group-item">
-  //             <div className="form-group">
-  //               <label>Testcase {i}</label>
-  //               <input
-  //                 key={i}
-  //                 className="form-control"
-  //                 type="text"
-  //                 onChange={event => {
-  //                   event.persist();
-  //                   const testcase = values.testcase.slice();
-  //                   testcase[i] = event.target.value;
-  //                   setFieldValue('testcase', testcase);
-  //                 }}
-  //               />
-  //             </div>
-  //           </li>,
-  //         );
-  //       }
-  //       return render;
-  //     }.bind(this)()}
-  //   </ul>
-  //   <button
-  //     type="button"
-  //     style={{'marginTop' : '10px'}}
-  //     className="btn"
-  //     onClick={function() {
-  //       let { testcaseCount } = this.state;
-  //       testcaseCount += 1;
-  //       this.setState({
-  //         testcaseCount,
-  //       });
-  //     }.bind(this)}
-  //   >
-  //     Add Testcase
-  //   </button>
-  // </div>;
 };
 
 export default Mission;

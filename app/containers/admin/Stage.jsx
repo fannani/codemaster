@@ -3,6 +3,7 @@ import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
 import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
 import { getMissionsByStage } from '../../actions/missions';
 import { GET_STAGE_BY_ID, UPDATE_STAGE } from '../../graphql/stagesQuery';
 import { ADD_MISSION } from '../../graphql/missionsQuery';
@@ -149,11 +150,11 @@ const Stage = ({ getMissions, match, missions, history }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {missions.map((name, index) => (
+                  {missions.map((data, index) => (
                     <tr key={index}>
-                      <td>{name.quest}</td>
-                      <td>{name.score}</td>
-                      <td />
+                      <td>{data.quest}</td>
+                      <td>{data.score}</td>
+                      <td ><Link to={`/admin/mission/${data._id}`}>Detail</Link></td>
                     </tr>
                   ))}
                 </tbody>
