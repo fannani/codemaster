@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
-import Modal from 'react-bootstrap4-modal';
-import { Query, Mutation } from 'react-apollo';
-import { Formik, Field, Form } from 'formik';
-import Card from '../../components/Card';
-import {
-  GET_MISSION_BY_ID,
-  ADD_TESTCASE_MISSION,
-  GET_TESTCASE_MISSION,
-} from '../../graphql/missionsQuery';
-import { GET_TESTCASES } from '../../graphql/testcaseQuery';
+import TestCaseMissionModal from '../../components/admin/TestCaseMissionModal';
+import ChooseTestCaseModal from '../../components/admin/ChooseTestCaseModal';
+import TestCaseMissionList from '../../components/admin/TestCaseMissionList';
+import MissionForm from '../../components/admin/MissionForm';
 
 const Mission = ({ match }) => {
   const { params } = match;
@@ -36,289 +30,27 @@ const Mission = ({ match }) => {
     <div className="container-fluid">
       <div className="row justify-content-center">
         <main className="col-12 main-container">
-          <Query query={GET_MISSION_BY_ID} variables={{ id: missionid }}>
-            {({ loading, error, data: { missions } }) => {
-              if (loading) return <p>Loading…</p>;
-              if (error)
-                return <p>Sorry! There was an error loading the items</p>;
-              return (
-                <>
-                  <Card className="card">
-                    <div className="card-body">
-                      <div className="d-flex justify-content-between">
-                        <h5 className="card-title">Mission Detail</h5>
-                      </div>
-
-                      <Formik
-                        initialValues={{
-                          quest: missions[0].quest,
-                          score: missions[0].score,
-                        }}
-                      >
-                        {() => (
-                          <Form>
-                            <div className="form-group">
-                              <label htmlFor="name">Quest</label>
-                              <Field
-                                type="text"
-                                name="quest"
-                                className="form-control"
-                                placeholder="Quest"
-                              />
-                            </div>
-                            <div className="form-group">
-                              <label htmlFor="name">Score</label>
-                              <Field
-                                type="text"
-                                name="score"
-                                className="form-control"
-                                placeholder="Score"
-                              />
-                            </div>
-                          </Form>
-                        )}
-                      </Formik>
-                    </div>
-                  </Card>
-                  <Card className="card" style={{ marginTop: '20px' }}>
-                    <div className="card-body">
-                      <div className="d-flex justify-content-between">
-                        <h5 className="card-title">Test Case</h5>
-                        <button
-                          type="button"
-                          onClick={createTestCase}
-                          className="btn btn-primary"
-                        >
-                          Add Test Case
-                        </button>
-                      </div>
-                      <div className="row" style={{ marginTop: '20px' }}>
-                        <div className="col-12">
-                          <Query
-                            query={GET_TESTCASE_MISSION}
-                            variables={{ mission: missionid }}
-                          >
-                            {({
-                              loading,
-                              error,
-                              data: { testcaseMission },
-                            }) => {
-                              if (loading) return <p>Loading…</p>;
-                              if (error) {
-                                return (
-                                  <p>
-                                    Sorry! There was an error loading the items
-                                  </p>
-                                );
-                              }
-                              let i = 0;
-                              return (
-                                <ul className="list-group">
-                                  {testcaseMission.map(data => (
-                                    <li className="list-group-item">
-                                        {(function() {
-                                          const render = [];
-                                          let testCaseCap =
-                                            data.testcase.caption;
-                                          let start;
-                                          let end;
-                                          let index;
-                                          let text;
-                                          let i = 0;
-                                          do {
-                                            start = testCaseCap.indexOf('$$');
-                                            if (start !== -1) {
-                                              end = testCaseCap.indexOf(
-                                                '$$',
-                                                start + 2,
-                                              );
-                                              index = testCaseCap.substring(
-                                                start + 2,
-                                                end,
-                                              );
-                                              text = testCaseCap.substring(
-                                                0,
-                                                start,
-                                              );
-                                              testCaseCap = testCaseCap.substring(
-                                                end + 2,
-                                                testCaseCap.length,
-                                              );
-                                              render.push(
-                                                <span>{text}</span>,
-                                                <span>{data.params[i]}</span>,
-                                              );
-                                            } else {
-                                              render.push(
-                                                <span>{testCaseCap}</span>,
-                                              );
-                                            }
-                                            i += 1;
-                                          } while (start !== -1);
-                                          return <div>{render}</div>;
-                                        })()}
-                                    </li>
-                                  ))}
-                                </ul>
-                              );
-                            }}
-                          </Query>
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                </>
-              );
-            }}
-          </Query>
+          <MissionForm missionid={missionid} />
+          <TestCaseMissionList
+            onCreate={createTestCase}
+            missionid={missionid}
+          />
         </main>
       </div>
-      <Modal visible={showModal} onClickBackdrop={modalClosed}>
-        <div className="modal-header">
-          <h5 className="modal-title">Add Test Case</h5>
-        </div>
-
-        <div className="modal-body">
-          <div className="card-body">
-            <Query query={GET_TESTCASES}>
-              {({ loading, error, data }) => {
-                if (loading) return <p>Loading…</p>;
-                if (error)
-                  return <p>Sorry! There was an error loading the items</p>;
-                return (
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">TEST CASE</th>
-                        <th style={{ width: '10%' }} scope="col">
-                          ACTION
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {data.testcase.map(testcase => (
-                        <tr>
-                          <td>{testcase.caption}</td>
-                          <td>
-                            <button
-                              type="button"
-                              className="btn"
-                              onClick={choose(testcase)}
-                            >
-                              Choose
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                );
-              }}
-            </Query>
-          </div>
-        </div>
-        <div className="modal-footer">
-          <button type="submit" className="btn btn-primary">
-            Tambah
-          </button>
-
-          <button
-            type="button"
-            onClick={modalClosed}
-            className="btn btn-secondary"
-          >
-            Close
-          </button>
-        </div>
-      </Modal>
-
-      <Modal
-        dialogClassName="modal-lg"
-        visible={showModalTestCase}
-        onClickBackdrop={modalClosed}
-      >
-        <div className="modal-header">
-          <h5 className="modal-title">Add Test Case</h5>
-        </div>
-        <Mutation mutation={ADD_TESTCASE_MISSION}>
-          {addTestCaseMission => (
-            <Formik
-              initialValues={{ params: [] }}
-              onSubmit={({ params: data }) => {
-                addTestCaseMission({
-                  variables: {
-                    mission: missionid,
-                    testcase: testCase._id,
-                    params: data,
-                  },
-                }).then(({ data: { addTestCaseMission } }) => {
-                  setShowModalTestCase(false);
-                });
-              }}
-            >
-              {() => {
-                const render = [];
-                let testCaseCap = testCase.caption;
-                let start;
-                let end;
-                let index;
-                let text;
-                let i = 0;
-                do {
-                  start = testCaseCap.indexOf('$$');
-                  if (start !== -1) {
-                    end = testCaseCap.indexOf('$$', start + 2);
-                    index = testCaseCap.substring(start + 2, end);
-                    text = testCaseCap.substring(0, start);
-                    testCaseCap = testCaseCap.substring(
-                      end + 2,
-                      testCaseCap.length,
-                    );
-                    render.push(
-                      <span className="form-span">{text}</span>,
-                      <Field
-                        className="form-control short"
-                        type="text"
-                        name={`params.${i}`}
-                        placeholder={index}
-                      />,
-                    );
-                  } else {
-                    render.push(
-                      <span className="form-span">{testCaseCap}</span>,
-                    );
-                  }
-                  i += 1;
-                } while (start !== -1);
-                return (
-                  <Form>
-                    <div className="modal-body">
-                      <div className="card-body">
-                        <div className="d-flex">
-                          <div className="d-flex">{render}</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="modal-footer">
-                      <button type="submit" className="btn btn-primary">
-                        Tambah
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={modalClosed}
-                        className="btn btn-secondary"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </Form>
-                );
-              }}
-            </Formik>
-          )}
-        </Mutation>
-      </Modal>
+      <ChooseTestCaseModal
+        modalClosed={modalClosed}
+        onChoose={choose}
+        show={showModal}
+      />
+      <TestCaseMissionModal
+        modalClosed={modalClosed}
+        missionid={missionid}
+        show={showModalTestCase}
+        testCase={testCase}
+        onFinish={() => {
+          setShowModalTestCase(false);
+        }}
+      />
     </div>
   );
 };
