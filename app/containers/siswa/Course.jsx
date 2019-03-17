@@ -12,7 +12,6 @@ import {
   setPlayerStatus as setPlayerStatusAction,
   setPlayMode as setPlayModeAction,
 } from '../../actions/gameplay';
-import { getMissionsByStage } from '../../actions/missions';
 import { stageFetchOne } from '../../actions/stages';
 import { addScore as addScoreAction } from '../../actions/scores';
 import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
@@ -27,9 +26,7 @@ import {
 
 const Course = ({
   match,
-  missions,
   fetchData,
-  missionsFetchData,
   user,
   reduceEnergy,
   currentTimer,
@@ -122,7 +119,6 @@ const Course = ({
 
   useEffect(() => {
     fetchData(stageid);
-    missionsFetchData(stageid);
     reduceEnergy(user.userdetail._id, energyNeed);
     window.addEventListener('message', handleIframeTask);
     intervalHandle = setInterval(tick, 1000);
@@ -143,7 +139,6 @@ const Course = ({
             visible={false}
             title={title}
             teory={teory}
-            mission={missions}
             result={result}
           />
           <Editor
@@ -182,15 +177,11 @@ const mapStateToProps = state => ({
   timerText: state.gameplay.timerText,
   courseLoading: state.stages.isLoading,
   courseError: state.stages.hasErrored,
-  missionsLoading: state.missions.isLoading,
-  missionsError: state.missions.hasErrored,
-  missions: state.missions.missions,
   life: state.gameplay.life,
   score: state.gameplay.score,
 });
 const mapDispatchToProps = dispatch => ({
   fetchData: id => dispatch(stageFetchOne(id)),
-  missionsFetchData: id => dispatch(getMissionsByStage(id)),
   tick: () => dispatch(incrementTimer()),
   setPlayerStatus: (score, life) =>
     dispatch(setPlayerStatusAction(score, life)),
@@ -205,9 +196,7 @@ Course.propTypes = {
   match: PropTypes.any.isRequired,
   tick: PropTypes.func.isRequired,
   fetchData: PropTypes.func.isRequired,
-  missionsFetchData: PropTypes.func.isRequired,
   currentTimer: PropTypes.number.isRequired,
-  missions: PropTypes.arrayOf(PropTypes.object),
   user: PropTypes.any.isRequired,
   reduceEnergy: PropTypes.func.isRequired,
   addScore: PropTypes.func.isRequired,

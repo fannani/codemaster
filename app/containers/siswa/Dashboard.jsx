@@ -12,7 +12,6 @@ import Card from '../../components/Card';
 import CourseItem from '../../components/siswa/CourseItem';
 import connect from 'react-redux/es/connect/connect';
 import { stageFetchOne } from '../../actions/stages';
-import { getMissionsByStage } from '../../actions/missions';
 import {
   incrementTimer,
   setPlayerStatus as setPlayerStatusAction,

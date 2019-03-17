@@ -24,7 +24,6 @@ const MissionMutation = {
         const newmission = new Mission({
           quest,
           score,
-          params,
           stage,
         });
         newmission.save(err => {

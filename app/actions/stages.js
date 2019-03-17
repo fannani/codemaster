@@ -11,44 +11,10 @@ export const stagesIsLoading = bool => ({
   isLoading: bool,
 });
 
-export const updateStageSuccess = stage => ({
-  type: 'UPDATE_STAGE_SUCCESS',
-  stage,
-});
-
 export const stageFetchDataSuccess = stage => ({
   type: 'STAGE_FETCH_DATA_SUCCESS',
   stage,
 });
-
-export const updateStage = (id, title, teory, time) => dispatch => {
-  dispatch(stagesIsLoading(true));
-
-  const promise = axios({
-    url: API_URL,
-    method: 'post',
-    data: {
-      query: `
-                mutation{
-                    updateStage(id:"${id}",title:"${title}",time:"${time}",teory:"${teory}"){_id,title,time,teory,course{_id}}
-                 }`,
-    },
-  })
-    .then(response => {
-      dispatch(stagesIsLoading(false));
-      return response;
-    })
-    .then(response => response.data.data.updateStage)
-    .then(stage => {
-      dispatch(updateStageSuccess(stage));
-      return stage;
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch(stagesHasErrored(true));
-    });
-  return promise;
-};
 
 export const stageFetchOne = id => dispatch => {
   dispatch(stagesIsLoading(true));

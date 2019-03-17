@@ -1,4 +1,3 @@
-
 export const incrementTimer = () => (dispatch, getState) => {
   dispatch(updateTimer());
   const { currentTimer } = getState().gameplay;
@@ -21,27 +20,28 @@ export const incrementTimer = () => (dispatch, getState) => {
     minStr = min;
   }
   dispatch(updateTimerText(`${minStr}:${secStr}`));
-}
+};
 
 export const updateTimer = () => ({
-  type: 'UPDATE_TIMER'
-})
+  type: 'UPDATE_TIMER',
+});
 
 export const resetTimer = () => ({
   type: 'RESET_TIMER',
 });
 
-export const setPlayerStatus = (score,life) => ({
+export const setPlayerStatus = (score, life) => ({
   type: 'SET_PLAYER_STATUS',
-  score, life,
+  score,
+  life,
 });
 
-export const setPlayMode = (play) => ({
+export const setPlayMode = play => ({
   type: 'SET_PLAY_MODE',
-  play
+  play,
 });
 
-export const updateTimerText = (timerText) => ({
+export const updateTimerText = timerText => ({
   type: 'UPDATE_TIMER_TEXT',
-  timerText
-})
+  timerText,
+});

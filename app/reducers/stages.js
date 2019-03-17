@@ -19,16 +19,7 @@ const reducer = (
         { ...state },
         { stages: [...state.stages, action.stage] },
       );
-    case 'UPDATE_STAGE_SUCCESS':
-      return state.stages.map(item => {
-        if (item._id !== action.stage._id) {
-          return item;
-        }
-        return {
-          ...item,
-          ...action.stage,
-        };
-      });
+
     default:
       return state;
   }

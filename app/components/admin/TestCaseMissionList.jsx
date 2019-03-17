@@ -58,7 +58,10 @@ const TestCaseMissionList = ({ onCreate, missionid }) => {
                           return (
                             <>
                               <span>{render}</span>
+                              <div>
                               <button className="btn">Edit</button>
+                              <button className="btn btn-danger" style={{marginLeft: '10px'}}>Delete</button>
+                              </div>
                             </>
                           );
                         })()}
