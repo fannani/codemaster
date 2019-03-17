@@ -7,7 +7,7 @@ import Course from '../models/Course';
 
 const UPLOAD_DIR = './dist/uploads';
 
-const storeFS = ({ stream, filename }) => {
+const storeFS = ({ stream }) => {
   const id = shortid.generate();
   const path = `${UPLOAD_DIR}/${id}`;
   return new Promise((resolve, reject) =>
@@ -39,7 +39,7 @@ const CourseMutation = {
     async resolve(root, { file, name, desc }) {
       let id = '';
       if (file) {
-        const { filename, mimetype, createReadStream } = await file;
+        const { filename, createReadStream } = await file;
         const stream = createReadStream();
         const filestore = await storeFS({ stream, filename });
         id = filestore.id;

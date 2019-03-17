@@ -4,7 +4,6 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
-  GraphQLList,
 } from 'graphql';
 import StageType from './StageType';
 import Stage from '../models/Stage';
@@ -27,8 +26,6 @@ const MissionType = new GraphQLObjectType({
       },
     },
     quest: { type: GraphQLNonNull(GraphQLString) },
-    testcase: { type: GraphQLList(GraphQLID) },
-    params: { type: GraphQLList(GraphQLString) },
     score: { type: GraphQLNonNull(GraphQLInt) },
     updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),

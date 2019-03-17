@@ -6,10 +6,8 @@ import {
   GraphQLList,
 } from 'graphql';
 
-import { GraphQLUpload } from 'graphql-upload/lib';
 import MissionType from '../types/MissionType';
 import Mission from '../models/Mission';
-import StageType from '../types/StageType';
 import Stage from '../models/Stage';
 
 const MissionMutation = {
@@ -18,17 +16,14 @@ const MissionMutation = {
     description: 'Add Mission',
     args: {
       quest: { type: GraphQLNonNull(GraphQLString) },
-      testcase: { type: GraphQLList(GraphQLID) },
-      params: { type: GraphQLList(GraphQLString) },
       score: { type: GraphQLNonNull(GraphQLInt) },
       stage: { type: GraphQLNonNull(GraphQLID) },
     },
-    resolve: (root, { quest, testcase, score, stage, params }) =>
+    resolve: (root, { quest, score, stage }) =>
       new Promise((resolve, reject) => {
         const newmission = new Mission({
           quest,
           score,
-          testcase,
           params,
           stage,
         });
@@ -43,8 +38,6 @@ const MissionMutation = {
     args: {
       id: { type: GraphQLNonNull(GraphQLID) },
       quest: { type: GraphQLNonNull(GraphQLString) },
-      testcase: { type: GraphQLList(GraphQLID) },
-      params: { type: GraphQLList(GraphQLString) },
       score: { type: GraphQLNonNull(GraphQLInt) },
       stage: { type: GraphQLNonNull(GraphQLID) },
     },

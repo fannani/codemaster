@@ -29,3 +29,25 @@ export const ADD_MISSION = gql`
     }
   }
 `;
+
+export const UPDATE_MISSION = gql`
+  mutation updateMission(
+    $id: ID!
+    $quest: String
+    $testcase: [ID]
+    $params: [String]
+    $score: Int
+    $stage: ID
+  ) {
+    updateMission(
+      id: $id
+      quest: $quest
+      testcase: $testcase
+      params: $params
+      score: $score
+      stage: $stage
+    ) {
+      _id
+    }
+  }
+`;
