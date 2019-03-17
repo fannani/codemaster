@@ -111,31 +111,54 @@ const Mission = ({ match }) => {
                                   </p>
                                 );
                               }
-                              console.log(testcaseMission);
+                              let i = 0;
                               return (
                                 <ul className="list-group">
-                                  <li className="list-group-item">
-                                    <div className="form-group">
-                                      <label>Testcase 0</label>
-                                      <div className="d-flex">
-                                        <span className="form-span">
-                                          Belajar
-                                        </span>
-                                        <input
-                                          className="form-control short"
-                                          type="text"
-                                        />
-                                        <span className="form-span">
-                                          Adalah
-                                        </span>{' '}
-                                        <input
-                                          className="form-control short"
-                                          type="text"
-                                        />{' '}
-                                        Salah satu
-                                      </div>
-                                    </div>
-                                  </li>
+                                  {testcaseMission.map(data => (
+                                    <li className="list-group-item">
+                                        {(function() {
+                                          const render = [];
+                                          let testCaseCap =
+                                            data.testcase.caption;
+                                          let start;
+                                          let end;
+                                          let index;
+                                          let text;
+                                          let i = 0;
+                                          do {
+                                            start = testCaseCap.indexOf('$$');
+                                            if (start !== -1) {
+                                              end = testCaseCap.indexOf(
+                                                '$$',
+                                                start + 2,
+                                              );
+                                              index = testCaseCap.substring(
+                                                start + 2,
+                                                end,
+                                              );
+                                              text = testCaseCap.substring(
+                                                0,
+                                                start,
+                                              );
+                                              testCaseCap = testCaseCap.substring(
+                                                end + 2,
+                                                testCaseCap.length,
+                                              );
+                                              render.push(
+                                                <span>{text}</span>,
+                                                <span>{data.params[i]}</span>,
+                                              );
+                                            } else {
+                                              render.push(
+                                                <span>{testCaseCap}</span>,
+                                              );
+                                            }
+                                            i += 1;
+                                          } while (start !== -1);
+                                          return <div>{render}</div>;
+                                        })()}
+                                    </li>
+                                  ))}
                                 </ul>
                               );
                             }}
