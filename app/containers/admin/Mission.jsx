@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap4-modal';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import { Formik, Field, Form } from 'formik';
 import Card from '../../components/Card';
-import { GET_MISSION_BY_ID, UPDATE_MISSION } from '../../graphql/missionsQuery';
+import {
+  GET_MISSION_BY_ID,
+  ADD_TESTCASE_MISSION,
+} from '../../graphql/missionsQuery';
 import { GET_TESTCASES } from '../../graphql/testcaseQuery';
 
 const Mission = ({ match }) => {
@@ -187,20 +190,20 @@ const Mission = ({ match }) => {
         <div className="modal-header">
           <h5 className="modal-title">Add Test Case</h5>
         </div>
-        <Mutation mutation={UPDATE_MISSION}>
-          {updateMission => (
+        <Mutation mutation={ADD_TESTCASE_MISSION}>
+          {addTestCaseMission => (
             <Formik
               initialValues={{ params: [] }}
-              onSubmit={values => {
-                updateMission({
+              onSubmit={({ params: data }) => {
+                addTestCaseMission({
                   variables: {
-                    id: image,
-                    testcase,
-                    time,
-                    teory,
-                    id: stageid,
+                    mission: missionid,
+                    testcase: testCase._id,
+                    params: data,
                   },
-                }).then(({ data: { addCourse } }) => {});
+                }).then(({ data: { addTestCaseMission } }) => {
+                  setShowModalTestCase(false);
+                });
               }}
             >
               {() => {

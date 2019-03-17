@@ -26,6 +26,16 @@ export const UPDATE_MISSION = gql`
   }
 `;
 
+export const GET_TESTCASE_MISSION = gql`
+  query getTestCaseMission($mission: ID!) {
+    testcaseMission(mission: $mission) {
+      _id
+      testcase
+      params
+    }
+  }
+`;
+
 export const ADD_TESTCASE_MISSION = gql`
   mutation addTestCaseMission(
     $mission: ID!
