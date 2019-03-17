@@ -3,7 +3,6 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
-  GraphQLInt,
   GraphQLList,
 } from 'graphql';
 
@@ -14,7 +13,7 @@ const TestCaseMissionType = new GraphQLObjectType({
     _id: { type: GraphQLNonNull(GraphQLID) },
     mission: { type: GraphQLNonNull(GraphQLID) },
     testcase: { type: GraphQLNonNull(GraphQLID) },
-    params: { type: GraphQLList(GraphQLInt) },
+    params: { type: GraphQLList(GraphQLString) },
     updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),
 });

@@ -1,6 +1,5 @@
-import { GraphQLID, GraphQLList, GraphQLInt } from 'graphql';
-import PlayerAchievementType from '../types/PlayerAchievementType';
-import PlayerAchievement from '../models/PlayerAchievement';
+import { GraphQLID, GraphQLList } from 'graphql';
+import TestCaseMission from '../models/TestCaseMission';
 import TestCaseMissionType from '../types/TestCaseMissionType';
 
 const testCaseMissions = {

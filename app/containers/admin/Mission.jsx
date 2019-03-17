@@ -6,6 +6,7 @@ import Card from '../../components/Card';
 import {
   GET_MISSION_BY_ID,
   ADD_TESTCASE_MISSION,
+  GET_TESTCASE_MISSION,
 } from '../../graphql/missionsQuery';
 import { GET_TESTCASES } from '../../graphql/testcaseQuery';
 
@@ -93,26 +94,52 @@ const Mission = ({ match }) => {
                       </div>
                       <div className="row" style={{ marginTop: '20px' }}>
                         <div className="col-12">
-                          <ul className="list-group">
-                            <li className="list-group-item">
-                              <div className="form-group">
-                                <label>Testcase 0</label>
-                                <div className="d-flex">
-                                  <span className="form-span">Belajar</span>
-                                  <input
-                                    className="form-control short"
-                                    type="text"
-                                  />
-                                  <span className="form-span">Adalah</span>{' '}
-                                  <input
-                                    className="form-control short"
-                                    type="text"
-                                  />{' '}
-                                  Salah satu
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
+                          <Query
+                            query={GET_TESTCASE_MISSION}
+                            variables={{ mission: missionid }}
+                          >
+                            {({
+                              loading,
+                              error,
+                              data: { testcaseMission },
+                            }) => {
+                              if (loading) return <p>Loading…</p>;
+                              if (error) {
+                                return (
+                                  <p>
+                                    Sorry! There was an error loading the items
+                                  </p>
+                                );
+                              }
+                              console.log(testcaseMission);
+                              return (
+                                <ul className="list-group">
+                                  <li className="list-group-item">
+                                    <div className="form-group">
+                                      <label>Testcase 0</label>
+                                      <div className="d-flex">
+                                        <span className="form-span">
+                                          Belajar
+                                        </span>
+                                        <input
+                                          className="form-control short"
+                                          type="text"
+                                        />
+                                        <span className="form-span">
+                                          Adalah
+                                        </span>{' '}
+                                        <input
+                                          className="form-control short"
+                                          type="text"
+                                        />{' '}
+                                        Salah satu
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
+                              );
+                            }}
+                          </Query>
                         </div>
                       </div>
                     </div>
