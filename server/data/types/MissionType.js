@@ -4,10 +4,14 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
+  GraphQLList,
 } from 'graphql';
 import StageType from './StageType';
 import Stage from '../models/Stage';
 import Mission from '../models/Mission';
+import TestCaseMissionType from './TestCaseMissionType';
+import TestCaseMission from '../models/TestCaseMission';
+
 const MissionType = new GraphQLObjectType({
   name: 'Mission',
   description: 'This represent a Mission',
@@ -27,6 +31,13 @@ const MissionType = new GraphQLObjectType({
     },
     quest: { type: GraphQLNonNull(GraphQLString) },
     score: { type: GraphQLNonNull(GraphQLInt) },
+    testcase: {
+      type: GraphQLList(TestCaseMissionType),
+      async resolve({ _id }) {
+        const testcase = await TestCaseMission.find({ mission: _id });
+        return testcase;
+      },
+    },
     updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),
 });

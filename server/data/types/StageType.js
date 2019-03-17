@@ -11,6 +11,8 @@ import {
 import CourseType from './CourseType';
 import Stage from '../models/Stage';
 import Course from '../models/Course';
+import Mission from '../models/Mission';
+import MissionType from './MissionType';
 
 const StageType = new GraphQLObjectType({
   name: 'Stage',
@@ -24,6 +26,13 @@ const StageType = new GraphQLObjectType({
     score: { type: GraphQLInt },
     stars: { type: GraphQLList(GraphQLBoolean) },
     imageid: { type: GraphQLString },
+    missions: {
+      type: GraphQLList(MissionType),
+      async resolve({ _id }) {
+        const missions = await Mission.find({ stage: _id });
+        return missions;
+      },
+    },
     course: {
       type: CourseType,
       async resolve({ _id }) {
