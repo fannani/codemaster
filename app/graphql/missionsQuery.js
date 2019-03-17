@@ -51,6 +51,11 @@ export const ADD_TESTCASE_MISSION = gql`
       params: $params
     ) {
       _id
+      testcase {
+        caption
+        script
+      }
+      params
     }
   }
 `;

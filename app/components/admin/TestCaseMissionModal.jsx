@@ -1,10 +1,19 @@
 import { Mutation } from 'react-apollo';
-import { ADD_TESTCASE_MISSION } from '../../graphql/missionsQuery';
+import {
+  ADD_TESTCASE_MISSION,
+  GET_TESTCASE_MISSION,
+} from '../../graphql/missionsQuery';
 import { Field, Form, Formik } from 'formik';
 import Modal from 'react-bootstrap4-modal';
 import React from 'react';
 
-const TestCaseMissionModal = ({show, modalClosed, missionid, testCase, onFinish}) => {
+const TestCaseMissionModal = ({
+  show,
+  modalClosed,
+  missionid,
+  testCase,
+  onFinish,
+}) => {
   return (
     <Modal
       dialogClassName="modal-lg"
@@ -14,7 +23,22 @@ const TestCaseMissionModal = ({show, modalClosed, missionid, testCase, onFinish}
       <div className="modal-header">
         <h5 className="modal-title">Add Test Case</h5>
       </div>
-      <Mutation mutation={ADD_TESTCASE_MISSION}>
+      <Mutation
+        mutation={ADD_TESTCASE_MISSION}
+        update={(cache, { data: { addTestCaseMission } }) => {
+          const { testcaseMission } = cache.readQuery({
+            query: GET_TESTCASE_MISSION,
+            variables: { mission: missionid },
+          });
+          cache.writeQuery({
+            query: GET_TESTCASE_MISSION,
+            variables: { mission: missionid },
+            data: {
+              testcaseMission: testcaseMission.concat([addTestCaseMission]),
+            },
+          });
+        }}
+      >
         {addTestCaseMission => (
           <Formik
             initialValues={{ params: [] }}
@@ -26,7 +50,7 @@ const TestCaseMissionModal = ({show, modalClosed, missionid, testCase, onFinish}
                   params: data,
                 },
               }).then(({ data: { addTestCaseMission } }) => {
-                onFinish()
+                onFinish();
               });
             }}
           >

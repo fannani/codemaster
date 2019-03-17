@@ -11,19 +11,9 @@ const Mission = ({ match }) => {
   const [showModalTestCase, setShowModalTestCase] = useState(false);
   const [testCase, setTestCase] = useState({ caption: '', script: '' });
 
-  const createTestCase = () => {
-    setShowModal(true);
-  };
-
   const modalClosed = () => {
     setShowModal(false);
     setShowModalTestCase(false);
-  };
-
-  const choose = testcase => () => {
-    setTestCase(testcase);
-    setShowModal(false);
-    setShowModalTestCase(true);
   };
 
   return (
@@ -32,14 +22,20 @@ const Mission = ({ match }) => {
         <main className="col-12 main-container">
           <MissionForm missionid={missionid} />
           <TestCaseMissionList
-            onCreate={createTestCase}
+            onCreate={() => {
+              setShowModal(true);
+            }}
             missionid={missionid}
           />
         </main>
       </div>
       <ChooseTestCaseModal
         modalClosed={modalClosed}
-        onChoose={choose}
+        onChoose={testcase => {
+          setTestCase(testcase);
+          setShowModal(false);
+          setShowModalTestCase(true);
+        }}
         show={showModal}
       />
       <TestCaseMissionModal

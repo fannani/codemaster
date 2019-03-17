@@ -35,7 +35,7 @@ const ChooseTestCaseModal = ({ show, modalClosed, onChoose }) => {
                           <button
                             type="button"
                             className="btn"
-                            onClick={onChoose(testcase)}
+                            onClick={() => onChoose(testcase)}
                           >
                             Choose
                           </button>
