@@ -30,7 +30,10 @@ export const GET_TESTCASE_MISSION = gql`
   query getTestCaseMission($mission: ID!) {
     testcaseMission(mission: $mission) {
       _id
-      testcase
+      testcase {
+        caption
+        script
+      }
       params
     }
   }
