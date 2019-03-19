@@ -43,10 +43,11 @@ export const GET_STAGE_BY_ID = gql`
       course {
         _id
       }
-        missions {
-            _id
-            quest
-        }
+      missions {
+        _id
+        quest
+        score
+      }
     }
   }
 `;

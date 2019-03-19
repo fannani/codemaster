@@ -8,14 +8,10 @@ import { GET_STAGE_BY_ID, UPDATE_STAGE } from '../../graphql/stagesQuery';
 import { ADD_MISSION } from '../../graphql/missionsQuery';
 import Card from '../../components/Card';
 
-const Stage = ({ getMissions, match, missions, history }) => {
+const Stage = ({ match, history }) => {
   const [showModal, setShowModal] = useState(false);
   const { params } = match;
   const { stageid } = params;
-
-  useEffect(() => {
-    getMissions(stageid);
-  }, []);
 
   const modalClosed = () => {
     setShowModal(false);
@@ -27,18 +23,19 @@ const Stage = ({ getMissions, match, missions, history }) => {
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">
-        <main className="col-12 main-container">
-          <Card className="card">
-            <div className="card-body">
-              <div className="d-flex justify-content-between">
-                <h5 className="card-title">Stage Detail</h5>
-              </div>
-              <Query query={GET_STAGE_BY_ID} variables={{ id: stageid }}>
-                {({ loading, error, data: { stages } }) => {
-                  if (loading) return <p>Loading…</p>;
-                  if (error)
-                    return <p>Sorry! There was an error loading the items</p>;
-                  return (
+        <Query query={GET_STAGE_BY_ID} variables={{ id: stageid }}>
+          {({ loading, error, data: { stages } }) => {
+            if (loading) return <p>Loading…</p>;
+            if (error)
+              return <p>Sorry! There was an error loading the items</p>;
+            return (
+              <main className="col-12 main-container">
+                <Card className="card">
+                  <div className="card-body">
+                    <div className="d-flex justify-content-between">
+                      <h5 className="card-title">Stage Detail</h5>
+                    </div>
+
                     <Mutation mutation={UPDATE_STAGE}>
                       {updateStage => (
                         <Formik
@@ -122,45 +119,49 @@ const Stage = ({ getMissions, match, missions, history }) => {
                         </Formik>
                       )}
                     </Mutation>
-                  );
-                }}
-              </Query>
-            </div>
-          </Card>
-          <Card className="card" style={{ marginTop: '20px' }}>
-            <div className="card-body">
-              <div className="d-flex justify-content-between">
-                <h5 className="card-title">Missions List</h5>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={addMission}
-                >
-                  Add Mission
-                </button>
-              </div>
+                  </div>
+                </Card>
+                <Card className="card" style={{ marginTop: '20px' }}>
+                  <div className="card-body">
+                    <div className="d-flex justify-content-between">
+                      <h5 className="card-title">Missions List</h5>
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={addMission}
+                      >
+                        Add Mission
+                      </button>
+                    </div>
 
-              <table className="table" style={{ marginTop: '20px' }}>
-                <thead>
-                  <tr>
-                    <th>Quest</th>
-                    <th>Score</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {missions.map((data, index) => (
-                    <tr key={index}>
-                      <td>{data.quest}</td>
-                      <td>{data.score}</td>
-                      <td ><Link to={`/admin/mission/${data._id}`}>Detail</Link></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Card>
-        </main>
+                    <table className="table" style={{ marginTop: '20px' }}>
+                      <thead>
+                        <tr>
+                          <th>Quest</th>
+                          <th>Score</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {stages[0].missions.map((data, index) => (
+                          <tr key={index}>
+                            <td>{data.quest}</td>
+                            <td>{data.score}</td>
+                            <td>
+                              <Link to={`/admin/mission/${data._id}`}>
+                                Detail
+                              </Link>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </Card>
+              </main>
+            );
+          }}
+        </Query>
       </div>
       <Modal visible={showModal} onClickBackdrop={modalClosed}>
         <div className="modal-header">
@@ -178,7 +179,7 @@ const Stage = ({ getMissions, match, missions, history }) => {
                   variables: {
                     quest: values.quest,
                     score: values.score,
-                    stageid: stageid,
+                    stageid,
                   },
                 }).then(({ data: { addMission: mission } }) => {
                   history.push(`/admin/mission/${mission._id}`);
@@ -230,16 +231,5 @@ const Stage = ({ getMissions, match, missions, history }) => {
     </div>
   );
 };
-const mapStateToProps = state => ({
-  missions: state.missions.missions,
-  hasErrored: state.stages.hasErrored,
-  isLoading: state.stages.isLoading,
-  isFinish: state.stages.isFinish,
-  stage: state.stages.stage,
-});
 
-
-export default connect(
-  mapStateToProps,
-  null,
-)(Stage);
+export default Stage;

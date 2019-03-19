@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import connect from 'react-redux/es/connect/connect';
-import PropTypes from 'prop-types';
+import { Query } from 'react-apollo';
 import Guide from '../../components/siswa/Guide';
 import CourseFooter from '../../components/siswa/CourseFooter';
 import Editor from '../../components/siswa/Editor';
@@ -17,6 +16,9 @@ import { addScore as addScoreAction } from '../../actions/scores';
 import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
 import Output from '../../components/siswa/Output';
 import ScoreBoard from '../../components/siswa/ScoreBoard';
+import PropTypes from 'prop-types';
+import connect from 'react-redux/es/connect/connect';
+import { GET_STAGE_BY_ID } from '../../graphql/stagesQuery';
 
 import {
   calculateStars,
@@ -26,7 +28,6 @@ import {
 
 const Course = ({
   match,
-  fetchData,
   user,
   reduceEnergy,
   currentTimer,
@@ -118,7 +119,6 @@ const Course = ({
   };
 
   useEffect(() => {
-    fetchData(stageid);
     reduceEnergy(user.userdetail._id, energyNeed);
     window.addEventListener('message', handleIframeTask);
     intervalHandle = setInterval(tick, 1000);
@@ -135,34 +135,46 @@ const Course = ({
     <div id="container">
       <main role="main" className="container-fluid">
         <div className="row flex-xl-nowrap">
-          <Guide
-            visible={false}
-            title={title}
-            teory={teory}
-            result={result}
-          />
-          <Editor
-            checkResult={checkResult(script, missions)}
-            script={script}
-            size={4}
-            onChange={update}
-          />
+          <Query query={GET_STAGE_BY_ID} variables={{ id: stageid }}>
+            {({ loading, error, data: { stages } }) => {
+              if (loading) return <p>Loading…</p>;
+              if (error)
+                return <p>Sorry! There was an error loading the items</p>;
+              return (
+                <>
+                  <Guide
+                    visible={false}
+                    title={stages[0].title}
+                    teory={stages[0].teory}
+                    result={result}
+                    mission={stages[0].missions}
+                  />
+                  <Editor
+                    checkResult={checkResult(script, stages[0].missions)}
+                    script={script}
+                    size={4}
+                    onChange={update}
+                  />
+                </>
+              );
+            }}
+          </Query>
           <Output />
         </div>
         <CourseFooter />
       </main>
       <ToastContainer />
-      <ScoreBoard
-        show={showModal}
-        stars={stars}
-        timer={timerText}
-        life={lifeResult}
-        score={scoreResult}
-        courseid={course._id}
-        onClickBackdrop={() => {
-          setShowModal(false);
-        }}
-      />
+      {/*<ScoreBoard*/}
+      {/*show={showModal}*/}
+      {/*stars={stars}*/}
+      {/*timer={timerText}*/}
+      {/*life={lifeResult}*/}
+      {/*score={scoreResult}*/}
+      {/*courseid={course._id}*/}
+      {/*onClickBackdrop={() => {*/}
+      {/*setShowModal(false);*/}
+      {/*}}*/}
+      {/*/>*/}
     </div>
   );
 };
@@ -181,7 +193,6 @@ const mapStateToProps = state => ({
   score: state.gameplay.score,
 });
 const mapDispatchToProps = dispatch => ({
-  fetchData: id => dispatch(stageFetchOne(id)),
   tick: () => dispatch(incrementTimer()),
   setPlayerStatus: (score, life) =>
     dispatch(setPlayerStatusAction(score, life)),
@@ -195,7 +206,6 @@ const mapDispatchToProps = dispatch => ({
 Course.propTypes = {
   match: PropTypes.any.isRequired,
   tick: PropTypes.func.isRequired,
-  fetchData: PropTypes.func.isRequired,
   currentTimer: PropTypes.number.isRequired,
   user: PropTypes.any.isRequired,
   reduceEnergy: PropTypes.func.isRequired,
