@@ -11,14 +11,6 @@ import { GET_COURSE_BY_PLAYER } from '../../graphql/playerQuery';
 import Card from '../../components/Card';
 import CourseItem from '../../components/siswa/CourseItem';
 import connect from 'react-redux/es/connect/connect';
-import { stageFetchOne } from '../../actions/stages';
-import {
-  incrementTimer,
-  setPlayerStatus as setPlayerStatusAction,
-  setPlayMode as setPlayModeAction,
-} from '../../actions/gameplay';
-import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
-import { addScore as addScoreAction } from '../../actions/scores';
 
 const Loader = () => {
   const content = (

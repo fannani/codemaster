@@ -54,8 +54,8 @@ const Header = ({
                   className="navbar-nav"
                   style={{
                     width: '340px',
-                    'margin-left': 'auto',
-                    'margin-right': 'auto',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
                   }}
                 >
                   <li className="nav-item">

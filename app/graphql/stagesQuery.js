@@ -47,6 +47,14 @@ export const GET_STAGE_BY_ID = gql`
         _id
         quest
         score
+        testcase {
+          params
+          testcase {
+            _id
+            caption
+            script
+          }
+        }
       }
     }
   }

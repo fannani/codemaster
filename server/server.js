@@ -1,6 +1,5 @@
 import express from 'express';
 import http from 'http';
-import socket from 'socket.io';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
@@ -32,7 +31,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
 const server = http.createServer(app);
-const io = socket(server);
 const apollo = new ApolloServer({
   schema,
   context: ({ req }) => ({
@@ -72,10 +70,6 @@ app.use('/api', (req, res, next) => {
 });
 app.use(routes);
 
-// io.on('connection', socket => {
-//   socket.on('TESAPI', function(msg) {
-//     console.log('message: ' + msg);
-//   });
-// });
+
 
 server.listen(process.env.PORT);

@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import connect from 'react-redux/es/connect/connect';
-import { addStage } from '../../actions/stages';
 import Card from '../../components/Card';
 import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';

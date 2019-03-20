@@ -1,4 +1,6 @@
 import { BASE_URL } from '../config/config';
+import { Field } from 'formik';
+import React from 'react';
 
 export function calculateStars(currentTimer, time, life) {
   const stars = [true, false, false];
@@ -7,17 +9,46 @@ export function calculateStars(currentTimer, time, life) {
   return stars;
 }
 
+function convertTestCase(testcase) {
+  let testObj = {};
+  let testStr = '';
+  let start;
+  let end;
+  let index;
+  let i = 0;
+  for (const test of testcase) {
+    let testCaseCap = test.testcase.caption;
+    let testCaseScript = test.testcase.script;
+    do {
+      start = testCaseCap.indexOf('$$');
+      if (start !== -1) {
+        end = testCaseCap.indexOf('$$', start + 2);
+        index = testCaseCap.substring(start + 2, end);
+        testObj[index] = test.params[i];
+        testCaseCap = testCaseCap.substring(end + 2, testCaseCap.length);
+      }
+      i++;
+    } while (start !== -1);
+    for (const idx in testObj) {
+      testCaseScript = testCaseScript.replace(`$$${idx}$$`, testObj[idx]);
+    }
+    testStr += testCaseScript + ' &&';
+  }
+  return testStr.replace(/&&+$/, '');
+}
+
 export function checkResult(script, missions) {
   return () => {
     const idoc = document.getElementById('output').contentWindow.document;
     let value = script;
     value += `\x3Cscript src='${BASE_URL}js/jquery.min.js'>\x3C/script>`;
     value += '\x3Cscript>result=[]\x3C/script>';
-    for (let i = 0; i < missions.length; i += 1) {
-      const misi = missions[i];
-      value += `\x3Cscript>if(${
-        misi.testcase[0]
-      }){ result.push({  "index":${i}, "result":true }) } else {result.push({  "index":${i}, "result":false })}\x3C/script>`;
+    let i = 0;
+    for (const misi of missions) {
+      value += `\x3Cscript>if(${convertTestCase(
+        misi.testcase,
+      )}){ result.push({  "index":${i}, "result":true }) } else {result.push({  "index":${i}, "result":false })}\x3C/script>`;
+      i++;
     }
     value +=
       '\x3Cscript>parent.postMessage({ "action":"result", "data" : result },\'*\'); result=[]\x3C/script>';
