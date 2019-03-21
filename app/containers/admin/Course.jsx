@@ -85,15 +85,17 @@ class Course extends Component {
                                 name: '',
                                 desc: '',
                                 image: null,
+                                script: '',
                               }}
                               onSubmit={values => {
                                 const success = this.success;
-                                const { image, name, desc } = values;
+                                const { image, name, desc, script } = values;
                                 addCourse({
                                   variables: {
                                     file: image,
                                     name,
                                     desc,
+                                    script,
                                   },
                                 }).then(({ data: { addCourse } }) => {
                                   success(addCourse._id);
@@ -122,6 +124,17 @@ class Course extends Component {
                                           type="text"
                                           placeholder="description"
                                           name="desc"
+                                        />
+                                      </div>
+                                      <div className="form-group">
+                                        <label htmlFor="script">
+                                          Initial Script
+                                        </label>
+                                        <Field
+                                          class="form-control"
+                                          type="text"
+                                          placeholder="Script"
+                                          name="script"
                                         />
                                       </div>
                                       <div className="form-group">

@@ -4,6 +4,7 @@ import { GraphQLUpload } from 'graphql-upload';
 import shortid from 'shortid';
 import CourseType from '../types/CourseType';
 import Course from '../models/Course';
+import Stage from '../models/Stage';
 
 const UPLOAD_DIR = './dist/uploads';
 
@@ -46,6 +47,22 @@ const CourseMutation = {
       const course = new Course({ name, desc, imageid: id });
       const newcourse = await course.save();
       return newcourse;
+    },
+  },
+  updateCourse: {
+    type: CourseType,
+    description: 'Update Course',
+    args: {
+      id: { type: GraphQLNonNull(GraphQLID) },
+      name: { type: GraphQLString },
+      desc: { type: GraphQLString },
+      script: { type: GraphQLString },
+    },
+    async resolve(root, args) {
+      const edit = await Course.findById(args.id);
+      delete args.id;
+      edit.set(args);
+      return await edit.save();
     },
   },
   uploadImage: {

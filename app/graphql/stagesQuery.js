@@ -18,20 +18,7 @@ export const GET_STAGE_BY_COURSE_PLAYER = gql`
   }
 `;
 
-export const GET_STAGE_BY_COURSE = gql`
-  query GetStageByIDCourse($courseid: ID!) {
-    stages(course: $courseid) {
-      _id
-      title
-      time
-      teory
-      imageid
-      course {
-        _id
-      }
-    }
-  }
-`;
+
 
 export const GET_STAGE_BY_ID = gql`
   query GetStageByID($id: ID!) {

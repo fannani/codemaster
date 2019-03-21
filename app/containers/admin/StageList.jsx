@@ -6,8 +6,9 @@ import Card from '../../components/Card';
 import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';
 import { ADD_STAGE } from '../../graphql/stagesQuery';
-import { GET_STAGE_BY_COURSE } from '../../graphql/stagesQuery';
+import { UPDATE_COURSE } from '../../graphql/coursesQuery';
 import { Link } from 'react-router-dom';
+import { GET_COURSE_BYID } from '../../graphql/coursesQuery';
 
 class StageList extends Component {
   constructor(props) {
@@ -25,30 +26,102 @@ class StageList extends Component {
     return (
       <div className="container-fluid">
         <div className="row justify-content-center">
-          <main className="col-12 main-container">
-            <Card className="card">
-              <div className="card-body">
-                <div className="d-flex justify-content-between">
-                  <h5 className="card-title">Detail Course</h5>
-                  <button onClick={this.addStage} className="btn btn-primary">
-                    Tambah Stage
-                  </button>
-                </div>
-                <div className="row" style={{ marginTop: '20px' }}>
-                  <div className="col-12">
-                    <Query
-                      query={GET_STAGE_BY_COURSE}
-                      variables={{
-                        courseid: this.props.match.params.courseid,
-                      }}
-                    >
-                      {({ loading, error, data }) => {
-                        if (loading) return <p>Loading…</p>;
-                        if (error)
-                          return (
-                            <p>Sorry! There was an error loading the items</p>
-                          );
-                        return (
+          <Query
+            query={GET_COURSE_BYID}
+            variables={{
+              courseid: this.props.match.params.courseid,
+            }}
+          >
+            {({ loading, error, data: { courses } }) => {
+              if (loading) return <p>Loading…</p>;
+              if (error)
+                return <p>Sorry! There was an error loading the items</p>;
+              return (
+                <main className="col-12 main-container">
+                  <Card className="card">
+                    <div className="card-body">
+                      <div className="d-flex justify-content-between">
+                        <h5 className="card-title">Detail Course</h5>
+                      </div>
+                      <Mutation mutation={UPDATE_COURSE}>
+                        {updateCourse => (
+                          <Formik
+                            initialValues={{
+                              name: courses[0].name,
+                              desc: courses[0].desc,
+                              script: courses[0].script,
+                            }}
+                            onSubmit={(
+                              { name, desc, script },
+                              { setSubmitting },
+                            ) => {
+                              updateCourse({
+                                variables: {
+                                  id: this.props.match.params.courseid,
+                                  name,
+                                  desc,
+                                  script,
+                                },
+                              })
+                            }}
+                          >
+                            {() => (
+                              <Form>
+                                <div className="form-group">
+                                  <label htmlFor="name">Name</label>
+                                  <Field
+                                    type="text"
+                                    name="name"
+                                    className="form-control"
+                                    placeholder="Name"
+                                  />
+                                </div>
+                                <div className="form-group">
+                                  <label htmlFor="name">Description</label>
+                                  <Field
+                                    type="text"
+                                    name="desc"
+                                    component="textarea"
+                                    className="form-control"
+                                    placeholder="Description"
+                                  />
+                                </div>
+                                <div className="form-group">
+                                  <label htmlFor="name">Script</label>
+                                  <Field
+                                    type="text"
+                                    name="script"
+                                    component="textarea"
+                                    className="form-control"
+                                    placeholder="Script"
+                                  />
+                                </div>
+                                <button
+                                  type="submit"
+                                  className="btn btn-primary"
+                                >
+                                  Save
+                                </button>
+                              </Form>
+                            )}
+                          </Formik>
+                        )}
+                      </Mutation>
+                    </div>
+                  </Card>
+                  <Card className="card" style={{ marginTop: '20px' }}>
+                    <div className="card-body">
+                      <div className="d-flex justify-content-between">
+                        <h5 className="card-title">Stage List</h5>
+                        <button
+                          onClick={this.addStage}
+                          className="btn btn-primary"
+                        >
+                          Add Stage
+                        </button>
+                      </div>
+                      <div className="row" style={{ marginTop: '20px' }}>
+                        <div className="col-12">
                           <table className="table">
                             <thead>
                               <tr>
@@ -57,7 +130,7 @@ class StageList extends Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {data.stages.map(stage => (
+                              {courses[0].stages.map(stage => (
                                 <tr>
                                   <td>{stage.title}</td>
                                   <td>
@@ -69,74 +142,77 @@ class StageList extends Component {
                               ))}
                             </tbody>
                           </table>
-                        );
-                      }}
-                    </Query>
-                  </div>
-                </div>
+                        </div>
+                      </div>
 
-                <Modal
-                  visible={this.state.showModal}
-                  onClickBackdrop={this.modalClosed}
-                >
-                  <div className="modal-header">
-                    <h5 className="modal-title">Add Stage</h5>
-                  </div>
-                  <Mutation mutation={ADD_STAGE}>
-                    {addStage => (
-                      <Formik
-                        initialValues={{
-                          title: '',
-                        }}
-                        onSubmit={(values, { setSubmitting }) => {
-                          const { title } = values;
-                          const success = this.success;
-                          addStage({
-                            variables: {
-                              title,
-                              course: this.props.match.params.courseid,
-                            },
-                          }).then(({ data: { addStage } }) => {
-                            success(addStage._id);
-                          });
-                        }}
+                      <Modal
+                        visible={this.state.showModal}
+                        onClickBackdrop={this.modalClosed}
                       >
-                        {() => (
-                          <Form>
-                            <div className="modal-body">
-                              <div className="card-body">
-                                <div className="form-group">
-                                  <label htmlFor="name">Title</label>
-                                  <Field
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="title"
-                                    name="title"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="modal-footer">
-                              <button type="submit" className="btn btn-primary">
-                                Tambah
-                              </button>
-                              <button
-                                type="button"
-                                onClick={this.modalClosed}
-                                className="btn btn-secondary"
-                              >
-                                Close
-                              </button>
-                            </div>
-                          </Form>
-                        )}
-                      </Formik>
-                    )}
-                  </Mutation>
-                </Modal>
-              </div>
-            </Card>
-          </main>
+                        <div className="modal-header">
+                          <h5 className="modal-title">Add Stage</h5>
+                        </div>
+                        <Mutation mutation={ADD_STAGE}>
+                          {addStage => (
+                            <Formik
+                              initialValues={{
+                                title: '',
+                              }}
+                              onSubmit={(values, { setSubmitting }) => {
+                                const { title } = values;
+                                const success = this.success;
+                                addStage({
+                                  variables: {
+                                    title,
+                                    course: this.props.match.params.courseid,
+                                  },
+                                }).then(({ data: { addStage } }) => {
+                                  success(addStage._id);
+                                });
+                              }}
+                            >
+                              {() => (
+                                <Form>
+                                  <div className="modal-body">
+                                    <div className="card-body">
+                                      <div className="form-group">
+                                        <label htmlFor="name">Title</label>
+                                        <Field
+                                          className="form-control"
+                                          type="text"
+                                          placeholder="title"
+                                          name="title"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="modal-footer">
+                                    <button
+                                      type="submit"
+                                      className="btn btn-primary"
+                                    >
+                                      Tambah
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={this.modalClosed}
+                                      className="btn btn-secondary"
+                                    >
+                                      Close
+                                    </button>
+                                  </div>
+                                </Form>
+                              )}
+                            </Formik>
+                          )}
+                        </Mutation>
+                      </Modal>
+                    </div>
+                  </Card>
+                </main>
+              );
+            }}
+          </Query>
         </div>
       </div>
     );
