@@ -7,14 +7,28 @@ import star from '../../assets/images/star.png';
 import starOff from '../../assets/images/star-off.png';
 
 const StageItem = ({ className, stage, unlock }) => {
-  console.log(stage);
   const child = (
     <div className="d-flex flex-wrap stageitem ">
       <div className="wrapper">
         <div className=" stars">
-          <img width="30px" src={star} className="star star-left" />
-          <img width="30px" src={star} className="star star-middle" />
-          <img width="30px" src={star} className="star star-right" />
+          <img
+            width="30px"
+            alt="star-1"
+            src={stage.stars != null && stage.stars[0] ? star : starOff}
+            className="star star-left"
+          />
+          <img
+            width="30px"
+            alt="star-2"
+            src={stage.stars != null && stage.stars[1] ? star : starOff}
+            className="star star-middle"
+          />
+          <img
+            width="30px"
+            alt="star-3"
+            src={stage.stars != null && stage.stars[2] ? star : starOff}
+            className="star star-right"
+          />
         </div>
         <div
           className="circle"
