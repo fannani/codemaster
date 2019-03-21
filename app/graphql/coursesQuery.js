@@ -15,6 +15,7 @@ export const GET_COURSE_BYID = gql`
     courses(_id: $courseid) {
       name
       desc
+      script
       imageid
       stages {
         _id

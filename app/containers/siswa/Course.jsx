@@ -18,11 +18,12 @@ import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
 import Output from '../../components/siswa/Output';
 import ScoreBoard from '../../components/siswa/ScoreBoard';
 import { GET_STAGE_BY_ID } from '../../graphql/stagesQuery';
-
 import { calculateStars, checkResult } from '../../utils/CourseUtil';
 
 const Course = ({
-  match,
+  match: {
+    params: { stageid },
+  },
   user,
   reduceEnergy,
   currentTimer,
@@ -37,8 +38,6 @@ const Course = ({
   const [showModal, setShowModal] = useState(false);
   const [stars, setStars] = useState([]);
   const [intervalState, setIntervalState] = useState(null);
-  const { params } = match;
-  const { stageid } = params;
   const energyNeed = 20;
 
   const gameOver = (stage, score, life) => {
@@ -67,7 +66,6 @@ const Course = ({
     setPlayMode(true);
     return () => {
       setPlayMode(false);
-      window.removeEventListener('message');
       clearInterval(intervalState);
     };
   }, []);
@@ -128,8 +126,6 @@ const mapStateToProps = state => ({
   user: state.users.user,
   currentTimer: state.gameplay.currentTimer,
   timerText: state.gameplay.timerText,
-  life: state.gameplay.life,
-  score: state.gameplay.score,
 });
 const mapDispatchToProps = dispatch => ({
   tick: () => dispatch(incrementTimer()),
