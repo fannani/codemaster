@@ -32,16 +32,6 @@ const Course = ({
   setPlayMode,
   setPlayerStatus,
 }) => {
-  const [script, setScript] = useState(
-    `<html>
-    <head>
-    </head>
-
-    <body>
-
-    </body>
-</html>`,
-  );
   const [scoreResult, setScoreResult] = useState(0);
   const [lifeResult, setLifeResult] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -68,14 +58,6 @@ const Course = ({
     setShowModal(true);
     setStars(starCount);
     clearInterval(intervalState);
-  };
-
-  const update = value => {
-    setScript(value);
-    const idoc = document.getElementById('output').contentWindow.document;
-    idoc.open();
-    idoc.write(value);
-    idoc.close();
   };
 
   useEffect(() => {
@@ -110,10 +92,11 @@ const Course = ({
                         mission={stages[0].missions}
                       />
                       <Editor
-                        checkResult={checkResult(script, stages[0].missions)}
-                        script={script}
+                        checkResult={script =>
+                          checkResult(script, stages[0].missions)
+                        }
+                        initialScript={stages[0].course.script}
                         size={4}
-                        onChange={update}
                       />
                       <Output />
                     </div>

@@ -18,8 +18,6 @@ export const GET_STAGE_BY_COURSE_PLAYER = gql`
   }
 `;
 
-
-
 export const GET_STAGE_BY_ID = gql`
   query GetStageByID($id: ID!) {
     stages(_id: $id) {
@@ -29,6 +27,7 @@ export const GET_STAGE_BY_ID = gql`
       teory
       course {
         _id
+        script
       }
       missions {
         _id

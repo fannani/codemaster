@@ -4,7 +4,6 @@ import { GraphQLUpload } from 'graphql-upload';
 import shortid from 'shortid';
 import CourseType from '../types/CourseType';
 import Course from '../models/Course';
-import Stage from '../models/Stage';
 
 const UPLOAD_DIR = './dist/uploads';
 
