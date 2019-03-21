@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import star from '../../assets/images/star-circle.png';
 import badge from '../../assets/images/badges.png';
 import achievement from '../../assets/images/achievement.png';
-import { GET_COURSE_BY_PLAYER } from '../../graphql/playerQuery';
+import { GET_COURSE_BY_PLAYER } from '../../queries/playerQuery';
 import Card from '../../components/Card';
 import CourseItem from '../../components/siswa/CourseItem';
 import connect from 'react-redux/es/connect/connect';

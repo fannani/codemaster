@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Mutation } from 'react-apollo';
 import styled from 'styled-components';
-import { REGISTER } from '../../graphql/usersQuery';
+import { REGISTER } from '../../queries/usersQuery';
 
 const Container = styled.div`
   max-width: 100% !important;

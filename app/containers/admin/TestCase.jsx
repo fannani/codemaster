@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import Modal from 'react-bootstrap4-modal';
 import { Field, Form, Formik } from 'formik';
-import { GET_TESTCASES, ADD_TESTCASE } from '../../graphql/testcaseQuery';
+import { GET_TESTCASES, ADD_TESTCASE } from '../../queries/testcaseQuery';
 import Card from '../../components/Card';
 
 const TestCase = () => {

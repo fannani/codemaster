@@ -6,8 +6,8 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Leaderboard from '../../components/siswa/Leaderboard';
 import StageItem from '../../components/siswa/StageItem';
-import { GET_COURSE_BYID } from '../../graphql/coursesQuery';
-import { GET_STAGE_BY_COURSE_PLAYER } from '../../graphql/stagesQuery';
+import { GET_COURSE_BYID } from '../../queries/coursesQuery';
+import { GET_STAGE_BY_COURSE_PLAYER } from '../../queries/stagesQuery';
 
 const CourseDetail = ({ match, user, className }) => (
   <Query

@@ -4,8 +4,8 @@ import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import Card from '../../components/Card';
-import { ADD_STAGE, DELETE_STAGE } from '../../graphql/stagesQuery';
-import { UPDATE_COURSE, GET_COURSE_BYID } from '../../graphql/coursesQuery';
+import { ADD_STAGE, DELETE_STAGE } from '../../queries/stagesQuery';
+import { UPDATE_COURSE, GET_COURSE_BYID } from '../../queries/coursesQuery';
 
 const StageList = ({
   history,

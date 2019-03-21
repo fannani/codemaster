@@ -4,8 +4,8 @@ import Modal from 'react-bootstrap4-modal';
 import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
-import { GET_STAGE_BY_ID, UPDATE_STAGE } from '../../graphql/stagesQuery';
-import { ADD_MISSION } from '../../graphql/missionsQuery';
+import { GET_STAGE_BY_ID, UPDATE_STAGE } from '../../queries/stagesQuery';
+import { ADD_MISSION } from '../../queries/missionsQuery';
 import Card from '../../components/Card';
 
 const Stage = ({ match, history }) => {

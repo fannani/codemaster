@@ -2,7 +2,7 @@ import { Mutation } from 'react-apollo';
 import {
   ADD_TESTCASE_MISSION,
   GET_TESTCASE_MISSION,
-} from '../../graphql/missionsQuery';
+} from '../../queries/missionsQuery';
 import { Field, Form, Formik } from 'formik';
 import Modal from 'react-bootstrap4-modal';
 import React from 'react';

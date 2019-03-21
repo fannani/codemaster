@@ -4,7 +4,7 @@ import connect from 'react-redux/es/connect/connect';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { GET_ACHIEVEMENTS } from '../../graphql/achievementQuery';
+import { GET_ACHIEVEMENTS } from '../../queries/achievementQuery';
 import AchievementItem from '../../components/siswa/AchievementItem';
 
 const Achievement = ({ user }) => (

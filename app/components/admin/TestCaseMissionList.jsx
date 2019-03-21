@@ -1,5 +1,5 @@
 import { Query } from 'react-apollo';
-import { GET_TESTCASE_MISSION } from '../../graphql/missionsQuery';
+import { GET_TESTCASE_MISSION } from '../../queries/missionsQuery';
 import Card from '../Card';
 import React from 'react';
 
