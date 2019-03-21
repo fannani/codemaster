@@ -7,6 +7,7 @@ import star from '../../assets/images/star.png';
 import starOff from '../../assets/images/star-off.png';
 
 const StageItem = ({ className, stage, unlock }) => {
+  console.log(stage);
   const child = (
     <div className="d-flex flex-wrap stageitem ">
       <div className="wrapper">
@@ -49,13 +50,12 @@ const StyledStageItem = styled(StageItem)`
     width: 90px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom:5px;
+    margin-bottom: 5px;
   }
   .wrapper {
     width: 150px;
   }
 
- 
   .star-left {
     position: relative;
     top: 5px;
@@ -67,7 +67,7 @@ const StyledStageItem = styled(StageItem)`
   .stageitem {
     height: 100px;
     margin-top: 50px;
-    margin-left:30px;
+    margin-left: 30px;
   }
   h4 {
     height: 100%;
