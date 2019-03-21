@@ -3,7 +3,7 @@ import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
 import PropTypes from 'prop-types';
 import Header from '../../components/siswa/Header';
-import RouteComp from '../../config/route';
+import { RouteSiswa} from '../../config/route';
 
 import { logout as logoutAction } from '../../actions/users';
 
@@ -38,7 +38,7 @@ const Layout = ({ logout, life, score, time, play, user, isLogin }) => {
         }
       />
 
-      <RouteComp />
+      <RouteSiswa />
       <Modal visible={showModal} onClickBackdrop={onClickBackdrop}>
         <div className="modal-header">
           <h5 className="modal-title">Menambah Energy</h5>
