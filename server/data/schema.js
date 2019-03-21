@@ -42,6 +42,7 @@ const BKMutationRootType = new GraphQLObjectType({
     updateCourse: courseMutation.updateCourse,
     uploadImage: courseMutation.uploadImage,
     addStage: stageMutation.addStage,
+    deleteStage: stageMutation.deleteStage,
     addScore: scoreMutation.addScore,
     addTestCase: testCaseMutation.addTestCase,
     updateStage: stageMutation.updateStage,

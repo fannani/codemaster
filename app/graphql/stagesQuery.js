@@ -90,3 +90,11 @@ export const ADD_STAGE = gql`
     }
   }
 `;
+
+export const DELETE_STAGE = gql`
+  mutation deleteStage($id: ID!) {
+    deleteStage(id: $id) {
+      _id
+    }
+  }
+`;

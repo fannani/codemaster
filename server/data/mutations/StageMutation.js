@@ -72,6 +72,17 @@ const StageMutation = {
       return await editstage.save();
     },
   },
+  deleteStage: {
+    type: StageType,
+    description: 'Delete Stage',
+    args: {
+      id: { type: GraphQLNonNull(GraphQLID) },
+    },
+    async resolve(root, args) {
+      const stage = await Stage.findByIdAndRemove(args.id);
+      return stage;
+    },
+  },
 };
 
 export default StageMutation;
