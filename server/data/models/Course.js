@@ -5,6 +5,7 @@ import Stage from './Stage';
 const CourseSchema = new mongoose.Schema({
   name: String,
   desc: String,
+  script: String,
   imageid: String,
   updated_at: { type: Date, default: Date.now },
 });

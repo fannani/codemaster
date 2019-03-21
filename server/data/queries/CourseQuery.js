@@ -8,16 +8,15 @@ const courses = {
   args: {
     _id: { type: GraphQLID },
   },
-  resolve: (_, args, context) => 
+  resolve: (_, args, context) =>
     // if (!context.user) {
     //   throw new Error('You are not authorized!');
     // }
-     new Promise((resolve, reject) => {
+    new Promise((resolve, reject) => {
       Course.find(args, null, { sort: { updated_at: -1 } }, (err, courses) => {
         err ? reject(err) : resolve(courses);
       });
-    })
-  ,
+    }),
 };
 
 export default courses;

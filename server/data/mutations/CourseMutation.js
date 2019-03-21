@@ -13,9 +13,7 @@ const storeFS = ({ stream }) => {
   return new Promise((resolve, reject) =>
     stream
       .on('error', error => {
-        if (stream.truncated)
-          // Delete the truncated file.
-          fs.unlinkSync(path);
+        if (stream.truncated) fs.unlinkSync(path);
         reject(error);
       })
       .pipe(fs.createWriteStream(path))
@@ -29,8 +27,9 @@ const CourseMutation = {
     type: CourseType,
     description: 'Add Course',
     args: {
-      name: { type: new GraphQLNonNull(GraphQLString) },
-      desc: { type: new GraphQLNonNull(GraphQLString) },
+      name: { type: GraphQLNonNull(GraphQLString) },
+      desc: { type: GraphQLNonNull(GraphQLString) },
+      script: { type: GraphQLNonNull(GraphQLString) },
       file: {
         description: 'Image file.',
         type: GraphQLUpload,
