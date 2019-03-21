@@ -9,6 +9,7 @@ import CourseFooter from '../../components/siswa/CourseFooter';
 import Editor from '../../components/siswa/Editor';
 import 'react-toastify/dist/ReactToastify.css';
 import {
+  resetTimer,
   incrementTimer,
   setPlayerStatus as setPlayerStatusAction,
   setPlayMode as setPlayModeAction,
@@ -32,12 +33,14 @@ const Course = ({
   tick,
   setPlayMode,
   setPlayerStatus,
+  resetTimer,
 }) => {
   const [scoreResult, setScoreResult] = useState(0);
   const [lifeResult, setLifeResult] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [stars, setStars] = useState([]);
   const [intervalState, setIntervalState] = useState(null);
+  let interval = null;
   const energyNeed = 20;
 
   const gameOver = (stage, score, life) => {
@@ -57,16 +60,19 @@ const Course = ({
     setShowModal(true);
     setStars(starCount);
     clearInterval(intervalState);
+    resetTimer();
   };
 
   useEffect(() => {
     reduceEnergy(user.userdetail._id, energyNeed);
-    setIntervalState(setInterval(tick, 1000));
+    interval = setInterval(tick, 1000);
+    setIntervalState(interval);
     setPlayerStatus(0, 3);
     setPlayMode(true);
     return () => {
       setPlayMode(false);
-      clearInterval(intervalState);
+      resetTimer();
+      clearInterval(interval);
     };
   }, []);
   return (
@@ -136,6 +142,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(reduceEnergyAction(userid, energy)),
   addScore: (userid, stageid, courseid, score, time, stars) =>
     dispatch(addScoreAction(userid, stageid, courseid, score, time, stars)),
+  resetTimer: () => dispatch(resetTimer()),
 });
 
 Course.propTypes = {

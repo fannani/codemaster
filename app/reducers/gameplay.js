@@ -9,6 +9,8 @@ const reducer = (
   action,
 ) => {
   switch (action.type) {
+    case 'RESET_TIMER':
+      return Object.assign({ ...state }, { currentTimer: 0 , timerText: '00:00'});
     case 'UPDATE_TIMER':
       return Object.assign(
         { ...state },

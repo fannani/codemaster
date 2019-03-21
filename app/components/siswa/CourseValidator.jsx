@@ -42,7 +42,7 @@ const CourseValidator = ({ children, stages, gameOver, setPlayerStatus }) => {
   useEffect(() => {
     window.addEventListener('message', handleIframeTask);
     return () => {
-      window.removeEventListener('message');
+      window.removeEventListener('message', handleIframeTask);
     };
   }, []);
   return children({ result });
