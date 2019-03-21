@@ -19,6 +19,7 @@ Logo.propTypes = {
 
 const styledLogo = styled(Logo)`
   font-family: open sans;
+ 
 
   .light {
     font-weight: bold;
