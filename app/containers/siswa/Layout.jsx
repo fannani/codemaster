@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
 import connect from 'react-redux/es/connect/connect';
 import Modal from 'react-bootstrap4-modal';
 import PropTypes from 'prop-types';
 import Header from '../../components/siswa/Header';
-import route from './route';
-import Login from './Login';
-import Register from './Register';
+import RouteComp from '../../config/route';
+
 import { logout as logoutAction } from '../../actions/users';
 
 const Layout = ({ logout, life, score, time, play, user, isLogin }) => {
@@ -40,11 +38,7 @@ const Layout = ({ logout, life, score, time, play, user, isLogin }) => {
         }
       />
 
-      <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/" component={route} />
-      </Switch>
+      <RouteComp />
       <Modal visible={showModal} onClickBackdrop={onClickBackdrop}>
         <div className="modal-header">
           <h5 className="modal-title">Menambah Energy</h5>
