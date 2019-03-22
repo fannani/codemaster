@@ -1,4 +1,4 @@
-import { GraphQLString, GraphQLNonNull, GraphQLID } from 'graphql';
+import { GraphQLString, GraphQLNonNull, GraphQLID, GraphQLInt } from 'graphql';
 
 import Stage from '../models/Stage';
 import shortid from 'shortid';
@@ -32,6 +32,7 @@ const StageMutation = {
       title: { type: GraphQLNonNull(GraphQLString) },
       teory: { type: GraphQLString },
       time: { type: GraphQLString },
+      index: { type: GraphQLInt },
       course: { type: GraphQLNonNull(GraphQLID) },
     },
     async resolve(root, { title, teory, time, course }) {
@@ -40,6 +41,7 @@ const StageMutation = {
         teory,
         time,
         course,
+        index,
         // imageid : id
       });
       return await stage.save();
@@ -52,6 +54,7 @@ const StageMutation = {
       id: { type: GraphQLNonNull(GraphQLID) },
       title: { type: GraphQLString },
       teory: { type: GraphQLString },
+      index: { type: GraphQLInt },
       time: { type: GraphQLString },
       course: { type: GraphQLID },
       file: { type: GraphQLUpload },

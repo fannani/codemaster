@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const StageSchema = new mongoose.Schema({
   title: String,
+  index: Number,
   teory: String,
   time: String,
   course: { type: Schema.Types.ObjectId, ref: 'Course' },
