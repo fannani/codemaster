@@ -35,15 +35,23 @@ const StageMutation = {
       index: { type: GraphQLInt },
       course: { type: GraphQLNonNull(GraphQLID) },
     },
-    async resolve(root, { title, teory, time, course }) {
-      const stage = new Stage({
+    async resolve(root, { title, teory, time, course, index }) {
+      let stage = new Stage({
         title,
         teory,
         time,
         course,
-        index,
         // imageid : id
       });
+      if (index) {
+        stage.index = index;
+      } else {
+        const tmp = await Stage.findOne()
+          .where({ course })
+          .sort('-index');
+        if (tmp) stage.index = tmp.index + 1;
+        else stage.index = 1;
+      }
       return await stage.save();
     },
   },

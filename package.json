@@ -56,7 +56,7 @@
     "react": "^16.8.2",
     "react-ace": "^6.2.0",
     "react-adopt": "^0.6.0",
-    "react-apollo": "^2.3.3",
+    "react-apollo": "^2.5.2",
     "react-bootstrap4-modal": "^1.7.0",
     "react-circular-progressbar": "^1.0.0",
     "react-content-loader": "^3.4.1",

@@ -9,7 +9,7 @@ import CourseFooter from '../../components/siswa/CourseFooter';
 import Editor from '../../components/siswa/Editor';
 import 'react-toastify/dist/ReactToastify.css';
 import {
-  resetTimer,
+  resetTimer as resetTimerAction,
   incrementTimer,
   setPlayerStatus as setPlayerStatusAction,
   setPlayMode as setPlayModeAction,
@@ -60,10 +60,10 @@ const Course = ({
     setShowModal(true);
     setStars(starCount);
     clearInterval(intervalState);
-    resetTimer();
   };
 
   useEffect(() => {
+    resetTimer();
     reduceEnergy(user.userdetail._id, energyNeed);
     interval = setInterval(tick, 1000);
     setIntervalState(interval);
@@ -71,7 +71,6 @@ const Course = ({
     setPlayMode(true);
     return () => {
       setPlayMode(false);
-      resetTimer();
       clearInterval(interval);
     };
   }, []);
@@ -112,7 +111,7 @@ const Course = ({
                       timer={timerText}
                       life={lifeResult}
                       score={scoreResult}
-                      courseid={stages[0].course._id}
+                      course={stages[0].course}
                       onClickBackdrop={() => {
                         setShowModal(false);
                       }}
@@ -142,7 +141,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(reduceEnergyAction(userid, energy)),
   addScore: (userid, stageid, courseid, score, time, stars) =>
     dispatch(addScoreAction(userid, stageid, courseid, score, time, stars)),
-  resetTimer: () => dispatch(resetTimer()),
+  resetTimer: () => dispatch(resetTimerAction()),
 });
 
 Course.propTypes = {
@@ -155,6 +154,7 @@ Course.propTypes = {
   timerText: PropTypes.any.isRequired,
   setPlayMode: PropTypes.func.isRequired,
   setPlayerStatus: PropTypes.func.isRequired,
+  resetTimer: PropTypes.func.isRequired,
 };
 
 export default connect(

@@ -24,7 +24,7 @@ const StageList = ({
 
   const success = idp => {
     setId(idp);
-    history.push(`/admin/stage/${id}`);
+    history.push(`/admin/stage/${idp}`);
   };
 
   const modalClosed = () => {

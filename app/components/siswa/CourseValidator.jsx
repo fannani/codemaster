@@ -17,7 +17,7 @@ const CourseValidator = ({ children, stages, gameOver, setPlayerStatus }) => {
       const compare = compareResult(result, passData.data);
       setResult(compare.result);
       score = compare.all * scorePoint;
-      setPlayerStatus(score, life);
+
       if (compare.last < stages[0].missions.length) {
         if (compare.last > 0) {
           postLog('misi', 'berhasil menyelesaikan misi', compare.last);
@@ -34,6 +34,7 @@ const CourseValidator = ({ children, stages, gameOver, setPlayerStatus }) => {
           life -= 1;
         }
       }
+      setPlayerStatus(score, life);
       if (compare.all >= stages[0].missions.length)
         gameOver(stages[0], score, life);
     }

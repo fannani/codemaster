@@ -28,6 +28,9 @@ export const GET_STAGE_BY_ID = gql`
       course {
         _id
         script
+        stages {
+          _id
+        }
       }
       missions {
         _id
