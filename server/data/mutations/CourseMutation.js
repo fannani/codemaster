@@ -35,7 +35,7 @@ const CourseMutation = {
         type: GraphQLUpload,
       },
     },
-    async resolve(root, { file, name, desc }) {
+    async resolve(root, { file, name, desc, script }) {
       let id = '';
       if (file) {
         const { filename, createReadStream } = await file;
@@ -43,7 +43,7 @@ const CourseMutation = {
         const filestore = await storeFS({ stream, filename });
         id = filestore.id;
       }
-      const course = new Course({ name, desc, imageid: id });
+      const course = new Course({ name, desc, imageid: id, script });
       const newcourse = await course.save();
       return newcourse;
     },
