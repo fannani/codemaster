@@ -15,11 +15,9 @@ const ScoreBoard = ({
   score,
   stars,
   onClickBackdrop,
-  course,
+  stage,
 }) => {
-  const currIndex = course.stages.indexOf(course._id);
-  console.log(currIndex);
-  return(
+  return (
     <Modal visible={show} onClickBackdrop={onClickBackdrop}>
       <div className="modal-header">
         <h5 className="modal-title">
@@ -33,19 +31,29 @@ const ScoreBoard = ({
         TIME : {timer}
       </div>
       <div className="modal-footer">
-        <Link to={`/course/${course._id}`} className="btn btn-secondary">
+        <Link to={`/course/${stage.course._id}`} className="btn btn-secondary">
           Kembali
         </Link>
         <button type="button" className="btn btn-secondary">
           Main lagi
         </button>
-        <button type="button" className="btn btn-primary">
-          Lanjut
-        </button>
+        {(function() {
+          if (stage.index < stage.course.stages.length) {
+            const next = stage.course.stages.find(
+              data => data.index === stage.index + 1,
+            );
+            return (
+              <Link to={`/play/${next._id}`} className="btn btn-primary">
+                Lanjut
+              </Link>
+            );
+          }
+          return '';
+        })()}
       </div>
     </Modal>
   );
-}
+};
 
 ScoreBoard.propTypes = {
   show: PropTypes.bool.isRequired,

@@ -111,7 +111,7 @@ const Course = ({
                       timer={timerText}
                       life={lifeResult}
                       score={scoreResult}
-                      course={stages[0].course}
+                      stage={stages[0]}
                       onClickBackdrop={() => {
                         setShowModal(false);
                       }}

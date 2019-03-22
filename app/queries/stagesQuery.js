@@ -24,12 +24,14 @@ export const GET_STAGE_BY_ID = gql`
       _id
       title
       time
+      index
       teory
       course {
         _id
         script
         stages {
           _id
+          index
         }
       }
       missions {
