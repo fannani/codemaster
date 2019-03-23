@@ -24,7 +24,6 @@ const PreventNavigationDialog = ({ when, title, message, history }) => {
   const handleYes = () => {
     setOpen(false);
     allowRedirect = true;
-    console.log(nextLocation);
     history.push(nextLocation);
   };
 
@@ -43,11 +42,7 @@ const PreventNavigationDialog = ({ when, title, message, history }) => {
 
   return (
     <React.Fragment>
-      {/* React Router prompt, callback will return true to allow transition or dialog key to prevent */}
       <Prompt when={when} message={handleTransition} />
-
-      {/* Example MUI dialog to show when open. You could make this
-            totally customizable or a complete one-off. */}
       <Modal visible={open}>
         <div className="modal-header">
           <h5 className="modal-title">{title}</h5>

@@ -42,6 +42,9 @@ const Course = ({
   const [showModal, setShowModal] = useState(false);
   const [stars, setStars] = useState([]);
   const [intervalState, setIntervalState] = useState(null);
+  const [guideShow, setGuideShow] = useState(true);
+  const [outputShow, setOutputShow] = useState(true);
+  const [editorSize, setEditorSize] = useState(4);
   let interval = null;
   const energyNeed = 20;
 
@@ -62,6 +65,18 @@ const Course = ({
     setShowModal(true);
     setStars(starCount);
     clearInterval(intervalState);
+  };
+
+  const onExpandClick = () => {
+    if (editorSize < 10) {
+      setGuideShow(false);
+      setOutputShow(false);
+      setEditorSize(10);
+    } else {
+      setGuideShow(true);
+      setOutputShow(true);
+      setEditorSize(4);
+    }
   };
 
   useEffect(() => {
@@ -96,15 +111,17 @@ const Course = ({
                         teory={stages[0].teory}
                         result={result}
                         mission={stages[0].missions}
+                        show={guideShow}
                       />
                       <Editor
                         checkResult={script =>
                           checkResult(script, stages[0].missions)
                         }
                         initialScript={stages[0].course.script}
-                        size={4}
+                        onExpandClick={onExpandClick}
+                        size={editorSize}
                       />
-                      <Output />
+                      <Output show={outputShow} />
                     </div>
                     <CourseFooter />
                     <ToastContainer />
@@ -129,7 +146,11 @@ const Course = ({
       <PreventNavigationDialog
         when={true}
         title="Peringatan"
-        message={<strong>Progress anda akan hilang, apakah anda yakin ingin keluar ?</strong>}
+        message={
+          <strong>
+            Progress anda akan hilang, apakah anda yakin ingin keluar ?
+          </strong>
+        }
         history={history}
       />{' '}
     </div>

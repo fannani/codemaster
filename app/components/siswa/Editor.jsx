@@ -12,7 +12,7 @@ const Button = styled.button`
   color: white;
 `;
 
-const Editor = ({ checkResult, initialScript, className, size = 4 }) => {
+const Editor = ({ checkResult, initialScript, className, size = 4, onExpandClick }) => {
   const [script, setScript] = useState(initialScript);
   const onChange = value => {
     const idoc = document.getElementById('output').contentWindow.document;
@@ -30,7 +30,7 @@ const Editor = ({ checkResult, initialScript, className, size = 4 }) => {
         <Button type="button" id="run" onClick={checkResult(script)} className="btn ">
           Periksa
         </Button>
-        <Button type="button" className="btn btn-right">
+        <Button onClick={onExpandClick} type="button" className="btn btn-right">
           Expand
         </Button>
       </div>
