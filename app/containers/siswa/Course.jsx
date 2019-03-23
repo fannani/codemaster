@@ -20,6 +20,7 @@ import Output from '../../components/siswa/Output';
 import ScoreBoard from '../../components/siswa/ScoreBoard';
 import { GET_STAGE_BY_ID } from '../../queries/stagesQuery';
 import { calculateStars, checkResult } from '../../utils/CourseUtil';
+import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 
 const Course = ({
   match: {
@@ -34,6 +35,7 @@ const Course = ({
   setPlayMode,
   setPlayerStatus,
   resetTimer,
+  history,
 }) => {
   const [scoreResult, setScoreResult] = useState(0);
   const [lifeResult, setLifeResult] = useState(0);
@@ -69,6 +71,7 @@ const Course = ({
     setIntervalState(interval);
     setPlayerStatus(0, 3);
     setPlayMode(true);
+
     return () => {
       setPlayMode(false);
       clearInterval(interval);
@@ -123,6 +126,12 @@ const Course = ({
           }}
         </Query>
       </main>
+      <PreventNavigationDialog
+        when={true}
+        title="Peringatan"
+        message={<strong>Progress anda akan hilang, apakah anda yakin ingin keluar ?</strong>}
+        history={history}
+      />{' '}
     </div>
   );
 };

@@ -61,6 +61,7 @@ ScoreBoard.propTypes = {
   timer: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   stars: PropTypes.array.isRequired,
+  stage: PropTypes.object.isRequired,
   onClickBackdrop: PropTypes.func.isRequired,
 };
 

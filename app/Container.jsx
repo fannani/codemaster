@@ -35,11 +35,17 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const getUserConfirmation = (dialogKey, callback) => {
+  const dialogTrigger = window[Symbol.for(dialogKey)];
+  if (dialogTrigger) return dialogTrigger(callback);
+  callback(true);
+};
+
 let Container = ({ store, persistor }) => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ApolloProvider client={client}>
-        <BrowserRouter>
+        <BrowserRouter getUserConfirmation={getUserConfirmation}>
           <Suspense fallback={<LoadingScreen />}>
             <Switch>
               <Route path="/(|tentang|pelajari)" exact component={WebLayout} />
