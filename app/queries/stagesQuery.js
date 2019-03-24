@@ -25,6 +25,7 @@ export const GET_STAGE_BY_ID = gql`
       title
       time
       index
+      exp_reward
       teory
       course {
         _id

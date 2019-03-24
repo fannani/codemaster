@@ -42,16 +42,18 @@ const Stage = ({ match, history }) => {
                             title: stages[0].title,
                             teory: stages[0].teory,
                             time: stages[0].time,
+                            exp_reward: stages[0].exp_reward,
                             image: null,
                           }}
                           onSubmit={values => {
-                            const { image, title, time, teory } = values;
+                            const { image, title, time, teory ,exp_reward} = values;
                             updateStage({
                               variables: {
                                 file: image,
                                 title,
                                 time,
                                 teory,
+                                exp_reward,
                                 id: stageid,
                               },
                             }).then(({ data: { addCourse } }) => {});
@@ -90,9 +92,18 @@ const Stage = ({ match, history }) => {
                                 <label htmlFor="teory">Time</label>
                                 <Field
                                   className="form-control"
-                                  type="text"
+                                  type="number"
                                   name="time"
                                   placeholder="Waktu"
+                                />
+                              </div>
+                              <div className="form-group">
+                                <label htmlFor="exp_reward">Exp Reward</label>
+                                <Field
+                                  className="form-control"
+                                  type="number"
+                                  name="exp_reward"
+                                  placeholder="Exp Reward"
                                 />
                               </div>
                               <div className="form-group">
