@@ -33,14 +33,16 @@ const StageMutation = {
       teory: { type: GraphQLString },
       time: { type: GraphQLString },
       index: { type: GraphQLInt },
+      exp_reward: { type: GraphQLInt },
       course: { type: GraphQLNonNull(GraphQLID) },
     },
-    async resolve(root, { title, teory, time, course, index }) {
+    async resolve(root, { title, teory, time, course, index, exp_reward }) {
       let stage = new Stage({
         title,
         teory,
         time,
         course,
+        exp_reward,
         // imageid : id
       });
       if (index) {
@@ -64,6 +66,7 @@ const StageMutation = {
       teory: { type: GraphQLString },
       index: { type: GraphQLInt },
       time: { type: GraphQLString },
+      exp_reward: { type: GraphQLInt },
       course: { type: GraphQLID },
       file: { type: GraphQLUpload },
     },
