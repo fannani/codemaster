@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-const Guide = ({ mission, result, className, title, teory, show = true }) => {
+const Guide = ({ mission, result, className, title, teory, show = true, onClick }) => {
+
   const missionList = mission.map((misi, index) => {
     let active = false;
     if (typeof result[index] !== 'undefined') {
@@ -23,6 +24,7 @@ const Guide = ({ mission, result, className, title, teory, show = true }) => {
 
   return (
     <div
+      onClick={onClick}
       id="guide"
       className={classNames(className, !show ? 'col-sm-1' : 'col-sm-4')}
       style={{ overflowY: 'scroll', height: 'calc(100vh - 100px)' }}

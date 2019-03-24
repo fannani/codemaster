@@ -12,7 +12,15 @@ const Button = styled.button`
   color: white;
 `;
 
-const Editor = ({ checkResult, initialScript, className, size = 4, onExpandClick }) => {
+const Editor = ({
+  checkResult,
+  initialScript,
+  className,
+  size = 4,
+  onExpandClick,
+  onClick,
+  show,
+}) => {
   const [script, setScript] = useState(initialScript);
   const onChange = value => {
     const idoc = document.getElementById('output').contentWindow.document;
@@ -23,29 +31,47 @@ const Editor = ({ checkResult, initialScript, className, size = 4, onExpandClick
   };
   return (
     <div
-      className={classNames(className, 'col-sm-' + size)}
+      onClick={onClick}
+      className={classNames(className, show ? `col-sm-${size}` : 'col-sm-1')}
       style={{ height: 'calc(100vh - 100px)' }}
     >
-      <div style={{ height: '50px' }}>
-        <Button type="button" id="run" onClick={checkResult(script)} className="btn ">
-          Periksa
-        </Button>
-        <Button onClick={onExpandClick} type="button" className="btn btn-right">
-          Expand
-        </Button>
-      </div>
-      <AceEditor
-        mode="html"
-        theme="tomorrow"
-        value={script}
-        width="100%"
-        style={{ height: 'calc(100% - 50px)' }}
-        setOptions={{
-          fontSize: '12pt',
-          vScrollBarAlwaysVisible: true,
-        }}
-        onChange={onChange}
-      />
+      {(function() {
+        if (show)
+          return (
+            <>
+              <div style={{ height: '50px' }}>
+                <Button
+                  type="button"
+                  id="run"
+                  onClick={checkResult(script)}
+                  className="btn "
+                >
+                  Periksa
+                </Button>
+                <Button
+                  onClick={onExpandClick}
+                  type="button"
+                  className="btn btn-right"
+                >
+                  Expand
+                </Button>
+              </div>
+              <AceEditor
+                mode="html"
+                theme="tomorrow"
+                value={script}
+                width="100%"
+                style={{ height: 'calc(100% - 50px)' }}
+                setOptions={{
+                  fontSize: '12pt',
+                  vScrollBarAlwaysVisible: true,
+                }}
+                onChange={onChange}
+              />
+            </>
+          );
+        else return '';
+      })()}
     </div>
   );
 };

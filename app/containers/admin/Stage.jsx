@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import connect from 'react-redux/es/connect/connect';
+import React, { useState } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';
