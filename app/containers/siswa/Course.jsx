@@ -21,12 +21,12 @@ import ScoreBoard from '../../components/siswa/ScoreBoard';
 import { GET_STAGE_BY_ID } from '../../queries/stagesQuery';
 import { calculateStars, checkResult } from '../../utils/course';
 import PreventNavigationDialog from '../../components/PreventNavigationDialog';
+import usePlayer from '../../hooks/player';
 
 const Course = ({
   match: {
     params: { stageid },
   },
-  user,
   reduceEnergy,
   currentTimer,
   addScore,
@@ -50,11 +50,13 @@ const Course = ({
   let interval = null;
   const energyNeed = 20;
 
+  const player = usePlayer();
+
   const gameOver = (stage, score, life) => {
     const starCount = calculateStars(currentTimer, stage.time, life);
     if (life > 0) {
       addScore(
-        user.userdetailid,
+        player.user.userdetailid,
         stageid,
         stage.course._id,
         score,
@@ -123,7 +125,7 @@ const Course = ({
 
   useEffect(() => {
     resetTimer();
-    reduceEnergy(user.userdetail._id, energyNeed);
+    reduceEnergy(player.user.userdetail._id, energyNeed);
     interval = setInterval(tick, 1000);
     setIntervalState(interval);
     setPlayerStatus(0, 3);
@@ -208,7 +210,6 @@ const Course = ({
 };
 
 const mapStateToProps = state => ({
-  user: state.users.user,
   currentTimer: state.gameplay.currentTimer,
   timerText: state.gameplay.timerText,
 });
@@ -228,7 +229,6 @@ Course.propTypes = {
   match: PropTypes.any.isRequired,
   tick: PropTypes.func.isRequired,
   currentTimer: PropTypes.number.isRequired,
-  user: PropTypes.any.isRequired,
   reduceEnergy: PropTypes.func.isRequired,
   addScore: PropTypes.func.isRequired,
   timerText: PropTypes.any.isRequired,

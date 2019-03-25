@@ -1,57 +1,58 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import connect from 'react-redux/es/connect/connect';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { GET_ACHIEVEMENTS } from '../../queries/achievementQuery';
 import AchievementItem from '../../components/siswa/AchievementItem';
+import usePlayer from '../../hooks/player';
 
-const Achievement = ({ user }) => (
-  <div className="container-fluid">
-    <div className="row justify-content-center">
-      <main className="col-12 main-container" style={{ maxWidth: '1100px' }}>
-        <div className="row">
-          <div className="col-7">
-            <h2 style={{ marginLeft: '30px', fontSize: '40px' }}>
-              Achievement
-            </h2>
-            <Query
-              query={GET_ACHIEVEMENTS}
-              variables={{ player: user.userdetailid }}
-            >
-              {({ loading, error, data }) => {
-                if (loading) return <div>Loading</div>;
-                if (error)
-                  return <p>Sorry! There was an error loading the items</p>;
-                return (
-                  <div>
-                    {data.achievements.map(achiev => (
-                      <AchievementItem key={achiev._id} achievement={achiev} />
-                    ))}
+const Achievement = () => {
+  const player = usePlayer();
+  return (
+    <div className="container-fluid">
+      <div className="row justify-content-center">
+        <main className="col-12 main-container" style={{ maxWidth: '1100px' }}>
+          <div className="row">
+            <div className="col-7">
+              <h2 style={{ marginLeft: '30px', fontSize: '40px' }}>
+                Achievement
+              </h2>
+              <Query
+                query={GET_ACHIEVEMENTS}
+                variables={{ player: player.user.userdetailid }}
+              >
+                {({ loading, error, data }) => {
+                  if (loading) return <div>Loading</div>;
+                  if (error)
+                    return <p>Sorry! There was an error loading the items</p>;
+                  return (
+                    <div>
+                      {data.achievements.map(achiev => (
+                        <AchievementItem
+                          key={achiev._id}
+                          achievement={achiev}
+                        />
+                      ))}
+                    </div>
+                  );
+                }}
+              </Query>
+            </div>
+            <div className="col-5">
+              <h2 style={{ marginLeft: '30px', fontSize: '40px' }}>Badges</h2>
+              <div className={classnames('row')}>
+                <Card className="card">
+                  <div className="card-body">
+                    <h5 className="card-title row">Judul</h5>
                   </div>
-                );
-              }}
-            </Query>
-          </div>
-          <div className="col-5">
-            <h2 style={{ marginLeft: '30px', fontSize: '40px' }}>Badges</h2>
-            <div className={classnames('row')}>
-              <Card className="card">
-                <div className="card-body">
-                  <h5 className="card-title row">Judul</h5>
-                </div>
-              </Card>
+                </Card>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
-  </div>
-);
-
-Achievement.propTypes = {
-  user: PropTypes.any.isRequired,
+  );
 };
 
 const Card = styled.div`
@@ -63,10 +64,5 @@ const Card = styled.div`
   height: 400px;
   margin-right: 13px;
 `;
-const mapStateToProps = state => ({
-  user: state.users.user,
-});
-export default connect(
-  mapStateToProps,
-  null,
-)(Achievement);
+
+export default Achievement;
