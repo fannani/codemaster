@@ -10,7 +10,7 @@ import achievement from '../../assets/images/achievement.png';
 import { GET_COURSE_BY_PLAYER } from '../../queries/playerQuery';
 import Card from '../../components/Card';
 import CourseItem from '../../components/siswa/CourseItem';
-import connect from 'react-redux/es/connect/connect';
+import usePlayer from '../../hooks/player';
 
 const Loader = () => {
   const content = (
@@ -42,8 +42,8 @@ const Loader = () => {
   );
 };
 
-const Dashboard = ({ className, user }) => {
-  console.log(user);
+const Dashboard = ({ className }) => {
+  const player = usePlayer();
   return (
     <div className={classnames(className, 'container-fluid')}>
       <div className="row justify-content-center">
@@ -112,7 +112,7 @@ const Dashboard = ({ className, user }) => {
                   <h5 className="card-title">My Course</h5>
                   <Query
                     query={GET_COURSE_BY_PLAYER}
-                    variables={{ playerid: user.userdetailid }}
+                    variables={{ playerid: player.user.userdetailid }}
                   >
                     {({ loading, error, data }) => {
                       if (loading) return <Loader />;
@@ -206,11 +206,4 @@ const StyledDashboard = styled(Dashboard)`
   }
 `;
 
-const mapStateToProps = state => ({
-  user: state.users.user,
-});
-
-export default connect(
-  mapStateToProps,
-  null,
-)(StyledDashboard);
+export default StyledDashboard;

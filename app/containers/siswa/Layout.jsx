@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import EnergyModal from '../../components/siswa/EnergyModal';
 import Header from '../../components/siswa/Header';
 import { RouteSiswa } from '../../config/route';
-
+import usePlayer from '../../hooks/player';
 import { logout as logoutAction } from '../../actions/users';
 
-const Layout = ({ logout, life, score, time, play, user, isLogin }) => {
+const Layout = ({ logout, life, score, time, play }) => {
   const [showModal, setShowModal] = useState(false);
-
+  const player = usePlayer();
   const onAddEnergy = () => {
     setShowModal(true);
   };
@@ -25,12 +25,13 @@ const Layout = ({ logout, life, score, time, play, user, isLogin }) => {
         score={score}
         time={time}
         logout={onLogout}
-        user={user}
-        isLogin={isLogin}
+        user={player.user}
+        isLogin={player.isLogin}
         onAddEnergy={onAddEnergy}
         energy={
-          user && Object.prototype.hasOwnProperty.call(user, 'userdetail')
-            ? user.userdetail.energy
+          player.user &&
+          Object.prototype.hasOwnProperty.call(player.user, 'userdetail')
+            ? player.user.userdetail.energy
             : 0
         }
       />
@@ -50,8 +51,6 @@ Layout.propTypes = {
   score: PropTypes.number.isRequired,
   time: PropTypes.string.isRequired,
   play: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
-  isLogin: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -59,8 +58,6 @@ const mapStateToProps = state => ({
   score: state.gameplay.score,
   time: state.gameplay.timerText,
   play: state.gameplay.play,
-  user: state.users.user,
-  isLogin: state.users.loggedIn,
 });
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logoutAction()),

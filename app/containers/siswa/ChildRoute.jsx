@@ -1,13 +1,14 @@
-import React, { Suspense, lazy } from 'react';
-import connect from 'react-redux/es/connect/connect';
+import React, { Suspense } from 'react';
 import Redirect from 'react-router-dom/es/Redirect';
 import Switch from 'react-router-dom/es/Switch';
-
+import usePlayer from '../../hooks/player';
 import PropTypes from 'prop-types';
 import LoadingScreen from '../../components/LoadingScreen';
 
-const ChildRoute = ({ isLogin, location, children }) => {
-  if (isLogin) {
+const ChildRoute = ({ location, children }) => {
+  const player = usePlayer();
+
+  if (player.isLogin) {
     return (
       <Suspense fallback={<LoadingScreen />}>
         <Switch>{children}</Switch>
@@ -25,15 +26,7 @@ const ChildRoute = ({ isLogin, location, children }) => {
 };
 
 ChildRoute.propTypes = {
-  isLogin: PropTypes.bool.isRequired,
   location: PropTypes.any.isRequired,
 };
 
-const mapStateToProps = state => ({
-  isLogin: state.users.loggedIn,
-});
-
-export default connect(
-  mapStateToProps,
-  null,
-)(ChildRoute);
+export default ChildRoute;
