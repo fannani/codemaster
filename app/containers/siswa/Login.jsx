@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import usePlayer from '../../hooks/player';
+import AppContext from '../../utils/context';
 
 const Container = styled.div`
   max-width: 100% !important;

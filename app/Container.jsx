@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense, useState, useReducer } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
@@ -43,10 +43,30 @@ const getUserConfirmation = (dialogKey, callback) => {
   callback(true);
 };
 
+const initialState =
+  localStorage.getItem('app:persist') == null
+    ? {
+        isLogin: false,
+        user: { userdetail: { energy: 0 } },
+      }
+    : JSON.parse(localStorage.getItem('app:persist'));
+
+const reducer = (state, action) => {
+
+  switch (action.type) {
+    case 'LOGIN_SUCCESS':
+
+      return {
+        ...state,
+        isLogin: action.isLogin,
+        user: action.user,
+      };
+    default:
+      return state;
+  }
+};
+
 let Container = ({ store, persistor }) => {
-  const [user, setUser] = useState({});
-  const [isLogin, setIsLogin] = useState(false);
-  const [loadingLocal, setLoadingLocal] = useState(false);
   return (
     <>
       <Provider store={store}>
@@ -54,16 +74,7 @@ let Container = ({ store, persistor }) => {
           <ApolloProvider client={client}>
             <BrowserRouter getUserConfirmation={getUserConfirmation}>
               <Suspense fallback={<LoadingScreen />}>
-                <ContextProvider
-                  value={{
-                    user,
-                    setUser,
-                    isLogin,
-                    setIsLogin,
-                    loadingLocal,
-                    setLoadingLocal,
-                  }}
-                >
+                <ContextProvider value={useReducer(reducer, initialState)}>
                   <AppPersist>
                     <Switch>
                       <Route
@@ -71,7 +82,6 @@ let Container = ({ store, persistor }) => {
                         exact
                         component={WebLayout}
                       />
-
                       <Route path="/admin" component={AdminLayout} />
                       <Route path="/" component={SiswaLayout} />
                     </Switch>

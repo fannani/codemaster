@@ -48,7 +48,6 @@
     "immutability-helper": "^2.9.0",
     "jquery": "^3.3.1",
     "jsonwebtoken": "^8.4.0",
-    "local-storage": "^1.4.2",
     "mongoose": "^5.3.16",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",

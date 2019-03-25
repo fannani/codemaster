@@ -1,12 +1,21 @@
-import usePlayer from '../hooks/player';
+import { useEffect, useContext } from 'react';
+import AppContext from '../utils/context';
+
 const AppPersist = ({ children }) => {
-  const player = usePlayer();
-  console.log(player);
-  if (player.loadingLocal) {
-    return children;
-  } else {
-    return '';
-  }
+  const [state] = useContext(AppContext);
+
+  const saveStateToLocalStorage = () => {
+    localStorage.setItem('app:persist', JSON.stringify(state));
+  };
+
+  useEffect(
+    () => {
+      saveStateToLocalStorage();
+    },
+    [state],
+  );
+
+  return children;
 };
 
 export default AppPersist;
