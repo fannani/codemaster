@@ -1,24 +1,17 @@
 const reducer = (
   state = {
-    currentTimer: 0,
     life: 0,
     score: 0,
-    timerText: '00:00',
     play: false,
   },
   action,
 ) => {
   switch (action.type) {
     case 'RESET_TIMER':
-      return Object.assign({ ...state }, { currentTimer: 0 , timerText: '00:00'});
-    case 'UPDATE_TIMER':
       return Object.assign(
         { ...state },
-        { currentTimer: state.currentTimer + 1 },
+        { currentTimer: 0, timerText: '00:00' },
       );
-    case 'UPDATE_TIMER_TEXT':
-      const { timerText } = action;
-      return Object.assign({ ...state }, { timerText });
     case 'SET_PLAYER_STATUS':
       const { life, score } = action;
       return Object.assign({ ...state }, { life, score });

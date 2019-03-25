@@ -10,7 +10,6 @@ import Editor from '../../components/siswa/Editor';
 import 'react-toastify/dist/ReactToastify.css';
 import {
   resetTimer as resetTimerAction,
-  incrementTimer,
   setPlayerStatus as setPlayerStatusAction,
   setPlayMode as setPlayModeAction,
 } from '../../actions/gameplay';
@@ -28,10 +27,7 @@ const Course = ({
     params: { stageid },
   },
   reduceEnergy,
-  currentTimer,
   addScore,
-  timerText,
-  tick,
   setPlayMode,
   setPlayerStatus,
   resetTimer,
@@ -53,14 +49,18 @@ const Course = ({
   const player = usePlayer();
 
   const gameOver = (stage, score, life) => {
-    const starCount = calculateStars(currentTimer, stage.time, life);
+    const starCount = calculateStars(
+      player.gameplay.currentTimer,
+      stage.time,
+      life,
+    );
     if (life > 0) {
       addScore(
         player.user.userdetailid,
         stageid,
         stage.course._id,
         score,
-        currentTimer,
+        player.gameplay.currentTimer,
         starCount,
       );
     }
@@ -126,7 +126,7 @@ const Course = ({
   useEffect(() => {
     resetTimer();
     reduceEnergy(player.user.userdetail._id, energyNeed);
-    interval = setInterval(tick, 1000);
+    interval = setInterval(player.incrementTimer, 1000);
     setIntervalState(interval);
     setPlayerStatus(0, 3);
     setPlayMode(true);
@@ -180,7 +180,7 @@ const Course = ({
                     <ScoreBoard
                       show={showModal}
                       stars={stars}
-                      timer={timerText}
+                      timer={player.gameplay.timerText}
                       life={lifeResult}
                       score={scoreResult}
                       stage={stages[0]}
@@ -209,12 +209,7 @@ const Course = ({
   );
 };
 
-const mapStateToProps = state => ({
-  currentTimer: state.gameplay.currentTimer,
-  timerText: state.gameplay.timerText,
-});
 const mapDispatchToProps = dispatch => ({
-  tick: () => dispatch(incrementTimer()),
   setPlayerStatus: (score, life) =>
     dispatch(setPlayerStatusAction(score, life)),
   setPlayMode: play => dispatch(setPlayModeAction(play)),
@@ -227,17 +222,14 @@ const mapDispatchToProps = dispatch => ({
 
 Course.propTypes = {
   match: PropTypes.any.isRequired,
-  tick: PropTypes.func.isRequired,
-  currentTimer: PropTypes.number.isRequired,
   reduceEnergy: PropTypes.func.isRequired,
   addScore: PropTypes.func.isRequired,
-  timerText: PropTypes.any.isRequired,
   setPlayMode: PropTypes.func.isRequired,
   setPlayerStatus: PropTypes.func.isRequired,
   resetTimer: PropTypes.func.isRequired,
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(Course);

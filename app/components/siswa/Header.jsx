@@ -30,6 +30,7 @@ const Header = ({
   user,
   logout,
 }) => {
+
   const playerStatus = play ? (
     <PlayerStatus life={life} score={score} time={time} />
   ) : (

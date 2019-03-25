@@ -7,7 +7,7 @@ import { RouteSiswa } from '../../config/route';
 import usePlayer from '../../hooks/player';
 import { logout as logoutAction } from '../../actions/users';
 
-const Layout = ({ logout, life, score, time, play }) => {
+const Layout = ({ logout, life, score, play }) => {
   const [showModal, setShowModal] = useState(false);
   const player = usePlayer();
   const onAddEnergy = () => {
@@ -23,7 +23,7 @@ const Layout = ({ logout, life, score, time, play }) => {
         play={play}
         life={life}
         score={score}
-        time={time}
+        time={player.gameplay.timerText}
         logout={onLogout}
         user={player.user}
         isLogin={player.isLogin}
@@ -49,14 +49,13 @@ Layout.propTypes = {
   logout: PropTypes.func.isRequired,
   life: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
-  time: PropTypes.string.isRequired,
+
   play: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   life: state.gameplay.life,
   score: state.gameplay.score,
-  time: state.gameplay.timerText,
   play: state.gameplay.play,
 });
 const mapDispatchToProps = dispatch => ({

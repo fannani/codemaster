@@ -48,18 +48,55 @@ const initialState =
     ? {
         isLogin: false,
         user: { userdetail: { energy: 0 } },
+        gameplay: {
+          currentTimer: 0,
+          life: 0,
+          score: 0,
+          timerText: '00:00',
+          play: false,
+        },
       }
     : JSON.parse(localStorage.getItem('app:persist'));
 
 const reducer = (state, action) => {
-
   switch (action.type) {
     case 'LOGIN_SUCCESS':
-
       return {
         ...state,
         isLogin: action.isLogin,
         user: action.user,
+      };
+    case 'UPDATE_TIMER':
+      let sec = state.gameplay.currentTimer;
+      let min = 0;
+      let secStr;
+      let minStr;
+      if (sec > 59) {
+        min = Math.floor(sec / 60);
+        sec %= 60;
+      }
+      if (sec < 10) {
+        secStr = `0${sec}`;
+      } else {
+        secStr = sec;
+      }
+      if (min < 10) {
+        minStr = `0${min}`;
+      } else {
+        minStr = min;
+      }
+      return {
+        ...state,
+        gameplay: {
+          ...state.gameplay,
+          currentTimer: state.gameplay.currentTimer + 1,
+          timerText: `${minStr}:${secStr}`,
+        },
+      };
+    case 'UPDATE_TIMER_TEXT':
+      return {
+        ...state,
+        gameplay: { ...state.gameplay },
       };
     default:
       return state;
