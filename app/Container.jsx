@@ -14,6 +14,7 @@ import LoadingScreen from './components/LoadingScreen';
 import { API_URL } from './config/config';
 import { ContextProvider } from './utils/context';
 import AppPersist from './components/AppPersist';
+
 const SiswaLayout = lazy(() => import('./containers/siswa/Layout'));
 const AdminLayout = lazy(() => import('./containers/admin/Layout'));
 const WebLayout = lazy(() => import('./containers/web/Layout'));

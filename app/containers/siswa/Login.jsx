@@ -1,10 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
-import connect from 'react-redux/es/connect/connect';
-import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import { login as loginAction } from '../../actions/users';
+import usePlayer from '../../hooks/player';
 
 const Container = styled.div`
   max-width: 100% !important;
@@ -16,8 +14,10 @@ const Container = styled.div`
   background: linear-gradient(to right, #0052d4, #65c7f7, #9cecfb);
 `;
 
-const Login = ({ isLogin, login }) => {
-  if (isLogin) {
+const Login = () => {
+  const player = usePlayer();
+
+  if (player.isLogin) {
     return <Redirect push to="/dashboard" />;
   }
   return (
@@ -36,7 +36,7 @@ const Login = ({ isLogin, login }) => {
                   setStatus(undefined);
                   const { email, password } = values;
                   if (email && password) {
-                    login(email, password).then(
+                    player.login(email, password).then(
                       () => {
                         setSubmitting(false);
                       },
@@ -136,20 +136,4 @@ const Login = ({ isLogin, login }) => {
   );
 };
 
-Login.propTypes = {
-  isLogin: PropTypes.bool.isRequired,
-  login: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-  isLogin: state.users.loggedIn,
-});
-
-const mapDispatchToProps = dispatch => ({
-  login: (email, password) => dispatch(loginAction(email, password)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Login);
+export default Login;

@@ -6,18 +6,19 @@ const usePlayer = () => {
   const context = useContext(AppContext);
   const login = (email, password) => {
     return userService.login(email, password).then(user => {
+      let isLogin = false;
       if (user) {
-        context.setIsLogin(true);
+        isLogin = true;
       }
       context.setUser(user);
+      context.setIsLogin(isLogin);
       localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('isLogin', context.isLogin);
+      localStorage.setItem('isLogin', isLogin);
       return user;
     });
   };
 
   useEffect(() => {
-    console.log("TESTESTES");
     context.setUser(JSON.parse(localStorage.getItem('user')));
     context.setIsLogin(localStorage.getItem('isLogin'));
     context.setLoadingLocal(true);
