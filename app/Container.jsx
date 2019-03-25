@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
@@ -12,7 +12,8 @@ import { ApolloProvider } from 'react-apollo';
 import { PersistGate } from 'redux-persist/integration/react';
 import LoadingScreen from './components/LoadingScreen';
 import { API_URL } from './config/config';
-
+import { ContextProvider } from './utils/context';
+import AppPersist from './components/AppPersist';
 const SiswaLayout = lazy(() => import('./containers/siswa/Layout'));
 const AdminLayout = lazy(() => import('./containers/admin/Layout'));
 const WebLayout = lazy(() => import('./containers/web/Layout'));
@@ -41,23 +42,48 @@ const getUserConfirmation = (dialogKey, callback) => {
   callback(true);
 };
 
-let Container = ({ store, persistor }) => (
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <ApolloProvider client={client}>
-        <BrowserRouter getUserConfirmation={getUserConfirmation}>
-          <Suspense fallback={<LoadingScreen />}>
-            <Switch>
-              <Route path="/(|tentang|pelajari)" exact component={WebLayout} />
-              <Route path="/admin" component={AdminLayout} />
-              <Route path="/" component={SiswaLayout} />
-            </Switch>
-          </Suspense>
-        </BrowserRouter>
-      </ApolloProvider>
-    </PersistGate>
-  </Provider>
-);
+let Container = ({ store, persistor }) => {
+  const [user, setUser] = useState({});
+  const [isLogin, setIsLogin] = useState(false);
+  const [loadingLocal, setLoadingLocal] = useState(false);
+  return (
+    <>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ApolloProvider client={client}>
+            <BrowserRouter getUserConfirmation={getUserConfirmation}>
+              <Suspense fallback={<LoadingScreen />}>
+                <ContextProvider
+                  value={{
+                    user,
+                    setUser,
+                    isLogin,
+                    setIsLogin,
+                    loadingLocal,
+                    setLoadingLocal,
+                  }}
+                >
+                  <AppPersist>
+                    <Switch>
+                      <Route
+                        path="/(|tentang|pelajari)"
+                        exact
+                        component={WebLayout}
+                      />
+
+                      <Route path="/admin" component={AdminLayout} />
+                      <Route path="/" component={SiswaLayout} />
+                    </Switch>
+                  </AppPersist>
+                </ContextProvider>
+              </Suspense>
+            </BrowserRouter>
+          </ApolloProvider>
+        </PersistGate>
+      </Provider>
+    </>
+  );
+};
 
 Container.propTypes = {
   store: PropTypes.object.isRequired,

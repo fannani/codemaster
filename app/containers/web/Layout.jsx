@@ -153,7 +153,7 @@ const Layout = ({ className }) => (
       </div>
       <div className="row">
         <div className="d-flex" />
-        <p className="mr-auto copyright">© 2019 Fannani. All rights reserved</p>
+        <p className="mr-auto copyright">© 2019 kodekurawal. All rights reserved</p>
         <p className="ml-auto email">admin@kodelegend.com</p>
       </div>
     </div>

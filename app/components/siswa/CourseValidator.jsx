@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import connect from 'react-redux/es/connect/connect';
-import { postLog } from '../../utils/Logs';
-import { compareResult } from '../../utils/CourseUtil';
+import { postLog } from '../../utils/logs';
+import { compareResult } from '../../utils/course';
 import { setPlayerStatus as setPlayerStatusAction } from '../../actions/gameplay';
 
 const CourseValidator = ({ children, stages, gameOver, setPlayerStatus }) => {

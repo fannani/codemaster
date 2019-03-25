@@ -1,5 +1,4 @@
 import { BASE_URL } from '../config/config';
-import { Field } from 'formik';
 import React from 'react';
 
 export function calculateStars(currentTimer, time, life) {

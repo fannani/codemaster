@@ -59,6 +59,7 @@ export const UPDATE_STAGE = gql`
     $time: String
     $id: ID!
     $teory: String
+    $exp_reward: Number
   ) {
     updateStage(
       file: $file
@@ -66,6 +67,7 @@ export const UPDATE_STAGE = gql`
       time: $time
       id: $id
       teory: $teory
+      exp_reward: $exp_reward
     ) {
       _id
       title

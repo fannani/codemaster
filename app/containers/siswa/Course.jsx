@@ -19,7 +19,7 @@ import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
 import Output from '../../components/siswa/Output';
 import ScoreBoard from '../../components/siswa/ScoreBoard';
 import { GET_STAGE_BY_ID } from '../../queries/stagesQuery';
-import { calculateStars, checkResult } from '../../utils/CourseUtil';
+import { calculateStars, checkResult } from '../../utils/course';
 import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 
 const Course = ({
