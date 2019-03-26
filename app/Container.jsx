@@ -10,9 +10,9 @@ import { ApolloProvider } from 'react-apollo';
 import LoadingScreen from './components/LoadingScreen';
 import { API_URL } from './config/config';
 
-const AdminApp = lazy(() => import('./pages/admin/App'));
-const SiswaApp = lazy(() => import('./pages/siswa/App'));
-const WebLayout = lazy(() => import('./pages/web/Layout'));
+const AdminApp = lazy(() => import('./components/admin/App'));
+const SiswaApp = lazy(() => import('./components/siswa/App'));
+const WebLanding = lazy(() => import('./pages/web/Landing'));
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -43,7 +43,7 @@ let Container = () => (
     <BrowserRouter getUserConfirmation={getUserConfirmation}>
       <Suspense fallback={<LoadingScreen />}>
         <Switch>
-          <Route path="/(|tentang|pelajari)" exact component={WebLayout} />
+          <Route path="/(|tentang|pelajari)" exact component={WebLanding} />
           <Route path="/admin" component={AdminApp} />
           <Route path="/" component={SiswaApp} />
         </Switch>

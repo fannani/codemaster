@@ -11,10 +11,10 @@ import newsletterBackground from '../../assets/images/newsletter_background.png'
 import instagram from '../../assets/images/instagram.png';
 import twitter from '../../assets/images/twitter.png';
 import facebook from '../../assets/images/facebook.png';
-import Logo from '../../components/Logo.jsx';
+import Logo from '../../components/Logo';
 import { Link } from 'react-router-dom';
 
-const Layout = ({ className }) => (
+const WebLanding = ({ className }) => (
   <div className={classnames('container-fluid', className)}>
     <nav className="navbar navbar-expand-lg">
       <a className="navbar-brand" href="#">
@@ -23,10 +23,7 @@ const Layout = ({ className }) => (
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav ml-auto">
           <li className="nav-item daftar">
-            <Link
-              className={classnames(className, 'nav-link')}
-              to="/register"
-            >
+            <Link className={classnames(className, 'nav-link')} to="/register">
               Daftar
             </Link>
           </li>
@@ -153,18 +150,20 @@ const Layout = ({ className }) => (
       </div>
       <div className="row">
         <div className="d-flex" />
-        <p className="mr-auto copyright">© 2019 kodekurawal. All rights reserved</p>
+        <p className="mr-auto copyright">
+          © 2019 kodekurawal. All rights reserved
+        </p>
         <p className="ml-auto email">admin@kodelegend.com</p>
       </div>
     </div>
   </div>
 );
 
-Layout.propTypes = {
+WebLanding.propTypes = {
   className: PropTypes.any.isRequired,
 };
 
-const styledLayout = styled(Layout)`
+const styledLayout = styled(WebLanding)`
   background-color: white;
   color: #242223;
   font-family: open sans;

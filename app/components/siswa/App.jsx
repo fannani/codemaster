@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import Layout from './Layout';
-import AppPersist from '../../components/AppPersist';
+import AppPersist from '../AppPersist';
 import { initialState, reducer } from '../../reducers/siswaReducer';
 import { ContextProvider } from '../../utils/context';
 

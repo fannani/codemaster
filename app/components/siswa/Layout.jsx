@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import EnergyModal from '../../components/siswa/EnergyModal';
-import Header from '../../components/siswa/Header';
+import EnergyModal from './EnergyModal';
+import Header from './Header';
 import { RouteSiswa } from '../../config/route';
 import usePlayer from '../../hooks/player';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { RouteAdmin } from '../../config/route';
-import Header from '../../components/admin/Header';
+import Header from './Header';
 import useAdmin from '../../hooks/admin';
 
 const Layout = () => {

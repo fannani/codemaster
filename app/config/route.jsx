@@ -3,8 +3,8 @@ import React, { lazy } from 'react';
 import LoginSiswa from '../pages/siswa/Login';
 import LoginAdmin from '../pages/admin/Login';
 import Register from '../pages/siswa/Register';
-import SiswaProtect from '../pages/siswa/Protect';
-import AdminProtect from '../pages/admin/Protect';
+import SiswaProtect from '../components/siswa/Protect';
+import AdminProtect from '../components/admin/Protect';
 
 const Dashboard = lazy(() => import('../pages/siswa/Dashboard'));
 const CourseList = lazy(() => import('../pages/siswa/CourseList'));
