@@ -69,3 +69,26 @@ export const UPDATE_COURSE = gql`
     }
   }
 `;
+
+export const ADD_SCORE = gql`
+  mutation addScore(
+    $player: ID!
+    $course: ID!
+    $stage: ID!
+    $score: Int!
+    $time: Int!
+    $stars: [Boolean]!
+  ) {
+    addScore(
+      player: $player
+      course: $course
+      stage: $stage
+      score: $score
+      time: $time
+      stars: $stars
+    ) {
+      _id
+      score
+    }
+  }
+`;

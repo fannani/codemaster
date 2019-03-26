@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import PropTypes from 'prop-types';
-import connect from 'react-redux/es/connect/connect';
 import Guide from '../../components/siswa/Guide';
 import CourseValidator from '../../components/siswa/CourseValidator';
 import CourseFooter from '../../components/siswa/CourseFooter';
 import Editor from '../../components/siswa/Editor';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { addScore as addScoreAction } from '../../actions/scores';
-import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
 import Output from '../../components/siswa/Output';
 import ScoreBoard from '../../components/siswa/ScoreBoard';
 import { GET_STAGE_BY_ID } from '../../queries/stagesQuery';
 import { calculateStars, checkResult } from '../../utils/course';
 import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 import usePlayer from '../../hooks/player';
+import { ADD_SCORE } from '../../queries/coursesQuery';
 
 const Course = ({
   match: {
     params: { stageid },
   },
-  reduceEnergy,
-  addScore,
   history,
 }) => {
   const [scoreResult, setScoreResult] = useState(0);
@@ -40,29 +36,6 @@ const Course = ({
   const energyNeed = 20;
 
   const player = usePlayer();
-
-  const gameOver = (stage, score, life) => {
-    const starCount = calculateStars(
-      player.gameplay.currentTimer,
-      stage.time,
-      life,
-    );
-    if (life > 0) {
-      addScore(
-        player.user.userdetailid,
-        stageid,
-        stage.course._id,
-        score,
-        player.gameplay.currentTimer,
-        starCount,
-      );
-    }
-    setLifeResult(life);
-    setScoreResult(score);
-    setShowModal(true);
-    setStars(starCount);
-    clearInterval(intervalState);
-  };
 
   const onEditorExpandClick = () => {
     if (editorSize < 10) {
@@ -118,7 +91,7 @@ const Course = ({
 
   useEffect(() => {
     player.resetTimer();
-    reduceEnergy(player.user.userdetail._id, energyNeed);
+    player.reduceEnergy(player.user.userdetail._id, energyNeed);
     interval = setInterval(player.incrementTimer, 1000);
     setIntervalState(interval);
     player.setPlayerStatus(0, 3);
@@ -138,52 +111,82 @@ const Course = ({
             if (error)
               return <p>Sorry! There was an error loading the items</p>;
             return (
-              <CourseValidator stages={stages} gameOver={gameOver}>
-                {({ result }) => (
-                  <>
-                    <div className="row flex-xl-nowrap">
-                      <Guide
-                        visible={false}
-                        title={stages[0].title}
-                        teory={stages[0].teory}
-                        result={result}
-                        mission={stages[0].missions}
-                        show={guideShow}
-                        onClick={onGuideClick}
-                      />
-                      <Editor
-                        checkResult={script =>
-                          checkResult(script, stages[0].missions)
-                        }
-                        onClick={onEditorClick}
-                        show={editorShow}
-                        initialScript={stages[0].course.script}
-                        onExpandClick={onEditorExpandClick}
-                        size={editorSize}
-                      />
-                      <Output
-                        show={outputShow}
-                        onExpandClick={onOutputExpandClick}
-                        onClick={onOutputClick}
-                        size={outputSize}
-                      />
-                    </div>
-                    <CourseFooter />
-                    <ToastContainer />
-                    <ScoreBoard
-                      show={showModal}
-                      stars={stars}
-                      timer={player.gameplay.timerText}
-                      life={lifeResult}
-                      score={scoreResult}
-                      stage={stages[0]}
-                      onClickBackdrop={() => {
-                        setShowModal(false);
-                      }}
-                    />
-                  </>
+              <Mutation mutation={ADD_SCORE}>
+                {addScore => (
+                  <CourseValidator
+                    stages={stages}
+                    gameOver={(stage, score, life) => {
+                      const starCount = calculateStars(
+                        player.gameplay.currentTimer,
+                        stage.time,
+                        life,
+                      );
+                      if (life > 0) {
+                        addScore({
+                          variables: {
+                            player: player.user.userdetailid,
+                            course: stageid,
+                            stage: stage.course._id,
+                            score,
+                            time: player.gameplay.currentTimer,
+                            stars: starCount,
+                          },
+                        });
+                      }
+                      setLifeResult(life);
+                      setScoreResult(score);
+                      setShowModal(true);
+                      setStars(starCount);
+                      clearInterval(intervalState);
+                    }}
+                  >
+                    {({ result }) => (
+                      <>
+                        <div className="row flex-xl-nowrap">
+                          <Guide
+                            visible={false}
+                            title={stages[0].title}
+                            teory={stages[0].teory}
+                            result={result}
+                            mission={stages[0].missions}
+                            show={guideShow}
+                            onClick={onGuideClick}
+                          />
+                          <Editor
+                            checkResult={script =>
+                              checkResult(script, stages[0].missions)
+                            }
+                            onClick={onEditorClick}
+                            show={editorShow}
+                            initialScript={stages[0].course.script}
+                            onExpandClick={onEditorExpandClick}
+                            size={editorSize}
+                          />
+                          <Output
+                            show={outputShow}
+                            onExpandClick={onOutputExpandClick}
+                            onClick={onOutputClick}
+                            size={outputSize}
+                          />
+                        </div>
+                        <CourseFooter />
+                        <ToastContainer />
+                        <ScoreBoard
+                          show={showModal}
+                          stars={stars}
+                          timer={player.gameplay.timerText}
+                          life={lifeResult}
+                          score={scoreResult}
+                          stage={stages[0]}
+                          onClickBackdrop={() => {
+                            setShowModal(false);
+                          }}
+                        />
+                      </>
+                    )}
+                  </CourseValidator>
                 )}
-              </CourseValidator>
+              </Mutation>
             );
           }}
         </Query>
@@ -202,20 +205,8 @@ const Course = ({
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  reduceEnergy: (userid, energy) =>
-    dispatch(reduceEnergyAction(userid, energy)),
-  addScore: (userid, stageid, courseid, score, time, stars) =>
-    dispatch(addScoreAction(userid, stageid, courseid, score, time, stars)),
-});
-
 Course.propTypes = {
   match: PropTypes.any.isRequired,
-  reduceEnergy: PropTypes.func.isRequired,
-  addScore: PropTypes.func.isRequired,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Course);
+export default Course;

@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import connect from 'react-redux/es/connect/connect';
-import PropTypes from 'prop-types';
 import EnergyModal from '../../components/siswa/EnergyModal';
 import Header from '../../components/siswa/Header';
 import { RouteSiswa } from '../../config/route';
 import usePlayer from '../../hooks/player';
-import { logout as logoutAction } from '../../actions/users';
 
-const Layout = ({ logout }) => {
+const Layout = () => {
   const [showModal, setShowModal] = useState(false);
   const player = usePlayer();
 
@@ -19,7 +16,7 @@ const Layout = ({ logout }) => {
     setShowModal(true);
   };
   const onLogout = () => {
-    logout();
+    player.logout();
   };
   return (
     <div className="app-container">
@@ -49,14 +46,4 @@ const Layout = ({ logout }) => {
   );
 };
 
-Layout.propTypes = {
-  logout: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logoutAction()),
-});
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Layout);
+export default Layout;

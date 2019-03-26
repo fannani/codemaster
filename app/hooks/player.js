@@ -43,6 +43,29 @@ const usePlayer = () => {
     });
   };
 
+  const logout = () => {
+    const request = () => ({ type: 'LOGOUT_REQUEST' });
+    const success = () => ({ type: 'LOGOUT_SUCCESS' });
+    dispatch(request());
+    userService.logout();
+    dispatch(success());
+  };
+
+  const reduceEnergy = (userid, energy) => {
+    const request = () => ({ type: 'REDUCE_ENERGY_REQUEST' });
+    const success = user => ({ type: 'REDUCE_ENERGY_SUCCESS', user });
+    const failure = error => ({ type: 'REDUCE_ENERGY_FAILURE', error });
+    dispatch(request());
+    return userService.reduceEnergy(userid, energy).then(
+      player => {
+        dispatch(success(player));
+      },
+      error => {
+        dispatch(failure(error));
+      },
+    );
+  };
+
   return {
     login,
     isLogin: state.isLogin,
@@ -54,12 +77,14 @@ const usePlayer = () => {
     resetTimer: () => {
       dispatch(resetTimer());
     },
-    setPlayerStatus: (score,life) => {
-      dispatch(setPlayerStatus(score,life));
+    setPlayerStatus: (score, life) => {
+      dispatch(setPlayerStatus(score, life));
     },
-    setPlayMode: (play) => {
+    setPlayMode: play => {
       dispatch(setPlayMode(play));
-    }
+    },
+    logout,
+    reduceEnergy,
   };
 };
 
