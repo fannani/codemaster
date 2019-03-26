@@ -1,15 +1,14 @@
+import 'react-toastify/dist/ReactToastify.css';
 import React, { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { Query, Mutation } from 'react-apollo';
 import PropTypes from 'prop-types';
-import Guide from '../../components/siswa/Guide';
-import CourseValidator from '../../components/siswa/CourseValidator';
-import CourseFooter from '../../components/siswa/CourseFooter';
-import Editor from '../../components/siswa/Editor';
-import 'react-toastify/dist/ReactToastify.css';
-
-import Output from '../../components/siswa/Output';
-import ScoreBoard from '../../components/siswa/ScoreBoard';
+import SiswaCourseGuide from '../../components/siswa/Course/Guide';
+import SiswaCourseValidator from '../../components/siswa/Course/Validator';
+import SiswaCourseFooter from '../../components/siswa/Course/Footer';
+import SiswaCourseEditor from '../../components/siswa/Course/Editor';
+import SiswaCourseOutput from '../../components/siswa/Course/Output';
+import SiswaCourseScoreBoard from '../../components/siswa/Course/ScoreBoard/ScoreBoard';
 import { GET_STAGE_BY_ID } from '../../queries/stagesQuery';
 import { calculateStars, checkResult } from '../../utils/course';
 import PreventNavigationDialog from '../../components/PreventNavigationDialog';
@@ -113,7 +112,7 @@ const Course = ({
             return (
               <Mutation mutation={ADD_SCORE}>
                 {addScore => (
-                  <CourseValidator
+                  <SiswaCourseValidator
                     stages={stages}
                     gameOver={(stage, score, life) => {
                       const starCount = calculateStars(
@@ -143,7 +142,7 @@ const Course = ({
                     {({ result }) => (
                       <>
                         <div className="row flex-xl-nowrap">
-                          <Guide
+                          <SiswaCourseGuide
                             visible={false}
                             title={stages[0].title}
                             teory={stages[0].teory}
@@ -152,7 +151,7 @@ const Course = ({
                             show={guideShow}
                             onClick={onGuideClick}
                           />
-                          <Editor
+                          <SiswaCourseEditor
                             checkResult={script =>
                               checkResult(script, stages[0].missions)
                             }
@@ -162,16 +161,16 @@ const Course = ({
                             onExpandClick={onEditorExpandClick}
                             size={editorSize}
                           />
-                          <Output
+                          <SiswaCourseOutput
                             show={outputShow}
                             onExpandClick={onOutputExpandClick}
                             onClick={onOutputClick}
                             size={outputSize}
                           />
                         </div>
-                        <CourseFooter />
+                        <SiswaCourseFooter />
                         <ToastContainer />
-                        <ScoreBoard
+                        <SiswaCourseScoreBoard
                           show={showModal}
                           stars={stars}
                           timer={player.gameplay.timerText}
@@ -184,7 +183,7 @@ const Course = ({
                         />
                       </>
                     )}
-                  </CourseValidator>
+                  </SiswaCourseValidator>
                 )}
               </Mutation>
             );

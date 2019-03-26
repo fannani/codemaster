@@ -1,7 +1,7 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import ContentLoader from 'react-content-loader';
-import CourseItem from '../../components/siswa/CourseItem';
+import SiswaCourseListItem from '../../components/siswa/Course/List/Item';
 import { GET_COURSES } from '../../queries/coursesQuery';
 
 const Loader = () => {
@@ -47,7 +47,7 @@ const CourseList = () => (
               return (
                 <div className="d-flex flex-wrap">
                   {data.courses.map(course => (
-                    <CourseItem key={course._id} item={course} />
+                    <SiswaCourseListItem key={course._id} item={course} />
                   ))}
                 </div>
               );

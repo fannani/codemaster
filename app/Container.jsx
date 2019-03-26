@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useReducer } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { hot } from 'react-hot-loader/root';
 import { ApolloClient } from 'apollo-client';
@@ -10,9 +10,9 @@ import { ApolloProvider } from 'react-apollo';
 import LoadingScreen from './components/LoadingScreen';
 import { API_URL } from './config/config';
 
-const AdminApp = lazy(() => import('./containers/admin/App'));
-const SiswaApp = lazy(() => import('./containers/siswa/App'));
-const WebLayout = lazy(() => import('./containers/web/Layout'));
+const AdminApp = lazy(() => import('./pages/admin/App'));
+const SiswaApp = lazy(() => import('./pages/siswa/App'));
+const WebLayout = lazy(() => import('./pages/web/Layout'));
 
 const client = new ApolloClient({
   link: ApolloLink.from([

@@ -6,7 +6,7 @@ const Button = styled.button`
   margin: 5px;
   color: white;
 `;
-const Output = ({ show = true, onClick, size, onExpandClick }) => (
+const SiswaCourseOutput = ({ show = true, onClick, size, onExpandClick }) => (
   <div
     className={!show ? 'col-sm-1' : `col-sm-${size}`}
     style={{ paddingLeft: '0px', paddingRight: '0px' }}
@@ -29,11 +29,11 @@ const Output = ({ show = true, onClick, size, onExpandClick }) => (
         backgroundColor: '#ffffff',
         width: '100%',
         height: 'calc(100% - 50px)',
-        visibility: show ? 'visible' : 'hidden'
+        visibility: show ? 'visible' : 'hidden',
       }}
       frameBorder="0"
     />
   </div>
 );
 
-export default Output;
+export default SiswaCourseOutput;

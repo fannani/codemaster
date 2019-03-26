@@ -3,12 +3,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Stars from './Stars';
+import SiswaCourseScoreBoardStars from './Stars';
 
-const StyledStars = styled(Stars)`
+const StyledStars = styled(SiswaCourseScoreBoardStars)`
   text-align: center;
 `;
-const ScoreBoard = ({
+const SiswaCourseScoreBoard = ({
   show,
   life,
   timer,
@@ -55,7 +55,7 @@ const ScoreBoard = ({
   );
 };
 
-ScoreBoard.propTypes = {
+SiswaCourseScoreBoard.propTypes = {
   show: PropTypes.bool.isRequired,
   life: PropTypes.number.isRequired,
   timer: PropTypes.string.isRequired,
@@ -65,4 +65,4 @@ ScoreBoard.propTypes = {
   onClickBackdrop: PropTypes.func.isRequired,
 };
 
-export default ScoreBoard;
+export default SiswaCourseScoreBoard;

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BASE_URL } from '../../config/config';
+import { BASE_URL } from '../../../config/config';
 import styled from 'styled-components';
-import lock from '../../assets/images/lock.png';
-import star from '../../assets/images/star.png';
-import starOff from '../../assets/images/star-off.png';
+import lock from '../../../assets/images/lock.png';
+import star from '../../../assets/images/star.png';
+import starOff from '../../../assets/images/star-off.png';
 
-const StageItem = ({ className, stage, unlock }) => {
+const SiswaStageItem = ({ className, stage, unlock }) => {
   const child = (
     <div className="d-flex flex-wrap stageitem ">
       <div className="wrapper">
@@ -59,7 +59,7 @@ const StageItem = ({ className, stage, unlock }) => {
   );
 };
 
-const StyledStageItem = styled(StageItem)`
+const StyledStageItem = styled(SiswaStageItem)`
   .stars {
     width: 90px;
     margin-left: auto;

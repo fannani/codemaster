@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 import classnames from 'classnames';
 import styled from 'styled-components';
 import { GET_ACHIEVEMENTS } from '../../queries/achievementQuery';
-import AchievementItem from '../../components/siswa/AchievementItem';
+import SiswaAchievementItem from '../../components/siswa/Achievement/Item';
 import usePlayer from '../../hooks/player';
 
 const Achievement = () => {
@@ -28,7 +28,7 @@ const Achievement = () => {
                   return (
                     <div>
                       {data.achievements.map(achiev => (
-                        <AchievementItem
+                        <SiswaAchievementItem
                           key={achiev._id}
                           achievement={achiev}
                         />

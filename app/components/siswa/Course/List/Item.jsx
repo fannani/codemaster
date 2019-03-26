@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BASE_URL } from '../../config/config';
+import { BASE_URL } from '../../../../config/config';
 import styled from 'styled-components';
 import classnames from 'classnames';
 
-const CourseItem = ({ className, item }) => {
+const SiswaCourseListItem = ({ className, item }) => {
   return (
     <Link className={classnames(className, 'm-2')} to={`/course/${item._id}`}>
       <div className="card">
@@ -21,7 +21,7 @@ const CourseItem = ({ className, item }) => {
   );
 };
 
-const StyledCourseItem = styled(CourseItem)`
+const StyledCourseItem = styled(SiswaCourseListItem)`
   .card {
     width: 200px;
     border-radius: 10px !important;

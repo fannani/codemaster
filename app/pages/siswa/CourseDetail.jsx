@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Leaderboard from '../../components/siswa/Leaderboard';
-import StageItem from '../../components/siswa/StageItem';
+import SiswaStageItem from '../../components/siswa/Stage/Item';
 import { GET_COURSE_BYID } from '../../queries/coursesQuery';
 import { GET_STAGE_BY_COURSE_PLAYER } from '../../queries/stagesQuery';
 import usePlayer from '../../hooks/player';
@@ -61,7 +61,7 @@ const CourseDetail = ({ match, className }) => {
                             const { stages } = data;
                             for (let i = 0; i < stages.length; i += 1) {
                               render.push(
-                                <StageItem
+                                <SiswaStageItem
                                   key={stages[i]._id}
                                   stage={stages[i]}
                                   unlock={unlock}

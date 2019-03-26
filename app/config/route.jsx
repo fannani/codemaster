@@ -1,24 +1,24 @@
 import { Route, Switch } from 'react-router-dom';
 import React, { lazy } from 'react';
-import LoginSiswa from '../containers/siswa/Login';
-import LoginAdmin from '../containers/admin/Login';
-import Register from '../containers/siswa/Register';
-import SiswaProtect from '../containers/siswa/Protect';
-import AdminProtect from '../containers/admin/Protect';
+import LoginSiswa from '../pages/siswa/Login';
+import LoginAdmin from '../pages/admin/Login';
+import Register from '../pages/siswa/Register';
+import SiswaProtect from '../pages/siswa/Protect';
+import AdminProtect from '../pages/admin/Protect';
 
-const Dashboard = lazy(() => import('../containers/siswa/Dashboard'));
-const CourseList = lazy(() => import('../containers/siswa/CourseList'));
-const Achievement = lazy(() => import('../containers/siswa/Achievement'));
-const CourseDetail = lazy(() => import('../containers/siswa/CourseDetail'));
-const CourseSiswa = lazy(() => import('../containers/siswa/Course'));
-const Friends = lazy(() => import('../containers/siswa/Friends'));
-const Settings = lazy(() => import('../containers/siswa/Settings'));
-const Log = lazy(() => import('../containers/admin/Log'));
-const CourseAdmin = lazy(() => import('../containers/admin/Course'));
-const StageList = lazy(() => import('../containers/admin/StageList'));
-const Stage = lazy(() => import('../containers/admin/Stage'));
-const Mission = lazy(() => import('../containers/admin/Mission'));
-const TestCase = lazy(() => import('../containers/admin/TestCase'));
+const Dashboard = lazy(() => import('../pages/siswa/Dashboard'));
+const CourseList = lazy(() => import('../pages/siswa/CourseList'));
+const Achievement = lazy(() => import('../pages/siswa/Achievement'));
+const CourseDetail = lazy(() => import('../pages/siswa/CourseDetail'));
+const CourseSiswa = lazy(() => import('../pages/siswa/Course'));
+const Friends = lazy(() => import('../pages/siswa/Friends'));
+const Settings = lazy(() => import('../pages/siswa/Settings'));
+const Log = lazy(() => import('../pages/admin/Log'));
+const CourseAdmin = lazy(() => import('../pages/admin/Course'));
+const StageList = lazy(() => import('../pages/admin/StageList'));
+const Stage = lazy(() => import('../pages/admin/Stage'));
+const Mission = lazy(() => import('../pages/admin/Mission'));
+const TestCase = lazy(() => import('../pages/admin/TestCase'));
 
 export const RouteSiswa = () => (
   <Switch>

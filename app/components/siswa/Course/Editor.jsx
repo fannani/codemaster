@@ -12,7 +12,7 @@ const Button = styled.button`
   color: white;
 `;
 
-const Editor = ({
+const SiswaCourseEditor = ({
   checkResult,
   initialScript,
   className,
@@ -76,7 +76,7 @@ const Editor = ({
   );
 };
 
-const StyledEditor = styled(Editor)`
+const StyledEditor = styled(SiswaCourseEditor)`
   padding-left: 0 !important;
   padding-right: 0 !important;
   background-color: #ebebeb;

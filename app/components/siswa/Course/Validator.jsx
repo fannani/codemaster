@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { postLog } from '../../utils/logs';
-import { compareResult } from '../../utils/course';
-import usePlayer from '../../hooks/player';
+import { postLog } from '../../../utils/logs';
+import { compareResult } from '../../../utils/course';
+import usePlayer from '../../../hooks/player';
 
-const CourseValidator = ({ children, stages, gameOver }) => {
+const SiswaCourseValidator = ({ children, stages, gameOver }) => {
   const [result, setResult] = useState([]);
   const player = usePlayer();
   const scorePoint = 20;
@@ -49,5 +49,4 @@ const CourseValidator = ({ children, stages, gameOver }) => {
   return children({ result });
 };
 
-
-export default CourseValidator;
+export default SiswaCourseValidator;

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import styled from 'styled-components';
 
-const CourseFooter = ({ className }) => (
+const SiswaCourseFooter = ({ className }) => (
   <div
     className={classnames(className, 'row', 'flex-xl-nowrap')}
     style={{ height: '50px', backgroundColor: '#343A40' }}
@@ -17,14 +17,16 @@ const CourseFooter = ({ className }) => (
       </button>
     </div>
     <div className="col-4 level-nav">
-      <button className="btn float-left " disabled>Back</button>
-        <span className="level-text">1/6</span>
+      <button className="btn float-left " disabled>
+        Back
+      </button>
+      <span className="level-text">1/6</span>
       <button className="btn float-right ">Next</button>
     </div>
   </div>
 );
 
-const StyleCourseFooter = styled(CourseFooter)`
+const StyleCourseFooter = styled(SiswaCourseFooter)`
   .btn-menu {
     color: #ebebeb;
     height: 100%;
@@ -36,7 +38,6 @@ const StyleCourseFooter = styled(CourseFooter)`
     color: #ebebeb;
     text-align: center;
     height: 50px;
-
   }
   .level-nav .btn {
     position: relative;
@@ -45,8 +46,7 @@ const StyleCourseFooter = styled(CourseFooter)`
   }
   .level-text {
     line-height: 50px;
-    width:100px;
-   
+    width: 100px;
   }
 `;
 

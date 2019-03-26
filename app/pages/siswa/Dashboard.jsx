@@ -9,7 +9,7 @@ import badge from '../../assets/images/badges.png';
 import achievement from '../../assets/images/achievement.png';
 import { GET_COURSE_BY_PLAYER } from '../../queries/playerQuery';
 import Card from '../../components/Card';
-import CourseItem from '../../components/siswa/CourseItem';
+import CourseItem from '../../components/siswa/Course/List/Item';
 import usePlayer from '../../hooks/player';
 
 const Loader = () => {

@@ -3,8 +3,15 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-const Guide = ({ mission, result, className, title, teory, show = true, onClick }) => {
-
+const SiswaCourseGuide = ({
+  mission,
+  result,
+  className,
+  title,
+  teory,
+  show = true,
+  onClick,
+}) => {
   const missionList = mission.map((misi, index) => {
     let active = false;
     if (typeof result[index] !== 'undefined') {
@@ -56,13 +63,13 @@ const Guide = ({ mission, result, className, title, teory, show = true, onClick 
   );
 };
 
-Guide.propTypes = {
+SiswaCourseGuide.propTypes = {
   mission: PropTypes.array,
   title: PropTypes.string,
   teory: PropTypes.string,
 };
 
-const StyledGuide = styled(Guide)`
+const StyledGuide = styled(SiswaCourseGuide)`
   background-color: white;
   #teory {
     padding-top: 20px;
