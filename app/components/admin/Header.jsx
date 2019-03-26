@@ -1,10 +1,13 @@
 /* eslint-disable */
 import React from 'react';
-import { BASE_URL } from "../../config/config";
+import { BASE_URL } from '../../config/config';
 import Logo from '../Logo';
 
-const Header = () => (
-  <nav className="navbar navbar-expand-md navbar-dark bg-dark" style={{ height: '50px' }}>
+const Header = ({ logout }) => (
+  <nav
+    className="navbar navbar-expand-md navbar-dark bg-dark"
+    style={{ height: '50px' }}
+  >
     <a className="navbar-brand" href="#">
       <Logo mode="dark" style={{ marginTop: '0px' }} />
     </a>
@@ -34,18 +37,16 @@ const Header = () => (
             aria-haspopup="true"
             aria-expanded="false"
           >
-            {'tes'}
-            {' '}
-            <span className="caret" />
+            {'tes'} <span className="caret" />
           </a>
 
           <div
             className="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdown"
           >
-            <a className="dropdown-item" href={`${BASE_URL}admin/logout`}>
+            <button onClick={logout} className="dropdown-item">
               Logout
-            </a>
+            </button>
           </div>
         </li>
       </ul>

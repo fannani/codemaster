@@ -30,7 +30,6 @@ const Header = ({
   user,
   logout,
 }) => {
-
   const playerStatus = play ? (
     <PlayerStatus life={life} score={score} time={time} />
   ) : (
@@ -41,7 +40,7 @@ const Header = ({
       className="navbar navbar-expand-md navbar-dark bg-dark"
       style={{ height: '50px' }}
     >
-      <Link to="/dashboard" className="navbar-brand" style={{ 'zIndex': 999}}>
+      <Link to="/dashboard" className="navbar-brand" style={{ zIndex: 999 }}>
         <Logo mode="dark" style={{ marginTop: '0px' }} />
       </Link>
 
