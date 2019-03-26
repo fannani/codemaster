@@ -23,10 +23,13 @@ const login = (email, password) =>
     },
   })
     .then(async response => {
-      if (response.data.user.role === 'siswa') {
-        const { user } = response.data;
-        const detail = await getUserDetail(user);
-        return detail;
+      if (response.data.user) {
+        if (response.data.user.role === 'siswa') {
+          const { user } = response.data;
+          const detail = await getUserDetail(user);
+          return detail;
+        }
+        return response.data.user;
       }
       throw Error('Email atau Password salah');
     })

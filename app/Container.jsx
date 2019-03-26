@@ -8,13 +8,10 @@ import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
 import { ApolloProvider } from 'react-apollo';
 import LoadingScreen from './components/LoadingScreen';
-import AppPersist from './components/AppPersist';
-import reducer from './reducers/reducer';
 import { API_URL } from './config/config';
-import { ContextProvider } from './utils/context';
 
-const SiswaLayout = lazy(() => import('./containers/siswa/Layout'));
-const AdminLayout = lazy(() => import('./containers/admin/Layout'));
+const AdminApp = lazy(() => import('./containers/admin/App'));
+const SiswaApp = lazy(() => import('./containers/siswa/App'));
 const WebLayout = lazy(() => import('./containers/web/Layout'));
 
 const client = new ApolloClient({
@@ -41,44 +38,19 @@ const getUserConfirmation = (dialogKey, callback) => {
   callback(true);
 };
 
-const initialState =
-  localStorage.getItem('app:persist') == null
-    ? {
-        isLogin: false,
-        user: { userdetail: { energy: 0 } },
-        gameplay: {
-          currentTimer: 0,
-          life: 0,
-          score: 0,
-          timerText: '00:00',
-          play: false,
-        },
-      }
-    : JSON.parse(localStorage.getItem('app:persist'));
-
-let Container = () => {
-  return (
-    <ApolloProvider client={client}>
-      <BrowserRouter getUserConfirmation={getUserConfirmation}>
-        <Suspense fallback={<LoadingScreen />}>
-          <ContextProvider value={useReducer(reducer, initialState)}>
-            <AppPersist>
-              <Switch>
-                <Route
-                  path="/(|tentang|pelajari)"
-                  exact
-                  component={WebLayout}
-                />
-                <Route path="/admin" component={AdminLayout} />
-                <Route path="/" component={SiswaLayout} />
-              </Switch>
-            </AppPersist>
-          </ContextProvider>
-        </Suspense>
-      </BrowserRouter>
-    </ApolloProvider>
-  );
-};
+let Container = () => (
+  <ApolloProvider client={client}>
+    <BrowserRouter getUserConfirmation={getUserConfirmation}>
+      <Suspense fallback={<LoadingScreen />}>
+        <Switch>
+          <Route path="/(|tentang|pelajari)" exact component={WebLayout} />
+          <Route path="/admin" component={AdminApp} />
+          <Route path="/" component={SiswaApp} />
+        </Switch>
+      </Suspense>
+    </BrowserRouter>
+  </ApolloProvider>
+);
 
 if (process.env.MODE === 'development') {
   Container = hot(Container);

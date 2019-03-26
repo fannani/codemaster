@@ -55,7 +55,7 @@ class Course extends Component {
                               </thead>
                               <tbody>
                                 {data.courses.map(course => (
-                                  <tr>
+                                  <tr key={course._id}>
                                     <td>{course.name}</td>
                                     <td>{course.desc}</td>
                                     <td>
@@ -109,7 +109,7 @@ class Course extends Component {
                                       <div className="form-group">
                                         <label htmlFor="name">Name</label>
                                         <Field
-                                          class="form-control"
+                                          className="form-control"
                                           type="text"
                                           placeholder="name"
                                           name="name"
@@ -120,7 +120,7 @@ class Course extends Component {
                                           Description
                                         </label>
                                         <Field
-                                          class="form-control"
+                                          className="form-control"
                                           type="text"
                                           placeholder="description"
                                           name="desc"
@@ -131,7 +131,7 @@ class Course extends Component {
                                           Initial Script
                                         </label>
                                         <Field
-                                          class="form-control"
+                                          className="form-control"
                                           type="text"
                                           placeholder="Script"
                                           name="script"

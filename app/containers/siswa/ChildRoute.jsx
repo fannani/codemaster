@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
-import Redirect from 'react-router-dom/es/Redirect';
-import Switch from 'react-router-dom/es/Switch';
+import { Redirect, Switch } from 'react-router-dom';
 import usePlayer from '../../hooks/player';
 import PropTypes from 'prop-types';
 import LoadingScreen from '../../components/LoadingScreen';
@@ -26,7 +25,10 @@ const ChildRoute = ({ location, children }) => {
 };
 
 ChildRoute.propTypes = {
-  location: PropTypes.any.isRequired,
+  location: PropTypes.any,
+};
+ChildRoute.defaultProps = {
+  location: null,
 };
 
 export default ChildRoute;

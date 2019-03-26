@@ -136,7 +136,7 @@ const StageList = ({
                           </thead>
                           <tbody>
                             {courses[0].stages.map(stage => (
-                              <tr>
+                              <tr key={stage._id}>
                                 <td>{stage.title}</td>
                                 <td>
                                   <Link

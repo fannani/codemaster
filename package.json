@@ -64,7 +64,7 @@
     "react-content-loader": "^3.4.1",
     "react-dom": "^16.8.3",
     "react-hot-loader": "^4.7.1",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^5.0.0",
     "react-spinners": "^0.4.8",
     "react-toastify": "^4.4.3",
     "shortid": "^2.2.14",

@@ -4,8 +4,18 @@
 // export default combineReducers({
 //   logs,
 // });
-
-const reducer = (state, action) => {
+export const initialState = {
+  isLogin: false,
+  user: { userdetail: { energy: 0 } },
+  gameplay: {
+    currentTimer: 0,
+    life: 0,
+    score: 0,
+    timerText: '00:00',
+    play: false,
+  },
+};
+export const reducer = (state, action) => {
   const { gameplay } = state;
   switch (action.type) {
     case 'LOGIN_SUCCESS':
@@ -62,10 +72,8 @@ const reducer = (state, action) => {
         user: { ...state.user, userdetail },
       };
     case 'LOGOUT_SUCCESS':
-      return {};
+      return initialState;
     default:
       return state;
   }
 };
-
-export default reducer;
