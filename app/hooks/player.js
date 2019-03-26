@@ -68,7 +68,7 @@ const usePlayer = () => {
 
   return {
     login,
-    isLogin: state.isLogin,
+    isLogin: state.isLogin && state.user.role === 'siswa',
     user: state.user,
     incrementTimer: () => {
       dispatch(updateTimer());

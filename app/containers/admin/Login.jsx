@@ -18,7 +18,7 @@ const Login = () => {
   const admin = useAdmin();
 
   if (admin.isLogin) {
-    return <Redirect push to="/dashboard" />;
+    return <Redirect push to="/admin" />;
   }
   return (
     <Container className="container">

@@ -4,7 +4,7 @@ import usePlayer from '../../hooks/player';
 import PropTypes from 'prop-types';
 import LoadingScreen from '../../components/LoadingScreen';
 
-const ChildRoute = ({ location, children }) => {
+const Protect = ({ location, children }) => {
   const player = usePlayer();
 
   if (player.isLogin) {
@@ -24,11 +24,11 @@ const ChildRoute = ({ location, children }) => {
   );
 };
 
-ChildRoute.propTypes = {
+Protect.propTypes = {
   location: PropTypes.any,
 };
-ChildRoute.defaultProps = {
+Protect.defaultProps = {
   location: null,
 };
 
-export default ChildRoute;
+export default Protect;
