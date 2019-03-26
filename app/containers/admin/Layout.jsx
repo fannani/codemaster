@@ -11,7 +11,7 @@ const Layout = () => {
   };
   return (
     <>
-      <Header logout={onLogout} />
+      <Header logout={onLogout} user={admin.user} />
       <RouteAdmin />
     </>
   );

@@ -4,7 +4,8 @@ import AppPersist from '../../components/AppPersist';
 import { initialState, reducer } from '../../reducers/siswaReducer';
 import { ContextProvider } from '../../utils/context';
 
-const localData = localStorage.getItem('app:persist');
+const STORAGE_KEY = 'app:persist';
+const localData = localStorage.getItem(STORAGE_KEY);
 
 const App = () => (
   <ContextProvider
@@ -13,7 +14,7 @@ const App = () => (
       localData == null ? initialState : JSON.parse(localData),
     )}
   >
-    <AppPersist>
+    <AppPersist storageKey={STORAGE_KEY}>
       <Layout />
     </AppPersist>
   </ContextProvider>

@@ -1,11 +1,11 @@
 import { useEffect, useContext } from 'react';
 import AppContext from '../utils/context';
 
-const AppPersist = ({ children }) => {
+const AppPersist = ({ storageKey, children }) => {
   const [state] = useContext(AppContext);
 
   const saveStateToLocalStorage = () => {
-    localStorage.setItem('app:persist', JSON.stringify(state));
+    localStorage.setItem(storageKey, JSON.stringify(state));
   };
 
   useEffect(

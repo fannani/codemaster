@@ -1,9 +1,7 @@
-/* eslint-disable */
 import React from 'react';
-import { BASE_URL } from '../../config/config';
 import Logo from '../Logo';
 
-const Header = ({ logout }) => (
+const Header = ({ logout, user }) => (
   <nav
     className="navbar navbar-expand-md navbar-dark bg-dark"
     style={{ height: '50px' }}
@@ -37,7 +35,7 @@ const Header = ({ logout }) => (
             aria-haspopup="true"
             aria-expanded="false"
           >
-            {'tes'} <span className="caret" />
+            {user.name} <span className="caret" />
           </a>
 
           <div
