@@ -13,7 +13,7 @@ const getUserDetail = async function(user) {
   });
 };
 
-const login = (email, password) =>
+const login = (email, password, role) =>
   axios({
     url: `${BASE_URL}auth/login`,
     method: 'post',
@@ -23,7 +23,7 @@ const login = (email, password) =>
     },
   })
     .then(async response => {
-      if (response.data.user) {
+      if (response.data.user && response.data.user.role === role) {
         if (response.data.user.role === 'siswa') {
           const { user } = response.data;
           const detail = await getUserDetail(user);

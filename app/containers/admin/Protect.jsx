@@ -7,7 +7,7 @@ import Sidebar from '../../components/admin/Sidebar';
 
 const Protect = ({ location, children }) => {
   const admin = useAdmin();
-  if (admin.isLogin || true) {
+  if (admin.isLogin) {
     return (
       <>
         <div className="container-fluid">

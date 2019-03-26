@@ -36,7 +36,7 @@ const Login = () => {
                   setStatus(undefined);
                   const { email, password } = values;
                   if (email && password) {
-                    player.login(email, password).then(
+                    admin.login(email, password).then(
                       () => {
                         setSubmitting(false);
                       },

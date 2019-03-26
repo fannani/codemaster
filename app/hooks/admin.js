@@ -13,7 +13,7 @@ const useAdmin = () => {
       return { type: 'LOGIN_SUCCESS', user, isLogin };
     };
     dispatch(request());
-    return userService.login(email, password).then(user => {
+    return userService.login(email, password, 'admin').then(user => {
       let isLogin = false;
       if (user) {
         isLogin = true;
