@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import connect from 'react-redux/es/connect/connect';
 import { postLog } from '../../utils/logs';
 import { compareResult } from '../../utils/course';
-import { setPlayerStatus as setPlayerStatusAction } from '../../actions/gameplay';
+import usePlayer from '../../hooks/player';
 
-const CourseValidator = ({ children, stages, gameOver, setPlayerStatus }) => {
+const CourseValidator = ({ children, stages, gameOver }) => {
   const [result, setResult] = useState([]);
+  const player = usePlayer();
   const scorePoint = 20;
   let life = 3;
 
@@ -34,7 +34,7 @@ const CourseValidator = ({ children, stages, gameOver, setPlayerStatus }) => {
           life -= 1;
         }
       }
-      setPlayerStatus(score, life);
+      player.setPlayerStatus(score, life);
       if (compare.all >= stages[0].missions.length)
         gameOver(stages[0], score, life);
     }
@@ -49,15 +49,5 @@ const CourseValidator = ({ children, stages, gameOver, setPlayerStatus }) => {
   return children({ result });
 };
 
-const mapDispatchToProps = dispatch => ({
-  setPlayerStatus: (score, life) =>
-    dispatch(setPlayerStatusAction(score, life)),
-});
 
-const mapStateToProps = state => ({
-  life: state.gameplay.life,
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CourseValidator);
+export default CourseValidator;

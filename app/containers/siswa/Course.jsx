@@ -8,11 +8,7 @@ import CourseValidator from '../../components/siswa/CourseValidator';
 import CourseFooter from '../../components/siswa/CourseFooter';
 import Editor from '../../components/siswa/Editor';
 import 'react-toastify/dist/ReactToastify.css';
-import {
-  resetTimer as resetTimerAction,
-  setPlayerStatus as setPlayerStatusAction,
-  setPlayMode as setPlayModeAction,
-} from '../../actions/gameplay';
+
 import { addScore as addScoreAction } from '../../actions/scores';
 import { reduceEnergy as reduceEnergyAction } from '../../actions/users';
 import Output from '../../components/siswa/Output';
@@ -28,9 +24,6 @@ const Course = ({
   },
   reduceEnergy,
   addScore,
-  setPlayMode,
-  setPlayerStatus,
-  resetTimer,
   history,
 }) => {
   const [scoreResult, setScoreResult] = useState(0);
@@ -124,15 +117,15 @@ const Course = ({
   };
 
   useEffect(() => {
-    resetTimer();
+    player.resetTimer();
     reduceEnergy(player.user.userdetail._id, energyNeed);
     interval = setInterval(player.incrementTimer, 1000);
     setIntervalState(interval);
-    setPlayerStatus(0, 3);
-    setPlayMode(true);
+    player.setPlayerStatus(0, 3);
+    player.setPlayMode(true);
 
     return () => {
-      setPlayMode(false);
+      player.setPlayMode(false);
       clearInterval(interval);
     };
   }, []);
@@ -210,23 +203,16 @@ const Course = ({
 };
 
 const mapDispatchToProps = dispatch => ({
-  setPlayerStatus: (score, life) =>
-    dispatch(setPlayerStatusAction(score, life)),
-  setPlayMode: play => dispatch(setPlayModeAction(play)),
   reduceEnergy: (userid, energy) =>
     dispatch(reduceEnergyAction(userid, energy)),
   addScore: (userid, stageid, courseid, score, time, stars) =>
     dispatch(addScoreAction(userid, stageid, courseid, score, time, stars)),
-  resetTimer: () => dispatch(resetTimerAction()),
 });
 
 Course.propTypes = {
   match: PropTypes.any.isRequired,
   reduceEnergy: PropTypes.func.isRequired,
   addScore: PropTypes.func.isRequired,
-  setPlayMode: PropTypes.func.isRequired,
-  setPlayerStatus: PropTypes.func.isRequired,
-  resetTimer: PropTypes.func.isRequired,
 };
 
 export default connect(
