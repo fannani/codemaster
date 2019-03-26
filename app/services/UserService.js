@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { BASE_URL } from '../config/config';
-import ApiService from './ApiService';
+import APIService from './APIService';
 
 const getUserDetail = async function(user) {
   let query;
   if (user.role === 'siswa') {
     query = `players(_id:"${user.userdetailid}"){_id,address,energy,stars}`;
   }
-  const result = await ApiService.query(query);
+  const result = await APIService.query(query);
   return Object.assign(user, {
     userdetail: result.data.data.players[0],
   });
@@ -35,18 +35,6 @@ const login = (email, password, role) =>
     })
     .then(userdetail => userdetail);
 
-const reduceEnergy = (userid, energy) =>
-  ApiService.mutation(
-    `reduceEnergy(userid : "${userid}", energy: ${energy}){
-          _id,energy
-        }`,
-  ).then(response => response.data.data.reduceEnergy);
-
-const addPlayerAchievement = (player, achievement, star, point) =>
-  ApiService.mutation(
-    `addPlayerAchievement(player : "${player}", achievement : "${achievement}" star: ${star}, point: ${point})`,
-  ).then(response => response.data.data.addPlayerAchievement);
-
 const logout = () => {
   localStorage.removeItem('user');
 };
@@ -54,6 +42,4 @@ const logout = () => {
 export default {
   login,
   logout,
-  reduceEnergy,
-  addPlayerAchievement,
 };

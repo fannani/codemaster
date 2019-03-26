@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import AppContext from '../utils/context';
-import userService from '../services/userService';
+import UserService from '../services/UserService';
+import PlayerService from '../services/PlayerService';
 
 const usePlayer = () => {
   const [state, dispatch] = useContext(AppContext);
@@ -32,7 +33,7 @@ const usePlayer = () => {
       return { type: 'LOGIN_SUCCESS', user, isLogin };
     };
     dispatch(request());
-    return userService.login(email, password, "siswa").then(user => {
+    return UserService.login(email, password, 'siswa').then(user => {
       let isLogin = false;
       if (user) {
         isLogin = true;
@@ -47,7 +48,7 @@ const usePlayer = () => {
     const request = () => ({ type: 'LOGOUT_REQUEST' });
     const success = () => ({ type: 'LOGOUT_SUCCESS' });
     dispatch(request());
-    userService.logout();
+    UserService.logout();
     dispatch(success());
   };
 
@@ -56,7 +57,7 @@ const usePlayer = () => {
     const success = user => ({ type: 'REDUCE_ENERGY_SUCCESS', user });
     const failure = error => ({ type: 'REDUCE_ENERGY_FAILURE', error });
     dispatch(request());
-    return userService.reduceEnergy(userid, energy).then(
+    return PlayerService.reduceEnergy(userid, energy).then(
       player => {
         dispatch(success(player));
       },
@@ -65,6 +66,8 @@ const usePlayer = () => {
       },
     );
   };
+
+  const addExpPoint = point => {};
 
   return {
     login,

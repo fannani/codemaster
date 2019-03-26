@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import AppContext from '../utils/context';
-import userService from '../services/userService';
+import UserService from '../services/UserService';
 
 const useAdmin = () => {
   const [state, dispatch] = useContext(AppContext);
@@ -13,7 +13,7 @@ const useAdmin = () => {
       return { type: 'LOGIN_SUCCESS', user, isLogin };
     };
     dispatch(request());
-    return userService.login(email, password, 'admin').then(user => {
+    return UserService.login(email, password, 'admin').then(user => {
       let isLogin = false;
       if (user) {
         isLogin = true;
@@ -28,7 +28,7 @@ const useAdmin = () => {
     const request = () => ({ type: 'LOGOUT_REQUEST' });
     const success = () => ({ type: 'LOGOUT_SUCCESS' });
     dispatch(request());
-    userService.logout();
+    UserService.logout();
     dispatch(success());
   };
 
