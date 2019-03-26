@@ -7,6 +7,13 @@ const reduceEnergy = (userid, energy) =>
         }`,
   ).then(response => response.data.data.reduceEnergy);
 
+const addExp = (userid, exp) => {
+  APIService.mutation(
+    `addExp(userid : "${userid}", exp: ${exp}){
+          _id,exp
+        }`,
+  ).then(response => response.data.data.reduceEnergy);
+};
 const addPlayerAchievement = (player, achievement, star, point) =>
   APIService.mutation(
     `addPlayerAchievement(player : "${player}", achievement : "${achievement}" star: ${star}, point: ${point})`,

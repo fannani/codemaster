@@ -1,5 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import Score from './Score';
 
 const UserSchema = new mongoose.Schema({
   email: String,

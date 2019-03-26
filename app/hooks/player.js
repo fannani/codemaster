@@ -67,7 +67,20 @@ const usePlayer = () => {
     );
   };
 
-  const addExpPoint = point => {};
+  const addExp = (userid, exp) => {
+    const request = () => ({ type: 'ADD_EXP_REQUEST' });
+    const success = user => ({ type: 'ADD_EXP_SUCCESS', user });
+    const failure = error => ({ type: 'ADD_EXP_FAILURE', error });
+    dispatch(request());
+    PlayerService.addExp(userid, exp).then(
+      player => {
+        dispatch(success(player));
+      },
+      error => {
+        dispatch(failure(error));
+      },
+    );
+  };
 
   return {
     login,
@@ -88,6 +101,7 @@ const usePlayer = () => {
     },
     logout,
     reduceEnergy,
+    addExp,
   };
 };
 

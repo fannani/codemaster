@@ -67,7 +67,9 @@ const Dashboard = ({ className }) => {
                         strokeColor="#7386D5"
                       />
                     </div>
-                    <Progress className="col-4">2130/3000</Progress>
+                    <Progress className="col-4">
+                      {player.user.userdetail.exp}/3000
+                    </Progress>
                   </div>
                 </div>
                 <div className="col-2">

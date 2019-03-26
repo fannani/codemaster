@@ -62,6 +62,10 @@ const PlayerType = new GraphQLObjectType({
       },
     },
     birthday: { type: GraphQLNonNull(GraphQLString) },
+    exp: { type: GraphQLInt },
+    target_exp: { type: GraphQLInt, async resolve({ _id }) {
+
+      } },
     updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),
 });

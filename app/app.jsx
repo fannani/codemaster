@@ -4,6 +4,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Container from './Container';
 import './assets/styles/app.scss';
+import 'bootstrap';
 
 window.Popper = require('popper.js').default;
 window.$ = require('jquery');

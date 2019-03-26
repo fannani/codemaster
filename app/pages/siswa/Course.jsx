@@ -15,6 +15,8 @@ import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 import usePlayer from '../../hooks/player';
 import { ADD_SCORE } from '../../queries/coursesQuery';
 
+const EXP_REWARD = 20;
+
 const Course = ({
   match: {
     params: { stageid },
@@ -121,6 +123,7 @@ const Course = ({
                         life,
                       );
                       if (life > 0) {
+                        player.addExp(EXP_REWARD);
                         addScore({
                           variables: {
                             player: player.user.userdetailid,

@@ -19,6 +19,20 @@ const PlayerMutation = {
       return await player.save();
     },
   },
+
+  addExp: {
+    type: PlayerType,
+    description: 'Adding Experience Point',
+    args: {
+      exp: { type: new GraphQLNonNull(GraphQLInt) },
+      userid: { type: new GraphQLNonNull(GraphQLID) },
+    },
+    async resolve(root, { exp, userid }) {
+      const player = await Player.findById(userid);
+      player.exp += exp;
+      return await player.save();
+    },
+  },
   addFriend: {
     type: PlayerType,
     description: 'add friend',
