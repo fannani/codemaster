@@ -4,7 +4,7 @@ import stages from './queries/StageQuery';
 import missions from './queries/MissionQuery';
 import scores from './queries/ScoreQuery';
 import users from './queries/UserQuery';
-import userlevel from './queries/UserLevelQuery';
+import playerlevel from './queries/PlayerLevelQuery';
 import players from './queries/PlayerQuery';
 import playerAchievements from './queries/PlayerAchievementQuery';
 import testcase from './queries/TestCaseQuery';
@@ -18,7 +18,7 @@ import playerMutation from './mutations/PlayerMutation';
 import playerAchievementMutation from './mutations/PlayerAchievementMutation';
 import testCaseMutation from './mutations/TestCaseMutation';
 import testCaseMissionMutation from './mutations/TestCaseMissionMutation';
-import userLevelMutation from './mutations/UserLevelMutation';
+import playerLevelMutation from './mutations/PlayerLevelMutation';
 
 const BKQueryRootType = new GraphQLObjectType({
   name: 'BKQueryRootType',
@@ -28,7 +28,7 @@ const BKQueryRootType = new GraphQLObjectType({
     stages,
     missions,
     scores,
-    userlevel,
+    playerlevel,
     players,
     users,
     achievements,
@@ -56,7 +56,7 @@ const BKMutationRootType = new GraphQLObjectType({
     register: playerMutation.register,
     addTestCaseMission: testCaseMissionMutation.addTestCaseMission,
     addExp: playerMutation.addExp,
-    addUserLevel: userLevelMutation.addUserLevel,
+    addPlayerLevel: playerLevelMutation.addPlayerLevel,
   }),
 });
 

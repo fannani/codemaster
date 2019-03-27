@@ -1,12 +1,12 @@
 import { GraphQLNonNull, GraphQLInt } from 'graphql';
 
-import UserLevel from '../models/UserLevel';
-import UserLevelType from '../types/UserLevelType';
+import UserLevel from '../models/PlayerLevel';
+import PlayerLevelType from '../types/PlayerLevelType';
 
-const UserLevelMutation = {
-  addUserLevel: {
-    type: UserLevelType,
-    description: 'Add UserLevel',
+const PlayerLevelMutation = {
+  addPlayerLevel: {
+    type: PlayerLevelType,
+    description: 'Add PlayerLevel',
     args: {
       level: { type: GraphQLNonNull(GraphQLInt) },
       exp_req: { type: GraphQLNonNull(GraphQLInt) },
@@ -21,4 +21,4 @@ const UserLevelMutation = {
   },
 };
 
-export default UserLevelMutation;
+export default PlayerLevelMutation;

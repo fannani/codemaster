@@ -3,7 +3,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useAdmin from '../../hooks/admin';
 import LoadingScreen from '../LoadingScreen';
-import Sidebar from './Sidebar';
+import AdminSidebar from './Sidebar';
 
 const Protect = ({ location, children }) => {
   const admin = useAdmin();
@@ -12,7 +12,7 @@ const Protect = ({ location, children }) => {
       <>
         <div className="container-fluid">
           <div className="row">
-            <Sidebar />
+            <AdminSidebar />
             <main className="col-9 ">
               <Suspense fallback={<LoadingScreen />}>
                 <Switch>{children}</Switch>

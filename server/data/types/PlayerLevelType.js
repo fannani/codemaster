@@ -6,15 +6,15 @@ import {
   GraphQLInt,
 } from 'graphql';
 
-const UserLevelType = new GraphQLObjectType({
-  name: 'UserLevel',
+const PlayerLevelType = new GraphQLObjectType({
+  name: 'PlayerLevel',
   description: 'This represent a UserLevel',
   fields: () => ({
     _id: { type: GraphQLNonNull(GraphQLID) },
     level: { type: GraphQLNonNull(GraphQLInt) },
-    exp_point: { type: GraphQLNonNull(GraphQLInt) },
+    exp_req: { type: GraphQLNonNull(GraphQLInt) },
     updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),
 });
 
-export default UserLevelType;
+export default PlayerLevelType;

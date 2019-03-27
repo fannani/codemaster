@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
-const UserLevelSchema = new mongoose.Schema({
+const PlayerLevelSchema = new mongoose.Schema({
   level: Number,
   exp_req: Number,
   updated_at: { type: Date, default: Date.now },
 });
 
-export default mongoose.model('UserLevel', UserLevelSchema);
+export default mongoose.model('PlayerLevel', PlayerLevelSchema);
