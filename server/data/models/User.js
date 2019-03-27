@@ -17,4 +17,6 @@ UserSchema.methods.verifyPassword = function(password) {
   // return this.hash === hash;
 };
 
+
+
 export default mongoose.model('User', UserSchema);

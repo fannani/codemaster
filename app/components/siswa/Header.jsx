@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import PlayerStatus from './PlayerStatus';
 import energyImage from '../../assets/images/energy.png';
-import Logo from '../Logo.jsx';
+import Logo from '../UI/Logo.jsx';
 
 const EnergyDiv = styled.div`
   color: white !important;

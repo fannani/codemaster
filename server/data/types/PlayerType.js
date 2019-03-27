@@ -8,6 +8,7 @@ import {
 } from 'graphql';
 import Score from '../models/Score';
 import User from '../models/User';
+import PlayerLevel from '../models/PlayerLevel';
 import Player from '../models/Player';
 import UserType from './UserType';
 import CourseType from './CourseType';
@@ -61,11 +62,16 @@ const PlayerType = new GraphQLObjectType({
         return await score.getCourse();
       },
     },
+    level: {
+      type: GraphQLInt,
+      async resolve({ _id }) {
+        const player = await Player.findById(_id);
+        return await player.level();
+      },
+    },
     birthday: { type: GraphQLNonNull(GraphQLString) },
     exp: { type: GraphQLInt },
-    target_exp: { type: GraphQLInt, async resolve({ _id }) {
-
-      } },
+    target_exp: { type: GraphQLInt, async resolve({ _id }) {} },
     updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),
 });

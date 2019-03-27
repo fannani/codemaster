@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import Score from './Score';
 import Course from './Course';
+import PlayerLevel from './PlayerLevel';
 
 const PlayerSchema = new Schema({
   energy: Number,
@@ -42,6 +43,16 @@ PlayerSchema.methods.courseScore = async function() {
     },
   ]);
   return score;
+};
+
+PlayerSchema.methods.level = async function() {
+  const playerlevel = await PlayerLevel.find({
+    exp_req: { $lt: this.exp },
+  })
+    .sort({ level: -1 })
+    .limit(1);
+  console.log(playerlevel);
+  return playerlevel[0].level;
 };
 
 PlayerSchema.methods.getCourse = async function() {

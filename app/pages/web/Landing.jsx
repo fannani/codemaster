@@ -11,7 +11,7 @@ import newsletterBackground from '../../assets/images/newsletter_background.png'
 import instagram from '../../assets/images/instagram.png';
 import twitter from '../../assets/images/twitter.png';
 import facebook from '../../assets/images/facebook.png';
-import Logo from '../../components/Logo';
+import Logo from '../../components/UI/Logo';
 import { Link } from 'react-router-dom';
 
 const WebLanding = ({ className }) => (

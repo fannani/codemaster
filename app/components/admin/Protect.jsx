@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useAdmin from '../../hooks/admin';
-import LoadingScreen from '../LoadingScreen';
+import LoadingScreen from '../UI/LoadingScreen';
 import AdminSidebar from './Sidebar';
 
 const Protect = ({ location, children }) => {

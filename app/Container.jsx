@@ -7,7 +7,7 @@ import { ApolloLink } from 'apollo-link';
 import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
 import { ApolloProvider } from 'react-apollo';
-import LoadingScreen from './components/LoadingScreen';
+import LoadingScreen from './components/UI/LoadingScreen';
 import { API_URL } from './config/config';
 
 const AdminApp = lazy(() => import('./components/admin/App'));

@@ -1,6 +1,6 @@
 import { Query } from 'react-apollo';
 import { GET_TESTCASE_MISSION } from '../../queries/missionsQuery';
-import Card from '../Card';
+import Card from '../UI/Card';
 import React from 'react';
 
 const TestCaseMissionList = ({ onCreate, missionid }) => {

@@ -5,7 +5,7 @@ import { Mutation, Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { GET_STAGE_BY_ID, UPDATE_STAGE } from '../../queries/stagesQuery';
 import { ADD_MISSION } from '../../queries/missionsQuery';
-import Card from '../../components/Card';
+import Card from '../../components/UI/Card';
 
 const Stage = ({ match, history }) => {
   const [showModal, setShowModal] = useState(false);

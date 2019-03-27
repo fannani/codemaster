@@ -9,7 +9,6 @@ const AdminSidebar = () => (
         <Link to="/admin/testcase">Test Case</Link>
         <Link to="/admin/game-settings">Game Settings</Link>
         <Link to="/admin/log">Log</Link>
-
       </li>
     </ul>
   </nav>
