@@ -45,6 +45,7 @@ const Loader = () => {
 
 const Dashboard = ({ className }) => {
   const player = usePlayer();
+
   return (
     <div className={classnames(className, 'container-fluid')}>
       <div className="row justify-content-center">
@@ -56,19 +57,24 @@ const Dashboard = ({ className }) => {
                   <Ava />
                 </div>
                 <div className="col-4">
-                  <h5>Rahadyan Fannani Arif</h5>
+                  <h5>{player.user.name}</h5>
                   <p>Malang, Jawa Timur</p>
-                  <Level>Level 5 : </Level>
+                  <Level>Level {player.user.userdetail.level} : </Level>
                   <div className="row">
                     <div className="col-5" style={{ paddingRight: '0px' }}>
                       <Line
-                        percent={20}
+                        percent={
+                          (player.user.userdetail.exp /
+                            player.user.userdetail.target_exp) *
+                          100
+                        }
                         strokeWidth="4"
                         strokeColor="#7386D5"
                       />
                     </div>
                     <Progress className="col-4">
-                      {player.user.userdetail.exp}/3000
+                      {player.user.userdetail.exp}/
+                      {player.user.userdetail.target_exp}
                     </Progress>
                   </div>
                 </div>

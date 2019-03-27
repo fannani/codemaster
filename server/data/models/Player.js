@@ -51,8 +51,16 @@ PlayerSchema.methods.level = async function() {
   })
     .sort({ level: -1 })
     .limit(1);
-  console.log(playerlevel);
   return playerlevel[0].level;
+};
+
+PlayerSchema.methods.targetExp = async function() {
+  const playerlevel = await PlayerLevel.find({
+    exp_req: { $gt: this.exp },
+  })
+    .sort({ level: 1 })
+    .limit(1);
+  return playerlevel[0].exp_req;
 };
 
 PlayerSchema.methods.getCourse = async function() {

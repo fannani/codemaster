@@ -5,7 +5,9 @@ import APIService from './APIService';
 const getUserDetail = async function(user) {
   let query;
   if (user.role === 'siswa') {
-    query = `players(_id:"${user.userdetailid}"){_id,address,energy,stars,exp}`;
+    query = `players(_id:"${
+      user.userdetailid
+    }"){_id,address,energy,stars,exp,level,target_exp}`;
   }
   const result = await APIService.query(query);
   return Object.assign(user, {
