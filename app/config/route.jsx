@@ -20,11 +20,13 @@ const Stage = lazy(() => import('../pages/admin/Stage'));
 const Mission = lazy(() => import('../pages/admin/Mission'));
 const TestCase = lazy(() => import('../pages/admin/TestCase'));
 const GameSettings = lazy(() => import('../pages/Admin/GameSettings'));
+const PlayGround = lazy(() => import('../pages/siswa/PlayGround'));
 
 export const RouteSiswa = () => (
   <Switch>
     <Route path="/login" component={LoginSiswa} />
     <Route path="/register" component={Register} />
+    <Route path="/playground" component={PlayGround} />
     <SiswaProtect>
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/course" component={CourseList} />

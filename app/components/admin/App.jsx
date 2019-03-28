@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import Layout from './Layout';
 import AppPersist from '../AppPersist';
-import { initialState, reducer } from '../../reducers/adminReducer';
+import { initialState, reducer } from '../../data/admin/reducer';
 import { ContextProvider } from '../../utils/context';
 
 const STORAGE_KEY = 'admin:persist';

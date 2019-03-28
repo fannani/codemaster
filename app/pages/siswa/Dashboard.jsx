@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import star from '../../assets/images/star-circle.png';
 import badge from '../../assets/images/badges.png';
 import achievement from '../../assets/images/achievement.png';
-import { GET_COURSE_BY_PLAYER } from '../../queries/playerQuery';
+import { GET_COURSE_BY_PLAYER } from '../../queries/player';
 import Card from '../../components/UI/Card';
 import CourseItem from '../../components/siswa/Course/List/Item';
 import usePlayer from '../../hooks/player';

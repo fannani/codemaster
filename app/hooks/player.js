@@ -2,36 +2,24 @@ import { useContext } from 'react';
 import AppContext from '../utils/context';
 import UserService from '../services/UserService';
 import PlayerService from '../services/PlayerService';
+import {
+  setPlayerStatus,
+  setPlayMode,
+  updateTimer,
+  resetTimer,
+} from '../data/siswa/actions';
 
 const usePlayer = () => {
   const [state, dispatch] = useContext(AppContext);
 
-  const setPlayerStatus = (score, life) => ({
-    type: 'SET_PLAYER_STATUS',
-    score,
-    life,
-  });
-
-  const setPlayMode = play => ({
-    type: 'SET_PLAY_MODE',
-    play,
-  });
-
-  const updateTimer = () => ({
-    type: 'UPDATE_TIMER',
-  });
-
-  const resetTimer = () => ({
-    type: 'RESET_TIMER',
-  });
-
   const login = (email, password) => {
-    const request = () => {
-      return { type: 'LOGIN_REQUEST' };
-    };
-    const success = (user, isLogin) => {
-      return { type: 'LOGIN_SUCCESS', user, isLogin };
-    };
+    const request = () => ({ type: 'LOGIN_REQUEST' });
+    const success = (user, isLogin) => ({
+      type: 'LOGIN_SUCCESS',
+      user,
+      isLogin,
+    });
+
     dispatch(request());
     return UserService.login(email, password, 'siswa').then(user => {
       let isLogin = false;
@@ -84,6 +72,9 @@ const usePlayer = () => {
 
   return {
     login,
+    logout,
+    reduceEnergy,
+    addExp,
     isLogin: state.isLogin && state.user.role === 'siswa',
     user: state.user,
     incrementTimer: () => {
@@ -99,9 +90,6 @@ const usePlayer = () => {
     setPlayMode: play => {
       dispatch(setPlayMode(play));
     },
-    logout,
-    reduceEnergy,
-    addExp,
   };
 };
 

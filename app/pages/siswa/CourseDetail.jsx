@@ -5,8 +5,8 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Leaderboard from '../../components/siswa/Leaderboard';
 import SiswaStageItem from '../../components/siswa/Stage/Item';
-import { GET_COURSE_BYID } from '../../queries/coursesQuery';
-import { GET_STAGE_BY_COURSE_PLAYER } from '../../queries/stagesQuery';
+import { GET_COURSE_BYID } from '../../queries/courses';
+import { GET_STAGE_BY_COURSE_PLAYER } from '../../queries/stages';
 import usePlayer from '../../hooks/player';
 
 const CourseDetail = ({ match, className }) => {

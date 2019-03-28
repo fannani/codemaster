@@ -2,7 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import ContentLoader from 'react-content-loader';
 import SiswaCourseListItem from '../../components/siswa/Course/List/Item';
-import { GET_COURSES } from '../../queries/coursesQuery';
+import { GET_COURSES } from '../../queries/courses';
 
 const Loader = () => {
   const content = (

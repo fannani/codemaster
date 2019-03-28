@@ -6,12 +6,12 @@ const useAdmin = () => {
   const [state, dispatch] = useContext(AppContext);
 
   const login = (email, password) => {
-    const request = () => {
-      return { type: 'LOGIN_REQUEST' };
-    };
-    const success = (user, isLogin) => {
-      return { type: 'LOGIN_SUCCESS', user, isLogin };
-    };
+    const request = () => ({ type: 'LOGIN_REQUEST' });
+    const success = (user, isLogin) => ({
+      type: 'LOGIN_SUCCESS',
+      user,
+      isLogin,
+    });
     dispatch(request());
     return UserService.login(email, password, 'admin').then(user => {
       let isLogin = false;
@@ -34,9 +34,9 @@ const useAdmin = () => {
 
   return {
     login,
+    logout,
     isLogin: state.isLogin && state.user.role === 'admin',
     user: state.user,
-    logout,
   };
 };
 

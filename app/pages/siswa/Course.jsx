@@ -9,11 +9,11 @@ import SiswaCourseFooter from '../../components/siswa/Course/Footer';
 import SiswaCourseEditor from '../../components/siswa/Course/Editor';
 import SiswaCourseOutput from '../../components/siswa/Course/Output';
 import SiswaCourseScoreBoard from '../../components/siswa/Course/ScoreBoard/ScoreBoard';
-import { GET_STAGE_BY_ID } from '../../queries/stagesQuery';
+import { GET_STAGE_BY_ID } from '../../queries/stages';
 import { calculateStars, checkResult } from '../../utils/course';
 import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 import usePlayer from '../../hooks/player';
-import { ADD_SCORE } from '../../queries/coursesQuery';
+import { ADD_SCORE } from '../../queries/courses';
 
 const EXP_REWARD = 20;
 

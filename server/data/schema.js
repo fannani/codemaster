@@ -1,24 +1,24 @@
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
-import courses from './queries/CourseQuery';
-import stages from './queries/StageQuery';
-import missions from './queries/MissionQuery';
-import scores from './queries/ScoreQuery';
-import users from './queries/UserQuery';
-import playerlevel from './queries/PlayerLevelQuery';
-import players from './queries/PlayerQuery';
-import playerAchievements from './queries/PlayerAchievementQuery';
-import testcase from './queries/TestCaseQuery';
-import testcaseMission from './queries/TestCaseMissionQuery';
-import achievements from './queries/AchievementQuery';
-import courseMutation from './mutations/CourseMutation';
-import stageMutation from './mutations/StageMutation';
-import missionMutation from './mutations/MissionMutation';
-import scoreMutation from './mutations/ScoreMutation';
-import playerMutation from './mutations/PlayerMutation';
-import playerAchievementMutation from './mutations/PlayerAchievementMutation';
-import testCaseMutation from './mutations/TestCaseMutation';
-import testCaseMissionMutation from './mutations/TestCaseMissionMutation';
-import playerLevelMutation from './mutations/PlayerLevelMutation';
+import courses from './Course/query';
+import stages from './Course/Stage/query';
+import missions from './Course/Stage/Mission/query';
+import scores from './Course/Stage/Score/query';
+import users from './User/query';
+import playerlevel from './Player/Level/query';
+import players from './Player/query';
+import playerAchievements from './Player/Achievement/query';
+import testcase from './TestCase/query';
+import testcaseMission from './Course/Stage/Mission/TestCase/query';
+import achievements from './Achievement/query';
+import courseMutation from './Course/mutation';
+import stageMutation from './Course/Stage/mutation';
+import missionMutation from './Course/Stage/Mission/mutation';
+import scoreMutation from './Course/Stage/Score/mutation';
+import playerMutation from './Player/mutation';
+import playerAchievementMutation from './Player/Achievement/mutation';
+import testCaseMutation from './TestCase/mutation';
+import testCaseMissionMutation from './Course/Stage/Mission/TestCase/mutation';
+import playerLevelMutation from './Player/Level/mutation';
 
 const BKQueryRootType = new GraphQLObjectType({
   name: 'BKQueryRootType',

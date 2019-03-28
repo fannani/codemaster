@@ -2,7 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import classnames from 'classnames';
 import styled from 'styled-components';
-import { GET_ACHIEVEMENTS } from '../../queries/achievementQuery';
+import { GET_ACHIEVEMENTS } from '../../queries/achievement';
 import SiswaAchievementItem from '../../components/siswa/Achievement/Item';
 import usePlayer from '../../hooks/player';
 

@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from 'formik';
 import Card from '../UI/Card';
 import React from 'react';
-import { GET_MISSION_BY_ID } from '../../queries/missionsQuery';
+import { GET_MISSION_BY_ID } from '../../queries/missions';
 import { Query } from 'react-apollo';
 
 const MissionForm = ({ missionid }) => {

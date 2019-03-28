@@ -1,5 +1,5 @@
-import Achievement from './models/Achievement';
-import DetailAchievement from './models/DetailAchievement';
+import Achievement from './Achievement/Achievement';
+import DetailAchievement from './Achievement/Detail/DetailAchievement';
 import { Schema } from 'mongoose';
 
 export const achievement = () => {

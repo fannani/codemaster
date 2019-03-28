@@ -1,5 +1,5 @@
 import { Query } from 'react-apollo';
-import { GET_TESTCASES } from '../../queries/testcaseQuery';
+import { GET_TESTCASES } from '../../queries/testcase';
 import Modal from 'react-bootstrap4-modal';
 import React from 'react';
 
