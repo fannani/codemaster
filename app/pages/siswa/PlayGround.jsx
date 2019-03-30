@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   // Editor,
   EditorState,
@@ -7,6 +7,7 @@ import {
 import Editor from 'draft-js-plugins-editor';
 import createHighlightPlugin from '../../components/plugins/highlightPlugin';
 import addLinkPlugin from '../../components/plugins/addLinkPlugin';
+import { getProvince } from '../../services/LocationService';
 
 const highlightPlugin = createHighlightPlugin();
 
@@ -18,6 +19,10 @@ const PlayGround = () => {
   const onChange = state => {
     setEditorState(state);
   };
+
+  useEffect(() => {
+    getProvince();
+  }, []);
 
   const handleKeyCommand = command => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
