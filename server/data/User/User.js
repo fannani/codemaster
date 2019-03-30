@@ -6,6 +6,8 @@ const UserSchema = new mongoose.Schema({
   hash: String,
   salt: String,
   name: String,
+  city: String,
+  province: String,
   password: String,
   userdetailid: Schema.Types.ObjectId,
   updated_at: { type: Date, default: Date.now },
@@ -16,7 +18,5 @@ UserSchema.methods.verifyPassword = function(password) {
   // const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
   // return this.hash === hash;
 };
-
-
 
 export default mongoose.model('User', UserSchema);

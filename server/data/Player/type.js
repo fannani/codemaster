@@ -25,7 +25,6 @@ const PlayerType = new GraphQLObjectType({
       },
     },
     energy: { type: GraphQLNonNull(GraphQLInt) },
-    address: { type: GraphQLString },
     friends: { type: GraphQLList(GraphQLID) },
     stars: {
       type: GraphQLInt,
