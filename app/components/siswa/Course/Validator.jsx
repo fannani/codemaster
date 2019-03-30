@@ -36,7 +36,7 @@ const SiswaCourseValidator = ({ children, stages, gameOver }) => {
       }
       player.setPlayerStatus(score, life);
       if (compare.all >= stages[0].missions.length)
-        gameOver(stages[0], score, life);
+        gameOver( score, life);
     }
   };
 

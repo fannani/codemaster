@@ -13,9 +13,8 @@ import { GET_STAGE_BY_ID } from '../../queries/stages';
 import { calculateStars, checkResult } from '../../utils/course';
 import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 import usePlayer from '../../hooks/player';
+import useInteractiveCoding from '../../hooks/interactiveCoding';
 import { ADD_SCORE } from '../../queries/courses';
-
-const EXP_REWARD = 20;
 
 const Course = ({
   match: {
@@ -28,67 +27,12 @@ const Course = ({
   const [showModal, setShowModal] = useState(false);
   const [stars, setStars] = useState([]);
   const [intervalState, setIntervalState] = useState(null);
-  const [guideShow, setGuideShow] = useState(true);
-  const [outputShow, setOutputShow] = useState(true);
-  const [editorSize, setEditorSize] = useState(4);
-  const [outputSize, setOutputSize] = useState(4);
-  const [editorShow, setEditorShow] = useState(true);
+
   let interval = null;
   const energyNeed = 20;
 
   const player = usePlayer();
-
-  const onEditorExpandClick = () => {
-    if (editorSize < 10) {
-      setGuideShow(false);
-      setOutputShow(false);
-      setEditorSize(10);
-      setOutputSize(4);
-    } else {
-      setGuideShow(true);
-      setOutputShow(true);
-      setEditorSize(4);
-    }
-  };
-
-  const onOutputExpandClick = () => {
-    if (outputSize < 10) {
-      setGuideShow(false);
-      setEditorShow(false);
-      setOutputSize(10);
-      setEditorSize(4);
-    } else {
-      setGuideShow(true);
-      setEditorShow(true);
-      setOutputSize(4);
-    }
-  };
-
-  const onOutputClick = () => {
-    if (!outputShow) {
-      setOutputShow(true);
-      setOutputSize(4);
-      setEditorSize(editorSize - 3);
-    }
-  };
-  const onEditorClick = () => {
-    if (!editorShow) {
-      setEditorShow(true);
-      setEditorSize(4);
-      setOutputSize(outputSize - 3);
-    }
-  };
-  const onGuideClick = () => {
-    if (!guideShow) {
-      setGuideShow(true);
-      if (editorSize >= 7) {
-        setEditorSize(editorSize - 3);
-      }
-      if (outputSize >= 7) {
-        setOutputSize(outputSize - 3);
-      }
-    }
-  };
+  const interactive = useInteractiveCoding();
 
   useEffect(() => {
     player.resetTimer();
@@ -116,19 +60,19 @@ const Course = ({
                 {addScore => (
                   <SiswaCourseValidator
                     stages={stages}
-                    gameOver={(stage, score, life) => {
+                    gameOver={(score, life) => {
                       const starCount = calculateStars(
                         player.gameplay.currentTimer,
-                        stage.time,
+                        stages[0].time,
                         life,
                       );
                       if (life > 0) {
-                        player.addExp(EXP_REWARD);
+                        player.addExp(stages[0].exp_reward);
                         addScore({
                           variables: {
                             player: player.user.userdetailid,
                             course: stageid,
-                            stage: stage.course._id,
+                            stage: stages[0].course._id,
                             score,
                             time: player.gameplay.currentTimer,
                             stars: starCount,
@@ -151,24 +95,24 @@ const Course = ({
                             teory={stages[0].teory}
                             result={result}
                             mission={stages[0].missions}
-                            show={guideShow}
-                            onClick={onGuideClick}
+                            show={interactive.guideShow}
+                            onClick={interactive.onGuideClick}
                           />
                           <SiswaCourseEditor
                             checkResult={script =>
                               checkResult(script, stages[0].missions)
                             }
-                            onClick={onEditorClick}
-                            show={editorShow}
+                            onClick={interactive.onEditorClick}
+                            show={interactive.editorShow}
                             initialScript={stages[0].course.script}
-                            onExpandClick={onEditorExpandClick}
-                            size={editorSize}
+                            onExpandClick={interactive.onEditorExpandClick}
+                            size={interactive.editorSize}
                           />
                           <SiswaCourseOutput
-                            show={outputShow}
-                            onExpandClick={onOutputExpandClick}
-                            onClick={onOutputClick}
-                            size={outputSize}
+                            show={interactive.outputShow}
+                            onExpandClick={interactive.onOutputExpandClick}
+                            onClick={interactive.onOutputClick}
+                            size={interactive.outputSize}
                           />
                         </div>
                         <SiswaCourseFooter />
@@ -209,6 +153,7 @@ const Course = ({
 
 Course.propTypes = {
   match: PropTypes.any.isRequired,
+  history: PropTypes.any.isRequired,
 };
 
 export default Course;
