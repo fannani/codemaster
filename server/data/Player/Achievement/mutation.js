@@ -34,21 +34,24 @@ const PlayerAchievementMutation = {
     },
     async resolve(root, { player, achievement }) {
       const playerAchiev = await PlayerAchievement.find({ player });
-      const allDetail = await DetailAchievement.find({achievement});
+      const allDetail = await DetailAchievement.find({ achievement });
 
-      if(playerAchiev.length){
-        const detail = await DetailAchievement.find({achievement, star : playerAchiev[0].star});
-        if(playerAchiev.point < detail.target_point){
-          playerAhiev.point += 1;
-        } else if(playerAchiev.star < allDetail.length) {
+      if (playerAchiev.length) {
+        const detail = await DetailAchievement.find({
+          achievement,
+          star: playerAchiev[0].star,
+        });
+        if (playerAchiev.point < detail.target_point) {
+          playerAchiev.point += 1;
+        } else if (playerAchiev.star < allDetail.length) {
           playerAchiev.star += 1;
         }
       } else {
         const newachiev = new PlayerAchievement({
           player,
           achievement,
-          0,
-          1,
+          star: 0,
+          point: 1,
         });
         return await newachiev.save();
       }

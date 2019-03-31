@@ -21,6 +21,7 @@ const Mission = lazy(() => import('../pages/admin/Mission'));
 const TestCase = lazy(() => import('../pages/admin/TestCase'));
 const GameSettings = lazy(() => import('../pages/Admin/GameSettings'));
 const PlayGround = lazy(() => import('../pages/siswa/PlayGround'));
+const AchievementAdmin = lazy(() => import('../pages/admin/Achievement'));
 
 export const RouteSiswa = () => (
   <Switch>
@@ -46,6 +47,7 @@ export const RouteAdmin = () => (
       <Route exact path="/admin/course" component={CourseAdmin} />
       <Route exact path="/admin/testcase" component={TestCase} />
       <Route exact path="/admin/course/:courseid" component={StageList} />
+      <Route exact path="/admin/achievement" component={AchievementAdmin} />
       <Route exact path="/admin/stage/:stageid" component={Stage} />
       <Route exact path="/admin/mission/:missionid" component={Mission} />
       <Route exact path="/admin/game-settings" component={GameSettings} />

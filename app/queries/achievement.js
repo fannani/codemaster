@@ -12,3 +12,25 @@ export const GET_ACHIEVEMENTS = gql`
     }
   }
 `;
+
+export const GET_ALL_ACHIEVEMENTS = gql`
+  {
+    achievements {
+      _id
+      title
+      continuous
+      detail {
+        _id
+        target_point
+      }
+    }
+  }
+`;
+
+export const ADD_ACHIEVEMENT = gql`
+  mutation addAchievement($title: String!, $continuous: Boolean!) {
+    addAchievement(title: $title, continuous: $continuous) {
+      _id
+    }
+  }
+`;
