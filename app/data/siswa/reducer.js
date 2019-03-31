@@ -1,9 +1,13 @@
-// import { combineReducers } from 'redux';
-// import logs from './logs';
-//
-// export default combineReducers({
-//   logs,
-// });
+import {
+  LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
+  RESET_TIMER,
+  SET_PLAY_MODE,
+  SET_PLAYER_STATUS,
+  UPDATE_TIMER,
+  REDUCE_ENERGY_SUCCESS,
+} from './types';
+
 export const initialState = {
   isLogin: false,
   user: { userdetail: { energy: 0 } },
@@ -18,13 +22,13 @@ export const initialState = {
 export const reducer = (state, action) => {
   const { gameplay } = state;
   switch (action.type) {
-    case 'LOGIN_SUCCESS':
+    case LOGIN_SUCCESS:
       return {
         ...state,
         isLogin: action.isLogin,
         user: action.user,
       };
-    case 'UPDATE_TIMER':
+    case UPDATE_TIMER:
       let sec = gameplay.currentTimer;
       let min = 0;
       let secStr;
@@ -52,26 +56,26 @@ export const reducer = (state, action) => {
           timerText: `${minStr}:${secStr}`,
         },
       };
-    case 'RESET_TIMER':
+    case RESET_TIMER:
       return {
         ...state,
         gameplay: { ...gameplay, currentTimer: 0, timerText: '00:00' },
       };
-    case 'SET_PLAYER_STATUS':
+    case SET_PLAYER_STATUS:
       return {
         ...state,
         gameplay: { ...gameplay, life: action.life, score: action.score },
       };
-    case 'SET_PLAY_MODE':
+    case SET_PLAY_MODE:
       return { ...state, gameplay: { ...gameplay, play: action.play } };
 
-    case 'REDUCE_ENERGY_SUCCESS':
+    case REDUCE_ENERGY_SUCCESS:
       let userdetail = { ...state.user.userdetail, energy: action.user.energy };
       return {
         ...state,
         user: { ...state.user, userdetail },
       };
-    case 'LOGOUT_SUCCESS':
+    case LOGOUT_SUCCESS:
       return initialState;
     default:
       return state;

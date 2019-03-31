@@ -8,6 +8,8 @@ const StageSchema = new mongoose.Schema({
   exp_reward: Number,
   course: { type: Schema.Types.ObjectId, ref: 'Course' },
   imageid: String,
+  badge_name: String,
+  badge_image: String,
   updated_at: { type: Date, default: Date.now },
 });
 

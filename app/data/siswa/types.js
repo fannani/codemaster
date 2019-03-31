@@ -1,0 +1,7 @@
+export const SET_PLAYER_STATUS = 'SET_PLAYER_STATUS';
+export const SET_PLAY_MODE = 'SET_PLAY_MODE';
+export const UPDATE_TIMER = 'UPDATE_TIMER';
+export const RESET_TIMER = 'RESET_TIMER';
+export const LOGIN_SUCCESS = 'siswa/LOGIN_SUCCESS';
+export const LOGOUT_SUCCESS = 'siswa/LOGOUT_SUCCESS';
+export const REDUCE_ENERGY_SUCCESS = 'REDUCE_ENERGY_SUCCESS';
