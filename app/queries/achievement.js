@@ -36,6 +36,8 @@ export const GET_ACHIEVEMENT = gql`
       detail {
         _id
         target_point
+        caption
+        star
       }
     }
   }

@@ -45,7 +45,35 @@ const AchievementDetail = ({
                     variables={{ id: achievementid }}
                   >
                     {({ loading, error, data: { achievements } }) => {
-                      return <h1>TES</h1>;
+                      if (loading) return <p>Loading…</p>;
+                      if (error)
+                        return (
+                          <p>Sorry! There was an error loading the items</p>
+                        );
+                      return (
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th>Star</th>
+                              <th>Caption</th>
+                              <th>Target Point</th>
+                              <th />
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {achievements[0].detail.map(d => (
+                              <tr>
+                                <td>{d.star}</td>
+                                <td>{d.caption}</td>
+                                <td>{d.target_point}</td>
+                                <td>
+                                  <button className="btn ">Detail</button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      );
                     }}
                   </Query>
                   <Modal
