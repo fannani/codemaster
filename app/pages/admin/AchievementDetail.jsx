@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
-import { Mutation, Query } from 'react-apollo';
-import { Field, Form, Formik } from 'formik';
-import Modal from 'react-bootstrap4-modal';
 import Card from '../../components/UI/Card';
+import { Mutation, Query } from 'react-apollo';
 import {
-  GET_ALL_ACHIEVEMENTS,
+  GET_ACHIEVEMENT,
+  ADD_DETAIL_ACHIEVEMENT,
   ADD_ACHIEVEMENT,
 } from '../../queries/achievement';
+import Modal from 'react-bootstrap4-modal';
+import { Field, Form, Formik } from 'formik';
 import Checkbox from '../../components/UI/Checkbox';
 
-const Achievement = ({ history }) => {
+const AchievementDetail = ({
+  match: {
+    params: { achievementid },
+  },
+}) => {
   const [showModal, setShowModal] = useState(false);
-  const success = _id => {
+
+  const success = () => {
     setShowModal(false);
-    history.push(`/admin/achievement/${_id}`);
   };
+
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">
@@ -22,47 +28,24 @@ const Achievement = ({ history }) => {
           <Card className="card">
             <div className="card-body">
               <div className="d-flex justify-content-between">
-                <h5 className="card-title">Level Requirement</h5>
+                <h5 className="card-title">Achievement Detail</h5>
                 <button
                   className="btn btn-primary"
                   onClick={() => {
                     setShowModal(true);
                   }}
                 >
-                  Add Achievement
+                  Add Star
                 </button>
               </div>
               <div className="row" style={{ marginTop: '20px' }}>
                 <div className="col-12">
-                  <Query query={GET_ALL_ACHIEVEMENTS}>
-                    {({ loading, error, data }) => {
-                      if (loading) return <p>Loading…</p>;
-                      if (error)
-                        return (
-                          <p>Sorry! There was an error loading the items</p>
-                        );
-                      return (
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th>Title</th>
-                              <th>Continuous</th>
-                              <th />
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {data.achievements.map(d => (
-                              <tr>
-                                <td>{d.title}</td>
-                                <td>{d.continuous ? 'Yes' : 'No'}</td>
-                                <td>
-                                  <button className="btn ">Detail</button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      );
+                  <Query
+                    query={GET_ACHIEVEMENT}
+                    variables={{ id: achievementid }}
+                  >
+                    {({ loading, error, data: { achievements } }) => {
+                      return <h1>TES</h1>;
                     }}
                   </Query>
                   <Modal
@@ -75,27 +58,35 @@ const Achievement = ({ history }) => {
                       <h5 className="modal-title">Add Achievement</h5>
                     </div>
 
-                    <Mutation mutation={ADD_ACHIEVEMENT}>
-                      {addAchievement => (
+                    <Mutation mutation={ADD_DETAIL_ACHIEVEMENT}>
+                      {addDetailAchievement => (
                         <Formik
                           initialValues={{
-                            title: '',
-                            continuous: [],
+                            star: '',
+                            caption: '',
+                            target_point: '',
                           }}
-                          onSubmit={(values, { resetForm }) => {
-                            const continuous = values.continuous.length > 0;
-                            addAchievement({
+                          onSubmit={(
+                            { star, caption, target_point },
+                            { resetForm },
+                          ) => {
+                            addDetailAchievement({
                               variables: {
-                                title: values.title,
-                                continuous,
+                                achievement: achievementid,
+                                star,
+                                caption,
+                                target_point,
                               },
-                            }).then(({ data: { addAchievement } }) => {
-                              resetForm({
-                                title: '',
-                                continuous: [],
-                              });
-                              success(addAchievement._id);
-                            });
+                            }).then(
+                              ({ data: { addDetailAchievement: detail } }) => {
+                                resetForm({
+                                  star: '',
+                                  caption: '',
+                                  target_point: '',
+                                });
+                                success(detail._id);
+                              },
+                            );
                           }}
                         >
                           {({ isSubmitting }) => (
@@ -103,18 +94,32 @@ const Achievement = ({ history }) => {
                               <div className="modal-body">
                                 <div className="card-body">
                                   <div className="form-group">
-                                    <label htmlFor="name">Title</label>
+                                    <label htmlFor="name">Star</label>
+                                    <Field
+                                      className="form-control"
+                                      type="number"
+                                      placeholder="Star"
+                                      name="star"
+                                    />
+                                  </div>
+                                  <div className="form-group">
+                                    <label htmlFor="name">Caption</label>
                                     <Field
                                       className="form-control"
                                       type="text"
-                                      placeholder="Title"
-                                      name="title"
+                                      placeholder="Caption"
+                                      name="caption"
                                     />
                                   </div>
-                                  <Checkbox
-                                    name="continuous"
-                                    value="Continuous"
-                                  />
+                                  <div className="form-group">
+                                    <label htmlFor="name">Target Point</label>
+                                    <Field
+                                      className="form-control"
+                                      type="number"
+                                      placeholder="Target Point"
+                                      name="target_point"
+                                    />
+                                  </div>
                                 </div>
                               </div>
                               <div className="modal-footer">
@@ -151,4 +156,4 @@ const Achievement = ({ history }) => {
   );
 };
 
-export default Achievement;
+export default AchievementDetail;

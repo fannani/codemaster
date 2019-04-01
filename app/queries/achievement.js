@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { GraphQLID, GraphQLInt, GraphQLNonNull, GraphQLString } from 'graphql';
 
 export const GET_ACHIEVEMENTS = gql`
   query getAchievements($player: ID!) {
@@ -23,6 +24,37 @@ export const GET_ALL_ACHIEVEMENTS = gql`
         _id
         target_point
       }
+    }
+  }
+`;
+export const GET_ACHIEVEMENT = gql`
+  query getAchievement($id: ID!) {
+    achievements(_id: $id) {
+      _id
+      title
+      continuous
+      detail {
+        _id
+        target_point
+      }
+    }
+  }
+`;
+
+export const ADD_DETAIL_ACHIEVEMENT = gql`
+  mutation addDetailAchievement(
+    $achievement: ID!
+    $star: Int!
+    $caption: String!
+    $target_point: Int!
+  ) {
+    addDetailAchievement(
+      achievement: $achievement
+      star: $star
+      caption: $caption
+      target_point: $target_point
+    ) {
+      _id
     }
   }
 `;
