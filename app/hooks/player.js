@@ -3,6 +3,18 @@ import AppContext from '../utils/context';
 import UserService from '../services/UserService';
 import PlayerService from '../services/PlayerService';
 import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
+  LOGOUT_REQUEST,
+  REDUCE_ENERGY_FAILURE,
+  REDUCE_ENERGY_REQUEST,
+  REDUCE_ENERGY_SUCCESS,
+  ADD_EXP_FAILURE,
+  ADD_EXP_REQUEST,
+  ADD_EXP_SUCCESS,
+} from '../data/siswa/types';
+import {
   setPlayerStatus,
   setPlayMode,
   updateTimer,
@@ -13,9 +25,9 @@ const usePlayer = () => {
   const [state, dispatch] = useContext(AppContext);
 
   const login = (email, password) => {
-    const request = () => ({ type: 'LOGIN_REQUEST' });
+    const request = () => ({ type: LOGIN_REQUEST });
     const success = (user, isLogin) => ({
-      type: 'LOGIN_SUCCESS',
+      type: LOGIN_SUCCESS,
       user,
       isLogin,
     });
@@ -33,17 +45,17 @@ const usePlayer = () => {
   };
 
   const logout = () => {
-    const request = () => ({ type: 'LOGOUT_REQUEST' });
-    const success = () => ({ type: 'LOGOUT_SUCCESS' });
+    const request = () => ({ type: LOGOUT_REQUEST });
+    const success = () => ({ type: LOGOUT_SUCCESS });
     dispatch(request());
     UserService.logout();
     dispatch(success());
   };
 
   const reduceEnergy = (userid, energy) => {
-    const request = () => ({ type: 'REDUCE_ENERGY_REQUEST' });
-    const success = user => ({ type: 'REDUCE_ENERGY_SUCCESS', user });
-    const failure = error => ({ type: 'REDUCE_ENERGY_FAILURE', error });
+    const request = () => ({ type: REDUCE_ENERGY_REQUEST });
+    const success = user => ({ type: REDUCE_ENERGY_SUCCESS, user });
+    const failure = error => ({ type: REDUCE_ENERGY_FAILURE, error });
     dispatch(request());
     return PlayerService.reduceEnergy(userid, energy).then(
       player => {
@@ -56,9 +68,9 @@ const usePlayer = () => {
   };
 
   const addExp = (userid, exp) => {
-    const request = () => ({ type: 'ADD_EXP_REQUEST' });
-    const success = user => ({ type: 'ADD_EXP_SUCCESS', user });
-    const failure = error => ({ type: 'ADD_EXP_FAILURE', error });
+    const request = () => ({ type: ADD_EXP_REQUEST });
+    const success = user => ({ type: ADD_EXP_SUCCESS, user });
+    const failure = error => ({ type: ADD_EXP_FAILURE, error });
     dispatch(request());
     PlayerService.addExp(userid, exp).then(
       player => {

@@ -53,7 +53,7 @@ const Achievement = () => {
                             {data.achievements.map(d => (
                               <tr>
                                 <td>{d.title}</td>
-                                <td>{(d.continuous) ? 'Yes' : 'No'}</td>
+                                <td>{d.continuous ? 'Yes' : 'No'}</td>
                                 <td>
                                   <button className="btn ">Detail</button>
                                 </td>
@@ -124,7 +124,10 @@ const Achievement = () => {
                                       name="title"
                                     />
                                   </div>
-                                  <Checkbox name="continuous" value="Continuous" />
+                                  <Checkbox
+                                    name="continuous"
+                                    value="Continuous"
+                                  />
                                 </div>
                               </div>
                               <div className="modal-footer">

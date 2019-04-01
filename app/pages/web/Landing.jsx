@@ -13,7 +13,6 @@ import twitter from '../../assets/images/twitter.png';
 import facebook from '../../assets/images/facebook.png';
 import Logo from '../../components/UI/Logo';
 import { Link } from 'react-router-dom';
-
 const WebLanding = ({ className }) => (
   <div className={classnames('container-fluid', className)}>
     <nav className="navbar navbar-expand-lg">
