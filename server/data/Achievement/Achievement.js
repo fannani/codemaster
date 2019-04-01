@@ -6,6 +6,7 @@ import DetailAchievement from './Detail/DetailAchievement';
 const AchievementSchema = new Schema({
   title: String,
   continuous: Boolean,
+  imageid: String,
   updated_at: { type: Date, default: Date.now },
 });
 

@@ -22,7 +22,7 @@ const Achievement = ({ history }) => {
           <Card className="card">
             <div className="card-body">
               <div className="d-flex justify-content-between">
-                <h5 className="card-title">Level Requirement</h5>
+                <h5 className="card-title">Achievements</h5>
                 <button
                   className="btn btn-primary"
                   onClick={() => {
