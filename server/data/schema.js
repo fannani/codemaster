@@ -19,6 +19,8 @@ import playerAchievementMutation from './Player/Achievement/mutation';
 import testCaseMutation from './TestCase/mutation';
 import testCaseMissionMutation from './Course/Stage/Mission/TestCase/mutation';
 import playerLevelMutation from './Player/Level/mutation';
+import achievementMutation from './Achievement/mutation';
+import detailAchievementMutation from './Achievement/Detail/mutation';
 
 const BKQueryRootType = new GraphQLObjectType({
   name: 'BKQueryRootType',
@@ -57,6 +59,8 @@ const BKMutationRootType = new GraphQLObjectType({
     addTestCaseMission: testCaseMissionMutation.addTestCaseMission,
     addExp: playerMutation.addExp,
     addPlayerLevel: playerLevelMutation.addPlayerLevel,
+    addAchievement: achievementMutation.addAchievement,
+    addDetailAchievement: detailAchievementMutation.addDetailAchievement,
   }),
 });
 
