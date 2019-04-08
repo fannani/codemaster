@@ -19,7 +19,7 @@ const StageList = lazy(() => import('../pages/admin/StageList'));
 const Stage = lazy(() => import('../pages/admin/Stage'));
 const Mission = lazy(() => import('../pages/admin/Mission'));
 const TestCase = lazy(() => import('../pages/admin/TestCase'));
-const GameSettings = lazy(() => import('../pages/Admin/GameSettings'));
+const GameSettings = lazy(() => import('../pages/admin/GameSettings'));
 const PlayGround = lazy(() => import('../pages/siswa/PlayGround'));
 const AchievementAdmin = lazy(() => import('../pages/admin/Achievement'));
 const AchievementDetail = lazy(() =>
