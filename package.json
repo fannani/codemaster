@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev-client": "webpack --watch --info-verbosity verbose --config webpack.dev.js",
     "dev-server": "nodemon  --exec babel-node ./server/index ",
+    "start": "node ./build/index.js",
     "build-server": "babel -d ./build ./server -s",
     "build-client": "webpack --config webpack.prod.js"
   },
