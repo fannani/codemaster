@@ -9,7 +9,8 @@
     "dev-server": "nodemon  --exec babel-node ./server/index ",
     "start": "node ./build/index.js",
     "build-server": "babel -d ./build ./server -s",
-    "build-client": "webpack --config webpack.prod.js"
+    "build-client": "webpack --config webpack.prod.js",
+    "build": "npm run build-server && npm run build-client"
   },
   "nodemonConfig": {
     "watch": [
