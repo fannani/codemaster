@@ -22,4 +22,5 @@ const addPlayerAchievement = (player, achievement, star, point) =>
 export default {
   reduceEnergy,
   addPlayerAchievement,
+  addExp,
 };
