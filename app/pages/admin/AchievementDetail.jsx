@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Card from '../../components/UI/Card';
 import { Mutation, Query } from 'react-apollo';
+import Modal from 'react-bootstrap4-modal';
+import { Field, Form, Formik } from 'formik';
 import {
   GET_ACHIEVEMENT,
   ADD_DETAIL_ACHIEVEMENT,
   ADD_ACHIEVEMENT,
 } from '../../queries/achievement';
-import Modal from 'react-bootstrap4-modal';
-import { Field, Form, Formik } from 'formik';
+import Card from '../../components/UI/Card';
 import Checkbox from '../../components/UI/Checkbox';
 
 const AchievementDetail = ({

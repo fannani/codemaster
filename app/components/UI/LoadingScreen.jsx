@@ -1,14 +1,10 @@
 import React from 'react';
 import { BeatLoader } from 'react-spinners';
 import styled from 'styled-components';
+
 const LoadingScreen = ({ className }) => (
   <div className={className}>
-    <BeatLoader
-      className="loading"
-      sizeUnit={'px'}
-      size={30}
-      color={'#9ee5f8'}
-    />
+    <BeatLoader className="loading" sizeUnit="px" size={30} color="#9ee5f8" />
   </div>
 );
 

@@ -70,7 +70,7 @@ const SiswaCourseEditor = ({
               />
             </>
           );
-        else return '';
+        return '';
       })()}
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Redirect, Switch } from 'react-router-dom';
-import usePlayer from '../../hooks/player';
 import PropTypes from 'prop-types';
+import usePlayer from '../../hooks/player';
 import LoadingScreen from '../UI/LoadingScreen';
 
 const Protect = ({ location, children }) => {

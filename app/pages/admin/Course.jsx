@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
 import { ADD_COURSE, GET_COURSES } from '../../queries/courses';
 import Card from '../../components/UI/Card';
-import { Link } from 'react-router-dom';
 
 class Course extends Component {
   constructor(props) {

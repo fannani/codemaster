@@ -43,7 +43,7 @@ const addLinkPluginPlugin = {
     if (command !== 'add-link') {
       return 'not-handled';
     }
-    let link = window.prompt('Paste the link -');
+    const link = window.prompt('Paste the link -');
     const selection = editorState.getSelection();
     if (!link) {
       setEditorState(RichUtils.toggleLink(editorState, selection, null));

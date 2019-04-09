@@ -138,7 +138,7 @@ const Course = ({
         </Query>
       </main>
       <PreventNavigationDialog
-        when={true}
+        when
         title="Peringatan"
         message={
           <strong>

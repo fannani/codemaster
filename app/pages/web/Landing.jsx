@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import classnames from 'classnames';
+import { Link } from 'react-router-dom';
 import featuresBackground from '../../assets/images/features_background.png';
 import codingIcon from '../../assets/images/coding.png';
 import gamificationIcon from '../../assets/images/gamification.png';
@@ -12,7 +13,7 @@ import instagram from '../../assets/images/instagram.png';
 import twitter from '../../assets/images/twitter.png';
 import facebook from '../../assets/images/facebook.png';
 import Logo from '../../components/UI/Logo';
-import { Link } from 'react-router-dom';
+
 const WebLanding = ({ className }) => (
   <div className={classnames('container-fluid', className)}>
     <nav className="navbar navbar-expand-lg">

@@ -46,7 +46,13 @@ const Stage = ({ match, history }) => {
                             image: null,
                           }}
                           onSubmit={values => {
-                            const { image, title, time, teory ,exp_reward} = values;
+                            const {
+                              image,
+                              title,
+                              time,
+                              teory,
+                              exp_reward,
+                            } = values;
                             updateStage({
                               variables: {
                                 file: image,

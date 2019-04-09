@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import classnames from 'classnames';
+import { Line, Circle } from 'rc-progress';
 import star from '../../../assets/images/star.png';
 import starOff from '../../../assets/images/star-off.png';
-import { Line, Circle } from 'rc-progress';
 
 const SiswaAchievementItem = ({ achievement, className }) => {
   const { target_point, title, point } = achievement;

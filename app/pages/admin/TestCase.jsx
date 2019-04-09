@@ -20,10 +20,8 @@ const TestCase = () => {
     setShowModal(false);
   };
 
-  const detail = testcase => {
-    return () => {
-      console.log(testcase);
-    };
+  const detail = testcase => () => {
+    console.log(testcase);
   };
 
   return (

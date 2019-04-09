@@ -8,7 +8,7 @@ const Love = styled.img`
 `;
 
 const Life = ({ value }) => {
-  let loveImg = [];
+  const loveImg = [];
   for (let i = 0; i < value; i++) {
     loveImg.push(<Love width="20px" key={i} src={love} />);
   }

@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import Card from '../../components/UI/Card';
 import { Mutation, Query } from 'react-apollo';
-import {
-  GET_PLAYERLEVEL,
-  ADD_PLAYERLEVEL,
-} from '../../queries/playerlevel';
 import { Field, Form, Formik } from 'formik';
 import Modal from 'react-bootstrap4-modal';
+import { GET_PLAYERLEVEL, ADD_PLAYERLEVEL } from '../../queries/playerlevel';
+import Card from '../../components/UI/Card';
 import { GET_TESTCASE_MISSION } from '../../queries/missions';
 
 const GameSetting = () => {

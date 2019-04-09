@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BASE_URL } from '../../../config/config';
 import styled from 'styled-components';
+import { BASE_URL } from '../../../config/config';
 import lock from '../../../assets/images/lock.png';
 import star from '../../../assets/images/star.png';
 import starOff from '../../../assets/images/star-off.png';
