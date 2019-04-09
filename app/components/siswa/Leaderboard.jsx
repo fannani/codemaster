@@ -10,12 +10,12 @@ const Leaderboard = ({ data, className }) => (
     <div className="card" style={{ width: '100%', marginTop: '10px' }}>
       <div className="card-body">
         <ol>
-          {data.leaderboard[0].player !== null &&
-            data.map(leader => (
-              <li key={leader._id}>
-                {leader.player.user.name} <span>{leader.score}</span>
-              </li>
-            ))}
+          {/*{data[0].player !== null &&*/}
+          {/*  data.map(leader => (*/}
+          {/*    <li key={leader._id}>*/}
+          {/*      {leader.player.user.name} <span>{leader.score}</span>*/}
+          {/*    </li>*/}
+          {/*  ))}*/}
         </ol>
       </div>
     </div>
