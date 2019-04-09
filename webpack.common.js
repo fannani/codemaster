@@ -52,6 +52,8 @@ module.exports = {
       filename: '../index.html',
       title: 'kodelegend',
     }),
-    new DotenvWebpack(),
+    new DotenvWebpack({
+      systemvars: true,
+    }),
   ],
 };
