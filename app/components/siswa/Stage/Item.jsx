@@ -33,7 +33,9 @@ const SiswaStageItem = ({ className, stage, unlock }) => {
         <div
           className="circle"
           style={{
-            backgroundImage: `url("${BASE_URL}uploads/${stage.imageid}")`,
+            backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/kodekurawal-ab777.appspot.com/o/${
+              stage.imageid
+            }?alt=media")`,
           }}
         >
           {!unlock ? (

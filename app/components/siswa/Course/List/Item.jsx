@@ -9,7 +9,9 @@ const SiswaCourseListItem = ({ className, item }) => (
     <div className="card">
       <img
         className="card-img-top"
-        src={`${BASE_URL}uploads/${item.imageid}`}
+        src={`https://firebasestorage.googleapis.com/v0/b/kodekurawal-ab777.appspot.com/o/${
+          item.imageid
+        }?alt=media`}
       />
       <div className="card-body">
         <h5 className="card-title">{item.name}</h5>
