@@ -40,7 +40,7 @@ export function checkResult(script, missions) {
   return () => {
     const idoc = document.getElementById('output').contentWindow.document;
     let value = script;
-    value += `\x3Cscript src='${BASE_URL}js/jquery.min.js'>\x3C/script>`;
+    value += `\x3Cscript src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'>\x3C/script>`;
     value += '\x3Cscript>result=[]\x3C/script>';
     let i = 0;
     for (const misi of missions) {
