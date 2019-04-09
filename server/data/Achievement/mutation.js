@@ -3,7 +3,7 @@ import { GraphQLUpload } from 'graphql-upload';
 
 import AchievementType from './type';
 import Achievement from './Achievement';
-import { storeFS } from '../../utils/upload';
+import { storeFB } from '../../utils/upload';
 
 const AchievementMutation = {
   addAchievement: {
@@ -22,7 +22,7 @@ const AchievementMutation = {
       if (file) {
         const { filename, createReadStream } = await file;
         const stream = createReadStream();
-        const filestore = await storeFS({ stream, filename });
+        const filestore = await storeFB({ stream, filename });
         id = filestore.id;
       }
 

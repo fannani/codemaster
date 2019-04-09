@@ -1,28 +1,8 @@
 import { GraphQLString, GraphQLNonNull, GraphQLID, GraphQLInt } from 'graphql';
-
 import Stage from './Stage';
-import shortid from 'shortid';
-import fs from 'fs';
 import { GraphQLUpload } from 'graphql-upload';
 import StageType from './type';
-const UPLOAD_DIR = './dist/uploads';
-
-const storeFS = ({ stream, filename }) => {
-  const id = shortid.generate();
-  const path = `${UPLOAD_DIR}/${id}`;
-  return new Promise((resolve, reject) =>
-    stream
-      .on('error', error => {
-        if (stream.truncated)
-          // Delete the truncated file.
-          fs.unlinkSync(path);
-        reject(error);
-      })
-      .pipe(fs.createWriteStream(path))
-      .on('error', error => reject(error))
-      .on('finish', () => resolve({ id, path })),
-  );
-};
+import { storeFB } from '../../../utils/upload';
 
 const StageMutation = {
   addStage: {
@@ -75,7 +55,7 @@ const StageMutation = {
       if (args.file) {
         const { filename, createReadStream } = await args.file;
         const stream = createReadStream();
-        const filestore = await storeFS({ stream, filename });
+        const filestore = await storeFB({ stream, filename });
         id = filestore.id;
       }
       const editstage = await Stage.findById(args.id);

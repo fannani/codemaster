@@ -2,7 +2,7 @@ import { GraphQLString, GraphQLNonNull, GraphQLID } from 'graphql';
 import { GraphQLUpload } from 'graphql-upload';
 import CourseType from './type';
 import Course from './Course';
-import { storeFS } from '../../utils/upload';
+import { storeFB } from '../../utils/upload';
 
 const CourseMutation = {
   addCourse: {
@@ -20,9 +20,9 @@ const CourseMutation = {
     async resolve(root, { file, name, desc, script }) {
       let id = '';
       if (file) {
-        const { filename, createReadStream } = await file;
+        const { filename, createReadStream, mimetype } = await file;
         const stream = createReadStream();
-        const filestore = await storeFS({ stream, filename });
+        const filestore = await storeFB({ stream, filename, mimetype });
         id = filestore.id;
       }
       const course = new Course({ name, desc, imageid: id, script });

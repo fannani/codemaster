@@ -11,7 +11,13 @@ import webpackConfig from '../webpack.dev';
 import routes from './routes';
 import schema from './data/schema';
 import './config/passport';
+import * as admin from 'firebase-admin';
+const serviceAccount = require('./config/firebase_key.json');
 
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: 'kodekurawal-ab777.appspot.com',
+});
 dotenv.config({ path: path.join(__dirname, '../.env') });
 const { ObjectId } = mongoose.Types;
 const compiler = webpack(webpackConfig);
