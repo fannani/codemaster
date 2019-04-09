@@ -12,7 +12,7 @@ import routes from './routes';
 import schema from './data/schema';
 import './config/passport';
 import * as admin from 'firebase-admin';
-const serviceAccount = require('./config/firebase_key.json');
+const serviceAccount = require('./config/firebasekey.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
