@@ -67,7 +67,8 @@ const usePlayer = () => {
     );
   };
 
-  const addExp = (userid, exp) => {
+  const addExp = exp => {
+    const userid = state.user.userdetail._id;
     const request = () => ({ type: ADD_EXP_REQUEST });
     const success = user => ({ type: ADD_EXP_SUCCESS, user });
     const failure = error => ({ type: ADD_EXP_FAILURE, error });

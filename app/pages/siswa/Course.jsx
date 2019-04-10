@@ -67,7 +67,8 @@ const Course = ({
                         life,
                       );
                       if (life > 0) {
-                        //player.addExp(stages[0].exp_reward);
+                        console.log(stages);
+                        player.addExp(stages[0].exp_reward);
                         addScore({
                           variables: {
                             player: player.user.userdetailid,
