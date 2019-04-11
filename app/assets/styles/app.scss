@@ -99,4 +99,13 @@ div.DraftEditor-root {
     font-family: 'calibri', sans-serif;
 }
 
-
+ .public-DraftStyleDefault-pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
+    font-size: 16px;
+    padding: 20px;
+}
+ .public-DraftStyleDefault-pre pre {
+     margin-bottom:5px;
+     margin-top:5px;
+ }
