@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { EditorState, RichUtils } from 'draft-js';
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import createImagePlugin from 'draft-js-image-plugin';
@@ -23,36 +23,45 @@ const imagePlugin = createImagePlugin({ decorator });
 const plugins = [focusPlugin, resizeablePlugin, imagePlugin];
 
 const storageRef = firebase.storage().ref();
+let childRef;
 
 const TextEditor = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [loadingImage, setLoadingImage] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const onChange = state => {
+    setEditorState(state);
+  };
   const onDrop = useCallback(acceptedFiles => {
-    const childRef = storageRef.child(shortid.generate());
+    childRef = storageRef.child(shortid.generate());
     childRef.put(acceptedFiles[0]).then(() => {
-      childRef
-        .getDownloadURL()
-        .then(url => {
-          setShowModal(false);
-          onChange(imagePlugin.addImage(editorState, url));
-        })
-        .catch(() => {});
+      setLoadingImage(true);
     });
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const onChange = state => {
-    setEditorState(state);
-  };
+  useEffect(
+    () => {
+      if (loadingImage) {
+        childRef
+          .getDownloadURL()
+          .then(url => {
+            setShowModal(false);
+            onChange(imagePlugin.addImage(editorState, url));
+          })
+          .catch(() => {});
+        setLoadingImage(false);
+      }
+    },
+    [loadingImage],
+  );
+
   const onBoldClick = () => {
     onChange(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
   };
 
   const onImageClick = () => {
     setShowModal(true);
-    // onChange(
-    //   imagePlugin.addImage(editorState, 'http://localhost:3000/js/energy.png'),
-    // );
   };
 
   const handleKeyCommand = command => {
@@ -93,11 +102,7 @@ const TextEditor = () => {
         <div className="modal-body">
           <div {...getRootProps()}>
             <input {...getInputProps()} />
-            {isDragActive ? (
-              <p>Drop</p>
-            ) : (
-              <p>Drag</p>
-            )}
+            {isDragActive ? <p>Drop</p> : <p>Drag</p>}
           </div>
         </div>
         <div className="modal-footer">
