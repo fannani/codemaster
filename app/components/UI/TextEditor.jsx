@@ -29,7 +29,15 @@ const TextEditor = () => {
   const [showModal, setShowModal] = useState(false);
   const onDrop = useCallback(acceptedFiles => {
     const childRef = storageRef.child(shortid.generate());
-    childRef.put(acceptedFiles[0]);
+    childRef.put(acceptedFiles[0]).then(() => {
+      childRef
+        .getDownloadURL()
+        .then(url => {
+          setShowModal(false);
+          onChange(imagePlugin.addImage(editorState, url));
+        })
+        .catch(() => {});
+    });
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -86,9 +94,9 @@ const TextEditor = () => {
           <div {...getRootProps()}>
             <input {...getInputProps()} />
             {isDragActive ? (
-              <p>Drop the files here ...</p>
+              <p>Drop</p>
             ) : (
-              <p>Drag 'n' drop some files here, or click to select files</p>
+              <p>Drag</p>
             )}
           </div>
         </div>
