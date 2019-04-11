@@ -39,7 +39,6 @@ const usePlayer = () => {
         isLogin = true;
       }
       dispatch(success(user, isLogin));
-
       return user;
     });
   };
