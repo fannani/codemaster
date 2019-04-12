@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { EditorState, RichUtils, Modifier } from 'draft-js';
+import { EditorState, RichUtils, Modifier, convertToRaw } from 'draft-js';
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
@@ -13,12 +13,18 @@ import 'draft-js-focus-plugin/lib/plugin.css';
 import Modal from 'react-bootstrap4-modal';
 import Prism from 'prismjs';
 import createPrismPlugin from 'draft-js-prism-plugin';
+import PrismDecorator from 'draft-js-prism';
+
 import 'prismjs/themes/prism.css';
 
 const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const prismPlugin = createPrismPlugin({
+  prism: Prism,
+});
+const prismDecorator = new PrismDecorator({
+  // Provide your own instance of PrismJS
   prism: Prism,
 });
 
@@ -29,13 +35,7 @@ const decorator = composeDecorators(
 );
 const imagePlugin = createImagePlugin({ decorator });
 
-const plugins = [
-  focusPlugin,
-  resizeablePlugin,
-  imagePlugin,
-  blockDndPlugin,
-  prismPlugin,
-];
+const plugins = [focusPlugin, resizeablePlugin, imagePlugin, blockDndPlugin];
 
 const storageRef = firebase.storage().ref();
 let childRef;
@@ -47,6 +47,7 @@ const TextEditor = () => {
   const onChange = state => {
     setEditorState(state);
   };
+
   const onDrop = useCallback(acceptedFiles => {
     childRef = storageRef.child(shortid.generate());
     childRef.put(acceptedFiles[0]).then(() => {
@@ -70,6 +71,13 @@ const TextEditor = () => {
     [loadingImage],
   );
 
+  const onSaveClick = () => {
+    const contentState = editorState.getCurrentContent();
+    const raw = convertToRaw(contentState);
+    const editorJson = JSON.stringify(raw);
+    console.log(editorJson);
+  };
+
   const onBoldClick = () => {
     onChange(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
   };
@@ -77,6 +85,7 @@ const TextEditor = () => {
   const onImageClick = () => {
     setShowModal(true);
   };
+
   const styleMap = {
     CODE: {
       backgroundColor: 'rgba(0, 0, 0, 0.05)',
@@ -117,6 +126,10 @@ const TextEditor = () => {
     // }
   };
 
+  const onTitleClick = () => {
+    onChange(RichUtils.toggleBlockType(editorState, 'header-one'));
+  };
+
   const handleKeyCommand = command => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -127,24 +140,34 @@ const TextEditor = () => {
   };
   return (
     <>
-      <div>
-        <button type="button" className="bold" onClick={onBoldClick}>
-          <b>B</b>
-        </button>
-        <button type="button" className="bold" onClick={onImageClick}>
-          Image
-        </button>
-        <button type="button" className="bold" onClick={onScriptClick}>
-          Script
-        </button>
+      <div className="editorContainer">
+        <div className="toolbar">
+          <button type="button" className="btn" onClick={onBoldClick}>
+            <b>B</b>
+          </button>
+          <button type="button" className="btn" onClick={onTitleClick}>
+            <b>Title</b>
+          </button>
+          <button type="button" className="btn" onClick={onImageClick}>
+            Image
+          </button>
+          <button type="button" className="btn" onClick={onScriptClick}>
+            Script (Alpha)
+          </button>
+          <button type="button" className="btn" onClick={onSaveClick}>
+            Save To Server
+          </button>
+        </div>
+        <div className="editors">
+          <Editor
+            editorState={editorState}
+            customStyleMap={styleMap}
+            handleKeyCommand={handleKeyCommand}
+            onChange={onChange}
+            plugins={plugins}
+          />
+        </div>
       </div>
-      <Editor
-        editorState={editorState}
-        customStyleMap={styleMap}
-        handleKeyCommand={handleKeyCommand}
-        onChange={onChange}
-        plugins={plugins}
-      />
 
       <Modal
         visible={showModal}
