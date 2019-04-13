@@ -1,89 +1,123 @@
-import React, { useState, useEffect } from 'react';
-import {
-  // Editor,
-  EditorState,
-  RichUtils,
-} from 'draft-js';
-import Editor from 'draft-js-plugins-editor';
-import createHighlightPlugin from '../../components/plugins/highlightPlugin';
-import addLinkPlugin from '../../components/plugins/addLinkPlugin';
-import { getProvince } from '../../services/LocationService';
+import React, { Component } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Query } from 'react-apollo';
+import { GET_COURSE_BYID } from '../../queries/courses';
+import Card from '../../components/UI/Card';
+import { Link } from 'react-router-dom';
 
-const highlightPlugin = createHighlightPlugin();
+const getItems = count =>
+  Array.from({ length: count }, (v, k) => k).map(k => ({
+    id: `item-${k}`,
+    content: `item ${k}`,
+  }));
 
-const PlayGround = () => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+class PlayGround extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: getItems(10),
+    };
+    this.onDragEnd = this.onDragEnd.bind(this);
+  }
 
-  const plugins = [highlightPlugin, addLinkPlugin];
+  onDragEnd(result) {}
 
-  const onChange = state => {
-    setEditorState(state);
-  };
+  // Normally you would want to split things out into separate components.
+  // But in this example everything is just done in one place for simplicity
+  render() {
+    return (
+      <Query
+        query={GET_COURSE_BYID}
+        variables={{
+          courseid: '5c1fa527556b9635681eb2da',
+        }}
+      >
+        {({ loading, error, data: { courses } }) => {
+          if (loading) return <p>Loading…</p>;
+          if (error) return <p>Sorry! There was an error loading the items</p>;
+          return (
+            <>
+              <DragDropContext onDragEnd={this.onDragEnd}>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>TITLE</th>
+                    </tr>
+                  </thead>
+                  <Droppable droppableId="droppable">
+                    {provided => (
+                      <tbody
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                      >
+                        {courses[0].stages.map(stage => (
+                          <Draggable
+                            key={stage._id}
+                            draggableId={stage._id}
+                            index={stage.index}
+                          >
+                            {provided => (
+                              <tr
+                                key={stage._id}
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <td>{stage.title}</td>
+                              </tr>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </tbody>
+                    )}
+                  </Droppable>
+                </table>
+              </DragDropContext>
 
-  useEffect(() => {
-    getProvince();
-  }, []);
+              <DragDropContext onDragEnd={this.onDragEnd}>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>TITLE</th>
+                    </tr>
+                  </thead>
 
-  const handleKeyCommand = command => {
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      onChange(newState);
-      return 'handled';
-    }
-    return 'not-handled';
-  };
-
-  const onUnderlineClick = () => {
-    onChange(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
-  };
-
-  const onBoldClick = () => {
-    onChange(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
-  };
-
-  const onItalicClick = () => {
-    onChange(RichUtils.toggleInlineStyle(editorState, 'ITALIC'));
-  };
-
-  const onStrikeThroughClick = () => {
-    onChange(RichUtils.toggleInlineStyle(editorState, 'STRIKETHROUGH'));
-  };
-
-  const onHighlight = () => {
-    onChange(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'));
-  };
-
-  // onLinkClick = () => {
-  // 	onChange(RichUtils.toggleLink(editorState));
-  // };
-
-  return (
-    <div className="editorContainer">
-      <button className="underline" onClick={onUnderlineClick}>
-        U
-      </button>
-      <button className="bold" onClick={onBoldClick}>
-        <b>B</b>
-      </button>
-      <button className="italic" onClick={onItalicClick}>
-        <em>I</em>
-      </button>
-      <button className="strikethrough" onClick={onStrikeThroughClick}>
-        abc
-      </button>
-      <button className="highlight" onClick={onHighlight}>
-        <span style={{ background: 'yellow', padding: '0.3em' }}>H</span>
-      </button>
-      <div className="editors">
-        <Editor
-          editorState={editorState}
-          handleKeyCommand={handleKeyCommand}
-          plugins={plugins}
-          onChange={onChange}
-        />
-      </div>
-    </div>
-  );
-};
+                  <Droppable droppableId="droppable">
+                    {(provided, snapshot) => (
+                      <tbody
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                      >
+                      {courses[0].stages.map(stage => (
+                          <Draggable
+                            key={stage._id}
+                            draggableId={stage._id}
+                            index={stage.index}
+                          >
+                            {(provided, snapshot) => (
+                              <tr
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <td>{stage.title}</td>
+                              </tr>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </tbody>
+                    )}
+                  </Droppable>
+                </table>
+              </DragDropContext>
+            </>
+          );
+        }}
+      </Query>
+    );
+  }
+}
 
 export default PlayGround;

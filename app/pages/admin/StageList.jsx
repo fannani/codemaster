@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import Modal, { ConfirmModal } from 'react-bootstrap4-modal';
-import { Formik, Form, Field } from 'formik';
-import { Mutation, Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import Card from '../../components/UI/Card';
-import { ADD_STAGE, DELETE_STAGE } from '../../queries/stages';
-import { UPDATE_COURSE, GET_COURSE_BYID } from '../../queries/courses';
-import AceEditor from 'react-ace';
+import { GET_COURSE_BYID } from '../../queries/courses';
+import AdminCourseDetail from '../../components/admin/Course/Detail';
+import AdminStageCreateModal from '../../components/admin/Stage/CreateModal';
+import AdminStageDeleteModal from '../../components/admin/Stage/DeleteModal';
+
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
 import 'brace/mode/html';
 import 'brace/theme/tomorrow';
-import { toast } from 'react-toastify';
-import { UPDATE_SUCCESS } from '../../constants/notification';
 
 const StageList = ({
   history,
@@ -22,11 +22,11 @@ const StageList = ({
   const [delConfirm, setDelConfirm] = useState(false);
   const [delData, setDelData] = useState({});
 
-  const addStage = () => {
+  const createStage = () => {
     setShowModal(true);
   };
 
-  const success = idp => {
+  const onSuccess = idp => {
     history.push(`/admin/stage/${idp}`);
   };
 
@@ -34,6 +34,15 @@ const StageList = ({
     setShowModal(false);
     setDelConfirm(false);
   };
+
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  };
+  const onDragEnd = () => {};
 
   return (
     <div className="container-fluid">
@@ -50,207 +59,90 @@ const StageList = ({
               return <p>Sorry! There was an error loading the items</p>;
             return (
               <main className="col-12 main-container">
-                <Card className="card">
-                  <div className="card-body">
-                    <div className="d-flex justify-content-between">
-                      <h5 className="card-title">Detail Course</h5>
-                    </div>
-                    <Mutation mutation={UPDATE_COURSE}>
-                      {updateCourse => (
-                        <Formik
-                          initialValues={{
-                            name: courses[0].name,
-                            desc: courses[0].desc,
-                            script: courses[0].script,
-                          }}
-                          onSubmit={(
-                            { name, desc, script },
-                            { setSubmitting },
-                          ) => {
-                            setSubmitting(true);
-                            updateCourse({
-                              variables: {
-                                id: courseid,
-                                name,
-                                desc,
-                                script,
-                              },
-                            }).then(() => {
-                              setSubmitting(false);
-                              toast.success(UPDATE_SUCCESS);
-                            });
-                          }}
-                        >
-                          {(values, setFieldValue, onChange) => (
-                            <Form>
-                              <div className="form-group">
-                                <label htmlFor="name">Name</label>
-                                <Field
-                                  type="text"
-                                  name="name"
-                                  className="form-control"
-                                  placeholder="Name"
-                                />
-                              </div>
-                              <div className="form-group">
-                                <label htmlFor="name">Description</label>
-                                <Field
-                                  type="text"
-                                  name="desc"
-                                  component="textarea"
-                                  className="form-control"
-                                  placeholder="Description"
-                                />
-                              </div>
-                              <div className="form-group">
-                                <label htmlFor="name">Initial Script</label>
-                                <AceEditor
-                                  mode="html"
-                                  theme="tomorrow"
-                                  value={values.script}
-                                  width="100%"
-                                  style={{ height: '200px' }}
-                                  setOptions={{
-                                    fontSize: '12pt',
-                                    vScrollBarAlwaysVisible: true,
-                                  }}
-                                  onChange={onChange}
-                                />
-                              </div>
-                              <button type="submit" className="btn btn-primary">
-                                Save
-                              </button>
-                            </Form>
-                          )}
-                        </Formik>
-                      )}
-                    </Mutation>
-                  </div>
-                </Card>
+                <AdminCourseDetail courses={courses[0]} />
                 <Card className="card" style={{ marginTop: '20px' }}>
                   <div className="card-body">
                     <div className="d-flex justify-content-between">
                       <h5 className="card-title">Stage List</h5>
-                      <button onClick={addStage} className="btn btn-primary">
+                      <button
+                        type="button"
+                        onClick={createStage}
+                        className="btn btn-primary"
+                      >
                         Add Stage
                       </button>
                     </div>
                     <div className="row" style={{ marginTop: '20px' }}>
                       <div className="col-12">
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">TITLE</th>
-                              <th scope="col" style={{ width: '20%' }}>
-                                ACTION
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {courses[0].stages.map(stage => (
-                              <tr key={stage._id}>
-                                <td>{stage.title}</td>
-                                <td>
-                                  <Link
-                                    to={`/admin/stage/${stage._id}`}
-                                    className="btn"
-                                  >
-                                    Detail
-                                  </Link>
-                                  <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={() => {
-                                      setDelConfirm(true);
-                                      setDelData(stage);
-                                    }}
-                                  >
-                                    Delete
-                                  </button>
-                                </td>
+                        <DragDropContext onDragEnd={onDragEnd}>
+                          <table className="table">
+                            <thead>
+                              <tr>
+                                <th width="80%">TITLE</th>
+                                <th width="20%"> ACTION</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <Droppable droppableId="droppable">
+                              {provided => (
+                                <tbody
+                                  ref={provided.innerRef}
+                                  {...provided.droppableProps}
+                                >
+                                  {courses[0].stages.map(stage => (
+                                    <Draggable
+                                      key={stage._id}
+                                      draggableId={stage._id}
+                                      index={stage.index - 1}
+                                    >
+                                      {provided => (
+                                        <tr
+                                          key={stage._id}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                          ref={provided.innerRef}
+                                        >
+                                          <td width="80%">{stage.title}</td>
+                                          <td width="20%">
+                                            <Link
+                                              to={`/admin/stage/${stage._id}`}
+                                              className="btn"
+                                            >
+                                              Detail
+                                            </Link>
+                                            <button
+                                              type="button"
+                                              className="btn btn-danger"
+                                              onClick={() => {
+                                                setDelConfirm(true);
+                                                setDelData(stage);
+                                              }}
+                                            >
+                                              Delete
+                                            </button>
+                                          </td>
+                                        </tr>
+                                      )}
+                                    </Draggable>
+                                  ))}
+                                  {provided.placeholder}
+                                </tbody>
+                              )}
+                            </Droppable>
+                          </table>
+                        </DragDropContext>
                       </div>
                     </div>
 
-                    <Modal visible={showModal} onClickBackdrop={modalClosed}>
-                      <div className="modal-header">
-                        <h5 className="modal-title">Add Stage</h5>
-                      </div>
-                      <Mutation mutation={ADD_STAGE}>
-                        {addStage => (
-                          <Formik
-                            initialValues={{
-                              title: '',
-                            }}
-                            onSubmit={({ title }, { setSubmitting }) => {
-                              addStage({
-                                variables: {
-                                  title,
-                                  course: courseid,
-                                },
-                              }).then(({ data: { addStage } }) => {
-                                success(addStage._id);
-                              });
-                            }}
-                          >
-                            {() => (
-                              <Form>
-                                <div className="modal-body">
-                                  <div className="card-body">
-                                    <div className="form-group">
-                                      <label htmlFor="name">Title</label>
-                                      <Field
-                                        className="form-control"
-                                        type="text"
-                                        placeholder="title"
-                                        name="title"
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="modal-footer">
-                                  <button
-                                    type="submit"
-                                    className="btn btn-primary"
-                                  >
-                                    Tambah
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={modalClosed}
-                                    className="btn btn-secondary"
-                                  >
-                                    Close
-                                  </button>
-                                </div>
-                              </Form>
-                            )}
-                          </Formik>
-                        )}
-                      </Mutation>
-                    </Modal>
-                    <Mutation mutation={DELETE_STAGE}>
-                      {deleteStage => (
-                        <ConfirmModal
-                          visible={delConfirm}
-                          onOK={() => {
-                            deleteStage({
-                              variables: {
-                                id: delData._id,
-                              },
-                            }).then(() => {
-                              modalClosed();
-                            });
-                          }}
-                          onCancel={modalClosed}
-                        >
-                          <h1>Hapus Data</h1>
-                        </ConfirmModal>
-                      )}
-                    </Mutation>
+                    <AdminStageCreateModal
+                      show={showModal}
+                      onClose={modalClosed}
+                      onSuccess={onSuccess}
+                    />
+                    <AdminStageDeleteModal
+                      show={delConfirm}
+                      onClose={modalClosed}
+                      data={delData}
+                    />
                   </div>
                 </Card>
               </main>

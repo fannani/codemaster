@@ -13,7 +13,9 @@ export const GET_COURSES = gql`
 export const GET_COURSE_BYID = gql`
   query GetCourseByID($courseid: ID!) {
     courses(_id: $courseid) {
+      _id
       name
+
       desc
       script
       imageid
@@ -23,6 +25,7 @@ export const GET_COURSE_BYID = gql`
         time
         teory
         imageid
+        index
       }
       leaderboard {
         _id
