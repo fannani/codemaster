@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap4-modal';
-import { EditorState } from 'draft-js';
+import { convertToRaw, EditorState, convertFromRaw } from 'draft-js';
 import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
@@ -29,6 +29,12 @@ const Stage = ({ match, history }) => {
             if (loading) return <p>Loading…</p>;
             if (error)
               return <p>Sorry! There was an error loading the items</p>;
+            let teoryContent = EditorState.createEmpty();
+            if (stages[0].teory !== null) {
+              teoryContent = EditorState.createWithContent(
+                convertFromRaw(JSON.parse(stages[0].teory)),
+              );
+            }
             return (
               <main className="col-12 main-container">
                 <Card className="card">
@@ -42,7 +48,7 @@ const Stage = ({ match, history }) => {
                         <Formik
                           initialValues={{
                             title: stages[0].title,
-                            teory: EditorState.createEmpty(),
+                            teory: teoryContent,
                             time: stages[0].time,
                             exp_reward: stages[0].exp_reward,
                             image: null,
@@ -55,23 +61,24 @@ const Stage = ({ match, history }) => {
                               teory,
                               exp_reward,
                             } = values;
+
+                            const contentState = teory.getCurrentContent();
+                            const raw = convertToRaw(contentState);
+                            const editorJson = JSON.stringify(raw);
+
                             updateStage({
                               variables: {
                                 file: image,
                                 title,
                                 time,
-                                teory,
+                                teory: editorJson,
                                 exp_reward,
                                 id: stageid,
                               },
                             }).then(({ data: { addCourse } }) => {});
                           }}
                         >
-                          {({
-                            isSubmitting,
-                            setFieldValue,
-                            values,
-                          }) => (
+                          {({ isSubmitting, setFieldValue, values }) => (
                             <Form>
                               <div className="form-group">
                                 <label htmlFor="name">Title</label>

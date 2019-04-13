@@ -67,13 +67,6 @@ const TextEditor = ({ value, onChange }) => {
     [loadingImage],
   );
 
-  const onSaveClick = () => {
-    const contentState = value.getCurrentContent();
-    const raw = convertToRaw(contentState);
-    const editorJson = JSON.stringify(raw);
-    console.log(editorJson);
-  };
-
   const onBoldClick = () => {
     onChange(RichUtils.toggleInlineStyle(value, 'BOLD'));
   };
@@ -129,7 +122,7 @@ const TextEditor = ({ value, onChange }) => {
   };
 
   const onTitleClick = () => {
-    onChange(RichUtils.toggleBlockType(value, 'header-one'));
+    onChange(RichUtils.toggleBlockType(value, 'header-two'));
   };
 
   const handleKeyCommand = command => {
@@ -196,19 +189,6 @@ const TextEditor = ({ value, onChange }) => {
               onClick={onScriptClick}
             >
               Script (Alpha)
-            </button>
-          </div>
-          <div
-            className="btn-group mr-2"
-            role="group"
-            aria-label="Second group"
-          >
-            <button
-              type="button"
-              className="btn  btn-secondary"
-              onClick={onSaveClick}
-            >
-              Save To Server
             </button>
           </div>
         </div>
