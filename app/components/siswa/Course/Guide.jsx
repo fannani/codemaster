@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styled from 'styled-components';
+import { stateToHTML } from 'draft-js-export-html';
+import { convertFromRaw, EditorState } from 'draft-js';
+import ReactHtmlParser from 'react-html-parser';
 
 const SiswaCourseGuide = ({
   mission,
@@ -12,6 +15,10 @@ const SiswaCourseGuide = ({
   show = true,
   onClick,
 }) => {
+  const editorState = EditorState.createWithContent(
+    convertFromRaw(JSON.parse(teory)),
+  );
+  const generatedTeory = stateToHTML(editorState.getCurrentContent());
   const missionList = mission.map((misi, index) => {
     let active = false;
     if (typeof result[index] !== 'undefined') {
@@ -41,7 +48,7 @@ const SiswaCourseGuide = ({
           <div className="row" id="teory">
             <div className=" col-sm-12">
               <h3>{title}</h3>
-              {teory}
+              {ReactHtmlParser(generatedTeory)}
             </div>
           </div>
 

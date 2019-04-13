@@ -122,7 +122,7 @@ const TextEditor = ({ value, onChange }) => {
   };
 
   const onTitleClick = () => {
-    onChange(RichUtils.toggleBlockType(value, 'header-two'));
+    onChange(RichUtils.toggleBlockType(value, 'header-four'));
   };
 
   const handleKeyCommand = command => {
