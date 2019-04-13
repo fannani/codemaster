@@ -61,6 +61,7 @@ const BKMutationRootType = new GraphQLObjectType({
     addPlayerLevel: playerLevelMutation.addPlayerLevel,
     addAchievement: achievementMutation.addAchievement,
     addDetailAchievement: detailAchievementMutation.addDetailAchievement,
+    deleteCourse: courseMutation.deleteCourse,
   }),
 });
 

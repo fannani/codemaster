@@ -23,7 +23,7 @@ const StageType = new GraphQLObjectType({
     teory: { type: GraphQLString },
     exp_reward: { type: GraphQLInt },
     index: { type: GraphQLInt },
-    time: { type: GraphQLString },
+    time: { type: GraphQLInt },
     win: { type: GraphQLBoolean },
     score: { type: GraphQLInt },
     badge_name: { type: GraphQLString },

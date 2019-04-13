@@ -3,6 +3,7 @@ import { GraphQLUpload } from 'graphql-upload';
 import CourseType from './type';
 import Course from './Course';
 import { storeFB } from '../../utils/upload';
+import Stage from './Stage/Stage';
 
 const CourseMutation = {
   addCourse: {
@@ -44,6 +45,17 @@ const CourseMutation = {
       delete args.id;
       edit.set(args);
       return await edit.save();
+    },
+  },
+  deleteCourse: {
+    type: CourseType,
+    description: 'Delete Course',
+    args: {
+      id: { type: GraphQLNonNull(GraphQLID) },
+    },
+    async resolve(root, args) {
+      const course = await Course.findByIdAndRemove(args.id);
+      return course;
     },
   },
   uploadImage: {

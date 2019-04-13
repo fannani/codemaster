@@ -9,6 +9,8 @@ import { UPDATE_COURSE, GET_COURSE_BYID } from '../../queries/courses';
 import AceEditor from 'react-ace';
 import 'brace/mode/html';
 import 'brace/theme/tomorrow';
+import { toast } from 'react-toastify';
+import { UPDATE_SUCCESS } from '../../constants/notification';
 
 const StageList = ({
   history,
@@ -16,7 +18,6 @@ const StageList = ({
     params: { courseid },
   },
 }) => {
-  const [id, setId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [delConfirm, setDelConfirm] = useState(false);
   const [delData, setDelData] = useState({});
@@ -26,7 +27,6 @@ const StageList = ({
   };
 
   const success = idp => {
-    setId(idp);
     history.push(`/admin/stage/${idp}`);
   };
 
@@ -67,6 +67,7 @@ const StageList = ({
                             { name, desc, script },
                             { setSubmitting },
                           ) => {
+                            setSubmitting(true);
                             updateCourse({
                               variables: {
                                 id: courseid,
@@ -74,6 +75,9 @@ const StageList = ({
                                 desc,
                                 script,
                               },
+                            }).then(() => {
+                              setSubmitting(false);
+                              toast.success(UPDATE_SUCCESS);
                             });
                           }}
                         >
@@ -233,7 +237,6 @@ const StageList = ({
                         <ConfirmModal
                           visible={delConfirm}
                           onOK={() => {
-                            console.log(delData);
                             deleteStage({
                               variables: {
                                 id: delData._id,

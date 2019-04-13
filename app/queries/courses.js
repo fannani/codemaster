@@ -70,6 +70,14 @@ export const UPDATE_COURSE = gql`
   }
 `;
 
+export const DELETE_COURSE = gql`
+  mutation deleteCourse($id: ID!) {
+    deleteCourse(id: $id) {
+      _id
+    }
+  }
+`;
+
 export const ADD_SCORE = gql`
   mutation addScore(
     $player: ID!

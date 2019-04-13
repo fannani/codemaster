@@ -9,6 +9,8 @@ import { createUploadLink } from 'apollo-upload-client';
 import { ApolloProvider } from 'react-apollo';
 import LoadingScreen from './components/UI/LoadingScreen';
 import { API_URL } from './config/config';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdminApp = lazy(() => import('./components/admin/App'));
 const SiswaApp = lazy(() => import('./components/siswa/App'));
@@ -47,6 +49,7 @@ let Container = () => (
           <Route path="/admin" component={AdminApp} />
           <Route path="/" component={SiswaApp} />
         </Switch>
+        <ToastContainer />
       </Suspense>
     </BrowserRouter>
   </ApolloProvider>

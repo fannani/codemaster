@@ -1,6 +1,4 @@
-import 'react-toastify/dist/ReactToastify.css';
 import React, { useState, useEffect } from 'react';
-import { ToastContainer } from 'react-toastify';
 import { Query, Mutation } from 'react-apollo';
 import PropTypes from 'prop-types';
 import SiswaCourseGuide from '../../components/siswa/Course/Guide';
@@ -117,7 +115,6 @@ const Course = ({
                           />
                         </div>
                         <SiswaCourseFooter />
-                        <ToastContainer />
                         <SiswaCourseScoreBoard
                           show={showModal}
                           stars={stars}

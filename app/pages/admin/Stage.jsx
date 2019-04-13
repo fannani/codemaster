@@ -8,7 +8,7 @@ import { GET_STAGE_BY_ID, UPDATE_STAGE } from '../../queries/stages';
 import { ADD_MISSION } from '../../queries/missions';
 import Card from '../../components/UI/Card';
 import TextEditor from '../../components/UI/TextEditor';
-
+import { toast } from 'react-toastify';
 
 const Stage = ({ match, history }) => {
   const [showModal, setShowModal] = useState(false);
@@ -54,19 +54,14 @@ const Stage = ({ match, history }) => {
                             exp_reward: stages[0].exp_reward,
                             image: null,
                           }}
-                          onSubmit={values => {
-                            const {
-                              image,
-                              title,
-                              time,
-                              teory,
-                              exp_reward,
-                            } = values;
-
+                          onSubmit={(
+                            { image, title, time, teory, exp_reward },
+                            { setSubmitting },
+                          ) => {
                             const contentState = teory.getCurrentContent();
                             const raw = convertToRaw(contentState);
                             const editorJson = JSON.stringify(raw);
-
+                            setSubmitting(true);
                             updateStage({
                               variables: {
                                 file: image,
@@ -76,10 +71,13 @@ const Stage = ({ match, history }) => {
                                 exp_reward,
                                 id: stageid,
                               },
-                            }).then(({ data: { addCourse } }) => {});
+                            }).then(() => {
+                              setSubmitting(false);
+                              toast.success('Data successfully updated');
+                            });
                           }}
                         >
-                          {({ isSubmitting, setFieldValue, values }) => (
+                          {({ setFieldValue, values }) => (
                             <Form>
                               <div className="form-group">
                                 <label htmlFor="name">Title</label>
