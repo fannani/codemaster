@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { EditorState, RichUtils, Modifier, convertToRaw } from 'draft-js';
+import { EditorState, RichUtils, convertToRaw } from 'draft-js';
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
@@ -40,13 +40,9 @@ const plugins = [focusPlugin, resizeablePlugin, imagePlugin, blockDndPlugin];
 const storageRef = firebase.storage().ref();
 let childRef;
 
-const TextEditor = () => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+const TextEditor = ({ value, onChange }) => {
   const [loadingImage, setLoadingImage] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const onChange = state => {
-    setEditorState(state);
-  };
 
   const onDrop = useCallback(acceptedFiles => {
     childRef = storageRef.child(shortid.generate());
@@ -62,7 +58,7 @@ const TextEditor = () => {
           .getDownloadURL()
           .then(url => {
             setShowModal(false);
-            onChange(imagePlugin.addImage(editorState, url));
+            onChange(imagePlugin.addImage(value, url));
           })
           .catch(() => {});
         setLoadingImage(false);
@@ -72,14 +68,20 @@ const TextEditor = () => {
   );
 
   const onSaveClick = () => {
-    const contentState = editorState.getCurrentContent();
+    const contentState = value.getCurrentContent();
     const raw = convertToRaw(contentState);
     const editorJson = JSON.stringify(raw);
     console.log(editorJson);
   };
 
   const onBoldClick = () => {
-    onChange(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
+    onChange(RichUtils.toggleInlineStyle(value, 'BOLD'));
+  };
+  const onItalicClick = () => {
+    onChange(RichUtils.toggleInlineStyle(value, 'ITALIC'));
+  };
+  const onUnderlineClick = () => {
+    onChange(RichUtils.toggleInlineStyle(value, 'UNDERLINE'));
   };
 
   const onImageClick = () => {
@@ -96,8 +98,8 @@ const TextEditor = () => {
     },
   };
   const onScriptClick = () => {
-    // const selection = editorState.getSelection();
-    // let currentContent = editorState.getCurrentContent();
+    // const selection = value.getSelection();
+    // let currentContent = value.getCurrentContent();
     // if (
     //   currentContent.getBlockForKey(selection.getStartKey()).getKey() !==
     //   'code-block'
@@ -119,19 +121,19 @@ const TextEditor = () => {
     //   });
     //
     //   setEditorState(
-    //     EditorState.push(editorState, newContentState, 'change-block-data'),
+    //     EditorState.push(value, newContentState, 'change-block-data'),
     //   );
     // } else {
-    onChange(RichUtils.toggleBlockType(editorState, 'code-block'));
+    onChange(RichUtils.toggleBlockType(value, 'code-block'));
     // }
   };
 
   const onTitleClick = () => {
-    onChange(RichUtils.toggleBlockType(editorState, 'header-one'));
+    onChange(RichUtils.toggleBlockType(value, 'header-one'));
   };
 
   const handleKeyCommand = command => {
-    const newState = RichUtils.handleKeyCommand(editorState, command);
+    const newState = RichUtils.handleKeyCommand(value, command);
     if (newState) {
       onChange(newState);
       return 'handled';
@@ -141,26 +143,78 @@ const TextEditor = () => {
   return (
     <>
       <div className="editorContainer">
-        <div className="toolbar">
-          <button type="button" className="btn" onClick={onBoldClick}>
-            <b>B</b>
-          </button>
-          <button type="button" className="btn" onClick={onTitleClick}>
-            <b>Title</b>
-          </button>
-          <button type="button" className="btn" onClick={onImageClick}>
-            Image
-          </button>
-          <button type="button" className="btn" onClick={onScriptClick}>
-            Script (Alpha)
-          </button>
-          <button type="button" className="btn" onClick={onSaveClick}>
-            Save To Server
-          </button>
+        <div
+          className="btn-toolbar"
+          role="toolbar"
+          aria-label="Toolbar with button groups"
+        >
+          <div className="btn-group mr-2" role="group" aria-label="First group">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onBoldClick}
+            >
+              <b>B</b>
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onItalicClick}
+            >
+              <i>I</i>
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onUnderlineClick}
+            >
+              <u>U</u>
+            </button>
+          </div>
+          <div
+            className="btn-group mr-2"
+            role="group"
+            aria-label="Second group"
+          >
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onTitleClick}
+            >
+              <b>Title</b>
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onImageClick}
+            >
+              Image
+            </button>
+            <button
+              type="button"
+              className="btn  btn-secondary"
+              onClick={onScriptClick}
+            >
+              Script (Alpha)
+            </button>
+          </div>
+          <div
+            className="btn-group mr-2"
+            role="group"
+            aria-label="Second group"
+          >
+            <button
+              type="button"
+              className="btn  btn-secondary"
+              onClick={onSaveClick}
+            >
+              Save To Server
+            </button>
+          </div>
         </div>
         <div className="editors">
           <Editor
-            editorState={editorState}
+            editorState={value}
             customStyleMap={styleMap}
             handleKeyCommand={handleKeyCommand}
             onChange={onChange}

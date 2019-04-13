@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap4-modal';
+import { EditorState } from 'draft-js';
 import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { GET_STAGE_BY_ID, UPDATE_STAGE } from '../../queries/stages';
 import { ADD_MISSION } from '../../queries/missions';
 import Card from '../../components/UI/Card';
+import TextEditor from '../../components/UI/TextEditor';
 
 const Stage = ({ match, history }) => {
   const [showModal, setShowModal] = useState(false);
@@ -40,7 +42,7 @@ const Stage = ({ match, history }) => {
                         <Formik
                           initialValues={{
                             title: stages[0].title,
-                            teory: stages[0].teory,
+                            teory: EditorState.createEmpty(),
                             time: stages[0].time,
                             exp_reward: stages[0].exp_reward,
                             image: null,
@@ -68,7 +70,6 @@ const Stage = ({ match, history }) => {
                           {({
                             isSubmitting,
                             setFieldValue,
-                            handleChange,
                             values,
                           }) => (
                             <Form>
@@ -81,17 +82,16 @@ const Stage = ({ match, history }) => {
                                   placeholder="Title"
                                 />
                               </div>
-                              <div className="form-group">
+                              <div
+                                className="form-group"
+                                style={{ width: '70%' }}
+                              >
                                 <label htmlFor="teory">Teory</label>
-                                <textarea
-                                  className="form-control"
-                                  name="teory"
-                                  id="teory"
-                                  cols="30"
-                                  rows="10"
+                                <TextEditor
                                   value={values.teory}
-                                  onChange={handleChange}
-                                  placeholder="Teory"
+                                  onChange={state => {
+                                    setFieldValue('teory', state);
+                                  }}
                                 />
                               </div>
                               <div className="form-group">
