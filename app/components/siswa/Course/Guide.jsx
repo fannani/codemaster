@@ -71,9 +71,9 @@ const SiswaCourseGuide = ({
 };
 
 SiswaCourseGuide.propTypes = {
-  mission: PropTypes.array,
-  title: PropTypes.string,
-  teory: PropTypes.string,
+  mission: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
+  teory: PropTypes.string.isRequired,
 };
 
 const StyledGuide = styled(SiswaCourseGuide)`

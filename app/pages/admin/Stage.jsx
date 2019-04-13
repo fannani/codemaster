@@ -9,6 +9,7 @@ import { ADD_MISSION } from '../../queries/missions';
 import Card from '../../components/UI/Card';
 import TextEditor from '../../components/UI/TextEditor';
 
+
 const Stage = ({ match, history }) => {
   const [showModal, setShowModal] = useState(false);
   const { params } = match;

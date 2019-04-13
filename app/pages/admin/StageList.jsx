@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import Card from '../../components/UI/Card';
 import { ADD_STAGE, DELETE_STAGE } from '../../queries/stages';
 import { UPDATE_COURSE, GET_COURSE_BYID } from '../../queries/courses';
+import AceEditor from 'react-ace';
+import 'brace/mode/html';
+import 'brace/theme/tomorrow';
 
 const StageList = ({
   history,
@@ -74,7 +77,7 @@ const StageList = ({
                             });
                           }}
                         >
-                          {() => (
+                          {(values, setFieldValue, onChange) => (
                             <Form>
                               <div className="form-group">
                                 <label htmlFor="name">Name</label>
@@ -96,13 +99,18 @@ const StageList = ({
                                 />
                               </div>
                               <div className="form-group">
-                                <label htmlFor="name">Script</label>
-                                <Field
-                                  type="text"
-                                  name="script"
-                                  component="textarea"
-                                  className="form-control"
-                                  placeholder="Script"
+                                <label htmlFor="name">Initial Script</label>
+                                <AceEditor
+                                  mode="html"
+                                  theme="tomorrow"
+                                  value={values.script}
+                                  width="100%"
+                                  style={{ height: '200px' }}
+                                  setOptions={{
+                                    fontSize: '12pt',
+                                    vScrollBarAlwaysVisible: true,
+                                  }}
+                                  onChange={onChange}
                                 />
                               </div>
                               <button type="submit" className="btn btn-primary">

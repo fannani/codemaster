@@ -4,7 +4,7 @@ const StageSchema = new mongoose.Schema({
   title: String,
   index: Number,
   teory: String,
-  time: String,
+  time: Number,
   exp_reward: Number,
   course: { type: Schema.Types.ObjectId, ref: 'Course' },
   imageid: String,

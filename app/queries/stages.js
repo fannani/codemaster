@@ -56,7 +56,7 @@ export const UPDATE_STAGE = gql`
   mutation updateStage(
     $file: Upload
     $title: String!
-    $time: String
+    $time: Int
     $id: ID!
     $teory: String
     $exp_reward: Int

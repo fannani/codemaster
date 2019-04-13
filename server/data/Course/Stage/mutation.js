@@ -45,7 +45,7 @@ const StageMutation = {
       title: { type: GraphQLString },
       teory: { type: GraphQLString },
       index: { type: GraphQLInt },
-      time: { type: GraphQLString },
+      time: { type: GraphQLInt },
       exp_reward: { type: GraphQLInt },
       course: { type: GraphQLID },
       file: { type: GraphQLUpload },
