@@ -21,12 +21,8 @@ const CourseType = new GraphQLObjectType({
     imageid: { type: GraphQLString },
     stages: {
       type: GraphQLList(StageType),
-      resolve: ({ _id }) => {
-        return new Promise((resolve, reject) => {
-          Stage.find({ course: _id }, (err, stages) => {
-            resolve(stages);
-          });
-        });
+      async resolve({ _id }) {
+        return await Stage.find({ course: _id }).sort({ index: 1 });
       },
     },
     leaderboard: {

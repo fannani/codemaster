@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import Card from '../../components/UI/Card';
 import { GET_COURSE_BYID } from '../../queries/courses';
+import { REORDER_STAGE } from '../../queries/stages';
 import AdminCourseDetail from '../../components/admin/Course/Detail';
 import AdminStageCreateModal from '../../components/admin/Stage/CreateModal';
 import AdminStageDeleteModal from '../../components/admin/Stage/DeleteModal';
@@ -35,15 +36,6 @@ const StageList = ({
     setDelConfirm(false);
   };
 
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-  };
-  const onDragEnd = () => {};
-
   return (
     <div className="container-fluid">
       <div className="row justify-content-center">
@@ -74,62 +66,95 @@ const StageList = ({
                     </div>
                     <div className="row" style={{ marginTop: '20px' }}>
                       <div className="col-12">
-                        <DragDropContext onDragEnd={onDragEnd}>
-                          <table className="table">
-                            <thead>
-                              <tr>
-                                <th width="80%">TITLE</th>
-                                <th width="20%"> ACTION</th>
-                              </tr>
-                            </thead>
-                            <Droppable droppableId="droppable">
-                              {provided => (
-                                <tbody
-                                  ref={provided.innerRef}
-                                  {...provided.droppableProps}
-                                >
-                                  {courses[0].stages.map(stage => (
-                                    <Draggable
-                                      key={stage._id}
-                                      draggableId={stage._id}
-                                      index={stage.index - 1}
+                        <Mutation mutation={REORDER_STAGE}>
+                          {reorderStage => (
+                            <DragDropContext
+                              onDragEnd={result => {
+                                const {
+                                  destination,
+                                  source,
+                                  draggableId,
+                                } = result;
+                                if (!destination) {
+                                  return;
+                                }
+                                if (
+                                  destination.droppableId ===
+                                    source.droppableId &&
+                                  destination.index === source.index
+                                ) {
+                                  return;
+                                }
+                                reorderStage({
+                                  variables: {
+                                    courseid,
+                                    source: source.index + 1,
+                                    destination: destination.index + 1,
+                                  },
+                                });
+                                console.log(source, destination);
+                                // const column =
+                              }}
+                            >
+                              <table className="table">
+                                <thead>
+                                  <tr>
+                                    <th width="80%">TITLE</th>
+                                    <th width="20%"> ACTION</th>
+                                  </tr>
+                                </thead>
+                                <Droppable droppableId="droppable">
+                                  {provided => (
+                                    <tbody
+                                      ref={provided.innerRef}
+                                      {...provided.droppableProps}
                                     >
-                                      {provided => (
-                                        <tr
+                                      {courses[0].stages.map(stage => (
+                                        <Draggable
                                           key={stage._id}
-                                          {...provided.draggableProps}
-                                          {...provided.dragHandleProps}
-                                          ref={provided.innerRef}
+                                          draggableId={stage._id}
+                                          index={stage.index - 1}
                                         >
-                                          <td width="80%">{stage.title}</td>
-                                          <td width="20%">
-                                            <Link
-                                              to={`/admin/stage/${stage._id}`}
-                                              className="btn"
+                                          {provided => (
+                                            <tr
+                                              key={stage._id}
+                                              {...provided.draggableProps}
+                                              {...provided.dragHandleProps}
+                                              ref={provided.innerRef}
                                             >
-                                              Detail
-                                            </Link>
-                                            <button
-                                              type="button"
-                                              className="btn btn-danger"
-                                              onClick={() => {
-                                                setDelConfirm(true);
-                                                setDelData(stage);
-                                              }}
-                                            >
-                                              Delete
-                                            </button>
-                                          </td>
-                                        </tr>
-                                      )}
-                                    </Draggable>
-                                  ))}
-                                  {provided.placeholder}
-                                </tbody>
-                              )}
-                            </Droppable>
-                          </table>
-                        </DragDropContext>
+                                              <td width="80%">{stage.title}</td>
+                                              <td width="20%">
+                                                <Link
+                                                  to={`/admin/stage/${
+                                                    stage._id
+                                                  }`}
+                                                  className="btn"
+                                                >
+                                                  Detail
+                                                </Link>
+                                                <button
+                                                  type="button"
+                                                  className="btn btn-danger"
+                                                  onClick={() => {
+                                                    setDelConfirm(true);
+                                                    setDelData(stage);
+                                                  }}
+                                                >
+                                                  Delete
+                                                </button>
+                                              </td>
+                                            </tr>
+                                          )}
+                                        </Draggable>
+                                      ))}
+                                      {provided.placeholder}
+                                    </tbody>
+                                  )}
+                                </Droppable>
+                              </table>
+                            </DragDropContext>
+                          )}
+                        </Mutation>
                       </div>
                     </div>
 

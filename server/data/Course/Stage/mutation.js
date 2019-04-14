@@ -3,6 +3,7 @@ import Stage from './Stage';
 import { GraphQLUpload } from 'graphql-upload';
 import StageType from './type';
 import { storeFB } from '../../../utils/upload';
+import CourseType from '../type';
 
 const StageMutation = {
   addStage: {
@@ -75,6 +76,35 @@ const StageMutation = {
     async resolve(root, args) {
       const stage = await Stage.findByIdAndRemove(args.id);
       return stage;
+    },
+  },
+  reorderStage: {
+    description: 'Reorder Course',
+    type: StageType,
+    args: {
+      courseid: { type: GraphQLID },
+      source: { type: GraphQLInt },
+      destination: { type: GraphQLInt },
+    },
+    async resolve(root, { courseid, source, destination }) {
+      const current = await Stage.findOne({
+        course: courseid,
+        index: source,
+      });
+      current.index = destination;
+      let update = null;
+      if (source < destination) {
+        update = await Stage.updateMany(
+          { course: courseid, index: { $lte: destination, $gt: source } },
+          { $inc: { index: -1 } },
+        );
+      } else if (destination > source) {
+        update = await Stage.updateMany(
+          { course: courseid, index: { $gte: destination, $lt: source } },
+          { $inc: { index: 1 } },
+        );
+      }
+      return await current.save();
     },
   },
 };

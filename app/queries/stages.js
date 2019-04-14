@@ -106,3 +106,15 @@ export const DELETE_STAGE = gql`
     }
   }
 `;
+
+export const REORDER_STAGE = gql`
+  mutation reorderStage($courseid: ID!, $source: Int!, $destination: Int!) {
+    reorderStage(
+      courseid: $courseid
+      source: $source
+      destination: $destination
+    ) {
+      _id
+    }
+  }
+`;

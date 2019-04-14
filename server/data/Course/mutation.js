@@ -1,4 +1,4 @@
-import { GraphQLString, GraphQLNonNull, GraphQLID } from 'graphql';
+import { GraphQLString, GraphQLNonNull, GraphQLID, GraphQLInt } from 'graphql';
 import { GraphQLUpload } from 'graphql-upload';
 import CourseType from './type';
 import Course from './Course';
