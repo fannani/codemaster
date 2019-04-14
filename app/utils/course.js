@@ -1,5 +1,3 @@
-import { BASE_URL } from '../config/config';
-import React from 'react';
 
 export function calculateStars(currentTimer, time, life) {
   const stars = [true, false, false];
