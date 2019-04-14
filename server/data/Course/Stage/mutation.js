@@ -4,6 +4,7 @@ import { GraphQLUpload } from 'graphql-upload';
 import StageType from './type';
 import { storeFB } from '../../../utils/upload';
 import CourseType from '../type';
+import Course from '../Course';
 
 const StageMutation = {
   addStage: {
@@ -80,7 +81,7 @@ const StageMutation = {
   },
   reorderStage: {
     description: 'Reorder Course',
-    type: StageType,
+    type: CourseType,
     args: {
       courseid: { type: GraphQLID },
       source: { type: GraphQLInt },
@@ -92,19 +93,19 @@ const StageMutation = {
         index: source,
       });
       current.index = destination;
-      let update = null;
       if (source < destination) {
-        update = await Stage.updateMany(
+        await Stage.updateMany(
           { course: courseid, index: { $lte: destination, $gt: source } },
           { $inc: { index: -1 } },
         );
-      } else if (destination > source) {
-        update = await Stage.updateMany(
+      } else if (destination < source) {
+        await Stage.updateMany(
           { course: courseid, index: { $gte: destination, $lt: source } },
           { $inc: { index: 1 } },
         );
       }
-      return await current.save();
+      await current.save();
+      return await Course.findById(courseid);
     },
   },
 };

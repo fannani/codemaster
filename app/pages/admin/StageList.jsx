@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Query, Mutation } from 'react-apollo';
+import { Query, Mutation, withApollo } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import Card from '../../components/UI/Card';
 import { GET_COURSE_BYID } from '../../queries/courses';
@@ -14,6 +14,7 @@ import 'brace/mode/html';
 import 'brace/theme/tomorrow';
 
 const StageList = ({
+  client,
   history,
   match: {
     params: { courseid },
@@ -85,6 +86,65 @@ const StageList = ({
                                 ) {
                                   return;
                                 }
+                                const { courses } = client.readQuery({
+                                  query: GET_COURSE_BYID,
+                                  variables: {
+                                    courseid,
+                                  },
+                                });
+
+                                let newstages = courses[0].stages.map(data => {
+                                  const start = source.index + 1;
+                                  const end = destination.index + 1;
+
+                                  if (
+                                    start < end &&
+                                    data.index <= end &&
+                                    data.index > start
+                                  ) {
+                                    return {
+                                      ...data,
+                                      index: data.index - 1,
+                                    };
+                                  } else if (
+                                    end < start &&
+                                    data.index >= end &&
+                                    data.index < start
+                                  ) {
+                                    return {
+                                      ...data,
+                                      index: data.index + 1,
+                                    };
+                                  } else if (data.index === start) {
+                                    return {
+                                      ...data,
+                                      index: end,
+                                    };
+                                  } else {
+                                    return {
+                                      ...data,
+                                    };
+                                  }
+                                });
+                                newstages.sort((a, b) => {
+                                  return a.index > b.index ? 1 : -1;
+                                });
+
+                                client.writeQuery({
+                                  query: GET_COURSE_BYID,
+                                  variables: {
+                                    courseid,
+                                  },
+                                  data: {
+                                    courses: [
+                                      {
+                                        ...courses[0],
+                                        stages: newstages,
+                                      },
+                                    ],
+                                  },
+                                });
+
                                 reorderStage({
                                   variables: {
                                     courseid,
@@ -92,8 +152,6 @@ const StageList = ({
                                     destination: destination.index + 1,
                                   },
                                 });
-                                console.log(source, destination);
-                                // const column =
                               }}
                             >
                               <table className="table">
@@ -179,4 +237,4 @@ const StageList = ({
   );
 };
 
-export default StageList;
+export default withApollo(StageList);
