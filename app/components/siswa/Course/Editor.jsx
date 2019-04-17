@@ -18,13 +18,15 @@ const SiswaCourseEditor = ({
   className,
   size = 4,
   onExpandClick,
+  onChange,
   onClick,
   show,
 }) => {
   const [script, setScript] = useState(initialScript);
-  const onChange = value => {
+  const onChangeScript = value => {
     const idoc = document.getElementById('output').contentWindow.document;
     setScript(value);
+    onChange(value);
     idoc.open();
     idoc.write(value);
     idoc.close();
@@ -66,7 +68,7 @@ const SiswaCourseEditor = ({
                   fontSize: '12pt',
                   vScrollBarAlwaysVisible: true,
                 }}
-                onChange={onChange}
+                onChange={onChangeScript}
               />
             </>
           );

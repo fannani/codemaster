@@ -52,7 +52,6 @@ CourseSchema.methods.player = async function(player) {
       win = true;
       stage[i].score = score[0].score;
       stage[i].stars = score[0].stars;
-
     }
     stage[i].win = win;
   }

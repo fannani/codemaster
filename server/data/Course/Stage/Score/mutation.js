@@ -3,6 +3,7 @@ import {
   GraphQLID,
   GraphQLInt,
   GraphQLList,
+  GraphQLString,
   GraphQLBoolean,
 } from 'graphql';
 
@@ -20,8 +21,9 @@ const ScoreMutation = {
       score: { type: new GraphQLNonNull(GraphQLInt) },
       time: { type: new GraphQLNonNull(GraphQLInt) },
       stars: { type: new GraphQLNonNull(GraphQLList(GraphQLBoolean)) },
+      script: { type: GraphQLNonNull(GraphQLString) },
     },
-    async resolve(root, { player, stage, score, time, stars, course }) {
+    async resolve(root, { player, stage, score, time, stars, course, script }) {
       return new Promise((resolve, reject) => {
         const newscore = new Score({
           player,
@@ -30,6 +32,7 @@ const ScoreMutation = {
           time,
           stars,
           course,
+          script,
         });
         newscore.save(err => {
           err ? reject(err) : resolve(newscore);

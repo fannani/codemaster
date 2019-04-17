@@ -89,6 +89,7 @@ export const ADD_SCORE = gql`
     $score: Int!
     $time: Int!
     $stars: [Boolean]!
+    $script: String!
   ) {
     addScore(
       player: $player
@@ -97,6 +98,7 @@ export const ADD_SCORE = gql`
       score: $score
       time: $time
       stars: $stars
+      script: $script
     ) {
       _id
       score

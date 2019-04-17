@@ -37,6 +37,7 @@ const StageType = new GraphQLObjectType({
         return missions;
       },
     },
+
     course: {
       type: CourseType,
       async resolve({ _id }) {

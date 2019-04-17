@@ -37,7 +37,7 @@ const AdminCourseDetail = ({ courses }) => {
                 });
               }}
             >
-              {(values, setFieldValue, onChange) => (
+              {({ values, setFieldValue }) => (
                 <Form>
                   <div className="form-group">
                     <label htmlFor="name">Name</label>
@@ -70,7 +70,9 @@ const AdminCourseDetail = ({ courses }) => {
                         fontSize: '12pt',
                         vScrollBarAlwaysVisible: true,
                       }}
-                      onChange={onChange}
+                      onChange={value => {
+                        setFieldValue('script', value);
+                      }}
                     />
                   </div>
                   <button type="submit" className="btn btn-primary">

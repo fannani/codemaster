@@ -7,6 +7,7 @@ const ScoreSchema = new Schema({
   course: { type: Schema.Types.ObjectId },
   time: Number,
   stars: [Boolean],
+  script: String,
   updated_at: { type: Date, default: Date.now },
 });
 

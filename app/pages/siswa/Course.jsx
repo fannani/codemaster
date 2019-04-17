@@ -13,7 +13,7 @@ import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 import usePlayer from '../../hooks/player';
 import useInteractiveCoding from '../../hooks/interactiveCoding';
 import { ADD_SCORE } from '../../queries/courses';
-
+let script = '';
 const Course = ({
   match: {
     params: { stageid },
@@ -22,6 +22,7 @@ const Course = ({
 }) => {
   const [scoreResult, setScoreResult] = useState(0);
   const [lifeResult, setLifeResult] = useState(0);
+  const [isPlay, setIsPlay] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [stars, setStars] = useState([]);
   const [intervalState, setIntervalState] = useState(null);
@@ -65,8 +66,8 @@ const Course = ({
                         life,
                       );
                       if (life > 0) {
-                        console.log(stages);
                         player.addExp(stages[0].exp_reward);
+                        console.log(script);
                         addScore({
                           variables: {
                             player: player.user.userdetailid,
@@ -75,9 +76,11 @@ const Course = ({
                             score,
                             time: player.gameplay.currentTimer,
                             stars: starCount,
+                            script,
                           },
                         });
                       }
+                      setIsPlay(false);
                       setLifeResult(life);
                       setScoreResult(score);
                       setShowModal(true);
@@ -98,14 +101,18 @@ const Course = ({
                             onClick={interactive.onGuideClick}
                           />
                           <SiswaCourseEditor
-                            checkResult={script =>
-                              checkResult(script, stages[0].missions)
+                            checkResult={data =>
+                              checkResult(data, stages[0].missions)
                             }
                             onClick={interactive.onEditorClick}
                             show={interactive.editorShow}
                             initialScript={stages[0].course.script}
                             onExpandClick={interactive.onEditorExpandClick}
                             size={interactive.editorSize}
+                            onChange={data => {
+                              script = data;
+                              console.log(script);
+                            }}
                           />
                           <SiswaCourseOutput
                             show={interactive.outputShow}
@@ -136,7 +143,7 @@ const Course = ({
         </Query>
       </main>
       <PreventNavigationDialog
-        when
+        when={isPlay}
         title="Peringatan"
         message={
           <strong>

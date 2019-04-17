@@ -45,6 +45,7 @@ const ScoreType = new GraphQLObjectType({
     time: { type: GraphQLNonNull(GraphQLInt) },
     stars: { type: GraphQLNonNull(GraphQLList(GraphQLBoolean)) },
     updated_at: { type: GraphQLNonNull(GraphQLString) },
+    script: { type: GraphQLNonNull(GraphQLString) },
   }),
 });
 
