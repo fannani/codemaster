@@ -30,7 +30,7 @@ CourseSchema.methods.leaderboard = async function() {
 };
 
 CourseSchema.methods.player = async function(player) {
-  let stage = await Stage.find({ course: this._id });
+  let stage = await Stage.find({ course: this._id }).sort({ index: 1 });
   for (let i = 0; i < stage.length; i += 1) {
     let win = false;
     const score = await Score.aggregate([
