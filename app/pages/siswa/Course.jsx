@@ -35,6 +35,7 @@ const Course = ({
 
   useEffect(
     () => {
+      setIsPlay(true);
       setShowModal(false);
       player.resetTimer();
       player.reduceEnergy(player.user.userdetail._id, energyNeed);
