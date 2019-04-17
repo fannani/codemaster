@@ -9,6 +9,7 @@ import { ADD_MISSION } from '../../queries/missions';
 import Card from '../../components/UI/Card';
 import TextEditor from '../../components/UI/TextEditor';
 import { toast } from 'react-toastify';
+import AceEditor from 'react-ace';
 
 const Stage = ({ match, history }) => {
   const [showModal, setShowModal] = useState(false);
@@ -52,10 +53,11 @@ const Stage = ({ match, history }) => {
                             teory: teoryContent,
                             time: stages[0].time,
                             exp_reward: stages[0].exp_reward,
+                            script: stages[0].script,
                             image: null,
                           }}
                           onSubmit={(
-                            { image, title, time, teory, exp_reward },
+                            { image, title, time, teory, exp_reward, script },
                             { setSubmitting },
                           ) => {
                             const contentState = teory.getCurrentContent();
@@ -70,6 +72,7 @@ const Stage = ({ match, history }) => {
                                 teory: editorJson,
                                 exp_reward,
                                 id: stageid,
+                                script,
                               },
                             }).then(() => {
                               setSubmitting(false);
@@ -116,6 +119,23 @@ const Stage = ({ match, history }) => {
                                   type="number"
                                   name="exp_reward"
                                   placeholder="Exp Reward"
+                                />
+                              </div>
+                              <div className="form-group">
+                                <label htmlFor="name">Initial Script</label>
+                                <AceEditor
+                                  mode="html"
+                                  theme="tomorrow"
+                                  value={values.script}
+                                  width="100%"
+                                  style={{ height: '200px' }}
+                                  setOptions={{
+                                    fontSize: '12pt',
+                                    vScrollBarAlwaysVisible: true,
+                                  }}
+                                  onChange={value => {
+                                    setFieldValue('script', value);
+                                  }}
                                 />
                               </div>
                               <div className="form-group">

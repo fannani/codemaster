@@ -42,33 +42,21 @@ export const GET_COURSE_BYID = gql`
 `;
 
 export const ADD_COURSE = gql`
-  mutation addCourse(
-    $file: Upload
-    $name: String!
-    $desc: String!
-    $script: String!
-  ) {
-    addCourse(file: $file, name: $name, desc: $desc, script: $script) {
+  mutation addCourse($file: Upload, $name: String!, $desc: String!) {
+    addCourse(file: $file, name: $name, desc: $desc) {
       _id
       name
       desc
-      script
     }
   }
 `;
 
 export const UPDATE_COURSE = gql`
-  mutation updateCourse(
-    $id: ID!
-    $name: String
-    $desc: String
-    $script: String
-  ) {
-    updateCourse(id: $id, name: $name, desc: $desc, script: $script) {
+  mutation updateCourse($id: ID!, $name: String, $desc: String) {
+    updateCourse(id: $id, name: $name, desc: $desc) {
       _id
       name
       desc
-      script
     }
   }
 `;

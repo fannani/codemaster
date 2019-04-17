@@ -27,9 +27,10 @@ export const GET_STAGE_BY_ID = gql`
       index
       exp_reward
       teory
+      script
+
       course {
         _id
-        script
         stages {
           _id
           index
@@ -60,6 +61,7 @@ export const UPDATE_STAGE = gql`
     $id: ID!
     $teory: String
     $exp_reward: Int
+    $script: String
   ) {
     updateStage(
       file: $file
@@ -67,6 +69,7 @@ export const UPDATE_STAGE = gql`
       time: $time
       id: $id
       teory: $teory
+      script: $script
       exp_reward: $exp_reward
     ) {
       _id
@@ -86,12 +89,20 @@ export const ADD_STAGE = gql`
     $teory: String
     $time: String
     $course: ID!
+    $script: String
   ) {
-    addStage(title: $title, teory: $teory, time: $time, course: $course) {
+    addStage(
+      title: $title
+      teory: $teory
+      time: $time
+      course: $course
+      script: $script
+    ) {
       _id
       title
       time
       teory
+      script
       course {
         _id
       }

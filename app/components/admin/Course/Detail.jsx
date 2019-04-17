@@ -20,16 +20,14 @@ const AdminCourseDetail = ({ courses }) => {
               initialValues={{
                 name: courses.name,
                 desc: courses.desc,
-                script: courses.script,
               }}
-              onSubmit={({ name, desc, script }, { setSubmitting }) => {
+              onSubmit={({ name, desc }, { setSubmitting }) => {
                 setSubmitting(true);
                 updateCourse({
                   variables: {
                     id: courses._id,
                     name,
                     desc,
-                    script,
                   },
                 }).then(() => {
                   setSubmitting(false);
@@ -37,7 +35,7 @@ const AdminCourseDetail = ({ courses }) => {
                 });
               }}
             >
-              {({ values, setFieldValue }) => (
+              {() => (
                 <Form>
                   <div className="form-group">
                     <label htmlFor="name">Name</label>
@@ -58,23 +56,7 @@ const AdminCourseDetail = ({ courses }) => {
                       placeholder="Description"
                     />
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="name">Initial Script</label>
-                    <AceEditor
-                      mode="html"
-                      theme="tomorrow"
-                      value={values.script}
-                      width="100%"
-                      style={{ height: '200px' }}
-                      setOptions={{
-                        fontSize: '12pt',
-                        vScrollBarAlwaysVisible: true,
-                      }}
-                      onChange={value => {
-                        setFieldValue('script', value);
-                      }}
-                    />
-                  </div>
+
                   <button type="submit" className="btn btn-primary">
                     Save
                   </button>

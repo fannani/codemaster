@@ -33,19 +33,23 @@ const Course = ({
   const player = usePlayer();
   const interactive = useInteractiveCoding();
 
-  useEffect(() => {
-    player.resetTimer();
-    player.reduceEnergy(player.user.userdetail._id, energyNeed);
-    interval = setInterval(player.incrementTimer, 1000);
-    setIntervalState(interval);
-    player.setPlayerStatus(0, 3);
-    player.setPlayMode(true);
+  useEffect(
+    () => {
+      setShowModal(false);
+      player.resetTimer();
+      player.reduceEnergy(player.user.userdetail._id, energyNeed);
+      interval = setInterval(player.incrementTimer, 1000);
+      setIntervalState(interval);
+      player.setPlayerStatus(0, 3);
+      player.setPlayMode(true);
 
-    return () => {
-      player.setPlayMode(false);
-      clearInterval(interval);
-    };
-  }, []);
+      return () => {
+        player.setPlayMode(false);
+        clearInterval(interval);
+      };
+    },
+    [stageid],
+  );
   return (
     <div id="container">
       <main role="main" className="container-fluid">
@@ -67,12 +71,11 @@ const Course = ({
                       );
                       if (life > 0) {
                         player.addExp(stages[0].exp_reward);
-                        console.log(script);
                         addScore({
                           variables: {
                             player: player.user.userdetailid,
-                            course: stageid,
-                            stage: stages[0].course._id,
+                            course: stages[0].course._id,
+                            stage: stageid,
                             score,
                             time: player.gameplay.currentTimer,
                             stars: starCount,
@@ -106,12 +109,11 @@ const Course = ({
                             }
                             onClick={interactive.onEditorClick}
                             show={interactive.editorShow}
-                            initialScript={stages[0].course.script}
+                            initialScript={stages[0].script}
                             onExpandClick={interactive.onEditorExpandClick}
                             size={interactive.editorSize}
                             onChange={data => {
                               script = data;
-                              console.log(script);
                             }}
                           />
                           <SiswaCourseOutput

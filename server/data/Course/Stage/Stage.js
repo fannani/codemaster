@@ -39,14 +39,6 @@ StageSchema.virtual('score')
     this._score = v;
   });
 
-StageSchema.virtual('script')
-  .get(function() {
-    return this._script;
-  })
-  .set(function(v) {
-    this._script = v;
-  });
-
 StageSchema.methods.player = async function(player) {
   const currentStage = await this.model('Stage').findById(this._id);
   const prevStage = await this.model('Stage').findOne({
@@ -72,7 +64,7 @@ StageSchema.methods.player = async function(player) {
   ]);
   if (score.length > 0 && score[0].score > 0) {
     win = true;
-    currentStage.script = score[0].script;
+   // currentStage.script = score[0].script;
   }
   stage[i].win = win;
 
