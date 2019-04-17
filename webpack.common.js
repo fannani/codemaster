@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DotenvWebpack = require('dotenv-webpack');
 const dotenv = require('dotenv');
+const CopyPlugin = require('copy-webpack-plugin');
 
 dotenv.config();
 
@@ -55,5 +56,14 @@ module.exports = {
     new DotenvWebpack({
       systemvars: true,
     }),
+    new CopyPlugin([
+      {
+        from: 'app/assets/js/*',
+        to: 'js',
+        transformPath(targetPath, absolutePath) {
+          return absolutePath.replace(/^.*[\\\/]/, '');
+        },
+      },
+    ]),
   ],
 };
