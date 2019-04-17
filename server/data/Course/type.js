@@ -16,7 +16,7 @@ const CourseType = new GraphQLObjectType({
   fields: () => ({
     _id: { type: GraphQLNonNull(GraphQLID) },
     name: { type: GraphQLNonNull(GraphQLString) },
-    script: { type: GraphQLNonNull(GraphQLString) },
+    script: { type: GraphQLString },
     desc: { type: GraphQLNonNull(GraphQLString) },
     imageid: { type: GraphQLString },
     stages: {

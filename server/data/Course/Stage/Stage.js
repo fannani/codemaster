@@ -10,6 +10,7 @@ const StageSchema = new mongoose.Schema({
   course: { type: Schema.Types.ObjectId, ref: 'Course' },
   imageid: String,
   badge_name: String,
+  script: String,
   badge_image: String,
   updated_at: { type: Date, default: Date.now },
 });

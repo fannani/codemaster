@@ -30,6 +30,7 @@ const StageType = new GraphQLObjectType({
     badge_image: { type: GraphQLString },
     stars: { type: GraphQLList(GraphQLBoolean) },
     imageid: { type: GraphQLString },
+    script: { type: GraphQLString },
     missions: {
       type: GraphQLList(MissionType),
       async resolve({ _id }) {

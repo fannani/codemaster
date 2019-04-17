@@ -12,7 +12,7 @@ const CourseMutation = {
     args: {
       name: { type: GraphQLNonNull(GraphQLString) },
       desc: { type: GraphQLNonNull(GraphQLString) },
-      script: { type: GraphQLNonNull(GraphQLString) },
+      script: { type: GraphQLString },
       file: {
         description: 'Image file.',
         type: GraphQLUpload,
