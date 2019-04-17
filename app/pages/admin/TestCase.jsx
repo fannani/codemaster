@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Mutation, Query } from 'react-apollo';
-import Modal from 'react-bootstrap4-modal';
+import Modal, { ConfirmModal } from 'react-bootstrap4-modal';
 import { Field, Form, Formik } from 'formik';
 import { GET_TESTCASES, ADD_TESTCASE } from '../../queries/testcase';
 import Card from '../../components/UI/Card';
+import { DELETE_TESTCASE } from '../../queries/testcase';
 
 const TestCase = () => {
   const [showModal, setShowModal] = useState(false);
+  const [delConfirm, setDelConfirm] = useState(false);
+  const [delData, setDelData] = useState({});
 
   const createCourse = () => {
     setShowModal(true);
@@ -14,6 +17,7 @@ const TestCase = () => {
 
   const modalClosed = () => {
     setShowModal(false);
+    setDelConfirm(false);
   };
 
   const success = () => {
@@ -54,7 +58,7 @@ const TestCase = () => {
                           <thead>
                             <tr>
                               <th scope="col">TEST CASE</th>
-                              <th style={{ width: '10%' }} scope="col">
+                              <th style={{ width: '20%' }} scope="col">
                                 ACTION
                               </th>
                             </tr>
@@ -70,6 +74,16 @@ const TestCase = () => {
                                     onClick={detail(testcase)}
                                   >
                                     Detail
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger"
+                                    onClick={() => {
+                                      setDelConfirm(true);
+                                      setDelData(testcase);
+                                    }}
+                                  >
+                                    Delete
                                   </button>
                                 </td>
                               </tr>
@@ -151,6 +165,26 @@ const TestCase = () => {
           )}
         </Mutation>
       </Modal>
+
+      <Mutation mutation={DELETE_TESTCASE}>
+        {deleteTestcase => (
+          <ConfirmModal
+            visible={delConfirm}
+            onOK={() => {
+              deleteTestcase({
+                variables: {
+                  id: delData._id,
+                },
+              }).then(() => {
+                modalClosed();
+              });
+            }}
+            onCancel={modalClosed}
+          >
+            <h1>Hapus Data</h1>
+          </ConfirmModal>
+        )}
+      </Mutation>
     </div>
   );
 };

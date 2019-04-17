@@ -41,18 +41,18 @@ const getUserConfirmation = (dialogKey, callback) => {
 };
 
 let Container = () => (
-    <ApolloProvider client={client}>
-      <BrowserRouter getUserConfirmation={getUserConfirmation}>
-        <Suspense fallback={<LoadingScreen />}>
-          <Switch>
-            <Route path="/(|tentang|pelajari)" exact component={WebLanding} />
-            <Route path="/admin" component={AdminApp} />
-            <Route path="/" component={SiswaApp} />
-          </Switch>
-          <ToastContainer />
-        </Suspense>
-      </BrowserRouter>
-    </ApolloProvider>
+  <ApolloProvider client={client}>
+    <BrowserRouter getUserConfirmation={getUserConfirmation}>
+      <Suspense fallback={<LoadingScreen />}>
+        <Switch>
+          <Route path="/(|tentang|pelajari)" exact component={WebLanding} />
+          <Route path="/admin" component={AdminApp} />
+          <Route path="/" component={SiswaApp} />
+        </Switch>
+        <ToastContainer />
+      </Suspense>
+    </BrowserRouter>
+  </ApolloProvider>
 );
 
 if (process.env.MODE === 'development') {

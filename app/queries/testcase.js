@@ -17,3 +17,11 @@ export const ADD_TESTCASE = gql`
     }
   }
 `;
+
+export const DELETE_TESTCASE = gql`
+  mutation deleteTestcase($id: ID!) {
+    deleteTestcase(id: $id) {
+      _id
+    }
+  }
+`;

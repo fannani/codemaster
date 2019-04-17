@@ -1,7 +1,8 @@
-import { GraphQLNonNull,GraphQLString } from 'graphql';
+import { GraphQLID, GraphQLNonNull, GraphQLString } from 'graphql';
 
 import TestCase from './TestCase';
 import TestCaseType from './type';
+import Course from '../Course/Course';
 
 const TestCaseMutation = {
   addTestCase: {
@@ -17,6 +18,17 @@ const TestCaseMutation = {
         script,
       });
       return await newtest.save();
+    },
+  },
+  deleteTestcase: {
+    type: TestCaseType,
+    description: 'Delete TestCase',
+    args: {
+      id: { type: GraphQLNonNull(GraphQLID) },
+    },
+    async resolve(root, args) {
+      const testcase = await TestCase.findByIdAndRemove(args.id);
+      return testcase;
     },
   },
 };

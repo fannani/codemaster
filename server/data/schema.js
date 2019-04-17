@@ -63,6 +63,7 @@ const BKMutationRootType = new GraphQLObjectType({
     addDetailAchievement: detailAchievementMutation.addDetailAchievement,
     deleteCourse: courseMutation.deleteCourse,
     reorderStage: stageMutation.reorderStage,
+    deleteTestcase: testCaseMutation.deleteTestcase,
   }),
 });
 
