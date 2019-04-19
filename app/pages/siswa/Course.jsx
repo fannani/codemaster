@@ -70,8 +70,8 @@ const Course = ({
                 open={sidebarOpen}
                 onSetOpen={onSetSidebarOpen}
                 styles={{
-                  sidebar: { background: 'white', zIndex: '1000' },
-                  overlay: { zIndex: '7' },
+                  sidebar: { background: 'white', zIndex: '1001' },
+                  overlay: { zIndex: '1000' },
                 }}
               />
               <main role="main" className="container-fluid">

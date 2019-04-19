@@ -46,7 +46,6 @@ const getUserConfirmation = (dialogKey, callback) => {
   callback(true);
 };
 
-let ErrorCatch;
 
 
 let Container = () => (

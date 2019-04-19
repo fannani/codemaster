@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import PlayerStatus from './PlayerStatus';
 import energyImage from '../../assets/images/energy.png';
 import Logo from '../UI/Logo.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const EnergyDiv = styled.div`
   color: white !important;
   margin-right: 30px;
+  z-index: 999;
 `;
 const EnergyImg = styled.img`
   width: 12px;
@@ -17,6 +19,13 @@ const Navigasi = styled.div`
   position: absolute;
   width: 100%;
   left: 0;
+`;
+
+const AddButton = styled.button`
+  background: none;
+  border: none;
+  padding: 0px;
+  padding-left: 5px;
 `;
 
 const Header = ({
@@ -86,18 +95,13 @@ const Header = ({
             {isLogin ? (
               <EnergyDiv className="navbar-text ml-auto">
                 <EnergyImg width="20px" src={energyImage} /> : {energy}
-                {/*<button*/}
-                {/*style={{*/}
-                {/*marginLeft: '10px',*/}
-                {/*height: '33px',*/}
-                {/*backgroundColor: '#7386D5',*/}
-                {/*border: '0',*/}
-                {/*}}*/}
-                {/*className="btn btn-primary"*/}
-                {/*onClick={onAddEnergy}*/}
-                {/*>*/}
-                {/*Tambah*/}
-                {/*</button>*/}
+                <AddButton onClick={onAddEnergy}>
+                  <FontAwesomeIcon
+                    color="#FFC149"
+                    size="lg"
+                    icon="plus-circle"
+                  />
+                </AddButton>
               </EnergyDiv>
             ) : (
               ''
