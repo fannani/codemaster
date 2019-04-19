@@ -1,3 +1,4 @@
+import { BASE_URL } from '../config/config';
 
 export function calculateStars(currentTimer, time, life) {
   const stars = [true, false, false];
@@ -29,7 +30,7 @@ function convertTestCase(testcase) {
     for (const idx in testObj) {
       testCaseScript = testCaseScript.replace(`$$${idx}$$`, testObj[idx]);
     }
-    testStr += testCaseScript + ' &&';
+    testStr += `${testCaseScript} &&`;
   }
   return testStr.replace(/&&+$/, '');
 }

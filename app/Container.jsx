@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from 'react';
+import * as Sentry from '@sentry/browser';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { hot } from 'react-hot-loader/root';
 import { ApolloClient } from 'apollo-client';
@@ -11,6 +12,7 @@ import LoadingScreen from './components/UI/LoadingScreen';
 import { API_URL } from './config/config';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const AdminApp = lazy(() => import('./components/admin/App'));
 const SiswaApp = lazy(() => import('./components/siswa/App'));
@@ -34,6 +36,10 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+Sentry.init({
+  dsn: 'https://ac3a618606d44849bc830255efa393ff@sentry.io/1442748',
+});
+
 const getUserConfirmation = (dialogKey, callback) => {
   const dialogTrigger = window[Symbol.for(dialogKey)];
   if (dialogTrigger) return dialogTrigger(callback);
@@ -44,11 +50,13 @@ let Container = () => (
   <ApolloProvider client={client}>
     <BrowserRouter getUserConfirmation={getUserConfirmation}>
       <Suspense fallback={<LoadingScreen />}>
-        <Switch>
-          <Route path="/(|tentang|pelajari)" exact component={WebLanding} />
-          <Route path="/admin" component={AdminApp} />
-          <Route path="/" component={SiswaApp} />
-        </Switch>
+        <ErrorBoundary>
+          <Switch>
+            <Route path="/(|tentang|pelajari)" exact component={WebLanding} />
+            <Route path="/admin" component={AdminApp} />
+            <Route path="/" component={SiswaApp} />
+          </Switch>
+        </ErrorBoundary>
         <ToastContainer />
       </Suspense>
     </BrowserRouter>

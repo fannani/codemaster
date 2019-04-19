@@ -4,7 +4,7 @@ import { ADD_STAGE } from '../../../queries/stages';
 import { Field, Form, Formik } from 'formik';
 import Modal from 'react-bootstrap4-modal';
 
-const AdminStageCreateModal = ({ show, onClose, onSuccess }) => (
+const AdminStageCreateModal = ({ show, onClose, onSuccess, courseid }) => (
   <Modal visible={show} onClickBackdrop={onClose}>
     <div className="modal-header">
       <h5 className="modal-title">Add Stage</h5>

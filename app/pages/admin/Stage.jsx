@@ -10,6 +10,9 @@ import Card from '../../components/UI/Card';
 import TextEditor from '../../components/UI/TextEditor';
 import { toast } from 'react-toastify';
 import AceEditor from 'react-ace';
+import 'brace/theme/tomorrow';
+import 'brace/mode/html';
+
 
 const Stage = ({ match, history }) => {
   const [showModal, setShowModal] = useState(false);
@@ -51,10 +54,12 @@ const Stage = ({ match, history }) => {
                           initialValues={{
                             title: stages[0].title,
                             teory: teoryContent,
-                            time: stages[0].time,
-                            exp_reward: stages[0].exp_reward,
-                            script: stages[0].script,
-                            image: null,
+                            time: stages[0].time ? stages[0].time : '',
+                            exp_reward: stages[0].exp_reward
+                              ? stages[0].exp_reward
+                              : '',
+                            script: stages[0].script ? stages[0].script : '',
+                            image: undefined,
                           }}
                           onSubmit={(
                             { image, title, time, teory, exp_reward, script },

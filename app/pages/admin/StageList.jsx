@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Query, Mutation, withApollo } from 'react-apollo';
+import { Query } from 'react-apollo';
 import Card from '../../components/UI/Card';
 import { GET_COURSE_BYID } from '../../queries/courses';
 import AdminCourseDetail from '../../components/admin/Course/Detail';
@@ -7,8 +7,6 @@ import AdminStageCreateModal from '../../components/admin/Stage/CreateModal';
 import AdminStageDeleteModal from '../../components/admin/Stage/DeleteModal';
 import AdminStageList from '../../components/admin/Stage/List';
 
-import 'brace/mode/html';
-import 'brace/theme/tomorrow';
 
 const StageList = ({
   history,
@@ -63,6 +61,7 @@ const StageList = ({
 
                     <AdminStageCreateModal
                       show={showModal}
+                      courseid={courseid}
                       onClose={modalClosed}
                       onSuccess={onSuccess}
                     />

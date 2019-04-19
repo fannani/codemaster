@@ -69,6 +69,7 @@ const SiswaCourseEditor = ({
                   vScrollBarAlwaysVisible: true,
                 }}
                 onChange={onChangeScript}
+                wrapEnabled={true}
               />
             </>
           );
