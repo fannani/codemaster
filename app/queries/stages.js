@@ -18,6 +18,42 @@ export const GET_STAGE_BY_COURSE_PLAYER = gql`
   }
 `;
 
+export const GET_STAGE_BY_PLAYER = gql`
+  query GetStageByPlayer($id: ID!, $playerid: ID!) {
+    stages(_id: $id, player: $playerid) {
+      _id
+      title
+      time
+      index
+      win
+      exp_reward
+      teory
+      script
+
+      course {
+        _id
+        stages {
+          _id
+          index
+        }
+      }
+      missions {
+        _id
+        quest
+        score
+        testcase {
+          params
+          testcase {
+            _id
+            caption
+            script
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_STAGE_BY_ID = gql`
   query GetStageByID($id: ID!) {
     stages(_id: $id) {

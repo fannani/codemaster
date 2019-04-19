@@ -40,17 +40,13 @@ StageSchema.virtual('score')
   });
 
 StageSchema.methods.player = async function(player) {
-  const currentStage = await this.model('Stage').findById(this._id);
-  const prevStage = await this.model('Stage').findOne({
-    course: currentStage.course,
-    index: currentStage.index - 1,
-  });
+  const stage = await this.model('Stage').findById(this._id);
 
   let win = false;
   const score = await Score.aggregate([
     {
       $match: {
-        stage: mongoose.Types.ObjectId(prevStage._id),
+        stage: mongoose.Types.ObjectId(stage._id),
         player: mongoose.Types.ObjectId(player),
       },
     },
@@ -58,17 +54,18 @@ StageSchema.methods.player = async function(player) {
       $group: {
         _id: { stage: '$stage' },
         score: { $max: '$score' },
-        script: { $first: '$script' },
+        stars: { $first: '$stars' },
       },
     },
   ]);
   if (score.length > 0 && score[0].score > 0) {
     win = true;
-   // currentStage.script = score[0].script;
+    stage.score = score[0].score;
+    stage.stars = score[0].stars;
   }
-  stage[i].win = win;
+  stage.win = win;
 
-  return stage;
+  return [stage];
 };
 
 export default mongoose.model('Stage', StageSchema);

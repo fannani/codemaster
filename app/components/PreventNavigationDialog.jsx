@@ -12,6 +12,7 @@ const PreventNavigationDialog = ({ when, title, message, history }) => {
   const show = allowTransitionCallback => {
     if (allowRedirect) {
       allowTransitionCallback(true);
+      allowRedirect = false;
     } else {
       setOpen(true);
       allowTransitionCallback(false);

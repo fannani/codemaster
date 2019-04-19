@@ -7,13 +7,16 @@ import SiswaCourseFooter from '../../components/siswa/Course/Footer';
 import SiswaCourseEditor from '../../components/siswa/Course/Editor';
 import SiswaCourseOutput from '../../components/siswa/Course/Output';
 import SiswaCourseScoreBoard from '../../components/siswa/Course/ScoreBoard/ScoreBoard';
-import { GET_STAGE_BY_ID } from '../../queries/stages';
+import { GET_STAGE_BY_PLAYER } from '../../queries/stages';
 import { calculateStars, checkResult } from '../../utils/course';
 import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 import usePlayer from '../../hooks/player';
 import useInteractiveCoding from '../../hooks/interactiveCoding';
 import { ADD_SCORE } from '../../queries/courses';
+
 let script = '';
+let interval = null;
+const energyNeed = 20;
 const Course = ({
   match: {
     params: { stageid },
@@ -26,24 +29,19 @@ const Course = ({
   const [showModal, setShowModal] = useState(false);
   const [stars, setStars] = useState([]);
   const [intervalState, setIntervalState] = useState(null);
-
-  let interval = null;
-  const energyNeed = 20;
-
   const player = usePlayer();
   const interactive = useInteractiveCoding();
 
   useEffect(
     () => {
-      setIsPlay(true);
       setShowModal(false);
+      setIsPlay(true);
       player.resetTimer();
       player.reduceEnergy(player.user.userdetail._id, energyNeed);
       interval = setInterval(player.incrementTimer, 1000);
       setIntervalState(interval);
       player.setPlayerStatus(0, 3);
       player.setPlayMode(true);
-
       return () => {
         player.setPlayMode(false);
         clearInterval(interval);
@@ -54,7 +52,10 @@ const Course = ({
   return (
     <div id="container">
       <main role="main" className="container-fluid">
-        <Query query={GET_STAGE_BY_ID} variables={{ id: stageid }}>
+        <Query
+          query={GET_STAGE_BY_PLAYER}
+          variables={{ id: stageid, playerid: player.user.userdetailid }}
+        >
           {({ data: { stages }, loading, error }) => {
             if (loading) return <p>Loading…</p>;
             if (error)
@@ -127,6 +128,7 @@ const Course = ({
                         <SiswaCourseFooter
                           course={stages[0].course}
                           stage={stages[0]}
+                          history={history}
                         />
                         <SiswaCourseScoreBoard
                           show={showModal}
@@ -157,7 +159,7 @@ const Course = ({
           </strong>
         }
         history={history}
-      />{' '}
+      />
     </div>
   );
 };
