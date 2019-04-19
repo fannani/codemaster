@@ -31,10 +31,12 @@ export const GET_STAGE_BY_PLAYER = gql`
       script
 
       course {
+        name
         _id
         stages {
           _id
           index
+          title
         }
       }
       missions {

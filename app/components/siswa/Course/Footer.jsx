@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import styled from 'styled-components';
 
-const SiswaCourseFooter = ({ className, course, stage, history }) => {
+const SiswaCourseFooter = ({ className, course, stage, history,onMenuClick }) => {
   const [prev, setPrev] = useState('');
   const [next, setNext] = useState('');
   useEffect(
@@ -29,7 +29,7 @@ const SiswaCourseFooter = ({ className, course, stage, history }) => {
       style={{ height: '50px', backgroundColor: '#343A40' }}
     >
       <div className="col-4">
-        <button className="btn btn-primary-outline btn-menu" type="button">
+        <button className="btn btn-primary-outline btn-menu" onClick={onMenuClick} type="button">
           <span className="menu-icon">
             <FontAwesomeIcon icon="bars" />
           </span>

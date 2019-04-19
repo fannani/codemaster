@@ -51,7 +51,6 @@ class ErrorBoundary extends Component {
 }
 
 const StyledErrorBoundary = styled(ErrorBoundary)`
-  border: 1px red dashed;
   display: flex;
   justify-content: center;
   align-items: center;
