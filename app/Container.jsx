@@ -46,6 +46,9 @@ const getUserConfirmation = (dialogKey, callback) => {
   callback(true);
 };
 
+let ErrorCatch;
+
+
 let Container = () => (
   <ApolloProvider client={client}>
     <BrowserRouter getUserConfirmation={getUserConfirmation}>

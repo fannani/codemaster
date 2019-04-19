@@ -3,28 +3,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import styled from 'styled-components';
 
-const SiswaCourseFooter = ({ className }) => (
-  <div
-    className={classnames(className, 'row', 'flex-xl-nowrap')}
-    style={{ height: '50px', backgroundColor: '#343A40' }}
-  >
-    <div className="col-4">
-      <button className="btn btn-primary-outline btn-menu" type="button">
-        <span className="menu-icon">
-          <FontAwesomeIcon icon="bars" />
+const SiswaCourseFooter = ({ className, course,stage }) => {
+
+  return <div className={classnames(className, 'row', 'flex-xl-nowrap')} style={{ height: '50px', backgroundColor: '#343A40' }}>
+      <div className="col-4">
+        <button className="btn btn-primary-outline btn-menu" type="button">
+          <span className="menu-icon">
+            <FontAwesomeIcon icon="bars" />
+          </span>
+          <span className="course-title">1. Heading</span>
+        </button>
+      </div>
+      <div className="col-4 level-nav">
+        <button className="btn float-left " disabled>
+          Back
+        </button>
+        <span className="level-text">
+          {stage.index}/{course.stages.length}
         </span>
-        <span className="course-title">1. Heading</span>
-      </button>
-    </div>
-    <div className="col-4 level-nav">
-      <button className="btn float-left " disabled>
-        Back
-      </button>
-      <span className="level-text">1/6</span>
-      <button className="btn float-right ">Next</button>
-    </div>
-  </div>
-);
+        <button className="btn float-right ">Next</button>
+      </div>
+    </div>;
+};
 
 const StyleCourseFooter = styled(SiswaCourseFooter)`
   .btn-menu {

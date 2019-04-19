@@ -124,7 +124,7 @@ const Course = ({
                             size={interactive.outputSize}
                           />
                         </div>
-                        <SiswaCourseFooter />
+                        <SiswaCourseFooter course={stages[0].course} stage={stages[0]} />
                         <SiswaCourseScoreBoard
                           show={showModal}
                           stars={stars}

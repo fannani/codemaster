@@ -12,11 +12,13 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     this.setState({ error });
-    Sentry.withScope(scope => {
-      scope.setExtras(errorInfo);
-      const eventId = Sentry.captureException(error);
-      this.setState({ eventId });
-    });
+    if (process.env.MODE === 'production') {
+      Sentry.withScope(scope => {
+        scope.setExtras(errorInfo);
+        const eventId = Sentry.captureException(error);
+        this.setState({ eventId });
+      });
+    }
   }
 
   render() {
@@ -37,7 +39,7 @@ class ErrorBoundary extends Component {
               >
                 disini
               </button>{' '}
-              untuk mengirimkan laporan tambahan. Terimakasih
+              untuk mengirimkan informasi tambahan. Terimakasih
             </p>
           </div>
         </div>
