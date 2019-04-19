@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import EnergyModal from './EnergyModal';
+import VideoModal from './VideoModal';
 import Header from './Header';
 import { RouteSiswa } from '../../config/route';
 import usePlayer from '../../hooks/player';
 
 const Layout = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const player = usePlayer();
 
   useEffect(() => {
@@ -18,6 +20,11 @@ const Layout = () => {
   const onLogout = () => {
     player.logout();
   };
+
+  const onClickVideo = () => {
+    setShowVideo(true);
+  };
+
   return (
     <div className="app-container">
       <Header
@@ -39,9 +46,11 @@ const Layout = () => {
 
       <RouteSiswa />
       <EnergyModal
+        onClickVideo={onClickVideo}
         showModal={showModal}
-        onClickBackdrop={() => setShowModal(false)}
+        onClose={() => setShowModal(false)}
       />
+      <VideoModal showModal={showVideo} onClose={() => setShowVideo(false)} />
     </div>
   );
 };

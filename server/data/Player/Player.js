@@ -7,6 +7,7 @@ const PlayerSchema = new Schema({
   energy: Number,
   birthday: Date,
   exp: Number,
+  energy_time: Date,
   friends: [Schema.Types.ObjectId],
   updated_at: { type: Date, default: Date.now },
 });

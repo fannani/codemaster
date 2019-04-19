@@ -16,6 +16,7 @@ const SiswaCourseScoreBoard = ({
   stars,
   onClickBackdrop,
   stage,
+  onReset,
 }) => (
   <Modal visible={show} onClickBackdrop={onClickBackdrop}>
     <div className="modal-header">
@@ -33,7 +34,7 @@ const SiswaCourseScoreBoard = ({
       <Link to={`/course/${stage.course._id}`} className="btn btn-secondary">
         Kembali
       </Link>
-      <button type="button" className="btn btn-secondary">
+      <button type="button" className="btn btn-secondary" onClick={onReset}>
         Main lagi
       </button>
       {(function() {

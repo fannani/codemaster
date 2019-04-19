@@ -1,8 +1,8 @@
 import Modal from 'react-bootstrap4-modal';
 import React from 'react';
 
-const EnergyModal = ({ showModal, onClickBackdrop }) => (
-  <Modal visible={showModal} onClickBackdrop={onClickBackdrop}>
+const EnergyModal = ({ showModal, onClose, onClickVideo }) => (
+  <Modal visible={showModal} onClickBackdrop={onClose}>
     <div className="modal-header">
       <h5 className="modal-title">Menambah Energy</h5>
     </div>
@@ -13,6 +13,7 @@ const EnergyModal = ({ showModal, onClickBackdrop }) => (
             type="button"
             style={{ width: '100%' }}
             className="btn btn-primary"
+            onClick={onClickVideo}
           >
             Lihat Video
           </button>

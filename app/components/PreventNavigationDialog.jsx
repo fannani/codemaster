@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Prompt } from 'react-router-dom';
-import cuid from 'cuid';
+import shortid from 'shortid';
 import Modal from 'react-bootstrap4-modal';
 
-const __trigger = Symbol.for(`__PreventNavigationDialog_${cuid()}`);
+const __trigger = Symbol.for(`__PreventNavigationDialog_${shortid.generate()}`);
 let nextLocation;
 let allowRedirect = false;
 

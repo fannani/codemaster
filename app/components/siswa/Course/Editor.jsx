@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AceEditor from 'react-ace';
 import styled from 'styled-components';
 import classNames from 'classnames';
@@ -21,6 +21,7 @@ const SiswaCourseEditor = ({
   onChange,
   onClick,
   show,
+  editorId,
 }) => {
   const [script, setScript] = useState(initialScript);
   const onChangeScript = value => {
@@ -31,6 +32,14 @@ const SiswaCourseEditor = ({
     idoc.write(value);
     idoc.close();
   };
+  useEffect(
+    () => {
+      setScript(initialScript);
+      onChangeScript(initialScript);
+    },
+    [editorId],
+  );
+
   return (
     <div
       onClick={onClick}

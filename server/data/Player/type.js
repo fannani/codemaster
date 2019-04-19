@@ -26,6 +26,7 @@ const PlayerType = new GraphQLObjectType({
     },
     energy: { type: GraphQLNonNull(GraphQLInt) },
     friends: { type: GraphQLList(GraphQLID) },
+    energy_time: { type: GraphQLString },
     stars: {
       type: GraphQLInt,
       async resolve({ _id }) {

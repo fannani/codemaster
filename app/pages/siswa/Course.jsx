@@ -15,6 +15,7 @@ import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 import usePlayer from '../../hooks/player';
 import useInteractiveCoding from '../../hooks/interactiveCoding';
 import { ADD_SCORE } from '../../queries/courses';
+import shortid from 'shortid';
 
 let script = '';
 let interval = null;
@@ -29,6 +30,7 @@ const Course = ({
   const [lifeResult, setLifeResult] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isPlay, setIsPlay] = useState(true);
+  const [editorId, setEditorId] = useState(shortid.generate());
   const [showModal, setShowModal] = useState(false);
   const [stars, setStars] = useState([]);
   const [intervalState, setIntervalState] = useState(null);
@@ -37,16 +39,21 @@ const Course = ({
   const onSetSidebarOpen = open => {
     setSidebarOpen(open);
   };
+
+  const reset = () => {
+    setShowModal(false);
+    setEditorId(shortid.generate());
+    setIsPlay(true);
+    player.resetTimer();
+    player.reduceEnergy(player.user.userdetail._id, energyNeed);
+    interval = setInterval(player.incrementTimer, 1000);
+    setIntervalState(interval);
+    player.setPlayerStatus(0, 3);
+    player.setPlayMode(true);
+  };
   useEffect(
     () => {
-      setShowModal(false);
-      setIsPlay(true);
-      player.resetTimer();
-      player.reduceEnergy(player.user.userdetail._id, energyNeed);
-      interval = setInterval(player.incrementTimer, 1000);
-      setIntervalState(interval);
-      player.setPlayerStatus(0, 3);
-      player.setPlayMode(true);
+      reset();
       return () => {
         player.setPlayMode(false);
         clearInterval(interval);
@@ -125,9 +132,11 @@ const Course = ({
                               }
                               onClick={interactive.onEditorClick}
                               show={interactive.editorShow}
+                              editorId={editorId}
                               initialScript={stages[0].script}
                               onExpandClick={interactive.onEditorExpandClick}
                               size={interactive.editorSize}
+                              onReset={reset}
                               onChange={data => {
                                 script = data;
                               }}
@@ -154,6 +163,7 @@ const Course = ({
                             life={lifeResult}
                             score={scoreResult}
                             stage={stages[0]}
+                            onReset={reset}
                             onClickBackdrop={() => {
                               setShowModal(false);
                             }}
