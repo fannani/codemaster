@@ -87,6 +87,7 @@ export const reducer = (state, action) => {
             ...state.user.userdetail,
             exp: action.user.exp,
             daily_exp: action.user.daily_exp,
+            stars: action.user.stars,
           },
         },
       };

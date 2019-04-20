@@ -107,7 +107,7 @@ const Dashboard = ({ className }) => {
                     </div>
                     <div className="col-8 caption">
                       <p>Stars</p>
-                      <div className="value">11</div>
+                      <div className="value">{player.user.userdetail.stars}</div>
                     </div>
                   </div>
                 </div>

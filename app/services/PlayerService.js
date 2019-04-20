@@ -3,7 +3,7 @@ import APIService from './APIService';
 const addEnergy = (userid, energy) =>
   APIService.mutation(
     `addEnergy(userid : "${userid}", energy: ${energy}){
-          _id,energy
+          _id,energy,stars
         }`,
   ).then(response => response.data.data.addEnergy);
 

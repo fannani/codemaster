@@ -31,6 +31,7 @@ const SiswaCourseScoreBoard = ({
       <br />
       TIME : {timer}
       <br />
+      <br />
       {life > 0 ? `Anda Mendapat EXP sebesar ${exp}` : ''}
     </div>
     <div className="modal-footer">
