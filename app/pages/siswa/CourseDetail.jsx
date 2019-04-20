@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import classnames from 'classnames';
@@ -8,9 +8,14 @@ import SiswaStageItem from '../../components/siswa/Stage/Item';
 import { GET_COURSE_BYID } from '../../queries/courses';
 import { GET_STAGE_BY_COURSE_PLAYER } from '../../queries/stages';
 import usePlayer from '../../hooks/player';
+import Modal from 'react-bootstrap4-modal';
 
 const CourseDetail = ({ match, className }) => {
+  const [showModal, setShowModal] = useState(false);
   const player = usePlayer();
+  const onOutOfEnergy = () => {
+    setShowModal(true);
+  };
   return (
     <Query
       query={GET_COURSE_BYID}
@@ -65,6 +70,8 @@ const CourseDetail = ({ match, className }) => {
                                   key={stages[i]._id}
                                   stage={stages[i]}
                                   unlock={unlock}
+                                  onOutOfEnergy={onOutOfEnergy}
+                                  energy={player.user.userdetail.energy}
                                 />,
                               );
                               unlock = stages[i].win;
@@ -81,6 +88,19 @@ const CourseDetail = ({ match, className }) => {
                 </div>
               </main>
             </div>
+            <Modal
+              visible={showModal}
+              onClickBackdrop={() => {
+                setShowModal(false);
+              }}
+            >
+              <div className="modal-header">
+                <h5 className="modal-title">Kekurangan Energi</h5>
+              </div>
+              <div className="modal-body">
+                <h4>Energi anda habis, silahkan tambah energi</h4>
+              </div>
+            </Modal>
           </div>
         );
       }}

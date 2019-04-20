@@ -6,7 +6,13 @@ import lock from '../../../assets/images/lock.png';
 import star from '../../../assets/images/star.png';
 import starOff from '../../../assets/images/star-off.png';
 
-const SiswaStageItem = ({ className, stage, unlock }) => {
+const SiswaStageItem = ({
+  className,
+  stage,
+  unlock,
+  energy,
+  onOutOfEnergy,
+}) => {
   const child = (
     <div className="d-flex flex-wrap stageitem ">
       <div className="wrapper">
@@ -52,12 +58,21 @@ const SiswaStageItem = ({ className, stage, unlock }) => {
       <h4>{stage.title}</h4>
     </div>
   );
-  return unlock ? (
+
+  if (!unlock) {
+    return <div className={className}>{child}</div>;
+  }
+  if (energy - 20 < 0) {
+    return (
+      <a className={className} onClick={onOutOfEnergy}>
+        {child}
+      </a>
+    );
+  }
+  return (
     <Link className={className} to={`/play/${stage._id}`}>
       {child}
     </Link>
-  ) : (
-    <div className={className}>{child}</div>
   );
 };
 

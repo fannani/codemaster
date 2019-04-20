@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import YouTube from 'react-youtube';
 import Modal from 'react-bootstrap4-modal';
 
-const VideoModal = ({ showModal, onClose }) => {
+const VideoModal = ({ showModal, onClose, onEnd }) => {
   const [player, setPlayer] = useState(false);
 
   useEffect(
@@ -14,7 +14,6 @@ const VideoModal = ({ showModal, onClose }) => {
     [showModal],
   );
   const onReady = event => {
-    event.target.playVideo();
     setPlayer(event.target);
   };
 
@@ -36,6 +35,7 @@ const VideoModal = ({ showModal, onClose }) => {
             videoId="Dxcc6ycZ73M"
             onReady={onReady}
             onEnd={() => {
+              onEnd();
               onClose();
             }}
             opts={{

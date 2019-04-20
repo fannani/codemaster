@@ -6,16 +6,18 @@ import PlayerType from './type';
 import UserType from '../User/type';
 
 const PlayerMutation = {
-  reduceEnergy: {
+  addEnergy: {
     type: PlayerType,
-    description: 'Reduce Energy',
+    description: 'Add Energy',
     args: {
       energy: { type: new GraphQLNonNull(GraphQLInt) },
       userid: { type: new GraphQLNonNull(GraphQLID) },
     },
     async resolve(root, { energy, userid }) {
       const player = await Player.findById(userid);
-      player.energy -= energy;
+      if (player.energy + energy >= 0) {
+        player.energy += energy;
+      }
       return await player.save();
     },
   },

@@ -22,6 +22,7 @@ const Layout = () => {
   };
 
   const onClickVideo = () => {
+    setShowModal(false);
     setShowVideo(true);
   };
 
@@ -50,7 +51,14 @@ const Layout = () => {
         showModal={showModal}
         onClose={() => setShowModal(false)}
       />
-      <VideoModal showModal={showVideo} onClose={() => setShowVideo(false)} />
+      <VideoModal
+        showModal={showVideo}
+        onClose={() => setShowVideo(false)}
+        onEnd={() => {
+          setShowVideo(false);
+          player.addEnergy(100);
+        }}
+      />
     </div>
   );
 };

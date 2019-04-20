@@ -7,9 +7,9 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   LOGOUT_REQUEST,
-  REDUCE_ENERGY_FAILURE,
-  REDUCE_ENERGY_REQUEST,
-  REDUCE_ENERGY_SUCCESS,
+  ADD_ENERGY_FAILURE,
+  ADD_ENERGY_REQUEST,
+  ADD_ENERGY_SUCCESS,
   ADD_EXP_FAILURE,
   ADD_EXP_REQUEST,
   ADD_EXP_SUCCESS,
@@ -51,12 +51,13 @@ const usePlayer = () => {
     dispatch(success());
   };
 
-  const reduceEnergy = (userid, energy) => {
-    const request = () => ({ type: REDUCE_ENERGY_REQUEST });
-    const success = user => ({ type: REDUCE_ENERGY_SUCCESS, user });
-    const failure = error => ({ type: REDUCE_ENERGY_FAILURE, error });
+  const addEnergy = energy => {
+    const userid = state.user.userdetail._id;
+    const request = () => ({ type: ADD_ENERGY_REQUEST });
+    const success = user => ({ type: ADD_ENERGY_SUCCESS, user });
+    const failure = error => ({ type: ADD_ENERGY_FAILURE, error });
     dispatch(request());
-    return PlayerService.reduceEnergy(userid, energy).then(
+    return PlayerService.addEnergy(userid, energy).then(
       player => {
         dispatch(success(player));
       },
@@ -85,7 +86,7 @@ const usePlayer = () => {
   return {
     login,
     logout,
-    reduceEnergy,
+    addEnergy,
     addExp,
     isLogin: state.isLogin && state.user.role === 'siswa',
     user: state.user,

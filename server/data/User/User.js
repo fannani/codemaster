@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
   city: String,
   province: String,
   password: String,
+  last_login: Date,
   userdetailid: Schema.Types.ObjectId,
   updated_at: { type: Date, default: Date.now },
 });

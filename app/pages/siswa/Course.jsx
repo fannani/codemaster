@@ -45,7 +45,7 @@ const Course = ({
     setEditorId(shortid.generate());
     setIsPlay(true);
     player.resetTimer();
-    player.reduceEnergy(player.user.userdetail._id, energyNeed);
+    player.addEnergy(energyNeed * -1);
     interval = setInterval(player.incrementTimer, 1000);
     setIntervalState(interval);
     player.setPlayerStatus(0, 3);

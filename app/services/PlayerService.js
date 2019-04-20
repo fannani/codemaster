@@ -1,11 +1,11 @@
 import APIService from './APIService';
 
-const reduceEnergy = (userid, energy) =>
+const addEnergy = (userid, energy) =>
   APIService.mutation(
-    `reduceEnergy(userid : "${userid}", energy: ${energy}){
+    `addEnergy(userid : "${userid}", energy: ${energy}){
           _id,energy
         }`,
-  ).then(response => response.data.data.reduceEnergy);
+  ).then(response => response.data.data.addEnergy);
 
 const addExp = (userid, exp) => {
   return APIService.mutation(
@@ -20,7 +20,7 @@ const addPlayerAchievement = (player, achievement, star, point) =>
   ).then(response => response.data.data.addPlayerAchievement);
 
 export default {
-  reduceEnergy,
+  addEnergy,
   addPlayerAchievement,
   addExp,
 };

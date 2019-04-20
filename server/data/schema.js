@@ -53,7 +53,7 @@ const BKMutationRootType = new GraphQLObjectType({
     updateStage: stageMutation.updateStage,
     addMission: missionMutation.addMission,
     updateMission: missionMutation.updateMission,
-    reduceEnergy: playerMutation.reduceEnergy,
+    addEnergy: playerMutation.addEnergy,
     addPlayerAchievement: playerAchievementMutation.addPlayerAchievement,
     register: playerMutation.register,
     addTestCaseMission: testCaseMissionMutation.addTestCaseMission,
