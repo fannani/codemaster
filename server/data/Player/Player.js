@@ -52,7 +52,10 @@ PlayerSchema.methods.level = async function() {
   })
     .sort({ level: -1 })
     .limit(1);
-  return playerlevel[0].level;
+  if (playerlevel.length) {
+    return playerlevel[0].level;
+  }
+  return 1;
 };
 
 PlayerSchema.methods.targetExp = async function() {

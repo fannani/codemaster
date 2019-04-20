@@ -61,7 +61,7 @@ const PlayerMutation = {
       const validationErrors = {};
       if (exist.length <= 0) {
         const newplayer = new Player({
-          energy: 0,
+          energy: 200,
           birthday: Date.now(),
           exp: 0,
         });
@@ -71,7 +71,6 @@ const PlayerMutation = {
           email,
           password,
           role: 'siswa',
-
           userdetailid: newplayer._id,
         });
         return await newuser.save();

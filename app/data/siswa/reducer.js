@@ -6,6 +6,7 @@ import {
   SET_PLAYER_STATUS,
   UPDATE_TIMER,
   ADD_ENERGY_SUCCESS,
+  ADD_EXP_SUCCESS,
 } from './types';
 
 export const initialState = {
@@ -70,10 +71,20 @@ export const reducer = (state, action) => {
       return { ...state, gameplay: { ...gameplay, play: action.play } };
 
     case ADD_ENERGY_SUCCESS:
-      let userdetail = { ...state.user.userdetail, energy: action.user.energy };
       return {
         ...state,
-        user: { ...state.user, userdetail },
+        user: {
+          ...state.user,
+          userdetail: { ...state.user.userdetail, energy: action.user.energy },
+        },
+      };
+    case ADD_EXP_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          userdetail: { ...state.user.userdetail, exp: action.user.exp },
+        },
       };
     case LOGOUT_SUCCESS:
       return initialState;

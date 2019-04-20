@@ -169,6 +169,7 @@ const Course = ({
                             life={lifeResult}
                             score={scoreResult}
                             stage={stages[0]}
+                            exp={stages[0].exp_reward}
                             onReset={reset}
                             onClickBackdrop={() => {
                               setShowModal(false);

@@ -17,6 +17,7 @@ const SiswaCourseScoreBoard = ({
   onClickBackdrop,
   stage,
   onReset,
+  exp,
 }) => (
   <Modal visible={show} onClickBackdrop={onClickBackdrop}>
     <div className="modal-header">
@@ -29,6 +30,8 @@ const SiswaCourseScoreBoard = ({
       SCORE : {life > 0 ? score : '0'}
       <br />
       TIME : {timer}
+      <br />
+      {life > 0 ? `Anda Mendapat EXP sebesar ${exp}` : ''}
     </div>
     <div className="modal-footer">
       <Link to={`/course/${stage.course._id}`} className="btn btn-secondary">
