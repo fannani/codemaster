@@ -2,8 +2,7 @@ import { GraphQLNonNull, GraphQLID, GraphQLInt, GraphQLList } from 'graphql';
 
 import AchievementType from './type';
 import PlayerAchievement from './PlayerAchievement';
-import Achievement from '../../Achievement/Achievement';
-import DetailAchievement from '../../Achievement/Detail/DetailAchievement';
+import Player from '../Player';
 
 const PlayerAchievementMutation = {
   addPlayerAchievement: {
@@ -33,28 +32,8 @@ const PlayerAchievementMutation = {
       achievement: { type: new GraphQLNonNull(GraphQLID) },
     },
     async resolve(root, { player, achievement }) {
-      const playerAchiev = await PlayerAchievement.find({ player });
-      const allDetail = await DetailAchievement.find({ achievement });
-
-      if (playerAchiev.length) {
-        const detail = await DetailAchievement.find({
-          achievement,
-          star: playerAchiev[0].star,
-        });
-        if (playerAchiev.point < detail.target_point) {
-          playerAchiev.point += 1;
-        } else if (playerAchiev.star < allDetail.length) {
-          playerAchiev.star += 1;
-        }
-      } else {
-        const newachiev = new PlayerAchievement({
-          player,
-          achievement,
-          star: 0,
-          point: 1,
-        });
-        return newachiev.save();
-      }
+      const _player = await Player.findById(player);
+      return _player.giveAchievement(achievement);
     },
   },
 };

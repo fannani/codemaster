@@ -2,6 +2,9 @@ import mongoose, { Schema } from 'mongoose';
 import Score from '../Course/Stage/Score/Score';
 import Course from '../Course/Course';
 import PlayerLevel from './Level/PlayerLevel';
+import PlayerAchievement from './Achievement/PlayerAchievement';
+import DetailAchievement from '../Achievement/Detail/DetailAchievement';
+import Achievement from '../Achievement/Achievement';
 
 const PlayerSchema = new Schema({
   energy: { type: Number, default: 0 },
@@ -27,6 +30,48 @@ PlayerSchema.methods.scores = async function() {
     },
   ]);
   return score;
+};
+
+PlayerSchema.methods.resetAchievement = async function(achievement) {
+  const playerAchiev = await PlayerAchievement.findOne({
+    player: this._id,
+    achievement,
+  });
+
+  playerAchiev.point = 0;
+  return playerAchiev.save();
+};
+
+PlayerSchema.methods.giveAchievement = async function(achievement) {
+  const playerAchiev = await PlayerAchievement.findOne({
+    player: this._id,
+    achievement,
+  });
+  const allDetail = await DetailAchievement.find({ achievement });
+  const achiev = await Achievement.findById(achievement);
+
+  if (playerAchiev) {
+    const detail = await DetailAchievement.findOne({
+      achievement,
+      star: playerAchiev.star + 1,
+    });
+    if (playerAchiev.point < detail.target_point - 1) {
+      playerAchiev.point += 1;
+    } else if (playerAchiev.star < allDetail.length) {
+      playerAchiev.star += 1;
+      if (!achiev.continuous) {
+        playerAchiev.point = 0;
+      }
+    }
+    return playerAchiev.save();
+  }
+  const newachiev = new PlayerAchievement({
+    player: this._id,
+    achievement,
+    star: 0,
+    point: 1,
+  });
+  return newachiev.save();
 };
 
 PlayerSchema.methods.courseScore = async function() {
