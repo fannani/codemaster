@@ -7,7 +7,7 @@ const getUserDetail = async function(user) {
   if (user.role === 'siswa') {
     query = `players(_id:"${
       user.userdetailid
-    }"){_id,energy,stars,exp,level,target_exp, daily_exp}`;
+    }"){_id,energy,stars,exp,level,target_exp, daily_exp,total_achievement}`;
   }
   const result = await APIService.query(query);
   return Object.assign(user, {

@@ -32,6 +32,19 @@ PlayerSchema.methods.scores = async function() {
   return score;
 };
 
+PlayerSchema.methods.totalAchievement = async function() {
+  const achiev = await PlayerAchievement.aggregate([
+    { $match: { player: this._id } },
+    {
+      $group: {
+        _id: '$player',
+        total: { $sum: '$star' },
+      },
+    },
+  ]);
+  return achiev[0].total;
+};
+
 PlayerSchema.methods.resetAchievement = async function(achievement) {
   const playerAchiev = await PlayerAchievement.findOne({
     player: this._id,

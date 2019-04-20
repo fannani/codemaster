@@ -29,6 +29,13 @@ const PlayerType = new GraphQLObjectType({
     daily_exp: { type: GraphQLInt },
     daily_login: { type: GraphQLBoolean },
     energy_time: { type: GraphQLString },
+    total_achievement: {
+      type: GraphQLInt,
+      async resolve({ _id }) {
+        const score = await Player.findById(_id);
+        return score.totalAchievement();
+      },
+    },
     stars: {
       type: GraphQLInt,
       async resolve({ _id }) {
