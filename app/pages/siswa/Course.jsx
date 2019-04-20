@@ -16,6 +16,7 @@ import usePlayer from '../../hooks/player';
 import useInteractiveCoding from '../../hooks/interactiveCoding';
 import { ADD_SCORE } from '../../queries/courses';
 import shortid from 'shortid';
+import Modal from 'react-bootstrap4-modal';
 
 let script = '';
 let interval = null;
@@ -34,6 +35,7 @@ const Course = ({
   const [showModal, setShowModal] = useState(false);
   const [stars, setStars] = useState([]);
   const [intervalState, setIntervalState] = useState(null);
+  const [showOutOfEnergy, setShowOutOfEnergy] = useState(false);
   const player = usePlayer();
   const interactive = useInteractiveCoding();
   const onSetSidebarOpen = open => {
@@ -53,6 +55,10 @@ const Course = ({
   };
   useEffect(
     () => {
+      if (player.user.userdetail.energy - energyNeed < 0) {
+        setIsPlay(false);
+        setShowOutOfEnergy(true);
+      }
       reset();
       return () => {
         player.setPlayMode(false);
@@ -174,6 +180,27 @@ const Course = ({
                   )}
                 </Mutation>
               </main>
+
+              <Modal visible={showOutOfEnergy}>
+                <div className="modal-header">
+                  <h5 className="modal-title">Kekurangan Energi</h5>
+                </div>
+                <div className="modal-body">
+                  <h4>Energi anda habis, silahkan tambah energi</h4>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      history.push(`/course/${stages[0].course._id}`);
+                    }}
+                  >
+                    OK
+                  </button>
+                </div>
+              </Modal>
+
               <PreventNavigationDialog
                 when={isPlay}
                 title="Peringatan"

@@ -5,7 +5,7 @@ import {
   SET_PLAY_MODE,
   SET_PLAYER_STATUS,
   UPDATE_TIMER,
-  REDUCE_ENERGY_SUCCESS,
+  ADD_ENERGY_SUCCESS,
 } from './types';
 
 export const initialState = {
@@ -69,7 +69,7 @@ export const reducer = (state, action) => {
     case SET_PLAY_MODE:
       return { ...state, gameplay: { ...gameplay, play: action.play } };
 
-    case REDUCE_ENERGY_SUCCESS:
+    case ADD_ENERGY_SUCCESS:
       let userdetail = { ...state.user.userdetail, energy: action.user.energy };
       return {
         ...state,
