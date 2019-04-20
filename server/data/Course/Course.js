@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import Score from './Stage/Score/Score';
 import Stage from './Stage/Stage';
 
@@ -7,6 +7,7 @@ const CourseSchema = new mongoose.Schema({
   desc: String,
   script: String,
   imageid: String,
+  badge: { type: Schema.Types.ObjectId, ref: 'Badge' },
   updated_at: { type: Date, default: Date.now },
 });
 
