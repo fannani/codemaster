@@ -9,7 +9,7 @@ const testcase = {
     _id: { type: GraphQLID },
   },
   async resolve(parent, args) {
-    return await TestCase.find(args);
+    return TestCase.find(args);
   },
 };
 

@@ -10,7 +10,7 @@ const addEnergy = (userid, energy) =>
 const addExp = (userid, exp) => {
   return APIService.mutation(
     `addExp(userid : "${userid}", exp: ${exp}){
-          _id,exp
+          _id,exp,daily_exp
         }`,
   ).then(response => response.data.data.addExp);
 };

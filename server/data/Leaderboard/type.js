@@ -19,7 +19,7 @@ const LeaderboardType = new GraphQLObjectType({
     player: {
       type: PlayerType,
       async resolve({ _id }) {
-        return await Player.findOne({ _id });
+        return Player.findOne({ _id });
       },
     },
   }),

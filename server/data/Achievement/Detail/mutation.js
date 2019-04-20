@@ -20,7 +20,7 @@ const DetailAchievementMutation = {
         caption,
         target_point,
       });
-      return await detail.save();
+      return detail.save();
     },
   },
 };

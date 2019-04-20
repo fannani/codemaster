@@ -18,10 +18,9 @@ const PlayerMutation = {
       if (player.energy + energy >= 0) {
         player.energy += energy;
       }
-      return await player.save();
+      return player.save();
     },
   },
-
   addExp: {
     type: PlayerType,
     description: 'Adding Experience Point',
@@ -32,7 +31,14 @@ const PlayerMutation = {
     async resolve(root, { exp, userid }) {
       const player = await Player.findById(userid);
       player.exp += exp;
-      return await player.save();
+      const dailyDate = new Date(player.daily_exp_date);
+      const currentDate = new Date();
+      if (dailyDate.getDate() !== currentDate.getDate()) {
+        player.daily_exp = 0;
+      }
+
+      player.daily_exp += exp; //TODO: check if daily target achieved
+      return player.save();
     },
   },
   addFriend: {
@@ -45,7 +51,7 @@ const PlayerMutation = {
     async resolve(root, { playerid, friendid }) {
       const player = await Player.findById(playerid);
       player.friends.push(friendid);
-      return await player.save();
+      return player.save();
     },
   },
   register: {
@@ -73,7 +79,7 @@ const PlayerMutation = {
           role: 'siswa',
           userdetailid: newplayer._id,
         });
-        return await newuser.save();
+        return newuser.save();
       } else {
         validationErrors.email = 'Email sudah ada';
         throw new UserInputError('error', { validationErrors });

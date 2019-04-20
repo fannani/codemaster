@@ -17,7 +17,7 @@ const TestCaseMutation = {
         caption,
         script,
       });
-      return await newtest.save();
+      return newtest.save();
     },
   },
   deleteTestcase: {

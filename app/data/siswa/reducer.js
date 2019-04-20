@@ -83,7 +83,11 @@ export const reducer = (state, action) => {
         ...state,
         user: {
           ...state.user,
-          userdetail: { ...state.user.userdetail, exp: action.user.exp },
+          userdetail: {
+            ...state.user.userdetail,
+            exp: action.user.exp,
+            daily_exp: action.user.daily_exp,
+          },
         },
       };
     case LOGOUT_SUCCESS:

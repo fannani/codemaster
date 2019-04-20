@@ -24,21 +24,21 @@ const ScoreType = new GraphQLObjectType({
       type: PlayerType,
       async resolve({ _id }) {
         const score = await Score.findOne({ _id });
-        return await Player.findOne({ _id: score.player });
+        return Player.findOne({ _id: score.player });
       },
     },
     course: {
       type: CourseType,
       async resolve({ _id }) {
         const score = await Score.findOne({ _id });
-        return await Course.findOne({ _id: score.course });
+        return Course.findOne({ _id: score.course });
       },
     },
     stage: {
       type: StageType,
       async resolve({ _id }) {
         const score = await Score.findOne({ _id });
-        return await Stage.findOne({ _id: score.stage });
+        return Stage.findOne({ _id: score.stage });
       },
     },
     score: { type: GraphQLNonNull(GraphQLInt) },

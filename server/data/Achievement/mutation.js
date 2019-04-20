@@ -31,7 +31,7 @@ const AchievementMutation = {
         continuous,
         imageid: id,
       });
-      return await newachiev.save();
+      return newachiev.save();
     },
   },
 };

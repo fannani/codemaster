@@ -16,7 +16,7 @@ const PlayerLevelMutation = {
         level,
         exp_req,
       });
-      return await newdata.save();
+      return newdata.save();
     },
   },
 };

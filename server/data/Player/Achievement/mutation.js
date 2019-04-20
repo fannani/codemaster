@@ -22,7 +22,7 @@ const PlayerAchievementMutation = {
         star,
         point,
       });
-      return await newachiev.save();
+      return newachiev.save();
     },
   },
   giveAchievement: {
@@ -53,7 +53,7 @@ const PlayerAchievementMutation = {
           star: 0,
           point: 1,
         });
-        return await newachiev.save();
+        return newachiev.save();
       }
     },
   },

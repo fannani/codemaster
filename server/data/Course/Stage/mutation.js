@@ -41,7 +41,7 @@ const StageMutation = {
         if (tmp) stage.index = tmp.index + 1;
         else stage.index = 1;
       }
-      return await stage.save();
+      return stage.save();
     },
   },
   updateStage: {
@@ -71,7 +71,7 @@ const StageMutation = {
       delete args.file;
       editstage.set(args);
       editstage.imageid = id;
-      return await editstage.save();
+      return editstage.save();
     },
   },
   deleteStage: {
@@ -111,7 +111,7 @@ const StageMutation = {
         );
       }
       await current.save();
-      return await Course.findById(courseid);
+      return Course.findById(courseid);
     },
   },
 };

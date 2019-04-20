@@ -9,7 +9,7 @@ const playerlevel = {
     _id: { type: GraphQLID },
   },
   async resolve(parent, args) {
-    return await PlayerLevel.find(args);
+    return PlayerLevel.find(args);
   },
 };
 

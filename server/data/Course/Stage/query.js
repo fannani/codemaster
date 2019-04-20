@@ -20,14 +20,14 @@ const stages = {
   async resolve(parent, args) {
     if (args.player && args.course) {
       let course = await Course.findById(args.course);
-      return await course.player(args.player);
+      return course.player(args.player);
     }
     if (args.player) {
       let stage = await Stage.findById(args._id);
       let player = await stage.player(args.player);
       return player;
     }
-    return await Stage.find(args);
+    return Stage.find(args);
   },
 };
 

@@ -19,7 +19,7 @@ const achievement = {
       }
       return achievements;
     }
-    return await Achievement.find(args);
+    return Achievement.find(args);
   },
 };
 

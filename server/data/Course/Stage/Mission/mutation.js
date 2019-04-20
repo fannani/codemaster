@@ -43,7 +43,7 @@ const Mutation = {
     async resolve(root, args) {
       const editmission = await Stage.findById(args.id);
       editmission.set(args);
-      return await editmission.save();
+      return editmission.save();
     },
   },
 };

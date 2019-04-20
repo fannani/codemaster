@@ -23,7 +23,7 @@ const TestCaseMissionMutation = {
         testcase,
         params,
       });
-      return await newtest.save();
+      return newtest.save();
     },
   },
 };

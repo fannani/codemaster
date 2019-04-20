@@ -4,12 +4,13 @@ import Course from '../Course/Course';
 import PlayerLevel from './Level/PlayerLevel';
 
 const PlayerSchema = new Schema({
-  energy: Number,
+  energy: { type: Number, default: 0 },
   birthday: Date,
-  exp: Number,
+  exp: { type: Number, default: 0 },
   energy_time: Date,
-  daily_exp: Number,
-  daily_login: Boolean,
+  daily_exp: { type: Number, default: 0 },
+  daily_exp_date: { type: Date, default: Date.now },
+  daily_login: Date,
   friends: [Schema.Types.ObjectId],
   updated_at: { type: Date, default: Date.now },
 });

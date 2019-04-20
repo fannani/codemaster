@@ -22,14 +22,14 @@ const CourseType = new GraphQLObjectType({
     stages: {
       type: GraphQLList(StageType),
       async resolve({ _id }) {
-        return await Stage.find({ course: _id }).sort({ index: 1 });
+        return Stage.find({ course: _id }).sort({ index: 1 });
       },
     },
     leaderboard: {
       type: GraphQLList(LeaderboardType),
       async resolve({ _id }) {
         let course = await Course.findById(_id);
-        return await course.leaderboard();
+        return course.leaderboard();
       },
     },
     updated_at: { type: new GraphQLNonNull(GraphQLString) },

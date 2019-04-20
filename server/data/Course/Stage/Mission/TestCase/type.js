@@ -19,7 +19,7 @@ const TestCaseMissionType = new GraphQLObjectType({
       type: TestCaseType,
       async resolve({ _id }) {
         const data = await TestCaseMission.findOne({ _id });
-        return await TestCase.findOne({ _id: data.testcase });
+        return TestCase.findOne({ _id: data.testcase });
       },
     },
     params: { type: GraphQLList(GraphQLString) },

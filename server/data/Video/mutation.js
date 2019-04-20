@@ -44,7 +44,7 @@ const CourseMutation = {
       const edit = await Course.findById(args.id);
       delete args.id;
       edit.set(args);
-      return await edit.save();
+      return edit.save();
     },
   },
   deleteCourse: {

@@ -171,9 +171,6 @@ const Course = ({
                             stage={stages[0]}
                             exp={stages[0].exp_reward}
                             onReset={reset}
-                            onClickBackdrop={() => {
-                              setShowModal(false);
-                            }}
                           />
                         </>
                       )}

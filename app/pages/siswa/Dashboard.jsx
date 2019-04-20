@@ -145,12 +145,12 @@ const Dashboard = ({ className }) => {
                   <div className="row justify-content-center">
                     <div className="col-9">
                       <Circle
-                        percent={20}
+                        percent={(player.user.userdetail.daily_exp / 300) * 100}
                         strokeWidth="4"
                         strokeColor="#7386D5"
                       />
                       <p className="xp-caption">
-                        <span>0/300</span>
+                        <span>{player.user.userdetail.daily_exp}/300</span>
                         <br />
                         XP Diperoleh
                       </p>

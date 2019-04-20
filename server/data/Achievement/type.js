@@ -24,7 +24,7 @@ const AchievementType = new GraphQLObjectType({
     detail: {
       type: GraphQLList(AchievementDetailType),
       async resolve({ _id }) {
-        return await DetailAchievement.find({ achievement: _id });
+        return DetailAchievement.find({ achievement: _id });
       },
     },
     updated_at: { type: new GraphQLNonNull(GraphQLString) },
