@@ -8,6 +8,8 @@ const PlayerSchema = new Schema({
   birthday: Date,
   exp: Number,
   energy_time: Date,
+  daily_exp: Number,
+  daily_login: Boolean,
   friends: [Schema.Types.ObjectId],
   updated_at: { type: Date, default: Date.now },
 });
