@@ -67,6 +67,10 @@ const usePlayer = () => {
     );
   };
 
+  const addBadge = (badge) => {
+
+  }
+
   const addExp = exp => {
     const userid = state.user.userdetail._id;
     const request = () => ({ type: ADD_EXP_REQUEST });

@@ -119,6 +119,11 @@ const Course = ({
                         setShowModal(true);
                         setStars(starCount);
                         clearInterval(intervalState);
+                        if (
+                          stages[0].index === stages[0].course.stages.length
+                        ) {
+                          console.log('GET BADGES');
+                        }
                       }}
                     >
                       {({ result }) => (

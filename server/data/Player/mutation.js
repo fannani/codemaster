@@ -21,6 +21,18 @@ const PlayerMutation = {
       return player.save();
     },
   },
+  addBadge: {
+    type: PlayerType,
+    description: 'Adding Badge',
+    args: {
+      id: {type: GraphQLNonNull(GraphQLID)},
+      badge: {type: new GraphQLNonNull(GraphQLID)}
+    },
+    async resolve(root, {id,badge}){
+      const player = await Player.findOneAndUpdate({_id:id },{$addToSet: { badges: badge}});
+      return player;
+    }
+  },
   addExp: {
     type: PlayerType,
     description: 'Adding Experience Point',

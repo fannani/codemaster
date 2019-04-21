@@ -69,6 +69,7 @@ const BKMutationRootType = new GraphQLObjectType({
     deleteTestcase: testCaseMutation.deleteTestcase,
     addBadge: badgeMutation.addBadge,
     updateBadge: badgeMutation.updateBadge,
+    addBadgePlayer: playerMutation.addBadge,
   }),
 });
 

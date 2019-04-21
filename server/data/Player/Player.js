@@ -14,6 +14,7 @@ const PlayerSchema = new Schema({
   daily_exp: { type: Number, default: 0 },
   daily_exp_date: { type: Date, default: Date.now },
   daily_login: Date,
+  badges: [{ type: Schema.Types.ObjectId, ref: 'Badge' }],
   friends: [Schema.Types.ObjectId],
   updated_at: { type: Date, default: Date.now },
 });
