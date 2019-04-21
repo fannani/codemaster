@@ -38,7 +38,7 @@ const BadgeMutation = {
     },
     async resolve(root, { id, title, image, course }) {
       if (id) {
-        const badge = Badge.findById(id);
+        const badge = await Badge.findById(id);
         badge.title = title;
         let imageid = '';
         if (image) {

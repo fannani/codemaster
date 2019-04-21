@@ -8,6 +8,7 @@ import AdminStageCreateModal from '../../components/admin/Stage/CreateModal';
 import AdminStageDeleteModal from '../../components/admin/Stage/DeleteModal';
 import AdminStageList from '../../components/admin/Stage/List';
 import { Formik, Form, Field } from 'formik';
+import { toast } from 'react-toastify';
 
 const StageList = ({
   history,
@@ -88,6 +89,8 @@ const StageList = ({
                                       title,
                                       image,
                                     },
+                                  }).then(() => {
+                                    toast.success('Data successfully updated');
                                   });
                                 }}
                               >
