@@ -13,6 +13,9 @@ import {
   ADD_EXP_FAILURE,
   ADD_EXP_REQUEST,
   ADD_EXP_SUCCESS,
+  ADD_BADGE_FAILURE,
+  ADD_BADGE_REQUEST,
+  ADD_BADGE_SUCCESS,
 } from '../data/siswa/types';
 import {
   setPlayerStatus,
@@ -67,9 +70,21 @@ const usePlayer = () => {
     );
   };
 
-  const addBadge = (badge) => {
-
-  }
+  const addBadge = badge => {
+    const userid = state.user.userdetail._id;
+    const request = () => ({ type: ADD_BADGE_REQUEST });
+    const success = user => ({ type: ADD_BADGE_SUCCESS, user });
+    const failure = error => ({ type: ADD_BADGE_FAILURE, error });
+    dispatch(request());
+    PlayerService.addBadge(userid, badge).then(
+      player => {
+        dispatch(success(player));
+      },
+      error => {
+        dispatch(failure(error));
+      },
+    );
+  };
 
   const addExp = exp => {
     const userid = state.user.userdetail._id;
@@ -92,6 +107,7 @@ const usePlayer = () => {
     logout,
     addEnergy,
     addExp,
+    addBadge,
     isLogin: state.isLogin && state.user.role === 'siswa',
     user: state.user,
     incrementTimer: () => {

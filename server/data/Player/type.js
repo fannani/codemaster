@@ -12,6 +12,7 @@ import User from '../User/User';
 import Player from './Player';
 import UserType from '../User/type';
 import CourseType from '../Course/type';
+import BadgeType from '../Badge/type';
 
 const PlayerType = new GraphQLObjectType({
   name: 'Player',
@@ -29,6 +30,13 @@ const PlayerType = new GraphQLObjectType({
     daily_exp: { type: GraphQLInt },
     daily_login: { type: GraphQLBoolean },
     energy_time: { type: GraphQLString },
+    badges: {
+      type: GraphQLList(BadgeType),
+      async resolve({ _id }) {
+        const player = await Player.findById(_id).populate('badges.badge');
+        return player.badges;
+      },
+    },
     total_achievement: {
       type: GraphQLInt,
       async resolve({ _id }) {

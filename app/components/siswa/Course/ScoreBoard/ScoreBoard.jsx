@@ -14,12 +14,11 @@ const SiswaCourseScoreBoard = ({
   timer,
   score,
   stars,
-  onClickBackdrop,
   stage,
   onReset,
   exp,
 }) => (
-  <Modal visible={show} onClickBackdrop={onClickBackdrop}>
+  <Modal visible={show}>
     <div className="modal-header">
       <h5 className="modal-title">
         {life > 0 ? 'CONGRATULATION' : 'ANDA GAGAL COBA LAGI'}
@@ -65,7 +64,6 @@ SiswaCourseScoreBoard.propTypes = {
   score: PropTypes.number.isRequired,
   stars: PropTypes.array.isRequired,
   stage: PropTypes.object.isRequired,
-  onClickBackdrop: PropTypes.func.isRequired,
 };
 
 export default SiswaCourseScoreBoard;

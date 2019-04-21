@@ -38,6 +38,9 @@ export const GET_STAGE_BY_PLAYER = gql`
           index
           title
         }
+        badge {
+          _id
+        }
       }
       missions {
         _id

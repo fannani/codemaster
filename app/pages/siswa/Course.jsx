@@ -87,7 +87,9 @@ const Course = ({
                   sidebar: { background: 'white', zIndex: '1001' },
                   overlay: { zIndex: '1000' },
                 }}
-              />
+              >
+                <></>
+              </Sidebar>
               <main role="main" className="container-fluid">
                 <Mutation mutation={ADD_SCORE}>
                   {addScore => (
@@ -122,7 +124,7 @@ const Course = ({
                         if (
                           stages[0].index === stages[0].course.stages.length
                         ) {
-                          console.log('GET BADGES');
+                          player.addBadge(stages[0].course.badge._id);
                         }
                       }}
                     >

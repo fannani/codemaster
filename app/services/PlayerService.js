@@ -7,6 +7,13 @@ const addEnergy = (userid, energy) =>
         }`,
   ).then(response => response.data.data.addEnergy);
 
+const addBadge = (userid, badge) =>
+  APIService.mutation(
+    `addBadgePlayer(id : "${userid}", badge: "${badge}"){
+          _id,energy,badges{ _id}
+        }`,
+  ).then(response => response.data.data.addBadge);
+
 const addExp = (userid, exp) => {
   return APIService.mutation(
     `addExp(userid : "${userid}", exp: ${exp}){
@@ -20,6 +27,7 @@ const addPlayerAchievement = (player, achievement, star, point) =>
   ).then(response => response.data.data.addPlayerAchievement);
 
 export default {
+  addBadge,
   addEnergy,
   addPlayerAchievement,
   addExp,
