@@ -138,8 +138,8 @@ PlayerSchema.methods.getCourse = async function() {
     },
   ]);
   let temp = [];
-  for (let index in score) {
-    temp.push(score[index]._id);
+  for (let i = 0; i < score.length; i++) {
+    temp.push(score[i]._id);
   }
   let courses = await Course.find({
     _id: { $in: temp },

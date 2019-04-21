@@ -55,11 +55,12 @@ const Course = ({
   };
   useEffect(
     () => {
+      reset();
       if (player.user.userdetail.energy - energyNeed < 0) {
         setIsPlay(false);
         setShowOutOfEnergy(true);
       }
-      reset();
+
       return () => {
         player.setPlayMode(false);
         clearInterval(interval);

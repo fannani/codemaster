@@ -14,7 +14,8 @@ function convertTestCase(testcase) {
   let end;
   let index;
   let i = 0;
-  for (const test of testcase) {
+  for (let test of testcase) {
+    i = 0;
     let testCaseCap = test.testcase.caption;
     let testCaseScript = test.testcase.script;
     do {
@@ -30,9 +31,9 @@ function convertTestCase(testcase) {
     for (const idx in testObj) {
       testCaseScript = testCaseScript.replace(`$$${idx}$$`, testObj[idx]);
     }
-    testStr += `${testCaseScript} &&`;
+    testStr += `${testCaseScript} && `;
   }
-  return testStr.replace(/&&+$/, '');
+  return testStr.replace(/&& +$/, '');
 }
 
 export function checkResult(script, missions) {

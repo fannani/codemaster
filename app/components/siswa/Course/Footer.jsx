@@ -43,7 +43,6 @@ const SiswaCourseFooter = ({ className, course, stage, history,onMenuClick }) =>
           className="btn float-left "
           disabled={leftDisable}
           onClick={() => {
-            console.log('prev', prev);
             history.push(`/play/${prev}`);
           }}
         >
@@ -56,7 +55,6 @@ const SiswaCourseFooter = ({ className, course, stage, history,onMenuClick }) =>
           className="btn float-right "
           disabled={rightDisable}
           onClick={() => {
-            console.log('next', next);
             history.push(`/play/${next}`);
           }}
         >
