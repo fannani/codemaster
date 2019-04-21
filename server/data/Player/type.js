@@ -13,6 +13,8 @@ import Player from './Player';
 import UserType from '../User/type';
 import CourseType from '../Course/type';
 import BadgeType from '../Badge/type';
+import AchievementType from '../Achievement/type';
+import Achievement from '../Achievement/Achievement';
 
 const PlayerType = new GraphQLObjectType({
   name: 'Player',
@@ -33,8 +35,19 @@ const PlayerType = new GraphQLObjectType({
     badges: {
       type: GraphQLList(BadgeType),
       async resolve({ _id }) {
-        const player = await Player.findById(_id).populate('badges.badge');
+        const player = await Player.findById(_id).populate('badges');
+        console.log(player);
         return player.badges;
+      },
+    },
+    achievements: {
+      type: GraphQLList(AchievementType),
+      async resolve({ _id }) {
+        let achievements = await Achievement.find();
+        for (let i = 0; i < achievements.length; i++) {
+          achievements[i] = achievements[i].player(_id);
+        }
+        return achievements;
       },
     },
     total_achievement: {

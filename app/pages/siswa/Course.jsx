@@ -124,7 +124,9 @@ const Course = ({
                         if (
                           stages[0].index === stages[0].course.stages.length
                         ) {
-                          player.addBadge(stages[0].course.badge._id);
+                          if (stages[0].course.badge) {
+                            player.addBadge(stages[0].course.badge._id);
+                          }
                         }
                       }}
                     >
