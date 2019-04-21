@@ -35,18 +35,18 @@ const client = new ApolloClient({
   ]),
   cache: new InMemoryCache(),
 });
-
-Sentry.init({
-  dsn: 'https://ac3a618606d44849bc830255efa393ff@sentry.io/1442748',
-});
+if (process.env.MODE !== 'development') {
+  Sentry.init({
+    dsn: 'https://ac3a618606d44849bc830255efa393ff@sentry.io/1442748',
+    environment: process.env.MODE,
+  });
+}
 
 const getUserConfirmation = (dialogKey, callback) => {
   const dialogTrigger = window[Symbol.for(dialogKey)];
   if (dialogTrigger) return dialogTrigger(callback);
   callback(true);
 };
-
-
 
 let Container = () => (
   <ApolloProvider client={client}>

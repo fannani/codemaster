@@ -68,6 +68,7 @@ const BKMutationRootType = new GraphQLObjectType({
     reorderStage: stageMutation.reorderStage,
     deleteTestcase: testCaseMutation.deleteTestcase,
     addBadge: badgeMutation.addBadge,
+    updateBadge: badgeMutation.updateBadge,
   }),
 });
 

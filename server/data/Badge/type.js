@@ -10,8 +10,8 @@ const BadgeType = new GraphQLObjectType({
   description: 'This represent a Badge',
   fields: () => ({
     _id: { type: GraphQLNonNull(GraphQLID) },
-    title: GraphQLString,
-    imageid: GraphQLString,
+    title: { type: GraphQLString },
+    imageid: { type: GraphQLString },
     updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),
 });

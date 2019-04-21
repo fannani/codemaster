@@ -12,7 +12,7 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     this.setState({ error });
-    if (process.env.MODE === 'production') {
+    if (process.env.MODE !== 'development') {
       Sentry.withScope(scope => {
         scope.setExtras(errorInfo);
         const eventId = Sentry.captureException(error);
@@ -27,7 +27,7 @@ class ErrorBoundary extends Component {
         <div className={classnames('snap', this.props.className)}>
           <img src={snap} alt="snap" />
           <div className="snap-message">
-            <p>Maaf Terjadi Kesalahan.</p>
+            <p>Maaf Terjadi Kesalahan. </p>
             <p>
               Akan segera diinformasikan ke tim kita untuk diperbaiki. Klik{' '}
               <button

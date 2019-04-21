@@ -15,7 +15,11 @@ export const GET_COURSE_BYID = gql`
     courses(_id: $courseid) {
       _id
       name
-
+      badge {
+        title
+        _id
+        imageid
+      }
       desc
       script
       imageid

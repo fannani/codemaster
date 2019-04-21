@@ -96,10 +96,10 @@ const Course = ({ history }) => {
                         {addCourse => (
                           <Formik
                             initialValues={{
-                              name: '',
-                              desc: '',
-                              image: null,
-                            }}
+                            name: '',
+                            desc: '',
+                            image: null,
+                          }}
                             onSubmit={values => {
                               const { image, name, desc} = values;
                               addCourse({

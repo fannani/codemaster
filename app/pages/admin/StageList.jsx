@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import Card from '../../components/UI/Card';
 import { GET_COURSE_BYID } from '../../queries/courses';
+import { UPDATE_BADGE } from '../../queries/badges';
 import AdminCourseDetail from '../../components/admin/Course/Detail';
 import AdminStageCreateModal from '../../components/admin/Stage/CreateModal';
 import AdminStageDeleteModal from '../../components/admin/Stage/DeleteModal';
 import AdminStageList from '../../components/admin/Stage/List';
-
+import { Formik, Form, Field } from 'formik';
 
 const StageList = ({
   history,
@@ -47,6 +48,107 @@ const StageList = ({
             return (
               <main className="col-12 main-container">
                 <AdminCourseDetail courses={courses[0]} />
+                <Mutation
+                  mutation={UPDATE_BADGE}
+                  update={(cache, { data: { updateBadge } }) => {
+                    cache.writeQuery({
+                      query: GET_COURSE_BYID,
+                      variables: {
+                        courseid,
+                      },
+                      data: {
+                        courses: [{ ...courses[0], badge: updateBadge }],
+                      },
+                    });
+                  }}
+                >
+                  {updateBadge => (
+                    <Card className="card" style={{ marginTop: '20px' }}>
+                      <div className="card-body">
+                        <div className="d-flex justify-content-between">
+                          <h5 className="card-title">Badge</h5>
+                        </div>
+                        <div className="row" style={{ marginTop: '20px' }}>
+                          <div
+                            className="col-12"
+                            style={{
+                              textAlign: courses[0].badge ? 'left' : 'center',
+                            }}
+                          >
+                            {courses[0].badge ? (
+                              <Formik
+                                initialValues={{
+                                  title: courses[0].badge.title,
+                                  image: null,
+                                }}
+                                onSubmit={({ title, image }) => {
+                                  updateBadge({
+                                    variables: {
+                                      id: courses[0].badge._id,
+                                      title,
+                                      image,
+                                    },
+                                  });
+                                }}
+                              >
+                                {({ setFieldValue }) => (
+                                  <Form>
+                                    <div className="form-group">
+                                      <label htmlFor="name">Title</label>
+                                      <Field
+                                        type="text"
+                                        name="title"
+                                        className="form-control"
+                                        placeholder="Title"
+                                      />
+                                    </div>
+                                    <div className="form-group">
+                                      <label htmlFor="file">Badge Image</label>
+                                      <input
+                                        id="file"
+                                        name="file"
+                                        type="file"
+                                        onChange={event => {
+                                          setFieldValue(
+                                            'image',
+                                            event.currentTarget.files[0],
+                                          );
+                                        }}
+                                        className="form-control-file"
+                                      />
+                                    </div>
+
+                                    <button
+                                      type="submit"
+                                      className="btn btn-primary"
+                                    >
+                                      Save
+                                    </button>
+                                  </Form>
+                                )}
+                              </Formik>
+                            ) : (
+                              <button
+                                type="button"
+                                className="btn btn-primary"
+                                style={{ marginTop: '10px' }}
+                                onClick={() => {
+                                  updateBadge({
+                                    variables: {
+                                      course: courseid,
+                                    },
+                                  });
+                                }}
+                              >
+                                Tambah
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  )}
+                </Mutation>
                 <Card className="card" style={{ marginTop: '20px' }}>
                   <div className="card-body">
                     <AdminStageList

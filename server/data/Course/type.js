@@ -9,6 +9,7 @@ import StageType from './Stage/type';
 import Stage from './Stage/Stage';
 import Course from './Course';
 import LeaderboardType from '../Leaderboard/type';
+import BadgeType from '../Badge/type';
 
 const CourseType = new GraphQLObjectType({
   name: 'Course',
@@ -19,6 +20,13 @@ const CourseType = new GraphQLObjectType({
     script: { type: GraphQLString },
     desc: { type: GraphQLNonNull(GraphQLString) },
     imageid: { type: GraphQLString },
+    badge: {
+      type: BadgeType,
+      async resolve({ _id }) {
+        const course = await Course.findById(_id).populate('badge');
+        return course.badge;
+      },
+    },
     stages: {
       type: GraphQLList(StageType),
       async resolve({ _id }) {

@@ -31,6 +31,7 @@ const CourseMutation = {
       return newcourse;
     },
   },
+
   updateCourse: {
     type: CourseType,
     description: 'Update Course',
