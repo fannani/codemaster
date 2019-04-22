@@ -23,6 +23,19 @@ export const GET_COURSE_BY_PLAYER = gql`
   }
 `;
 
+export const GET_PLAYER_DATA = gql`
+  query GetPlayerData($player: ID!) {
+    players(_id: $player) {
+      achievements {
+        _id
+      }
+      badges {
+        _id
+      }
+    }
+  }
+`;
+
 export const GET_PLAYER_ACHIEVEMENTS = gql`
   query GetPlayerAchievements($player: ID!) {
     players(_id: $player) {

@@ -9,12 +9,8 @@ const player = {
     _id: { type: GraphQLID },
     energy: { type: GraphQLInt },
   },
-  resolve(parent, args) {
-    return new Promise((resolve, reject) => {
-      Player.find(args, function(err, players) {
-        err ? reject(err) : resolve(players);
-      });
-    });
+  async resolve(parent, args) {
+    return Player.find(args);
   },
 };
 

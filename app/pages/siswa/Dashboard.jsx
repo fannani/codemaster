@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import star from '../../assets/images/star-circle.png';
 import badge from '../../assets/images/badges.png';
 import achievement from '../../assets/images/achievement.png';
-import { GET_COURSE_BY_PLAYER } from '../../queries/player';
+import { GET_COURSE_BY_PLAYER, GET_PLAYER_DATA } from '../../queries/player';
 import Card from '../../components/UI/Card';
 import CourseItem from '../../components/siswa/Course/List/Item';
 import usePlayer from '../../hooks/player';
@@ -49,130 +49,157 @@ const Dashboard = ({ className }) => {
   return (
     <div className={classnames(className, 'container-fluid')}>
       <div className="row justify-content-center">
-        <main className="col-12 main-container" style={{ maxWidth: '1100px' }}>
-          <Card className="card">
-            <div className="card-body">
-              <div className="row">
-                <div className="col-2">
-                  <Ava />
-                </div>
-                <div className="col-4">
-                  <h5>{player.user.name}</h5>
-                  <p>Malang, Jawa Timur</p>
-                  <Level>Level {player.user.userdetail.level} : </Level>
-                  <div className="row">
-                    <div className="col-5" style={{ paddingRight: '0px' }}>
-                      <Line
-                        percent={
-                          (player.user.userdetail.exp /
-                            player.user.userdetail.target_exp) *
-                          100
-                        }
-                        strokeWidth="4"
-                        strokeColor="#7386D5"
-                      />
-                    </div>
-                    <Progress className="col-4">
-                      {player.user.userdetail.exp}/
-                      {player.user.userdetail.target_exp}
-                    </Progress>
-                  </div>
-                </div>
-                <div className="col-2">
-                  <div className="row">
-                    <div className="col-4">
-                      <img src={achievement} width={40} alt="" />
-                    </div>
-                    <div className="col-8 caption">
-                      <p>Achievements</p>
-                      <div className="value">
-                        {player.user.userdetail.total_achievement}
+        <Query
+          query={GET_PLAYER_DATA}
+          variables={{
+            player: player.user.userdetail._id,
+          }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) return <p>Loading</p>;
+            if (error) return <p>Terjadi Kesalahan</p>;
+            return (
+              <main
+                className="col-12 main-container"
+                style={{ maxWidth: '1100px' }}
+              >
+                <Card className="card">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-2">
+                        <Ava />
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-2">
-                  <div className="row">
-                    <div className="col-4">
-                      <img src={badge} width={40} alt="" />
-                    </div>
-                    <div className="col-8 caption">
-                      <p>Badges</p>
-                      <div className="value">11</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-2">
-                  <div className="row">
-                    <div className="col-4">
-                      <img src={star} width={40} alt="" />
-                    </div>
-                    <div className="col-8 caption">
-                      <p>Stars</p>
-                      <div className="value">
-                        {player.user.userdetail.stars}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Card>
-          <div className="row " style={{ marginTop: '20px' }}>
-            <div className="col-8">
-              <Card className="card ">
-                <div className="card-body">
-                  <h5 className="card-title">My Course</h5>
-                  <Query
-                    query={GET_COURSE_BY_PLAYER}
-                    variables={{ playerid: player.user.userdetailid }}
-                  >
-                    {({ loading, error, data }) => {
-                      if (loading) return <Loader />;
-                      if (error) return <p />;
-                      return (
-                        <div className="d-flex flex-wrap">
-                          {data.players[0].course.map(course => (
-                            <CourseItem key={course._id} item={course} />
-                          ))}
+                      <div className="col-4">
+                        <h5>{player.user.name}</h5>
+                        <p>Malang, Jawa Timur</p>
+                        <Level>Level {player.user.userdetail.level} : </Level>
+                        <div className="row">
+                          <div
+                            className="col-5"
+                            style={{ paddingRight: '0px' }}
+                          >
+                            <Line
+                              percent={
+                                (player.user.userdetail.exp /
+                                  player.user.userdetail.target_exp) *
+                                100
+                              }
+                              strokeWidth="4"
+                              strokeColor="#7386D5"
+                            />
+                          </div>
+                          <Progress className="col-4">
+                            {player.user.userdetail.exp}/
+                            {player.user.userdetail.target_exp}
+                          </Progress>
                         </div>
-                      );
-                    }}
-                  </Query>
-                </div>
-              </Card>
-            </div>
-            <div className="col-4">
-              <Card className="card ">
-                <div className="card-body">
-                  <h5 className="card-title">Daily Target</h5>
-                  <div className="row justify-content-center">
-                    <div className="col-9">
-                      <Circle
-                        percent={(player.user.userdetail.daily_exp / 300) * 100}
-                        strokeWidth="4"
-                        strokeColor="#7386D5"
-                      />
-                      <p className="xp-caption">
-                        <span>{player.user.userdetail.daily_exp}/300</span>
-                        <br />
-                        XP Diperoleh
-                      </p>
+                      </div>
+                      <div className="col-2">
+                        <div className="row">
+                          <div className="col-4">
+                            <img src={achievement} width={40} alt="" />
+                          </div>
+                          <div className="col-8 caption">
+                            <p>Achievements</p>
+                            <div className="value">
+                              {data.players[0].achievements.length}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-2">
+                        <div className="row">
+                          <div className="col-4">
+                            <img src={badge} width={40} alt="" />
+                          </div>
+                          <div className="col-8 caption">
+                            <p>Badges</p>
+                            <div className="value">
+                              {data.players[0].badges.length}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-2">
+                        <div className="row">
+                          <div className="col-4">
+                            <img src={star} width={40} alt="" />
+                          </div>
+                          <div className="col-8 caption">
+                            <p>Stars</p>
+                            <div className="value">
+                              {player.user.userdetail.stars
+                                ? player.user.userdetail.stars
+                                : 0}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
-              <Card className="card " style={{ marginTop: '20px' }}>
-                <div className="card-body">
-                  <h5 className="card-title">Friends</h5>
-                  <div className="row justify-content-center">
-                    <div className="col-9" />
+                </Card>
+                <div className="row " style={{ marginTop: '20px' }}>
+                  <div className="col-8">
+                    <Card className="card ">
+                      <div className="card-body">
+                        <h5 className="card-title">My Course</h5>
+                        <Query
+                          query={GET_COURSE_BY_PLAYER}
+                          variables={{ playerid: player.user.userdetailid }}
+                        >
+                          {({ loading, error, data }) => {
+                            if (loading) return <Loader />;
+                            if (error) return <p />;
+                            return (
+                              <div className="d-flex flex-wrap">
+                                {data.players[0].course.map(course => (
+                                  <CourseItem key={course._id} item={course} />
+                                ))}
+                              </div>
+                            );
+                          }}
+                        </Query>
+                      </div>
+                    </Card>
+                  </div>
+                  <div className="col-4">
+                    <Card className="card ">
+                      <div className="card-body">
+                        <h5 className="card-title">Daily Target</h5>
+                        <div className="row justify-content-center">
+                          <div className="col-9">
+                            <Circle
+                              percent={
+                                (player.user.userdetail.daily_exp / 300) * 100
+                              }
+                              strokeWidth="4"
+                              strokeColor="#7386D5"
+                            />
+                            <p className="xp-caption">
+                              <span>
+                                {player.user.userdetail.daily_exp}/300
+                              </span>
+                              <br />
+                              XP Diperoleh
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                    <Card className="card " style={{ marginTop: '20px' }}>
+                      <div className="card-body">
+                        <h5 className="card-title">Friends</h5>
+                        <div className="row justify-content-center">
+                          <div className="col-9" />
+                        </div>
+                      </div>
+                    </Card>
                   </div>
                 </div>
-              </Card>
-            </div>
-          </div>
-        </main>
+              </main>
+            );
+          }}
+        </Query>
       </div>
     </div>
   );

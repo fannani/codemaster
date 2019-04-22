@@ -50,13 +50,6 @@ const PlayerType = new GraphQLObjectType({
         return achievements;
       },
     },
-    total_achievement: {
-      type: GraphQLInt,
-      async resolve({ _id }) {
-        const score = await Player.findById(_id);
-        return score.totalAchievement();
-      },
-    },
     stars: {
       type: GraphQLInt,
       async resolve({ _id }) {
