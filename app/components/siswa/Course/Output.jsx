@@ -74,7 +74,7 @@ const SiswaCourseOutput = ({
         title="console"
         id="console"
         style={{
-          backgroundColor: '#111417',
+          backgroundColor: '#151718',
           width: '100%',
           height: 'calc(100% - 50px)',
           display: show && mode === 'console' ? 'block' : 'none',

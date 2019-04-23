@@ -1,3 +1,4 @@
+var consoleData;
 (function($) {
   var old = console.log;
   var logger = '';
@@ -12,6 +13,7 @@
         logger += arguments[i] + '<br />';
       }
     }
+    consoleData = arguments;
     parent.postMessage({ action: 'console', data: logger }, '*');
   };
 
