@@ -11,6 +11,7 @@ const SiswaCourseValidator = ({ children, stages, gameOver }) => {
   let life = 3;
 
   const handleIframeTask = e => {
+    console.log(e);
     const passData = e.data;
     let score = 0;
     if (passData.action === 'result') {
@@ -36,6 +37,15 @@ const SiswaCourseValidator = ({ children, stages, gameOver }) => {
       }
       player.setPlayerStatus(score, life);
       if (compare.all >= stages[0].missions.length) gameOver(score, life);
+    } else if (passData.action === 'console') {
+      if (document.getElementById('console')) {
+        const idoc = document.getElementById('console').contentWindow.document;
+        idoc.open();
+        const style =
+          '\x3Cstyle>body { font-family : "consolas"; color: #ffffff } \x3C/style>';
+        idoc.write(style + passData.data);
+        idoc.close();
+      }
     }
   };
 

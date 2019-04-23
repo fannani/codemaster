@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AceEditor from 'react-ace';
 import styled from 'styled-components';
 import classNames from 'classnames';
+import { BASE_URL } from '../../../config/config';
 import 'brace/mode/html';
 import 'brace/theme/tomorrow';
 
@@ -11,6 +12,9 @@ const Button = styled.button`
   margin: 5px;
   color: white;
 `;
+
+const postScript = `\x3Cscript src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'>\x3C/script>
+\x3Cscript src='${BASE_URL}js/validator.js'>\x3C/script>`;
 
 const SiswaCourseEditor = ({
   checkResult,
@@ -25,12 +29,23 @@ const SiswaCourseEditor = ({
 }) => {
   const [script, setScript] = useState(initialScript);
   const onChangeScript = value => {
-    const idoc = document.getElementById('output').contentWindow.document;
     setScript(value);
     onChange(value);
-    idoc.open();
-    idoc.write(value);
-    idoc.close();
+    // const idoc = document.getElementById('output').contentWindow.document;
+    // setScript(value);
+    // onChange(value);
+    // idoc.open();
+    // idoc.write(value);
+    // idoc.close();
+  };
+
+  const run = () => {
+    if (document.getElementById('output')) {
+      const idoc = document.getElementById('output').contentWindow.document;
+      idoc.open();
+      idoc.write(postScript + script);
+      idoc.close();
+    }
   };
   useEffect(
     () => {
@@ -51,14 +66,20 @@ const SiswaCourseEditor = ({
           return (
             <>
               <div style={{ height: '50px' }}>
+                <Button type="button" id="run" onClick={run} className="btn ">
+                  Jalankan
+                </Button>
                 <Button
                   type="button"
                   id="run"
-                  onClick={checkResult(script)}
+                  onClick={() => {
+                    checkResult(script);
+                  }}
                   className="btn "
                 >
                   Periksa
                 </Button>
+
                 <Button
                   onClick={onExpandClick}
                   type="button"

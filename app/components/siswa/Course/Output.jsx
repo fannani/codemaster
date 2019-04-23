@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Button = styled.button`
@@ -7,34 +7,82 @@ const Button = styled.button`
   margin: 5px;
   color: white;
 `;
-const SiswaCourseOutput = ({ show = true, onClick, size, onExpandClick }) => (
-  <div
-    className={!show ? 'col-sm-1' : `col-sm-${size}`}
-    style={{ paddingLeft: '0px', paddingRight: '0px' }}
-    onClick={onClick}
-  >
-    <div style={{ height: '50px', visibility: show ? 'visible' : 'hidden' }}>
-      <Button
-        type="button"
-        onClick={onExpandClick}
-        className="btn btn-right"
-        style={{ float: 'right' }}
-      >
-        Expand
-      </Button>
+const SiswaCourseOutput = ({
+  activeMode = 'output',
+  show = true,
+  onClick,
+  size,
+  onExpandClick,
+}) => {
+  const [mode, setMode] = useState(activeMode);
+
+  return (
+    <div
+      className={!show ? 'col-sm-1' : `col-sm-${size}`}
+      style={{ paddingLeft: '0px', paddingRight: '0px' }}
+      onClick={onClick}
+    >
+      <div style={{ height: '50px', visibility: show ? 'visible' : 'hidden' }}>
+        <Button
+          type="button"
+          className="btn btn-right"
+          onClick={() => {
+            setMode('output');
+          }}
+          className={
+            mode === 'output' ? 'btn btn-right btn-secondary' : 'btn btn-right '
+          }
+          style={{ float: 'left' }}
+        >
+          Output
+        </Button>
+        <Button
+          type="button"
+          onClick={() => {
+            setMode('console');
+          }}
+          className={
+            mode === 'console'
+              ? 'btn btn-right btn-secondary'
+              : 'btn btn-right '
+          }
+          style={{ float: 'left' }}
+        >
+          Console
+        </Button>
+        <Button
+          type="button"
+          onClick={onExpandClick}
+          className="btn btn-right"
+          style={{ float: 'right' }}
+        >
+          Expand
+        </Button>
+      </div>
+      <iframe
+        title="output"
+        id="output"
+        style={{
+          backgroundColor: '#ffffff',
+          width: '100%',
+          height: 'calc(100% - 50px)',
+          display: show && mode === 'output' ? 'block' : 'none',
+        }}
+        frameBorder="0"
+      />
+      <iframe
+        title="console"
+        id="console"
+        style={{
+          backgroundColor: '#111417',
+          width: '100%',
+          height: 'calc(100% - 50px)',
+          display: show && mode === 'console' ? 'block' : 'none',
+        }}
+        frameBorder="0"
+      />
     </div>
-    <iframe
-      title="output"
-      id="output"
-      style={{
-        backgroundColor: '#ffffff',
-        width: '100%',
-        height: 'calc(100% - 50px)',
-        visibility: show ? 'visible' : 'hidden',
-      }}
-      frameBorder="0"
-    />
-  </div>
-);
+  );
+};
 
 export default SiswaCourseOutput;

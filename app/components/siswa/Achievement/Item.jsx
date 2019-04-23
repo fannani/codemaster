@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import classnames from 'classnames';
-import { Line, Circle } from 'rc-progress';
+import { Line } from 'rc-progress';
 import star from '../../../assets/images/star.png';
 import starOff from '../../../assets/images/star-off.png';
 
