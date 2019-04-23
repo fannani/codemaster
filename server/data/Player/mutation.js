@@ -82,7 +82,7 @@ const PlayerMutation = {
       const validationErrors = {};
       if (exist.length <= 0) {
         const newplayer = new Player({
-          energy: 200,
+          energy: 300,
           birthday: Date.now(),
           exp: 0,
         });

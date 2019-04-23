@@ -73,6 +73,7 @@ const SiswaCourseEditor = ({
                   type="button"
                   id="run"
                   onClick={() => {
+                    run();
                     checkResult(script);
                   }}
                   className="btn "

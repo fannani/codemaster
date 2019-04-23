@@ -7,7 +7,7 @@ import usePlayer from '../../../hooks/player';
 const SiswaCourseValidator = ({ children, stages, gameOver }) => {
   const [result, setResult] = useState([]);
   const player = usePlayer();
-  const scorePoint = 20;
+  const scorePoint = 30; //TODO: FROM API
   let life = 3;
 
   const handleIframeTask = e => {
