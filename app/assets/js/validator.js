@@ -24,4 +24,5 @@ var consoleData;
   $.fn.isBefore = function(sel) {
     return this.nextAll().filter(sel).length !== 0;
   };
+  parent.postMessage({ action: 'console', data: '' }, '*');
 })(jQuery);

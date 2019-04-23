@@ -24,6 +24,7 @@ const SiswaCourseListItem = ({ className, item }) => (
 const StyledCourseItem = styled(SiswaCourseListItem)`
   .card {
     width: 200px;
+    height: 250px;
     border-radius: 10px !important;
     text-align: center;
     border: 0;
@@ -37,11 +38,11 @@ const StyledCourseItem = styled(SiswaCourseListItem)`
   }
   img {
     display: block;
-    width: 70%;
+    width: auto;
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
-    height: auto;
+    height: 70%;
   }
 `;
 export default StyledCourseItem;
