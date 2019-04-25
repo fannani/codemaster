@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import SiswaCourseScoreBoardStars from './Stars';
-
+// TODO: Fixing ordering after delete
 const StyledStars = styled(SiswaCourseScoreBoardStars)`
   text-align: center;
 `;

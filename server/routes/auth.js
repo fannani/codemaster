@@ -17,23 +17,25 @@ router.post('/login', (req, res) => {
       if (errlogin) {
         res.send(errlogin);
       }
-      Player.findById(user.userdetailid, (err, player) => {
-        const dailyLogin = new Date(player.daily_login);
-        const current = new Date();
-        if (dailyLogin.getDate() !== current.getDate()) {
-          const nextDay = new Date();
-          nextDay.setDate(nextDay.getDate() + 1);
-          if (dailyLogin.getDate() !== nextDay.getDate()) {
-            player.giveAchievement('5c26270a8c56d9072422e3ed');
-          } else if (player.daily_login) {
-            player.resetAchievement('5c26270a8c56d9072422e3ed');
-          } else {
-            player.giveAchievement('5c26270a8c56d9072422e3ed');
+      if (user.role === 'siswa') {
+        Player.findById(user.userdetailid, (err, player) => {
+          const dailyLogin = new Date(player.daily_login);
+          const current = new Date();
+          if (dailyLogin.getDate() !== current.getDate()) {
+            const nextDay = new Date();
+            nextDay.setDate(nextDay.getDate() + 1);
+            if (dailyLogin.getDate() !== nextDay.getDate()) {
+              player.giveAchievement('5c26270a8c56d9072422e3ed');
+            } else if (player.daily_login) {
+              player.resetAchievement('5c26270a8c56d9072422e3ed');
+            } else {
+              player.giveAchievement('5c26270a8c56d9072422e3ed');
+            }
+            player.daily_login = Date.now();
           }
-          player.daily_login = Date.now();
-        }
-        player.save();
-      });
+          player.save();
+        });
+      }
 
       const token = jwt.sign(user.toJSON(), 'iloveskripsisobad');
       return res.json({ user, token });
