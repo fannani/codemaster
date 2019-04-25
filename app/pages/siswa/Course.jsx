@@ -105,7 +105,6 @@ const Course = ({
                         );
                         if (life > 0) {
                           player.addExp(stages[0].exp_reward);
-                          console.log(score);
                           addScore({
                             variables: {
                               player: player.user.userdetailid,
@@ -161,6 +160,12 @@ const Course = ({
                               }}
                             />
                             <SiswaCourseOutput
+                              activeMode={
+                                stages[0].course._id ===
+                                '5cbee57ee721c733c0a428a7'
+                                  ? 'console'
+                                  : 'output'
+                              }
                               show={interactive.outputShow}
                               onExpandClick={interactive.onOutputExpandClick}
                               onClick={interactive.onOutputClick}

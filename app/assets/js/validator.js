@@ -1,4 +1,4 @@
-var consoleData;
+var consoleData;  //TODO: Multiple check for log data
 (function($) {
   var old = console.log;
   var logger = '';
