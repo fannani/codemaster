@@ -4,14 +4,14 @@ import { postLog } from '../../../utils/logs';
 import { compareResult } from '../../../utils/course';
 import usePlayer from '../../../hooks/player';
 
-const SiswaCourseValidator = ({ children, stages, gameOver }) => {
+const SiswaCourseValidator = ({ children, stages, gameOver, life }) => {
   const [result, setResult] = useState([]);
   const player = usePlayer();
   const scorePoint = 30; //TODO: FROM API
-  let life = 3;
 
   const handleIframeTask = e => {
-    console.log(e);
+    let lifeTmp = life;
+
     const passData = e.data;
     let score = 0;
     if (passData.action === 'result') {
@@ -25,18 +25,18 @@ const SiswaCourseValidator = ({ children, stages, gameOver }) => {
           toast.success(`Anda berhasil menyelesaikan ${compare.last} misi`, {
             position: toast.POSITION.BOTTOM_CENTER,
           });
-        } else if (life === 1) {
-          life -= 1;
-          gameOver(stages[0], score, life);
+        } else if (lifeTmp === 1) {
+          lifeTmp -= 1;
+          gameOver(stages[0], score, lifeTmp);
         } else {
           toast.error('Tidak ada jawaban yang benar', {
             position: toast.POSITION.BOTTOM_CENTER,
           });
-          life -= 1;
+          lifeTmp -= 1;
         }
       }
-      player.setPlayerStatus(score, life);
-      if (compare.all >= stages[0].missions.length) gameOver(score, life);
+      player.setPlayerStatus(score, lifeTmp);
+      if (compare.all >= stages[0].missions.length) gameOver(score, lifeTmp);
     } else if (passData.action === 'console') {
       if (document.getElementById('console')) {
         const idoc = document.getElementById('console').contentWindow.document;
@@ -49,12 +49,15 @@ const SiswaCourseValidator = ({ children, stages, gameOver }) => {
     }
   };
 
-  useEffect(() => {
-    window.addEventListener('message', handleIframeTask);
-    return () => {
-      window.removeEventListener('message', handleIframeTask);
-    };
-  }, []);
+  useEffect(
+    () => {
+      window.addEventListener('message', handleIframeTask);
+      return () => {
+        window.removeEventListener('message', handleIframeTask);
+      };
+    },
+    [life],
+  );
   return children({ result });
 };
 

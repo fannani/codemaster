@@ -95,6 +95,7 @@ const Course = ({
                   {addScore => (
                     <SiswaCourseValidator
                       stages={stages}
+                      life={player.gameplay.life}
                       gameOver={(score, life) => {
                         const starCount = calculateStars(
                           player.gameplay.currentTimer,
