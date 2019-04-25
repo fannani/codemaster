@@ -25,7 +25,7 @@ const SiswaCourseScoreBoard = ({
       </h5>
     </div>
     <div className="modal-body">
-      <StyledStars value={stars} />
+      {life > 0 ? <StyledStars value={stars} /> : ''}
       SCORE : {life > 0 ? score : '0'}
       <br />
       TIME : {timer}

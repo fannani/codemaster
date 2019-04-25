@@ -74,7 +74,8 @@ const Course = ({
         query={GET_STAGE_BY_PLAYER}
         variables={{ id: stageid, playerid: player.user.userdetailid }}
       >
-        {({ data: { stages }, loading, error }) => {
+        {({ data: { stages }, loading, error, refetch }) => {
+          // TODO: Pisah Stages Global
           if (loading) return <p>Loading…</p>;
           if (error) return <p>Sorry! There was an error loading the items</p>;
           return (
@@ -104,6 +105,7 @@ const Course = ({
                         );
                         if (life > 0) {
                           player.addExp(stages[0].exp_reward);
+                          console.log(score);
                           addScore({
                             variables: {
                               player: player.user.userdetailid,
@@ -181,7 +183,10 @@ const Course = ({
                             score={scoreResult}
                             stage={stages[0]}
                             exp={stages[0].exp_reward}
-                            onReset={reset}
+                            onReset={() => {
+                              refetch();
+                              reset();
+                            }}
                           />
                         </>
                       )}
