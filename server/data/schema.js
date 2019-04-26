@@ -70,6 +70,7 @@ const BKMutationRootType = new GraphQLObjectType({
     addBadge: badgeMutation.addBadge,
     updateBadge: badgeMutation.updateBadge,
     addBadgePlayer: playerMutation.addBadge,
+    giveAchievement: playerAchievementMutation.giveAchievement,
   }),
 });
 

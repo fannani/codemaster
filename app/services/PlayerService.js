@@ -26,9 +26,15 @@ const addPlayerAchievement = (player, achievement, star, point) =>
     `addPlayerAchievement(player : "${player}", achievement : "${achievement}" star: ${star}, point: ${point})`,
   ).then(response => response.data.data.addPlayerAchievement);
 
+const giveAchievement = (player, achievement) =>
+  APIService.mutation(
+    `giveAchievement(player : "${player}", achievement : "${achievement}" ){_id}`,
+  ).then(response => response.data.data.giveAchievement);
+
 export default {
   addBadge,
   addEnergy,
   addPlayerAchievement,
   addExp,
+  giveAchievement,
 };

@@ -70,7 +70,7 @@ PlayerSchema.methods.giveAchievement = async function(achievement) {
       star: playerAchiev.star + 1,
     });
     if (playerAchiev.point < detail.target_point - 1) {
-      playerAchiev.point += 1;
+      playerAchiev.point += 1; //TODO: Fixing if target 1
     } else if (playerAchiev.star < allDetail.length) {
       playerAchiev.star += 1;
       if (!achiev.continuous) {

@@ -16,6 +16,9 @@ import {
   ADD_BADGE_FAILURE,
   ADD_BADGE_REQUEST,
   ADD_BADGE_SUCCESS,
+  GIVE_ACHIEV_REQUEST,
+  GIVE_ACHIEV_FAILURE,
+  GIVE_ACHIEV_SUCCESS,
 } from '../data/siswa/types';
 import {
   setPlayerStatus,
@@ -86,6 +89,22 @@ const usePlayer = () => {
     );
   };
 
+  const giveAchievement = achievement => {
+    const userid = state.user.userdetail._id;
+    const request = () => ({ type: GIVE_ACHIEV_REQUEST });
+    const success = achiev => ({ type: GIVE_ACHIEV_SUCCESS, achiev });
+    const failure = error => ({ type: GIVE_ACHIEV_FAILURE, error });
+    dispatch(request());
+    PlayerService.giveAchievement(userid, achievement).then(
+      player => {
+        dispatch(success(player));
+      },
+      error => {
+        dispatch(failure(error));
+      },
+    );
+  };
+
   const addExp = exp => {
     const userid = state.user.userdetail._id;
     const request = () => ({ type: ADD_EXP_REQUEST });
@@ -108,6 +127,7 @@ const usePlayer = () => {
     addEnergy,
     addExp,
     addBadge,
+    giveAchievement,
     isLogin: state.isLogin && state.user.role === 'siswa',
     user: state.user,
     incrementTimer: () => {

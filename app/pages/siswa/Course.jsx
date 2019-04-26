@@ -18,6 +18,8 @@ import { ADD_SCORE } from '../../queries/courses';
 import shortid from 'shortid';
 import Modal from 'react-bootstrap4-modal';
 
+//TODO: Output default mode
+
 let script = '';
 let interval = null;
 const energyNeed = 20;
@@ -126,6 +128,7 @@ const Course = ({
                         if (
                           stages[0].index === stages[0].course.stages.length
                         ) {
+                          player.giveAchievement('5c26270a8c56d9072422e3ee');
                           if (stages[0].course.badge) {
                             player.addBadge(stages[0].course.badge._id);
                           }
