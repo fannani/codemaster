@@ -69,6 +69,7 @@ export const GET_STAGE_BY_ID = gql`
       exp_reward
       teory
       script
+      language
 
       course {
         _id
@@ -103,6 +104,7 @@ export const UPDATE_STAGE = gql`
     $teory: String
     $exp_reward: Int
     $script: String
+    $language: String
   ) {
     updateStage(
       file: $file
@@ -111,6 +113,7 @@ export const UPDATE_STAGE = gql`
       id: $id
       teory: $teory
       script: $script
+      language: $language
       exp_reward: $exp_reward
     ) {
       _id

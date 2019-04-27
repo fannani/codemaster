@@ -8,19 +8,15 @@ import ReactHtmlParser from 'react-html-parser';
 import TextEditor from '../../UI/TextEditor';
 
 const SiswaCourseGuide = ({
-  mission,
   result,
   className,
-  title,
-  teory,
+
+  stage,
   show = true,
   onClick,
 }) => {
-  const editorState = EditorState.createWithContent(
-    convertFromRaw(JSON.parse(teory)),
-  );
   // const generatedTeory = stateToHTML(editorState.getCurrentContent());
-  const missionList = mission.map((misi, index) => {
+  const missionList = stage.missions.map((misi, index) => {
     let active = false;
     if (typeof result[index] !== 'undefined') {
       active = !!result[index].result;
@@ -48,8 +44,12 @@ const SiswaCourseGuide = ({
         <>
           <div className="row" id="teory">
             <div className=" col-sm-12">
-              <h3>{title}</h3>
-              <TextEditor value={editorState} readOnly={true} />
+              <h3>{stage.title}</h3>
+              <TextEditor
+                value={stage.teory}
+                language={stage.language ? stage.language : 'javascript'}
+                readOnly={true}
+              />
             </div>
           </div>
 

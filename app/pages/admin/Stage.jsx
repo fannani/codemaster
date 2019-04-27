@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap4-modal';
-import { convertToRaw, EditorState, convertFromRaw } from 'draft-js';
 import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
-import { GET_STAGE_BY_ID, UPDATE_STAGE } from '../../queries/stages';
+import { GET_STAGE_BY_ID } from '../../queries/stages';
 import { ADD_MISSION } from '../../queries/missions';
 import Card from '../../components/UI/Card';
 
@@ -12,7 +11,6 @@ import UpdateForm from '../../components/admin/Stage/UpdateForm';
 
 const Stage = ({ match, history }) => {
   const [showModal, setShowModal] = useState(false);
-  const [language, setLanguage] = useState('html');
   const { params } = match;
   const { stageid } = params;
 
@@ -34,7 +32,7 @@ const Stage = ({ match, history }) => {
 
             return (
               <main className="col-12 main-container">
-                <UpdateForm stage={stages[0]} language={language} />
+                <UpdateForm stage={stages[0]} />
                 <Card className="card" style={{ marginTop: '20px' }}>
                   <div className="card-body">
                     <div className="d-flex justify-content-between">

@@ -53,24 +53,21 @@ const TextEditor = ({ value, onChangeData, readOnly = false, language }) => {
     onChangeData(editorJson);
   };
 
-  useEffect(
-    () => {
-      const prismDecorator = new PrismDecorator({
-        // Provide your own instance of PrismJS
-        prism: Prism,
-        defaultSyntax: language,
-      });
-      if (value !== null) {
-        setEditorState(
-          EditorState.createWithContent(
-            convertFromRaw(JSON.parse(value)),
-            prismDecorator,
-          ),
-        );
-      }
-    },
-    [language],
-  );
+  useEffect(() => {
+    const prismDecorator = new PrismDecorator({
+      // Provide your own instance of PrismJS
+      prism: Prism,
+      defaultSyntax: language,
+    });
+    if (value !== null) {
+      setEditorState(
+        EditorState.createWithContent(
+          convertFromRaw(JSON.parse(value)),
+          prismDecorator,
+        ),
+      );
+    }
+  }, []);
 
   const onDrop = useCallback(acceptedFiles => {
     childRef = storageRef.child(shortid.generate());

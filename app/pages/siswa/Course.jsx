@@ -140,10 +140,8 @@ const Course = ({
                           <div className="row flex-xl-nowrap">
                             <SiswaCourseGuide
                               visible={false}
-                              title={stages[0].title}
-                              teory={stages[0].teory}
                               result={result}
-                              mission={stages[0].missions}
+                              stage={stages[0]}
                               show={interactive.guideShow}
                               onClick={interactive.onGuideClick}
                             />

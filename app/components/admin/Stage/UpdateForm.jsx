@@ -12,7 +12,7 @@ import Card from '../../UI/Card';
 import { UPDATE_STAGE } from '../../../queries/stages';
 import TextEditor from '../../UI/TextEditor';
 
-const UpdateForm = ({ stage, language }) => {
+const UpdateForm = ({ stage }) => {
   return (
     <Card className="card">
       <div className="card-body">
@@ -29,10 +29,11 @@ const UpdateForm = ({ stage, language }) => {
                 time: stage.time ? stage.time : '',
                 exp_reward: stage.exp_reward ? stage.exp_reward : '',
                 script: stage.script ? stage.script : '',
+                language: stage.language,
                 image: undefined,
               }}
               onSubmit={(
-                { image, title, time, teory, exp_reward, script },
+                { image, title, time, teory, exp_reward, script, language },
                 { setSubmitting },
               ) => {
                 setSubmitting(true);
@@ -45,6 +46,7 @@ const UpdateForm = ({ stage, language }) => {
                     exp_reward,
                     id: stage._id,
                     script,
+                    language,
                   },
                 }).then(() => {
                   setSubmitting(false);
@@ -52,7 +54,7 @@ const UpdateForm = ({ stage, language }) => {
                 });
               }}
             >
-              {({ setFieldValue, values }) => (
+              {({ setFieldValue, handleChange, values }) => (
                 <Form>
                   <div className="form-group">
                     <label htmlFor="name">Title</label>
@@ -63,12 +65,27 @@ const UpdateForm = ({ stage, language }) => {
                       placeholder="Title"
                     />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="name">Language</label>
+                    <select
+                      className="form-control"
+                      id="language"
+                      value={values.language}
+                      onChange={handleChange}
+                    >
+                      <option value="html">HTML</option>
+                      <option value="css">CSS</option>
+                      <option value="javascript">Javascript</option>
+                    </select>
+                  </div>
 
                   <div className="form-group" style={{ width: '70%' }}>
                     <label htmlFor="teory">Teory</label>
                     <TextEditor
                       value={values.teory}
-                      language={language}
+                      language={
+                        values.language ? values.language : 'javascript'
+                      }
                       onChangeData={state => {
                         setFieldValue('teory', state);
                       }}
