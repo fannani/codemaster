@@ -46,6 +46,7 @@ const PlayerMutation = {
     async resolve(root, { exp, userid }) {
       const player = await Player.findById(userid);
       player.exp += exp;
+
       const dailyDate = new Date(player.daily_exp_date);
       const currentDate = new Date();
       if (dailyDate.getDate() !== currentDate.getDate()) {

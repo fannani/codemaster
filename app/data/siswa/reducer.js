@@ -88,6 +88,8 @@ export const reducer = (state, action) => {
             exp: action.user.exp,
             daily_exp: action.user.daily_exp,
             stars: action.user.stars,
+            level: action.user.level,
+            target_exp: action.user.target_exp,
           },
         },
       };

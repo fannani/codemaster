@@ -11,7 +11,9 @@ import { GET_COURSE_BY_PLAYER, GET_PLAYER_DATA } from '../../queries/player';
 import Card from '../../components/UI/Card';
 import CourseItem from '../../components/siswa/Course/List/Item';
 import usePlayer from '../../hooks/player';
-
+//TODO: - Immediatelly update
+//      - Update Level
+//      - Wrong Achievement
 const Loader = () => {
   const all = [];
   for (let i = 0; i < 6; i += 1) {

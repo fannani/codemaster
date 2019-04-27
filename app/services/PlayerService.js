@@ -17,7 +17,7 @@ const addBadge = (userid, badge) =>
 const addExp = (userid, exp) => {
   return APIService.mutation(
     `addExp(userid : "${userid}", exp: ${exp}){
-          _id,exp,daily_exp
+          _id,exp,daily_exp,level,target_exp
         }`,
   ).then(response => response.data.data.addExp);
 };

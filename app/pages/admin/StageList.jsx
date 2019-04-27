@@ -127,6 +127,13 @@ const StageList = ({
                                     >
                                       Save
                                     </button>
+                                    <button
+                                      type="button"
+                                      style={{ marginLeft: '10px' }}
+                                      className="btn btn-danger"
+                                    >
+                                      Delete
+                                    </button>
                                   </Form>
                                 )}
                               </Formik>
@@ -143,7 +150,7 @@ const StageList = ({
                                   });
                                 }}
                               >
-                                Tambah
+                                Add
                               </button>
                             )}
                           </div>
