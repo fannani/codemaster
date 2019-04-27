@@ -96,6 +96,19 @@ export const ADD_SCORE = gql`
       score
       player {
         stars
+        achievements {
+          _id
+          title
+          caption
+          star
+          point
+          target_point
+        }
+        badges {
+          _id
+          title
+          imageid
+        }
       }
       stages {
         _id

@@ -6,7 +6,6 @@ import AchievementItem from '../../components/siswa/Achievement/Item';
 import { GET_PLAYER_ACHIEVEMENTS } from '../../queries/player';
 import BadgeItem from '../../components/siswa/Badge/Item';
 import usePlayer from '../../hooks/player';
-
 const Achievement = () => {
   const player = usePlayer();
   return (

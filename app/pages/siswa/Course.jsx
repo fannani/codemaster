@@ -20,7 +20,7 @@ import useInteractiveCoding from '../../hooks/interactiveCoding';
 import { ADD_SCORE } from '../../queries/courses';
 import shortid from 'shortid';
 import Modal from 'react-bootstrap4-modal';
-import { GET_TESTCASE_MISSION } from '../../queries/missions';
+import { GET_PLAYER_ACHIEVEMENTS } from '../../queries/player';
 
 //TODO: Output default mode
 
@@ -80,8 +80,7 @@ const Course = ({
         query={GET_STAGE_BY_PLAYER}
         variables={{ id: stageid, playerid: player.user.userdetailid }}
       >
-        {({ data: { stages }, loading, error, refetch }) => {
-          // TODO: Pisah Stages Global
+        {({ data: { stages }, loading, error }) => {
           if (loading) return <p>Loading…</p>;
           if (error) return <p>Sorry! There was an error loading the items</p>;
           return (
@@ -101,13 +100,6 @@ const Course = ({
                 <Mutation
                   mutation={ADD_SCORE}
                   update={(cache, { data: { addScore } }) => {
-                    const d = cache.readQuery({
-                      query: GET_STAGE_BY_COURSE_PLAYER,
-                      variables: {
-                        courseid: stages[0].course._id,
-                        playerid: player.user.userdetailid,
-                      },
-                    });
                     cache.writeQuery({
                       query: GET_STAGE_BY_COURSE_PLAYER,
                       variables: {
@@ -115,7 +107,19 @@ const Course = ({
                         playerid: player.user.userdetailid,
                       },
                       data: {
-                        stages: addScore,
+                        stages: addScore.stages,
+                      },
+                    });
+                    cache.writeQuery({
+                      query: GET_PLAYER_ACHIEVEMENTS,
+                      variables: { player: player.user.userdetailid },
+                      data: {
+                        players: [
+                          {
+                            achievements: addScore.player.achievements,
+                            badges: addScore.player.badges,
+                          },
+                        ],
                       },
                     });
                   }}
@@ -217,7 +221,6 @@ const Course = ({
                             stage={stages[0]}
                             exp={stages[0].exp_reward}
                             onReset={() => {
-                              refetch();
                               reset();
                             }}
                           />
