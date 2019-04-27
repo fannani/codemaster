@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from '../../UI/Card';
+import TextEditor from '../../UI/TextEditor';
 
-const MissionList = ({ onAddMission, missions }) => (
+const MissionList = ({ onAddMission, missions, language }) => (
   <Card className="card" style={{ marginTop: '20px' }}>
     <div className="card-body">
       <div className="d-flex justify-content-between">
@@ -26,8 +27,14 @@ const MissionList = ({ onAddMission, missions }) => (
         </thead>
         <tbody>
           {missions.map((data, index) => (
-            <tr key={index}>
-              <td>{data.quest}</td>
+            <tr key={data._id}>
+              <td>
+                <TextEditor
+                  value={data.quest}
+                  language={language || 'javascript'}
+                  readOnly
+                />
+              </td>
               <td>{data.score}</td>
               <td>
                 <Link to={`/admin/mission/${data._id}`}>Detail</Link>

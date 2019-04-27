@@ -2,20 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styled from 'styled-components';
-import { stateToHTML } from 'draft-js-export-html';
-import { convertFromRaw, EditorState } from 'draft-js';
-import ReactHtmlParser from 'react-html-parser';
 import TextEditor from '../../UI/TextEditor';
 
 const SiswaCourseGuide = ({
   result,
   className,
-
   stage,
   show = true,
   onClick,
 }) => {
-  // const generatedTeory = stateToHTML(editorState.getCurrentContent());
   const missionList = stage.missions.map((misi, index) => {
     let active = false;
     if (typeof result[index] !== 'undefined') {
@@ -28,7 +23,11 @@ const SiswaCourseGuide = ({
     });
     return (
       <li key={index} className={missionClass}>
-        {misi.quest}
+        <TextEditor
+          value={misi.quest}
+          language={stage.language ? stage.language : 'javascript'}
+          readOnly
+        />
       </li>
     );
   });
@@ -48,7 +47,7 @@ const SiswaCourseGuide = ({
               <TextEditor
                 value={stage.teory}
                 language={stage.language ? stage.language : 'javascript'}
-                readOnly={true}
+                readOnly
               />
             </div>
           </div>

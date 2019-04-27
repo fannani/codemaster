@@ -35,6 +35,7 @@ const Stage = ({ match, history }) => {
                 <MissionList
                   onAddMission={addMission}
                   missions={stages[0].missions}
+                  language={stages[0].language}
                 />
               </main>
             );

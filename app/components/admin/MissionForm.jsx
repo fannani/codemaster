@@ -4,6 +4,7 @@ import { Query, Mutation } from 'react-apollo';
 import Card from '../UI/Card';
 import { GET_MISSION_BY_ID, UPDATE_MISSION } from '../../queries/missions';
 import { toast } from 'react-toastify';
+import TextEditor from '../UI/TextEditor';
 
 const MissionForm = ({ missionid }) => (
   <Query query={GET_MISSION_BY_ID} variables={{ id: missionid }}>
@@ -37,15 +38,20 @@ const MissionForm = ({ missionid }) => (
                     });
                   }}
                 >
-                  {() => (
+                  {({ values, setFieldValue }) => (
                     <Form>
                       <div className="form-group">
                         <label htmlFor="name">Quest</label>
-                        <Field
-                          type="text"
-                          name="quest"
-                          className="form-control"
-                          placeholder="Quest"
+                        <TextEditor
+                          value={values.quest}
+                          language={
+                            missions[0].stage.language
+                              ? missions[0].stage.language
+                              : 'javascript'
+                          }
+                          onChangeData={state => {
+                            setFieldValue('quest', state);
+                          }}
                         />
                       </div>
                       <div className="form-group">

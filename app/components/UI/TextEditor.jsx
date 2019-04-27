@@ -40,17 +40,23 @@ const plugins = [focusPlugin, resizeablePlugin, imagePlugin, blockDndPlugin];
 const storageRef = firebase.storage().ref();
 let childRef;
 
-const TextEditor = ({ value, onChangeData, readOnly = false, language }) => {
+const TextEditor = ({
+  value,
+  onChangeData,
+  readOnly = false,
+  language,
+  mode = 'draft',
+}) => {
   const [loadingImage, setLoadingImage] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   const onChange = state => {
-    setEditorState(state);
     const contentState = state.getCurrentContent();
     const raw = convertToRaw(contentState);
     const editorJson = JSON.stringify(raw);
     onChangeData(editorJson);
+    setEditorState(state);
   };
 
   useEffect(() => {
@@ -59,13 +65,16 @@ const TextEditor = ({ value, onChangeData, readOnly = false, language }) => {
       prism: Prism,
       defaultSyntax: language,
     });
+
     if (value !== null) {
-      setEditorState(
-        EditorState.createWithContent(
-          convertFromRaw(JSON.parse(value)),
-          prismDecorator,
-        ),
-      );
+      let content = null;
+      if (mode === 'text') {
+        content = Draft.ContentState.createFromText(value);
+      } else {
+        content = convertFromRaw(JSON.parse(value));
+      }
+
+      setEditorState(EditorState.createWithContent(content, prismDecorator));
     }
   }, []);
 
@@ -224,7 +233,7 @@ const TextEditor = ({ value, onChangeData, readOnly = false, language }) => {
                 className="btn  btn-secondary"
                 onClick={onScriptClick}
               >
-                Script (Alpha)
+                Script
               </button>
             </div>
           </div>
