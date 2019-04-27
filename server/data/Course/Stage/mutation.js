@@ -18,10 +18,11 @@ const StageMutation = {
       exp_reward: { type: GraphQLInt },
       script: { type: GraphQLString },
       course: { type: GraphQLNonNull(GraphQLID) },
+      language: { type: GraphQLString },
     },
     async resolve(
       root,
-      { title, teory, time, course, index, exp_reward, script },
+      { title, teory, time, course, index, exp_reward, script, language },
     ) {
       let stage = new Stage({
         title,
@@ -30,6 +31,7 @@ const StageMutation = {
         course,
         exp_reward,
         script,
+        language,
         // imageid : id
       });
       if (index) {
@@ -57,6 +59,7 @@ const StageMutation = {
       course: { type: GraphQLID },
       file: { type: GraphQLUpload },
       script: { type: GraphQLString },
+      language: { type: GraphQLString },
     },
     async resolve(root, args) {
       let id = '';
@@ -80,6 +83,7 @@ const StageMutation = {
     args: {
       id: { type: GraphQLNonNull(GraphQLID) },
     },
+    //TODO: Order Mass Update
     async resolve(root, args) {
       const stage = await Stage.findByIdAndRemove(args.id);
       return stage;

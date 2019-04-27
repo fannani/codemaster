@@ -12,6 +12,7 @@ const StageSchema = new mongoose.Schema({
   badge_name: String,
   script: String,
   badge_image: String,
+  language: String,
   updated_at: { type: Date, default: Date.now },
 });
 

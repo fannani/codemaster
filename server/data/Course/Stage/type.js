@@ -28,6 +28,7 @@ const StageType = new GraphQLObjectType({
     score: { type: GraphQLInt },
     badge_name: { type: GraphQLString },
     badge_image: { type: GraphQLString },
+    language: { type: GraphQLString },
     stars: { type: GraphQLList(GraphQLBoolean) },
     imageid: { type: GraphQLString },
     script: { type: GraphQLString },
