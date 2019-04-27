@@ -1,8 +1,9 @@
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import Card from '../UI/Card';
-import { GET_MISSION_BY_ID } from '../../queries/missions';
+import { GET_MISSION_BY_ID, UPDATE_MISSION } from '../../queries/missions';
+import { toast } from 'react-toastify';
 
 const MissionForm = ({ missionid }) => (
   <Query query={GET_MISSION_BY_ID} variables={{ id: missionid }}>
@@ -15,36 +16,55 @@ const MissionForm = ({ missionid }) => (
             <div className="d-flex justify-content-between">
               <h5 className="card-title">Mission Detail</h5>
             </div>
-
-            <Formik
-              initialValues={{
-                quest: missions[0].quest,
-                score: missions[0].score,
-              }}
-            >
-              {() => (
-                <Form>
-                  <div className="form-group">
-                    <label htmlFor="name">Quest</label>
-                    <Field
-                      type="text"
-                      name="quest"
-                      className="form-control"
-                      placeholder="Quest"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="name">Score</label>
-                    <Field
-                      type="text"
-                      name="score"
-                      className="form-control"
-                      placeholder="Score"
-                    />
-                  </div>
-                </Form>
+            <Mutation mutation={UPDATE_MISSION}>
+              {updateMission => (
+                <Formik
+                  initialValues={{
+                    quest: missions[0].quest,
+                    score: missions[0].score,
+                  }}
+                  onSubmit={({ quest, score }, { setSubmitting }) => {
+                    setSubmitting(true);
+                    updateMission({
+                      variables: {
+                        id: missions[0]._id,
+                        quest,
+                        score,
+                      },
+                    }).then(() => {
+                      setSubmitting(false);
+                      toast.success('Data successfully updated');
+                    });
+                  }}
+                >
+                  {() => (
+                    <Form>
+                      <div className="form-group">
+                        <label htmlFor="name">Quest</label>
+                        <Field
+                          type="text"
+                          name="quest"
+                          className="form-control"
+                          placeholder="Quest"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="name">Score</label>
+                        <Field
+                          type="number"
+                          name="score"
+                          className="form-control"
+                          placeholder="Score"
+                        />
+                      </div>
+                      <button className="btn btn-primary" type="submit">
+                        Save
+                      </button>
+                    </Form>
+                  )}
+                </Formik>
               )}
-            </Formik>
+            </Mutation>
           </div>
         </Card>
       );

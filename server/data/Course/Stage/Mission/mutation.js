@@ -36,12 +36,11 @@ const Mutation = {
     description: 'Update Mission',
     args: {
       id: { type: GraphQLNonNull(GraphQLID) },
-      quest: { type: GraphQLNonNull(GraphQLString) },
-      score: { type: GraphQLNonNull(GraphQLInt) },
-      stage: { type: GraphQLNonNull(GraphQLID) },
+      quest: { type: GraphQLString },
+      score: { type: GraphQLInt },
     },
     async resolve(root, args) {
-      const editmission = await Stage.findById(args.id);
+      const editmission = await Mission.findById(args.id);
       editmission.set(args);
       return editmission.save();
     },

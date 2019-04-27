@@ -19,8 +19,8 @@ export const ADD_MISSION = gql`
 `;
 
 export const UPDATE_MISSION = gql`
-  mutation updateMission($id: ID!, $quest: String, $score: Int, $stage: ID) {
-    updateMission(id: $id, quest: $quest, score: $score, stage: $stage) {
+  mutation updateMission($id: ID!, $quest: String, $score: Int) {
+    updateMission(id: $id, quest: $quest, score: $score) {
       _id
     }
   }

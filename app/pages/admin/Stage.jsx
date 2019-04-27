@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import { Formik, Form, Field } from 'formik';
 import { Mutation, Query } from 'react-apollo';
-import { Link } from 'react-router-dom';
 import { GET_STAGE_BY_ID } from '../../queries/stages';
 import { ADD_MISSION } from '../../queries/missions';
-import Card from '../../components/UI/Card';
 
 import UpdateForm from '../../components/admin/Stage/UpdateForm';
+import MissionList from '../../components/admin/Stage/MissionList';
 
 const Stage = ({ match, history }) => {
   const [showModal, setShowModal] = useState(false);
@@ -33,43 +32,10 @@ const Stage = ({ match, history }) => {
             return (
               <main className="col-12 main-container">
                 <UpdateForm stage={stages[0]} />
-                <Card className="card" style={{ marginTop: '20px' }}>
-                  <div className="card-body">
-                    <div className="d-flex justify-content-between">
-                      <h5 className="card-title">Missions List</h5>
-                      <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={addMission}
-                      >
-                        Add Mission
-                      </button>
-                    </div>
-
-                    <table className="table" style={{ marginTop: '20px' }}>
-                      <thead>
-                        <tr>
-                          <th>Quest</th>
-                          <th>Score</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {stages[0].missions.map((data, index) => (
-                          <tr key={index}>
-                            <td>{data.quest}</td>
-                            <td>{data.score}</td>
-                            <td>
-                              <Link to={`/admin/mission/${data._id}`}>
-                                Detail
-                              </Link>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </Card>
+                <MissionList
+                  onAddMission={addMission}
+                  missions={stages[0].missions}
+                />
               </main>
             );
           }}
