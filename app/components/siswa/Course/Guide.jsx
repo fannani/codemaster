@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { stateToHTML } from 'draft-js-export-html';
 import { convertFromRaw, EditorState } from 'draft-js';
 import ReactHtmlParser from 'react-html-parser';
+import TextEditor from '../../UI/TextEditor';
 
 const SiswaCourseGuide = ({
   mission,
@@ -18,7 +19,7 @@ const SiswaCourseGuide = ({
   const editorState = EditorState.createWithContent(
     convertFromRaw(JSON.parse(teory)),
   );
-  const generatedTeory = stateToHTML(editorState.getCurrentContent());
+  // const generatedTeory = stateToHTML(editorState.getCurrentContent());
   const missionList = mission.map((misi, index) => {
     let active = false;
     if (typeof result[index] !== 'undefined') {
@@ -48,7 +49,7 @@ const SiswaCourseGuide = ({
           <div className="row" id="teory">
             <div className=" col-sm-12">
               <h3>{title}</h3>
-              {ReactHtmlParser(generatedTeory)}
+              <TextEditor value={editorState} readOnly={true} />
             </div>
           </div>
 

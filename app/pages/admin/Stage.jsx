@@ -12,7 +12,15 @@ import { toast } from 'react-toastify';
 import AceEditor from 'react-ace';
 import 'brace/theme/tomorrow';
 import 'brace/mode/html';
+import PrismDecorator from 'draft-js-prism';
+import 'prismjs/themes/prism.css';
+import Prism from 'prismjs';
 
+const prismDecorator = new PrismDecorator({
+  // Provide your own instance of PrismJS
+  prism: Prism,
+  defaultSyntax: 'html',
+});
 
 const Stage = ({ match, history }) => {
   const [showModal, setShowModal] = useState(false);
@@ -38,6 +46,7 @@ const Stage = ({ match, history }) => {
             if (stages[0].teory !== null) {
               teoryContent = EditorState.createWithContent(
                 convertFromRaw(JSON.parse(stages[0].teory)),
+                prismDecorator,
               );
             }
             return (

@@ -1,123 +1,232 @@
-import React, { Component } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Query } from 'react-apollo';
-import { GET_COURSE_BYID } from '../../queries/courses';
-import Card from '../../components/UI/Card';
-import { Link } from 'react-router-dom';
+const Draft = require('draft-js');
+const React = require('react');
+const Immutable = require('immutable');
+const PrismDraftDecorator = require('draft-js-prism');
+import Prism from 'prismjs';
 
-const getItems = count =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k}`,
-    content: `item ${k}`,
-  }));
+import 'prismjs/themes/prism.css';
+import '../../assets/styles/playground.scss';
+import 'draft-js/dist/Draft.css';
 
-class PlayGround extends Component {
+const {
+  Editor,
+  EditorState,
+  RichUtils,
+  DefaultDraftBlockRenderMap,
+  Decorator,
+  convertFromRaw,
+} = Draft;
+
+const { Map, List } = Immutable;
+
+class PrismEditorExample extends React.Component {
   constructor(props) {
     super(props);
+
+    var decorator = new PrismDraftDecorator({
+      prism: Prism,
+      defaultSyntax: 'javascript',
+    });
+    var contentState = convertFromRaw({
+      entityMap: {},
+      blocks: [
+        {
+          type: 'header-one',
+          text: 'Demo for draft-js-prism',
+        },
+        {
+          type: 'unstyled',
+          text: 'Type some JavaScript below:',
+        },
+        {
+          type: 'code-block',
+          text: 'var message = "This is awesome!";',
+        },
+      ],
+    });
+
     this.state = {
-      items: getItems(10),
+      editorState: EditorState.createWithContent(contentState, decorator),
     };
-    this.onDragEnd = this.onDragEnd.bind(this);
+
+    this.focus = () => this.refs.editor.focus();
+    this.onChange = editorState => {
+      const content = editorState.getCurrentContent();
+      this.setState({
+        editorState: EditorState.set(editorState, { decorator }),
+      });
+    };
+
+    this.handleKeyCommand = command => this._handleKeyCommand(command);
+    this.toggleBlockType = type => this._toggleBlockType(type);
+    this.toggleInlineStyle = style => this._toggleInlineStyle(style);
   }
 
-  onDragEnd(result) {}
+  _handleKeyCommand(command) {
+    const { editorState } = this.state;
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      this.onChange(newState);
+      return true;
+    }
+    return false;
+  }
 
-  // Normally you would want to split things out into separate components.
-  // But in this example everything is just done in one place for simplicity
+  _toggleBlockType(blockType) {
+    this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
+  }
+
+  _toggleInlineStyle(inlineStyle) {
+    this.onChange(
+      RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle),
+    );
+  }
+
   render() {
+    const { editorState } = this.state;
+
+    // If the user changes block type before entering any text, we can
+    // either style the placeholder or hide it. Let's just hide it now.
+    let className = 'RichEditor-editor';
+    var contentState = editorState.getCurrentContent();
+    if (!contentState.hasText()) {
+      if (
+        contentState
+          .getBlockMap()
+          .first()
+          .getType() !== 'unstyled'
+      ) {
+        className += ' RichEditor-hidePlaceholder';
+      }
+    }
+
     return (
-      <Query
-        query={GET_COURSE_BYID}
-        variables={{
-          courseid: '5c1fa527556b9635681eb2da',
-        }}
-      >
-        {({ loading, error, data: { courses } }) => {
-          if (loading) return <p>Loading…</p>;
-          if (error) return <p>Sorry! There was an error loading the items</p>;
-          return (
-            <>
-              <DragDropContext onDragEnd={this.onDragEnd}>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>TITLE</th>
-                    </tr>
-                  </thead>
-                  <Droppable droppableId="droppable">
-                    {provided => (
-                      <tbody
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                      >
-                        {courses[0].stages.map(stage => (
-                          <Draggable
-                            key={stage._id}
-                            draggableId={stage._id}
-                            index={stage.index}
-                          >
-                            {provided => (
-                              <tr
-                                key={stage._id}
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                <td>{stage.title}</td>
-                              </tr>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </tbody>
-                    )}
-                  </Droppable>
-                </table>
-              </DragDropContext>
-
-              <DragDropContext onDragEnd={this.onDragEnd}>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>TITLE</th>
-                    </tr>
-                  </thead>
-
-                  <Droppable droppableId="droppable">
-                    {(provided, snapshot) => (
-                      <tbody
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                      >
-                      {courses[0].stages.map(stage => (
-                          <Draggable
-                            key={stage._id}
-                            draggableId={stage._id}
-                            index={stage.index}
-                          >
-                            {(provided, snapshot) => (
-                              <tr
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                <td>{stage.title}</td>
-                              </tr>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </tbody>
-                    )}
-                  </Droppable>
-                </table>
-              </DragDropContext>
-            </>
-          );
-        }}
-      </Query>
+      <div className="RichEditor-root">
+        <BlockStyleControls
+          editorState={editorState}
+          onToggle={this.toggleBlockType}
+        />
+        <InlineStyleControls
+          editorState={editorState}
+          onToggle={this.toggleInlineStyle}
+        />
+        <div className={className} onClick={this.focus}>
+          <Editor
+            blockStyleFn={getBlockStyle}
+            customStyleMap={styleMap}
+            editorState={editorState}
+            handleKeyCommand={this.handleKeyCommand}
+            onChange={this.onChange}
+            placeholder="Tell a story..."
+            ref="editor"
+            spellCheck={true}
+          />
+        </div>
+      </div>
     );
   }
 }
 
-export default PlayGround;
+// Custom overrides for "code" style.
+const styleMap = {
+  CODE: {
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+    fontSize: 16,
+    padding: 2,
+  },
+};
+
+function getBlockStyle(block) {
+  switch (block.getType()) {
+    case 'blockquote':
+      return 'RichEditor-blockquote';
+    default:
+      return null;
+  }
+}
+
+class StyleButton extends React.Component {
+  constructor() {
+    super();
+    this.onToggle = e => {
+      e.preventDefault();
+      this.props.onToggle(this.props.style);
+    };
+  }
+
+  render() {
+    let className = 'RichEditor-styleButton';
+    if (this.props.active) {
+      className += ' RichEditor-activeButton';
+    }
+
+    return (
+      <span className={className} onMouseDown={this.onToggle}>
+        {this.props.label}
+      </span>
+    );
+  }
+}
+
+const BLOCK_TYPES = [
+  { label: 'H1', style: 'header-one' },
+  { label: 'H2', style: 'header-two' },
+  { label: 'H3', style: 'header-three' },
+  { label: 'H4', style: 'header-four' },
+  { label: 'H5', style: 'header-five' },
+  { label: 'H6', style: 'header-six' },
+  { label: 'Blockquote', style: 'blockquote' },
+  { label: 'UL', style: 'unordered-list-item' },
+  { label: 'OL', style: 'ordered-list-item' },
+  { label: 'Code Block', style: 'code-block' },
+];
+
+const BlockStyleControls = props => {
+  const { editorState } = props;
+  const selection = editorState.getSelection();
+  const blockType = editorState
+    .getCurrentContent()
+    .getBlockForKey(selection.getStartKey())
+    .getType();
+
+  return (
+    <div className="RichEditor-controls">
+      {BLOCK_TYPES.map(type => (
+        <StyleButton
+          key={type.label}
+          active={type.style === blockType}
+          label={type.label}
+          onToggle={props.onToggle}
+          style={type.style}
+        />
+      ))}
+    </div>
+  );
+};
+
+var INLINE_STYLES = [
+  { label: 'Bold', style: 'BOLD' },
+  { label: 'Italic', style: 'ITALIC' },
+  { label: 'Underline', style: 'UNDERLINE' },
+  { label: 'Monospace', style: 'CODE' },
+];
+
+const InlineStyleControls = props => {
+  var currentStyle = props.editorState.getCurrentInlineStyle();
+  return (
+    <div className="RichEditor-controls">
+      {INLINE_STYLES.map(type => (
+        <StyleButton
+          key={type.label}
+          active={currentStyle.has(type.style)}
+          label={type.label}
+          onToggle={props.onToggle}
+          style={type.style}
+        />
+      ))}
+    </div>
+  );
+};
+
+export default PrismEditorExample;
