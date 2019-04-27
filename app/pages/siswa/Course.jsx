@@ -9,7 +9,10 @@ import SiswaCourseOutput from '../../components/siswa/Course/Output';
 import SiswaCourseScoreBoard from '../../components/siswa/Course/ScoreBoard/ScoreBoard';
 import SiswaCourseSidebar from '../../components/siswa/Course/Sidebar';
 import Sidebar from 'react-sidebar';
-import { GET_STAGE_BY_PLAYER } from '../../queries/stages';
+import {
+  GET_STAGE_BY_COURSE_PLAYER,
+  GET_STAGE_BY_PLAYER,
+} from '../../queries/stages';
 import { calculateStars, checkResult } from '../../utils/course';
 import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 import usePlayer from '../../hooks/player';
@@ -17,6 +20,7 @@ import useInteractiveCoding from '../../hooks/interactiveCoding';
 import { ADD_SCORE } from '../../queries/courses';
 import shortid from 'shortid';
 import Modal from 'react-bootstrap4-modal';
+import { GET_TESTCASE_MISSION } from '../../queries/missions';
 
 //TODO: Output default mode
 
@@ -94,7 +98,28 @@ const Course = ({
                 <></>
               </Sidebar>
               <main role="main" className="container-fluid">
-                <Mutation mutation={ADD_SCORE}>
+                <Mutation
+                  mutation={ADD_SCORE}
+                  update={(cache, { data: { addScore } }) => {
+                    const d = cache.readQuery({
+                      query: GET_STAGE_BY_COURSE_PLAYER,
+                      variables: {
+                        courseid: stages[0].course._id,
+                        playerid: player.user.userdetailid,
+                      },
+                    });
+                    cache.writeQuery({
+                      query: GET_STAGE_BY_COURSE_PLAYER,
+                      variables: {
+                        courseid: stages[0].course._id,
+                        playerid: player.user.userdetailid,
+                      },
+                      data: {
+                        stages: addScore,
+                      },
+                    });
+                  }}
+                >
                   {addScore => (
                     <SiswaCourseValidator
                       stages={stages}

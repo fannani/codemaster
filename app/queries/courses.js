@@ -97,6 +97,19 @@ export const ADD_SCORE = gql`
       player {
         stars
       }
+      stages {
+        _id
+        title
+        time
+        teory
+        win
+        score
+        stars
+        imageid
+        course {
+          _id
+        }
+      }
     }
   }
 `;

@@ -41,6 +41,14 @@ const ScoreType = new GraphQLObjectType({
         return Stage.findOne({ _id: score.stage });
       },
     },
+    stages: {
+      type: GraphQLList(StageType),
+      async resolve({ _id }) {
+        const score = await Score.findOne({ _id });
+        let course = await Course.findById(score.course);
+        return course.player(score.player);
+      },
+    },
     score: { type: GraphQLNonNull(GraphQLInt) },
     time: { type: GraphQLNonNull(GraphQLInt) },
     stars: { type: GraphQLNonNull(GraphQLList(GraphQLBoolean)) },
