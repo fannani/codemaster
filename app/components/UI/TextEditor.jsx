@@ -1,5 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import Draft, { RichUtils } from 'draft-js';
+import Draft, {
+  convertFromRaw,
+  convertToRaw,
+  EditorState,
+  RichUtils,
+} from 'draft-js';
+
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
@@ -13,13 +19,14 @@ import 'draft-js-focus-plugin/lib/plugin.css';
 import Modal from 'react-bootstrap4-modal';
 import CodeUtils from 'draft-js-code';
 import 'prismjs/themes/prism.css';
+import PrismDecorator from 'draft-js-prism';
+import Prism from 'prismjs';
 
 import '../../assets/styles/editor.scss';
 
 const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
 const blockDndPlugin = createBlockDndPlugin();
-
 
 const decorator = composeDecorators(
   focusPlugin.decorator,
@@ -33,9 +40,37 @@ const plugins = [focusPlugin, resizeablePlugin, imagePlugin, blockDndPlugin];
 const storageRef = firebase.storage().ref();
 let childRef;
 
-const TextEditor = ({ value, onChange, readOnly = false }) => {
+const TextEditor = ({ value, onChangeData, readOnly = false, language }) => {
   const [loadingImage, setLoadingImage] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  const onChange = state => {
+    setEditorState(state);
+    const contentState = state.getCurrentContent();
+    const raw = convertToRaw(contentState);
+    const editorJson = JSON.stringify(raw);
+    onChangeData(editorJson);
+  };
+
+  useEffect(
+    () => {
+      const prismDecorator = new PrismDecorator({
+        // Provide your own instance of PrismJS
+        prism: Prism,
+        defaultSyntax: language,
+      });
+      if (value !== null) {
+        setEditorState(
+          EditorState.createWithContent(
+            convertFromRaw(JSON.parse(value)),
+            prismDecorator,
+          ),
+        );
+      }
+    },
+    [language],
+  );
 
   const onDrop = useCallback(acceptedFiles => {
     childRef = storageRef.child(shortid.generate());
@@ -51,7 +86,7 @@ const TextEditor = ({ value, onChange, readOnly = false }) => {
           .getDownloadURL()
           .then(url => {
             setShowModal(false);
-            onChange(imagePlugin.addImage(value, url));
+            onChange(imagePlugin.addImage(editorState, url));
           })
           .catch(() => {});
         setLoadingImage(false);
@@ -61,13 +96,13 @@ const TextEditor = ({ value, onChange, readOnly = false }) => {
   );
 
   const onBoldClick = () => {
-    onChange(RichUtils.toggleInlineStyle(value, 'BOLD'));
+    onChange(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
   };
   const onItalicClick = () => {
-    onChange(RichUtils.toggleInlineStyle(value, 'ITALIC'));
+    onChange(RichUtils.toggleInlineStyle(editorState, 'ITALIC'));
   };
   const onUnderlineClick = () => {
-    onChange(RichUtils.toggleInlineStyle(value, 'UNDERLINE'));
+    onChange(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
   };
 
   const onImageClick = () => {
@@ -75,22 +110,22 @@ const TextEditor = ({ value, onChange, readOnly = false }) => {
   };
 
   const onScriptClick = () => {
-    onChange(RichUtils.toggleBlockType(value, 'code-block'));
+    onChange(RichUtils.toggleBlockType(editorState, 'code-block'));
   };
 
   const onTitleClick = () => {
-    onChange(RichUtils.toggleBlockType(value, 'header-four'));
+    onChange(RichUtils.toggleBlockType(editorState, 'header-four'));
   };
 
   const handleKeyCommand = command => {
     let newState;
 
-    if (CodeUtils.hasSelectionInBlock(value)) {
-      newState = CodeUtils.handleKeyCommand(value, command);
+    if (CodeUtils.hasSelectionInBlock(editorState)) {
+      newState = CodeUtils.handleKeyCommand(editorState, command);
     }
 
     if (!newState) {
-      newState = RichUtils.handleKeyCommand(value, command);
+      newState = RichUtils.handleKeyCommand(editorState, command);
     }
 
     if (newState) {
@@ -101,7 +136,7 @@ const TextEditor = ({ value, onChange, readOnly = false }) => {
   };
 
   const keyBindingFn = evt => {
-    if (!CodeUtils.hasSelectionInBlock(value))
+    if (!CodeUtils.hasSelectionInBlock(editorState))
       return Draft.getDefaultKeyBinding(evt);
 
     const command = CodeUtils.getKeyBinding(evt);
@@ -110,16 +145,16 @@ const TextEditor = ({ value, onChange, readOnly = false }) => {
   };
 
   const handleReturn = evt => {
-    if (!CodeUtils.hasSelectionInBlock(value)) return 'not-handled';
+    if (!CodeUtils.hasSelectionInBlock(editorState)) return 'not-handled';
 
-    onChange(CodeUtils.handleReturn(evt, value));
+    onChange(CodeUtils.handleReturn(evt, editorState));
     return 'handled';
   };
 
   const onTab = evt => {
-    if (!CodeUtils.hasSelectionInBlock(value)) return 'not-handled';
+    if (!CodeUtils.hasSelectionInBlock(editorState)) return 'not-handled';
 
-    onChange(CodeUtils.onTab(evt, value));
+    onChange(CodeUtils.onTab(evt, editorState));
     return 'handled';
   };
 
@@ -127,7 +162,7 @@ const TextEditor = ({ value, onChange, readOnly = false }) => {
     return (
       <Editor
         readOnly={true}
-        editorState={value}
+        editorState={editorState}
         handleKeyCommand={handleKeyCommand}
         plugins={plugins}
       />
@@ -198,7 +233,7 @@ const TextEditor = ({ value, onChange, readOnly = false }) => {
           </div>
           <div className="editors">
             <Editor
-              editorState={value}
+              editorState={editorState}
               keyBindingFn={keyBindingFn}
               handleKeyCommand={handleKeyCommand}
               handleReturn={handleReturn}

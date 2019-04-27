@@ -7,23 +7,12 @@ import { Link } from 'react-router-dom';
 import { GET_STAGE_BY_ID, UPDATE_STAGE } from '../../queries/stages';
 import { ADD_MISSION } from '../../queries/missions';
 import Card from '../../components/UI/Card';
-import TextEditor from '../../components/UI/TextEditor';
-import { toast } from 'react-toastify';
-import AceEditor from 'react-ace';
-import 'brace/theme/tomorrow';
-import 'brace/mode/html';
-import PrismDecorator from 'draft-js-prism';
-import 'prismjs/themes/prism.css';
-import Prism from 'prismjs';
 
-const prismDecorator = new PrismDecorator({
-  // Provide your own instance of PrismJS
-  prism: Prism,
-  defaultSyntax: 'html',
-});
+import UpdateForm from '../../components/admin/Stage/UpdateForm';
 
 const Stage = ({ match, history }) => {
   const [showModal, setShowModal] = useState(false);
+  const [language, setLanguage] = useState('html');
   const { params } = match;
   const { stageid } = params;
 
@@ -42,141 +31,10 @@ const Stage = ({ match, history }) => {
             if (loading) return <p>Loading…</p>;
             if (error)
               return <p>Sorry! There was an error loading the items</p>;
-            let teoryContent = EditorState.createEmpty();
-            if (stages[0].teory !== null) {
-              teoryContent = EditorState.createWithContent(
-                convertFromRaw(JSON.parse(stages[0].teory)),
-                prismDecorator,
-              );
-            }
+
             return (
               <main className="col-12 main-container">
-                <Card className="card">
-                  <div className="card-body">
-                    <div className="d-flex justify-content-between">
-                      <h5 className="card-title">Stage Detail</h5>
-                    </div>
-
-                    <Mutation mutation={UPDATE_STAGE}>
-                      {updateStage => (
-                        <Formik
-                          initialValues={{
-                            title: stages[0].title,
-                            teory: teoryContent,
-                            time: stages[0].time ? stages[0].time : '',
-                            exp_reward: stages[0].exp_reward
-                              ? stages[0].exp_reward
-                              : '',
-                            script: stages[0].script ? stages[0].script : '',
-                            image: undefined,
-                          }}
-                          onSubmit={(
-                            { image, title, time, teory, exp_reward, script },
-                            { setSubmitting },
-                          ) => {
-                            const contentState = teory.getCurrentContent();
-                            const raw = convertToRaw(contentState);
-                            const editorJson = JSON.stringify(raw);
-                            setSubmitting(true);
-                            updateStage({
-                              variables: {
-                                file: image,
-                                title,
-                                time,
-                                teory: editorJson,
-                                exp_reward,
-                                id: stageid,
-                                script,
-                              },
-                            }).then(() => {
-                              setSubmitting(false);
-                              toast.success('Data successfully updated');
-                            });
-                          }}
-                        >
-                          {({ setFieldValue, values }) => (
-                            <Form>
-                              <div className="form-group">
-                                <label htmlFor="name">Title</label>
-                                <Field
-                                  type="text"
-                                  name="title"
-                                  className="form-control"
-                                  placeholder="Title"
-                                />
-                              </div>
-                              <div
-                                className="form-group"
-                                style={{ width: '70%' }}
-                              >
-                                <label htmlFor="teory">Teory</label>
-                                <TextEditor
-                                  value={values.teory}
-                                  onChange={state => {
-                                    setFieldValue('teory', state);
-                                  }}
-                                />
-                              </div>
-                              <div className="form-group">
-                                <label htmlFor="teory">Time</label>
-                                <Field
-                                  className="form-control"
-                                  type="number"
-                                  name="time"
-                                  placeholder="Waktu"
-                                />
-                              </div>
-                              <div className="form-group">
-                                <label htmlFor="exp_reward">Exp Reward</label>
-                                <Field
-                                  className="form-control"
-                                  type="number"
-                                  name="exp_reward"
-                                  placeholder="Exp Reward"
-                                />
-                              </div>
-                              <div className="form-group">
-                                <label htmlFor="name">Initial Script</label>
-                                <AceEditor
-                                  mode="html"
-                                  theme="tomorrow"
-                                  value={values.script}
-                                  width="100%"
-                                  style={{ height: '200px' }}
-                                  setOptions={{
-                                    fontSize: '12pt',
-                                    vScrollBarAlwaysVisible: true,
-                                  }}
-                                  onChange={value => {
-                                    setFieldValue('script', value);
-                                  }}
-                                />
-                              </div>
-                              <div className="form-group">
-                                <label htmlFor="file">Stage Image</label>
-                                <input
-                                  id="file"
-                                  name="file"
-                                  type="file"
-                                  className="form-control-file"
-                                  onChange={event => {
-                                    setFieldValue(
-                                      'image',
-                                      event.currentTarget.files[0],
-                                    );
-                                  }}
-                                />
-                              </div>
-                              <button className="btn btn-primary" type="submit">
-                                Simpan
-                              </button>
-                            </Form>
-                          )}
-                        </Formik>
-                      )}
-                    </Mutation>
-                  </div>
-                </Card>
+                <UpdateForm stage={stages[0]} language={language} />
                 <Card className="card" style={{ marginTop: '20px' }}>
                   <div className="card-body">
                     <div className="d-flex justify-content-between">
