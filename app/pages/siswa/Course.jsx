@@ -117,6 +117,8 @@ const Course = ({
                               stars: starCount,
                               script,
                             },
+                          }).then(({ data: { addScore } }) => {
+                            player.updateStars(addScore.player.stars);
                           });
                         }
                         setIsPlay(false);

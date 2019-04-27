@@ -12,7 +12,6 @@ import Card from '../../components/UI/Card';
 import CourseItem from '../../components/siswa/Course/List/Item';
 import usePlayer from '../../hooks/player';
 //TODO: - Immediatelly update
-//      - Update Level
 //      - Wrong Achievement
 const Loader = () => {
   const all = [];
@@ -60,6 +59,7 @@ const Dashboard = ({ className }) => {
           {({ loading, error, data }) => {
             if (loading) return <p>Loading</p>;
             if (error) return <p>Terjadi Kesalahan</p>;
+
             return (
               <main
                 className="col-12 main-container"
@@ -104,7 +104,7 @@ const Dashboard = ({ className }) => {
                           <div className="col-8 caption">
                             <p>Achievements</p>
                             <div className="value">
-                              {data.players[0].achievements.length}
+                              {data.players[0].achievement_total}
                             </div>
                           </div>
                         </div>

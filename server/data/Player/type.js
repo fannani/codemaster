@@ -36,7 +36,6 @@ const PlayerType = new GraphQLObjectType({
       type: GraphQLList(BadgeType),
       async resolve({ _id }) {
         const player = await Player.findById(_id).populate('badges');
-        console.log(player);
         return player.badges;
       },
     },
@@ -48,6 +47,18 @@ const PlayerType = new GraphQLObjectType({
           achievements[i] = achievements[i].player(_id);
         }
         return achievements;
+      },
+    },
+    achievement_total: {
+      type: GraphQLInt,
+      async resolve({ _id }) {
+        let total = 0;
+        let achievements = await Achievement.find();
+        for (let i = 0; i < achievements.length; i++) {
+          const achievement = await achievements[i].player(_id);
+          total += achievement.star;
+        }
+        return total;
       },
     },
     stars: {

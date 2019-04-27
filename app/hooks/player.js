@@ -19,6 +19,7 @@ import {
   GIVE_ACHIEV_REQUEST,
   GIVE_ACHIEV_FAILURE,
   GIVE_ACHIEV_SUCCESS,
+  UPDATE_STARS,
 } from '../data/siswa/types';
 import {
   setPlayerStatus,
@@ -142,6 +143,9 @@ const usePlayer = () => {
     },
     setPlayMode: play => {
       dispatch(setPlayMode(play));
+    },
+    updateStars: stars => {
+      dispatch({ type: UPDATE_STARS, stars });
     },
   };
 };

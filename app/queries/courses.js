@@ -94,6 +94,9 @@ export const ADD_SCORE = gql`
     ) {
       _id
       score
+      player {
+        stars
+      }
     }
   }
 `;

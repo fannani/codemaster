@@ -7,6 +7,7 @@ import {
   UPDATE_TIMER,
   ADD_ENERGY_SUCCESS,
   ADD_EXP_SUCCESS,
+  UPDATE_STARS,
 } from './types';
 
 export const initialState = {
@@ -78,6 +79,14 @@ export const reducer = (state, action) => {
           userdetail: { ...state.user.userdetail, energy: action.user.energy },
         },
       };
+    case UPDATE_STARS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          userdetail: { ...state.user.userdetail, stars: action.stars },
+        },
+      };
     case ADD_EXP_SUCCESS:
       return {
         ...state,
@@ -87,7 +96,6 @@ export const reducer = (state, action) => {
             ...state.user.userdetail,
             exp: action.user.exp,
             daily_exp: action.user.daily_exp,
-            stars: action.user.stars,
             level: action.user.level,
             target_exp: action.user.target_exp,
           },
