@@ -66,6 +66,7 @@ const Course = ({
       selector: '#output-tab',
       content: 'Setelah itu output akan tampil di bagian ini',
     },
+
     {
       selector: '#check',
       content:

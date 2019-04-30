@@ -32,6 +32,7 @@ const PlayerType = new GraphQLObjectType({
     daily_exp: { type: GraphQLInt },
     daily_login: { type: GraphQLBoolean },
     energy_time: { type: GraphQLString },
+    tutorial: { type: GraphQLBoolean },
     badges: {
       type: GraphQLList(BadgeType),
       async resolve({ _id }) {
