@@ -18,6 +18,7 @@ const SiswaCourseOutput = ({
 
   return (
     <div
+      id="output-tab"
       className={!show ? 'col-sm-1' : `col-sm-${size}`}
       style={{ paddingLeft: '0px', paddingRight: '0px' }}
       onClick={onClick}

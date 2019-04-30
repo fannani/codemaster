@@ -54,6 +54,26 @@ const Course = ({
       content:
         'Terdapat beberapa misi yang harus diselesaikan, setiap misi akan mendapatkan score, selesaikan dengan sesingkat mungkin dan tanpa kesalahan untuk mendapatkan bintang',
     },
+    {
+      selector: '#brace-editor',
+      content: 'Tuliskan script di bagian ini sesuai dengan perintah di misi',
+    },
+    {
+      selector: '#run',
+      content: 'Klik jalankan untuk melihat hasil output dari script',
+    },
+    {
+      selector: '#output-tab',
+      content: 'Setelah itu output akan tampil di bagian ini',
+    },
+    {
+      selector: '#check',
+      content:
+        'Klik periksa jika script sudah dirasa benar untuk mendapatkan score',
+      style: {
+        maxWidth: '370px',
+      },
+    },
   ]);
   const player = usePlayer();
   const interactive = useInteractiveCoding();
@@ -282,7 +302,7 @@ const Course = ({
         steps={tour}
         isOpen={tourOpen}
         lastStepNextButton={
-          <button class="btn btn-primary">Done! Happy Coding!</button>
+          <button className="btn btn-primary">Done! Happy Coding!</button>
         }
         onRequestClose={() => {
           setTourOpen(false);

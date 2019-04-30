@@ -71,7 +71,7 @@ const SiswaCourseEditor = ({
                 </Button>
                 <Button
                   type="button"
-                  id="run"
+                  id="check"
                   onClick={() => {
                     run();
                     checkResult(script);
