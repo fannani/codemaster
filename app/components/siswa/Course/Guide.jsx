@@ -56,11 +56,12 @@ const SiswaCourseGuide = ({
             <div className="title col-sm-12">
               <h3>Misi</h3>
             </div>
-          </div>
-          <div className="row">
-            <ul className="list-group col-sm" style={{ paddingRight: '0px' }}>
-              {missionList}
-            </ul>
+
+            <div className="row">
+              <ul className="list-group col-sm" style={{ paddingRight: '0px' }}>
+                {missionList}
+              </ul>
+            </div>
           </div>
         </>
       ) : (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Query, Mutation } from 'react-apollo';
 import PropTypes from 'prop-types';
+import Tour from 'reactour';
 import SiswaCourseGuide from '../../components/siswa/Course/Guide';
 import SiswaCourseValidator from '../../components/siswa/Course/Validator';
 import SiswaCourseFooter from '../../components/siswa/Course/Footer';
@@ -42,6 +43,18 @@ const Course = ({
   const [stars, setStars] = useState([]);
   const [intervalState, setIntervalState] = useState(null);
   const [showOutOfEnergy, setShowOutOfEnergy] = useState(false);
+  const [tourOpen, setTourOpen] = useState(true);
+  const [tour, setTour] = useState([
+    {
+      selector: '#teory',
+      content: 'Ini adalah bagian teori, silahkan baca terlebih dahulu',
+    },
+    {
+      selector: '#mission',
+      content:
+        'Terdapat beberapa misi yang harus diselesaikan, setiap misi akan mendapatkan score, selesaikan dengan sesingkat mungkin dan tanpa kesalahan untuk mendapatkan bintang',
+    },
+  ]);
   const player = usePlayer();
   const interactive = useInteractiveCoding();
   const onSetSidebarOpen = open => {
@@ -265,6 +278,16 @@ const Course = ({
           );
         }}
       </Query>
+      <Tour
+        steps={tour}
+        isOpen={tourOpen}
+        lastStepNextButton={
+          <button class="btn btn-primary">Done! Happy Coding!</button>
+        }
+        onRequestClose={() => {
+          setTourOpen(false);
+        }}
+      />
     </div>
   );
 };
