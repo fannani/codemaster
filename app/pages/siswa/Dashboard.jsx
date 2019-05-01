@@ -187,14 +187,14 @@ const Dashboard = ({ className }) => {
                         </div>
                       </div>
                     </Card>
-                    <Card className="card " style={{ marginTop: '20px' }}>
-                      <div className="card-body">
-                        <h5 className="card-title">Friends</h5>
-                        <div className="row justify-content-center">
-                          <div className="col-9" />
-                        </div>
-                      </div>
-                    </Card>
+                    {/*<Card className="card " style={{ marginTop: '20px' }}>*/}
+                    {/*  <div className="card-body">*/}
+                    {/*    <h5 className="card-title">Friends</h5>*/}
+                    {/*    <div className="row justify-content-center">*/}
+                    {/*      <div className="col-9" />*/}
+                    {/*    </div>*/}
+                    {/*  </div>*/}
+                    {/*</Card>*/}
                   </div>
                 </div>
               </main>
