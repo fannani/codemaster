@@ -93,11 +93,6 @@ const Course = ({
     player.setPlayerStatus(0, 3);
     player.setPlayMode(true);
   };
-  useEffect(() => {
-    if (player.user.userdetail.tutorial) {
-      player.setTutorial(false);
-    }
-  }, []);
   useEffect(
     () => {
       reset();
@@ -312,6 +307,9 @@ const Course = ({
         }
         onRequestClose={() => {
           setTourOpen(false);
+          if (player.user.userdetail.tutorial) {
+            player.setTutorial(false);
+          }
         }}
       />
     </div>

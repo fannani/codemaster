@@ -1,4 +1,10 @@
-import { GraphQLString, GraphQLNonNull, GraphQLInt, GraphQLID } from 'graphql';
+import {
+  GraphQLString,
+  GraphQLNonNull,
+  GraphQLInt,
+  GraphQLID,
+  GraphQLBoolean,
+} from 'graphql';
 import { UserInputError } from 'apollo-server-express';
 import Player from './Player';
 import User from '../User/User';

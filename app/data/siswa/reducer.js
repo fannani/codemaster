@@ -8,6 +8,7 @@ import {
   ADD_ENERGY_SUCCESS,
   ADD_EXP_SUCCESS,
   UPDATE_STARS,
+  SET_TUTORIAL_SUCCESS,
 } from './types';
 
 export const initialState = {
@@ -98,6 +99,17 @@ export const reducer = (state, action) => {
             daily_exp: action.user.daily_exp,
             level: action.user.level,
             target_exp: action.user.target_exp,
+          },
+        },
+      };
+    case SET_TUTORIAL_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          userdetail: {
+            ...state.user.userdetail,
+            tutorial: action.tutorial,
           },
         },
       };
