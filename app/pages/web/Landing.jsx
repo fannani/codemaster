@@ -84,8 +84,8 @@ const WebLanding = ({ className }) => (
       <div className="col-4 offset-1">
         <h3>Berlangganan Informasi KodeMaster Melalui Email</h3>
         <p>
-          Jangan sampai kamu melewatkan informasi penting tentang KodeLegend.
-          Kamu bisa berlangganan Newsletter KodeLegend dengan cara mengisi
+          Jangan sampai kamu melewatkan informasi penting tentang KodeKurawal.
+          Kamu bisa berlangganan Newsletter KodeKurawal dengan cara mengisi
           formulir di samping.
         </p>
       </div>
@@ -153,7 +153,7 @@ const WebLanding = ({ className }) => (
         <p className="mr-auto copyright">
           © 2019 kodekurawal. All rights reserved
         </p>
-        <p className="ml-auto email">admin@kodelegend.com</p>
+        <p className="ml-auto email">admin@kodekurawal.com</p>
       </div>
     </div>
   </div>

@@ -51,7 +51,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './app/template.html',
       filename: '../index.html',
-      title: 'kodelegend',
+      title: 'kodekurawal',
     }),
     new DotenvWebpack({
       systemvars: true,
