@@ -17,7 +17,7 @@ const PlayerSchema = new Schema({
   badges: [{ type: Schema.Types.ObjectId, ref: 'Badge' }],
   friends: [Schema.Types.ObjectId],
   updated_at: { type: Date, default: Date.now },
-  tutorial: { type: Boolean, default: false },
+  tutorial: { type: Boolean, default: true },
 });
 
 PlayerSchema.methods.scores = async function() {

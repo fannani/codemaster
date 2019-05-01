@@ -19,6 +19,9 @@ import {
   GIVE_ACHIEV_REQUEST,
   GIVE_ACHIEV_FAILURE,
   GIVE_ACHIEV_SUCCESS,
+  SET_TUTORIAL_FAILURE,
+  SET_TUTORIAL_SUCCESS,
+  SET_TUTORIAL_REQUEST,
   UPDATE_STARS,
 } from '../data/siswa/types';
 import {
@@ -56,6 +59,22 @@ const usePlayer = () => {
     dispatch(request());
     UserService.logout();
     dispatch(success());
+  };
+
+  const setTutorial = tutorial => {
+    const userid = state.user.userdetail._id;
+    const request = () => ({ type: SET_TUTORIAL_REQUEST });
+    const success = user => ({ type: SET_TUTORIAL_SUCCESS, user });
+    const failure = error => ({ type: SET_TUTORIAL_FAILURE, error });
+    dispatch(request());
+    return PlayerService.setTutorial(userid, tutorial).then(
+      player => {
+        dispatch(success(player));
+      },
+      error => {
+        dispatch(failure(error));
+      },
+    );
   };
 
   const addEnergy = energy => {
@@ -129,6 +148,7 @@ const usePlayer = () => {
     addExp,
     addBadge,
     giveAchievement,
+    setTutorial,
     isLogin: state.isLogin && state.user.role === 'siswa',
     user: state.user,
     incrementTimer: () => {

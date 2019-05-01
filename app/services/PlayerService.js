@@ -7,6 +7,13 @@ const addEnergy = (userid, energy) =>
         }`,
   ).then(response => response.data.data.addEnergy);
 
+const setTutorial = (userid, energy) =>
+  APIService.mutation(
+    `setTutorial(userid : "${userid}", tutorial: ${energy}){
+          _id,energy,stars
+        }`,
+  ).then(response => response.data.data.setTutorial);
+
 const addBadge = (userid, badge) =>
   APIService.mutation(
     `addBadgePlayer(id : "${userid}", badge: "${badge}"){
@@ -32,6 +39,7 @@ const giveAchievement = (player, achievement) =>
   ).then(response => response.data.data.giveAchievement);
 
 export default {
+  setTutorial,
   addBadge,
   addEnergy,
   addPlayerAchievement,

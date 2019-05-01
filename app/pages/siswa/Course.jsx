@@ -34,6 +34,7 @@ const Course = ({
   },
   history,
 }) => {
+  const player = usePlayer();
   const [scoreResult, setScoreResult] = useState(0);
   const [lifeResult, setLifeResult] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -43,7 +44,7 @@ const Course = ({
   const [stars, setStars] = useState([]);
   const [intervalState, setIntervalState] = useState(null);
   const [showOutOfEnergy, setShowOutOfEnergy] = useState(false);
-  const [tourOpen, setTourOpen] = useState(true);
+  const [tourOpen, setTourOpen] = useState(player.user.userdetail.tutorial);
   const [tour, setTour] = useState([
     {
       selector: '#teory',
@@ -66,7 +67,6 @@ const Course = ({
       selector: '#output-tab',
       content: 'Setelah itu output akan tampil di bagian ini',
     },
-
     {
       selector: '#check',
       content:
@@ -76,7 +76,7 @@ const Course = ({
       },
     },
   ]);
-  const player = usePlayer();
+
   const interactive = useInteractiveCoding();
   const onSetSidebarOpen = open => {
     setSidebarOpen(open);
@@ -93,6 +93,11 @@ const Course = ({
     player.setPlayerStatus(0, 3);
     player.setPlayMode(true);
   };
+  useEffect(() => {
+    if (player.user.userdetail.tutorial) {
+      player.setTutorial(false);
+    }
+  }, []);
   useEffect(
     () => {
       reset();

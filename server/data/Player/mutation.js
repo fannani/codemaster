@@ -36,6 +36,19 @@ const PlayerMutation = {
       return player;
     },
   },
+  setTutorial: {
+    type: PlayerType,
+    description: 'Set Tutorial',
+    args: {
+      userid: { type: new GraphQLNonNull(GraphQLID) },
+      tutorial: { type: GraphQLBoolean },
+    },
+    async resolve(root, { tutorial, userid }) {
+      const player = await Player.findById(userid);
+      player.tutorial = tutorial;
+      return player.save();
+    },
+  },
   addExp: {
     type: PlayerType,
     description: 'Adding Experience Point',
