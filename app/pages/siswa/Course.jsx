@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Tour from 'reactour';
 import Sidebar from 'react-sidebar';
 import shortid from 'shortid';
-import Modal from 'react-bootstrap4-modal';
+import OutOfEnergyModal from '../../components/siswa/Course/OutOfEnergyModal';
 import SiswaCourseGuide from '../../components/siswa/Course/Guide';
 import SiswaCourseValidator from '../../components/siswa/Course/Validator';
 import SiswaCourseFooter from '../../components/siswa/Course/Footer';
@@ -265,26 +265,11 @@ const Course = ({
                   )}
                 </Mutation>
               </main>
-
-              <Modal visible={showOutOfEnergy}>
-                <div className="modal-header">
-                  <h5 className="modal-title">Kekurangan Energi</h5>
-                </div>
-                <div className="modal-body">
-                  <h4>Energi anda habis, silahkan tambah energi</h4>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      history.push(`/course/${stages[0].course._id}`);
-                    }}
-                  >
-                    OK
-                  </button>
-                </div>
-              </Modal>
+              <OutOfEnergyModal
+                history={history}
+                courseid={stages[0].course._id}
+                show={showOutOfEnergy}
+              />
 
               <PreventNavigationDialog
                 when={isPlay}
