@@ -22,12 +22,97 @@ import { ADD_SCORE } from '../../queries/courses';
 import shortid from 'shortid';
 import Modal from 'react-bootstrap4-modal';
 import { GET_PLAYER_ACHIEVEMENTS } from '../../queries/player';
+import ContentLoader from 'react-content-loader';
+import classNames from 'classnames';
+import AceEditor from 'react-ace';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 //TODO: Output default mode
+const Button = styled.button`
+  border-radius: 0px !important;
+  background-color: #4891e3;
+  margin: 5px;
+  color: white;
+`;
 
 let script = '';
 let interval = null;
 const energyNeed = 20;
+
+const Loader = () => {
+  return (
+    <main role="main" className="container-fluid">
+      <div className="row flex-xl-nowrap">
+        <div
+          id="guide"
+          className="col-sm-4"
+          style={{
+            overflowY: 'scroll',
+            height: 'calc(100vh - 100px)',
+            overflowX: 'hidden',
+            backgroundColor: 'white',
+          }}
+        >
+          <ContentLoader width={200} height={250}>
+            <rect x="20" y="20" rx="4" ry="4" width="130" height="15" />
+            <rect x="20" y="50" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="65" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="80" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="95" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="140" rx="4" ry="4" width="130" height="15" />
+            <rect x="20" y="170" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="185" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="200" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="215" rx="3" ry="3" width="170" height="10" />
+          </ContentLoader>
+        </div>
+        <div
+          className="col-sm-4"
+          style={{ height: 'calc(100vh - 100px)', backgroundColor: 'white' }}
+        >
+          <ContentLoader width={200} height={250}>
+            <rect x="20" y="20" rx="4" ry="4" width="130" height="15" />
+            <rect x="20" y="50" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="65" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="80" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="95" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="140" rx="4" ry="4" width="130" height="15" />
+            <rect x="20" y="170" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="185" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="200" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="215" rx="3" ry="3" width="170" height="10" />
+          </ContentLoader>
+        </div>
+        <div
+          className="col-sm-4"
+          style={{ height: 'calc(100vh - 100px)', backgroundColor: 'white' }}
+        >
+          <ContentLoader width={200} height={250}>
+            <rect x="20" y="20" rx="4" ry="4" width="130" height="15" />
+            <rect x="20" y="50" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="65" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="80" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="95" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="140" rx="4" ry="4" width="130" height="15" />
+            <rect x="20" y="170" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="185" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="200" rx="3" ry="3" width="170" height="10" />
+            <rect x="20" y="215" rx="3" ry="3" width="170" height="10" />
+          </ContentLoader>
+        </div>
+      </div>
+      <div
+        className="row flex-xl-nowrap"
+        style={{ height: '50px', backgroundColor: '#343A40' }}
+      >
+        <div className="col-4" />
+        <div className="col-4 level-nav" />
+      </div>
+    </main>
+  );
+};
+
 const Course = ({
   match: {
     params: { stageid },
@@ -115,7 +200,7 @@ const Course = ({
         variables={{ id: stageid, playerid: player.user.userdetailid }}
       >
         {({ data: { stages }, loading, error }) => {
-          if (loading) return <p>Loading…</p>;
+          if (loading) return <Loader />;
           if (error) return <p>Sorry! There was an error loading the items</p>;
           return (
             <>
