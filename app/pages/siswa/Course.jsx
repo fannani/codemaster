@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Query, Mutation } from 'react-apollo';
 import PropTypes from 'prop-types';
 import Tour from 'reactour';
+import Sidebar from 'react-sidebar';
+import shortid from 'shortid';
+import Modal from 'react-bootstrap4-modal';
 import SiswaCourseGuide from '../../components/siswa/Course/Guide';
 import SiswaCourseValidator from '../../components/siswa/Course/Validator';
 import SiswaCourseFooter from '../../components/siswa/Course/Footer';
@@ -9,7 +12,6 @@ import SiswaCourseEditor from '../../components/siswa/Course/Editor';
 import SiswaCourseOutput from '../../components/siswa/Course/Output';
 import SiswaCourseScoreBoard from '../../components/siswa/Course/ScoreBoard/ScoreBoard';
 import SiswaCourseSidebar from '../../components/siswa/Course/Sidebar';
-import Sidebar from 'react-sidebar';
 import {
   GET_STAGE_BY_COURSE_PLAYER,
   GET_STAGE_BY_PLAYER,
@@ -19,99 +21,44 @@ import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 import usePlayer from '../../hooks/player';
 import useInteractiveCoding from '../../hooks/interactiveCoding';
 import { ADD_SCORE } from '../../queries/courses';
-import shortid from 'shortid';
-import Modal from 'react-bootstrap4-modal';
 import { GET_PLAYER_ACHIEVEMENTS } from '../../queries/player';
-import ContentLoader from 'react-content-loader';
-import classNames from 'classnames';
-import AceEditor from 'react-ace';
-import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import Loader from '../../components/siswa/Course/Loader';
 //TODO: Output default mode
-const Button = styled.button`
-  border-radius: 0px !important;
-  background-color: #4891e3;
-  margin: 5px;
-  color: white;
-`;
 
 let script = '';
 let interval = null;
 const energyNeed = 20;
-
-const Loader = () => {
-  return (
-    <main role="main" className="container-fluid">
-      <div className="row flex-xl-nowrap">
-        <div
-          id="guide"
-          className="col-sm-4"
-          style={{
-            overflowY: 'scroll',
-            height: 'calc(100vh - 100px)',
-            overflowX: 'hidden',
-            backgroundColor: 'white',
-          }}
-        >
-          <ContentLoader width={200} height={250}>
-            <rect x="20" y="20" rx="4" ry="4" width="130" height="15" />
-            <rect x="20" y="50" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="65" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="80" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="95" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="140" rx="4" ry="4" width="130" height="15" />
-            <rect x="20" y="170" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="185" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="200" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="215" rx="3" ry="3" width="170" height="10" />
-          </ContentLoader>
-        </div>
-        <div
-          className="col-sm-4"
-          style={{ height: 'calc(100vh - 100px)', backgroundColor: 'white' }}
-        >
-          <ContentLoader width={200} height={250}>
-            <rect x="20" y="20" rx="4" ry="4" width="130" height="15" />
-            <rect x="20" y="50" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="65" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="80" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="95" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="140" rx="4" ry="4" width="130" height="15" />
-            <rect x="20" y="170" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="185" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="200" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="215" rx="3" ry="3" width="170" height="10" />
-          </ContentLoader>
-        </div>
-        <div
-          className="col-sm-4"
-          style={{ height: 'calc(100vh - 100px)', backgroundColor: 'white' }}
-        >
-          <ContentLoader width={200} height={250}>
-            <rect x="20" y="20" rx="4" ry="4" width="130" height="15" />
-            <rect x="20" y="50" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="65" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="80" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="95" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="140" rx="4" ry="4" width="130" height="15" />
-            <rect x="20" y="170" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="185" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="200" rx="3" ry="3" width="170" height="10" />
-            <rect x="20" y="215" rx="3" ry="3" width="170" height="10" />
-          </ContentLoader>
-        </div>
-      </div>
-      <div
-        className="row flex-xl-nowrap"
-        style={{ height: '50px', backgroundColor: '#343A40' }}
-      >
-        <div className="col-4" />
-        <div className="col-4 level-nav" />
-      </div>
-    </main>
-  );
-};
+const tour = [
+  {
+    selector: '#teory',
+    content: 'Ini adalah bagian teori, silahkan baca terlebih dahulu',
+  },
+  {
+    selector: '#mission',
+    content:
+      'Terdapat beberapa misi yang harus diselesaikan, setiap misi akan mendapatkan score, selesaikan dengan sesingkat mungkin dan tanpa kesalahan untuk mendapatkan bintang',
+  },
+  {
+    selector: '#brace-editor',
+    content: 'Tuliskan script di bagian ini sesuai dengan perintah di misi',
+  },
+  {
+    selector: '#run',
+    content: 'Klik jalankan untuk melihat hasil output dari script',
+  },
+  {
+    selector: '#output-tab',
+    content: 'Setelah itu output akan tampil di bagian ini',
+  },
+  {
+    selector: '#check',
+    content:
+      'Klik periksa jika script sudah dirasa benar untuk mendapatkan score',
+    style: {
+      maxWidth: '370px',
+    },
+  },
+];
 
 const Course = ({
   match: {
@@ -130,37 +77,6 @@ const Course = ({
   const [intervalState, setIntervalState] = useState(null);
   const [showOutOfEnergy, setShowOutOfEnergy] = useState(false);
   const [tourOpen, setTourOpen] = useState(player.user.userdetail.tutorial);
-  const [tour, setTour] = useState([
-    {
-      selector: '#teory',
-      content: 'Ini adalah bagian teori, silahkan baca terlebih dahulu',
-    },
-    {
-      selector: '#mission',
-      content:
-        'Terdapat beberapa misi yang harus diselesaikan, setiap misi akan mendapatkan score, selesaikan dengan sesingkat mungkin dan tanpa kesalahan untuk mendapatkan bintang',
-    },
-    {
-      selector: '#brace-editor',
-      content: 'Tuliskan script di bagian ini sesuai dengan perintah di misi',
-    },
-    {
-      selector: '#run',
-      content: 'Klik jalankan untuk melihat hasil output dari script',
-    },
-    {
-      selector: '#output-tab',
-      content: 'Setelah itu output akan tampil di bagian ini',
-    },
-    {
-      selector: '#check',
-      content:
-        'Klik periksa jika script sudah dirasa benar untuk mendapatkan score',
-      style: {
-        maxWidth: '370px',
-      },
-    },
-  ]);
 
   const interactive = useInteractiveCoding();
   const onSetSidebarOpen = open => {
@@ -388,7 +304,9 @@ const Course = ({
         steps={tour}
         isOpen={tourOpen}
         lastStepNextButton={
-          <button className="btn btn-primary">Done! Happy Coding!</button>
+          <button type="button" className="btn btn-primary">
+            Done! Happy Coding!
+          </button>
         }
         onRequestClose={() => {
           setTourOpen(false);

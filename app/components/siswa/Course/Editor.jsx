@@ -5,13 +5,7 @@ import classNames from 'classnames';
 import { BASE_URL } from '../../../config/config';
 import 'brace/mode/html';
 import 'brace/theme/tomorrow';
-
-const Button = styled.button`
-  border-radius: 0px !important;
-  background-color: #4891e3;
-  margin: 5px;
-  color: white;
-`;
+import { Button } from '../../UI/Components';
 
 const postScript = `\x3Cscript src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'>\x3C/script>
 \x3Cscript src='${BASE_URL}js/validator.js'>\x3C/script>`;
