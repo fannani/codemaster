@@ -62,7 +62,7 @@ const Header = ({
                 <ul
                   className="navbar-nav"
                   style={{
-                    width: '340px',
+                    width: '255px',
                     marginLeft: 'auto',
                     marginRight: 'auto',
                   }}
@@ -82,11 +82,11 @@ const Header = ({
                       Achievements
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/friends">
-                      Friends
-                    </Link>
-                  </li>
+                  {/*<li className="nav-item">*/}
+                  {/*  <Link className="nav-link" to="/friends">*/}
+                  {/*    Friends*/}
+                  {/*  </Link>*/}
+                  {/*</li>*/}
                 </ul>
               </Navigasi>
             ) : (
