@@ -22,12 +22,15 @@ const SiswaCourseGuide = ({
       active,
     });
     return (
-      <li key={index} className={missionClass}>
-        <TextEditor
-          value={misi.quest}
-          language={stage.language ? stage.language : 'javascript'}
-          readOnly
-        />
+      <li key={misi._id} className={missionClass}>
+        <span style={{ width: '4%', float: 'left' }}>{index + 1}. </span>
+        <div style={{ width: '96%', float: 'left' }}>
+          <TextEditor
+            value={misi.quest}
+            language={stage.language ? stage.language : 'javascript'}
+            readOnly
+          />
+        </div>
       </li>
     );
   });
@@ -37,7 +40,11 @@ const SiswaCourseGuide = ({
       onClick={onClick}
       id="guide"
       className={classNames(className, !show ? 'col-sm-1' : 'col-sm-4')}
-      style={{ overflowY: 'scroll', height: 'calc(100vh - 100px)' }}
+      style={{
+        overflowY: 'scroll',
+        height: 'calc(100vh - 100px)',
+        overflowX: 'hidden',
+      }}
     >
       {show ? (
         <>
@@ -57,8 +64,11 @@ const SiswaCourseGuide = ({
               <h3>Misi</h3>
             </div>
 
-            <div className="row">
-              <ul className="list-group col-sm" style={{ paddingRight: '0px' }}>
+            <div className="row" style={{ width: '104%' }}>
+              <ul
+                className="list-group col-sm"
+                style={{ paddingRight: '0px', width: '100%' }}
+              >
                 {missionList}
               </ul>
             </div>
