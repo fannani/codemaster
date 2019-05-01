@@ -67,6 +67,7 @@ const Course = ({
   history,
 }) => {
   const player = usePlayer();
+  const interactive = useInteractiveCoding();
   const [scoreResult, setScoreResult] = useState(0);
   const [lifeResult, setLifeResult] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -77,11 +78,6 @@ const Course = ({
   const [intervalState, setIntervalState] = useState(null);
   const [showOutOfEnergy, setShowOutOfEnergy] = useState(false);
   const [tourOpen, setTourOpen] = useState(player.user.userdetail.tutorial);
-
-  const interactive = useInteractiveCoding();
-  const onSetSidebarOpen = open => {
-    setSidebarOpen(open);
-  };
 
   const reset = () => {
     setShowModal(false);
@@ -123,7 +119,9 @@ const Course = ({
               <Sidebar
                 sidebar={<SiswaCourseSidebar course={stages[0].course} />}
                 open={sidebarOpen}
-                onSetOpen={onSetSidebarOpen}
+                onSetOpen={open => {
+                  setSidebarOpen(open);
+                }}
                 styles={{
                   sidebar: { background: 'white', zIndex: '1001' },
                   overlay: { zIndex: '1000' },
