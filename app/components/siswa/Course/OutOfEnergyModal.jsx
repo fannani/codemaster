@@ -1,7 +1,7 @@
 import Modal from 'react-bootstrap4-modal';
 import React from 'react';
 
-const OutOfEnergyModal = (history, show, courseid) => (
+const OutOfEnergyModal = ({history, show, courseid}) => (
   <Modal visible={show}>
     <div className="modal-header">
       <h5 className="modal-title">Kekurangan Energi</h5>
