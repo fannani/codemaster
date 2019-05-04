@@ -21,7 +21,10 @@ import PreventNavigationDialog from '../../components/PreventNavigationDialog';
 import usePlayer from '../../hooks/player';
 import useInteractiveCoding from '../../hooks/interactiveCoding';
 import { ADD_SCORE } from '../../queries/courses';
-import { GET_PLAYER_ACHIEVEMENTS } from '../../queries/player';
+import {
+  GET_COURSE_BY_PLAYER,
+  GET_PLAYER_ACHIEVEMENTS,
+} from '../../queries/player';
 import Loader from '../../components/siswa/Course/Loader';
 //TODO: Output default mode
 
@@ -153,6 +156,13 @@ const Course = ({
                             badges: addScore.player.badges,
                           },
                         ],
+                      },
+                    });
+                    cache.writeQuery({
+                      query: GET_COURSE_BY_PLAYER,
+                      variables: { playerid: player.user.userdetailid },
+                      data: {
+                        players: [{ course: addScore.player.course }],
                       },
                     });
                   }}

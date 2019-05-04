@@ -109,6 +109,22 @@ export const ADD_SCORE = gql`
           title
           imageid
         }
+        course {
+          _id
+          name
+          desc
+          imageid
+          leaderboard {
+            _id
+            score
+            player {
+              _id
+              user {
+                name
+              }
+            }
+          }
+        }
       }
       stages {
         _id
