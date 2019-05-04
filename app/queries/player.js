@@ -30,6 +30,10 @@ export const GET_PLAYER_DATA = gql`
       badges {
         _id
       }
+
+      avatar {
+        imageid
+      }
     }
   }
 `;

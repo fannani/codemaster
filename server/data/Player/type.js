@@ -15,6 +15,8 @@ import CourseType from '../Course/type';
 import BadgeType from '../Badge/type';
 import AchievementType from '../Achievement/type';
 import Achievement from '../Achievement/Achievement';
+import AvatarType from '../Avatar/type';
+import Avatar from '../Avatar/Avatar';
 
 const PlayerType = new GraphQLObjectType({
   name: 'Player',
@@ -30,6 +32,14 @@ const PlayerType = new GraphQLObjectType({
     energy: { type: GraphQLNonNull(GraphQLInt) },
     friends: { type: GraphQLList(GraphQLID) },
     daily_exp: { type: GraphQLInt },
+    avatar: {
+      type: AvatarType,
+      async resolve({ _id }) {
+        const player = await Player.findById(_id);
+        const avatar = await Avatar.findOne({ _id: player.avatar });
+        return avatar;
+      },
+    },
     daily_login: { type: GraphQLBoolean },
     energy_time: { type: GraphQLString },
     tutorial: { type: GraphQLBoolean },
@@ -113,6 +123,7 @@ const PlayerType = new GraphQLObjectType({
         return player.targetExp();
       },
     },
+
     updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),
 });

@@ -5,6 +5,7 @@ import PlayerLevel from './Level/PlayerLevel';
 import PlayerAchievement from './Achievement/PlayerAchievement';
 import DetailAchievement from '../Achievement/Detail/DetailAchievement';
 import Achievement from '../Achievement/Achievement';
+import Avatar from '../Avatar/Avatar';
 
 const PlayerSchema = new Schema({
   energy: { type: Number, default: 0 },
@@ -18,6 +19,11 @@ const PlayerSchema = new Schema({
   friends: [Schema.Types.ObjectId],
   updated_at: { type: Date, default: Date.now },
   tutorial: { type: Boolean, default: true },
+  avatar: {
+    type: Schema.Types.ObjectId,
+    ref: 'Avatar',
+    default: mongoose.Types.ObjectId('5ccdd80648a1e1147c77bddc'),
+  },
 });
 
 PlayerSchema.methods.scores = async function() {
