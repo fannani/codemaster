@@ -9,6 +9,7 @@ const AdminSidebar = () => (
         <Link to="/admin/achievement">Achivement</Link>
         <Link to="/admin/testcase">Test Case</Link>
         <Link to="/admin/game-settings">Game Settings</Link>
+        <Link to="/admin/ava">Ava</Link>
         <Link to="/admin/log">Log</Link>
       </li>
     </ul>

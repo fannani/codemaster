@@ -5,6 +5,7 @@ import missions from './Course/Stage/Mission/query';
 import scores from './Course/Stage/Score/query';
 import users from './User/query';
 import badges from './Badge/query';
+import avatars from './Avatar/query';
 import playerlevel from './Player/Level/query';
 import players from './Player/query';
 import playerAchievements from './Player/Achievement/query';
@@ -23,6 +24,7 @@ import playerLevelMutation from './Player/Level/mutation';
 import achievementMutation from './Achievement/mutation';
 import detailAchievementMutation from './Achievement/Detail/mutation';
 import badgeMutation from './Badge/mutation';
+import avatarMutation from './Avatar/mutation';
 
 const BKQueryRootType = new GraphQLObjectType({
   name: 'BKQueryRootType',
@@ -40,6 +42,7 @@ const BKQueryRootType = new GraphQLObjectType({
     testcase,
     testcaseMission,
     badges,
+    avatars,
   }),
 });
 const BKMutationRootType = new GraphQLObjectType({
@@ -72,6 +75,7 @@ const BKMutationRootType = new GraphQLObjectType({
     updateBadge: badgeMutation.updateBadge,
     addBadgePlayer: playerMutation.addBadge,
     giveAchievement: playerAchievementMutation.giveAchievement,
+    addAvatar: avatarMutation.addAvatar,
   }),
 });
 
