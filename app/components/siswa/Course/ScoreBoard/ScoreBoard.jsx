@@ -34,9 +34,24 @@ const SiswaCourseScoreBoard = ({
       {life > 0 ? `Anda Mendapat EXP sebesar ${exp}` : ''}
     </div>
     <div className="modal-footer">
-      <Link to={`/course/${stage.course._id}`} className="btn btn-secondary">
-        Kembali
-      </Link>
+      {(function() {
+        if (stage.index < stage.course.stages.length) {
+          return (
+            <Link
+              to={`/course/${stage.course._id}`}
+              className="btn btn-secondary"
+            >
+              Kembali
+            </Link>
+          );
+        }
+        return (
+          <Link to={`/course/${stage.course._id}`} className="btn btn-primary">
+            Selesai
+          </Link>
+        );
+      })()}
+
       <button type="button" className="btn btn-secondary" onClick={onReset}>
         Main lagi
       </button>
