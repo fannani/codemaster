@@ -17,6 +17,7 @@ import AchievementType from '../Achievement/type';
 import Achievement from '../Achievement/Achievement';
 import AvatarType from '../Avatar/type';
 import Avatar from '../Avatar/Avatar';
+import PlayerLevel from './Level/PlayerLevel';
 
 const PlayerType = new GraphQLObjectType({
   name: 'Player',
@@ -37,6 +38,16 @@ const PlayerType = new GraphQLObjectType({
       async resolve({ _id }) {
         const player = await Player.findById(_id);
         const avatar = await Avatar.findOne({ _id: player.avatar });
+        return avatar;
+      },
+    },
+    avatars: {
+      type: GraphQLList(AvatarType),
+      async resolve({ _id }) {
+        const player = await Player.findById(_id);
+        const avatar = await Avatar.find({
+          min_exp: { $lte: player.exp },
+        });
         return avatar;
       },
     },

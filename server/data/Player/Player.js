@@ -26,6 +26,8 @@ const PlayerSchema = new Schema({
   },
 });
 
+
+
 PlayerSchema.methods.scores = async function() {
   const score = await Score.aggregate([
     { $match: { player: this._id } },

@@ -5,7 +5,7 @@ export const ADD_AVATAR = gql`
     addAvatar(title: $title, min_exp: $min_exp, image: $image) {
       _id
       title
-      image
+      imageid
     }
   }
 `;
