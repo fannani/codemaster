@@ -43,9 +43,9 @@ const WebLanding = ({ className }) => (
       <h2>Cara baru untuk belajar pemrograman</h2>
       <p>Selesaikan semua Tantangan dan jadilah yang Teratas</p>
       <p>Suka bermain Game, Pasti jago disini</p>
-      <button type="button" className="btn btn-primary btn-circle btn-start">
+      <Link className="btn btn-primary btn-circle btn-start" to="/register">
         Mulai
-      </button>
+      </Link>
     </div>
     <div id="features" className="row">
       <div className="col-12">
