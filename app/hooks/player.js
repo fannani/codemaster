@@ -30,6 +30,7 @@ import {
   updateTimer,
   resetTimer,
 } from '../data/siswa/actions';
+import { toast } from 'react-toastify';
 
 const usePlayer = () => {
   const [state, dispatch] = useContext(AppContext);
@@ -102,6 +103,9 @@ const usePlayer = () => {
     PlayerService.addBadge(userid, badge).then(
       player => {
         dispatch(success(player));
+        toast.success(`Selamat Kamu Mendapatkan Badge`, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       },
       error => {
         dispatch(failure(error));
@@ -118,6 +122,9 @@ const usePlayer = () => {
     PlayerService.giveAchievement(userid, achievement).then(
       player => {
         dispatch(success(player));
+        toast.success(`Selamat Kamu Mendapatkan Achievement`, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       },
       error => {
         dispatch(failure(error));

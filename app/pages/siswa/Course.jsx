@@ -252,7 +252,7 @@ const Course = ({
                             stage={stages[0]}
                             history={history}
                             onMenuClick={() => {
-                              onSetSidebarOpen(true);
+                              setSidebarOpen(true);
                             }}
                           />
                           <SiswaCourseScoreBoard
