@@ -100,7 +100,7 @@ const usePlayer = () => {
     const success = user => ({ type: ADD_BADGE_SUCCESS, user });
     const failure = error => ({ type: ADD_BADGE_FAILURE, error });
     dispatch(request());
-    PlayerService.addBadge(userid, badge).then(
+    return PlayerService.addBadge(userid, badge).then(
       player => {
         dispatch(success(player));
         toast.success(`Selamat Kamu Mendapatkan Badge`, {
@@ -119,7 +119,7 @@ const usePlayer = () => {
     const success = achiev => ({ type: GIVE_ACHIEV_SUCCESS, achiev });
     const failure = error => ({ type: GIVE_ACHIEV_FAILURE, error });
     dispatch(request());
-    PlayerService.giveAchievement(userid, achievement).then(
+    return PlayerService.giveAchievement(userid, achievement).then(
       player => {
         dispatch(success(player));
         toast.success(`Selamat Kamu Mendapatkan Achievement`, {

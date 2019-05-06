@@ -179,7 +179,7 @@ const Course = ({
                         );
                         if (life > 0) {
                           player.addExp(stages[0].exp_reward);
-                          addScore({
+                          const addScoreData = {
                             variables: {
                               player: player.user.userdetailid,
                               course: stages[0].course._id,
@@ -189,9 +189,26 @@ const Course = ({
                               stars: starCount,
                               script,
                             },
-                          }).then(({ data: { addScore } }) => {
-                            player.updateStars(addScore.player.stars);
-                          });
+                          };
+                          const process = async function() {
+                            if (
+                              stages[0].index === stages[0].course.stages.length
+                            ) {
+                              await player.giveAchievement(
+                                '5c26270a8c56d9072422e3ee',
+                              );
+                              if (stages[0].course.badge) {
+                                await player.addBadge(
+                                  stages[0].course.badge._id,
+                                );
+                              }
+                            }
+                            const result = await addScore(addScoreData);
+                            player.updateStars(
+                              result.data.addScore.player.stars,
+                            );
+                          };
+                          process();
                         }
                         setIsPlay(false);
                         setLifeResult(life);
@@ -199,14 +216,6 @@ const Course = ({
                         setShowModal(true);
                         setStars(starCount);
                         clearInterval(intervalState);
-                        if (
-                          stages[0].index === stages[0].course.stages.length
-                        ) {
-                          player.giveAchievement('5c26270a8c56d9072422e3ee');
-                          if (stages[0].course.badge) {
-                            player.addBadge(stages[0].course.badge._id);
-                          }
-                        }
                       }}
                     >
                       {({ result }) => (
