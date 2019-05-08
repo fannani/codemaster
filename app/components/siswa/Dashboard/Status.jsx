@@ -5,6 +5,7 @@ import achievement from '../../../assets/images/achievement.png';
 import badge from '../../../assets/images/badges.png';
 import star from '../../../assets/images/star-circle.png';
 import styled from 'styled-components';
+import lock from '../../../assets/images/lock.png';
 const Ava = styled.div`
   background-color: white;
   background-position: center;

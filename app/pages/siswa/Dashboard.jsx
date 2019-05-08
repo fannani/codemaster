@@ -8,6 +8,7 @@ import Course from '../../components/siswa/Dashboard/Course';
 import DailyTarget from '../../components/siswa/Dashboard/DailyTarget';
 import Status from '../../components/siswa/Dashboard/Status';
 import Modal from 'react-bootstrap4-modal';
+import lock from '../../assets/images/lock.png';
 
 const AvaItem = styled.div`
   background-color: white;
@@ -19,6 +20,39 @@ const AvaItem = styled.div`
   border-radius: 100px;
   margin: 10px;
 `;
+
+const Lock = () => (
+  <div
+    style={{
+      position: 'relative',
+      left: '-7px',
+      top: '-7px',
+    }}
+  >
+    <div
+      className="circle-back"
+      style={{
+        backgroundColor: 'black',
+        width: '87px',
+        height: '87px',
+        position: 'absolute',
+        borderRadius: '100px',
+        opacity: 0.5,
+      }}
+    />
+    <img
+      className="lock"
+      style={{
+        width: '35px',
+        marginLeft: '25px',
+        position: 'absolute',
+        marginTop: '18px',
+      }}
+      src={lock}
+      alt=""
+    />
+  </div>
+);
 
 const Dashboard = ({ className }) => {
   const player = usePlayer();
@@ -82,14 +116,19 @@ const Dashboard = ({ className }) => {
                 <div className="modal-body">
                   <div className="d-flex flex-row flex-wrap justify-content-center">
                     {data.players[0].avatars.map(ava => (
-                      <AvaItem
-                        className="p-2"
-                        style={{
-                          backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/kodekurawal-ab777.appspot.com/o/${
-                            ava.imageid
-                          }?alt=media")`,
-                        }}
-                      />
+                      <>
+                        <AvaItem
+                          key={ava._id}
+                          className="p-2"
+                          style={{
+                            backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/kodekurawal-ab777.appspot.com/o/${
+                              ava.imageid
+                            }?alt=media")`,
+                          }}
+                        >
+                          {!ava.unlock ? <Lock /> : <div />}
+                        </AvaItem>
+                      </>
                     ))}
                   </div>
                 </div>

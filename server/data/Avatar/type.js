@@ -2,7 +2,9 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
-  GraphQLID, GraphQLInt,
+  GraphQLID,
+  GraphQLInt,
+  GraphQLBoolean,
 } from 'graphql';
 
 const AvatarType = new GraphQLObjectType({
@@ -13,6 +15,7 @@ const AvatarType = new GraphQLObjectType({
     title: { type: GraphQLString },
     min_exp: { type: GraphQLInt },
     imageid: { type: GraphQLString },
+    unlock: { type: GraphQLBoolean },
     updated_at: { type: GraphQLNonNull(GraphQLString) },
   }),
 });

@@ -45,10 +45,16 @@ const PlayerType = new GraphQLObjectType({
       type: GraphQLList(AvatarType),
       async resolve({ _id }) {
         const player = await Player.findById(_id);
-        const avatar = await Avatar.find({
-          min_exp: { $lte: player.exp },
-        });
-        return avatar;
+        const avatars = await Avatar.find();
+
+        for (let i = 0; i < avatars.length; i++) {
+          if (avatars[i].min_exp <= player.exp) {
+            avatars[i].unlock = true;
+          } else {
+            avatars[i].unlock = false;
+          }
+        }
+        return avatars;
       },
     },
     daily_login: { type: GraphQLBoolean },

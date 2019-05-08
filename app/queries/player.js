@@ -33,6 +33,7 @@ export const GET_PLAYER_DATA = gql`
       avatars {
         _id
         imageid
+        unlock
       }
 
       avatar {
