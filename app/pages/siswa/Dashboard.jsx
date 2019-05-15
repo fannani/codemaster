@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Query } from 'react-apollo';
+import { Query, withApollo } from 'react-apollo';
 import classnames from 'classnames';
 import { GET_PLAYER_DATA } from '../../queries/player';
 import usePlayer from '../../hooks/player';
@@ -9,6 +9,7 @@ import DailyTarget from '../../components/siswa/Dashboard/DailyTarget';
 import Status from '../../components/siswa/Dashboard/Status';
 import Modal from 'react-bootstrap4-modal';
 import lock from '../../assets/images/lock.png';
+import { GET_TESTCASE_MISSION } from '../../queries/missions';
 
 const AvaItem = styled.div`
   background-color: white;
@@ -54,7 +55,7 @@ const Lock = () => (
   </div>
 );
 
-const Dashboard = ({ className }) => {
+const Dashboard = ({ className, client }) => {
   const player = usePlayer();
   const [showModal, setShowModal] = useState(false);
   const handleAvaClick = () => {
@@ -63,6 +64,35 @@ const Dashboard = ({ className }) => {
 
   const handleModalClose = () => {
     setShowModal(false);
+  };
+
+  const handleAvaChange = ava => {
+    if (ava.unlock) {
+      player.changeAvatar(ava).then(response => {
+        console.log(response);
+
+        const data = client.readQuery({
+          query: GET_PLAYER_DATA,
+          variables: { player: player.user.userdetail._id },
+        });
+        client.writeQuery({
+          query: GET_PLAYER_DATA,
+          variables: { player: player.user.userdetail._id },
+          data: {
+            players: [
+              {
+                ...data.players[0],
+                avatar: {
+                  ...data.players[0].avatar,
+                  imageid: response.avatar.imageid,
+                },
+              },
+            ],
+          },
+        });
+        setShowModal(false);
+      });
+    }
   };
 
   return (
@@ -120,6 +150,9 @@ const Dashboard = ({ className }) => {
                         <AvaItem
                           key={ava._id}
                           className="p-2"
+                          onClick={() => {
+                            handleAvaChange(ava);
+                          }}
                           style={{
                             backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/kodekurawal-ab777.appspot.com/o/${
                               ava.imageid
@@ -165,4 +198,4 @@ const StyledDashboard = styled(Dashboard)`
   }
 `;
 
-export default StyledDashboard;
+export default withApollo(StyledDashboard);

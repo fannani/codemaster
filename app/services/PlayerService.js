@@ -38,6 +38,11 @@ const giveAchievement = (player, achievement) =>
     `giveAchievement(player : "${player}", achievement : "${achievement}" ){_id}`,
   ).then(response => response.data.data.giveAchievement);
 
+const changeAvatar = (player, avatar) =>
+  APIService.mutation(
+    `changeAvatar(player : "${player}", avatar : "${avatar}"){_id,avatar{ imageid}}`,
+  ).then(response => response.data.data.changeAvatar);
+
 export default {
   setTutorial,
   addBadge,
@@ -45,4 +50,5 @@ export default {
   addPlayerAchievement,
   addExp,
   giveAchievement,
+  changeAvatar,
 };

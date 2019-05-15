@@ -73,3 +73,4 @@ export const ADD_BADGE_PLAYER = gql`
     }
   }
 `;
+

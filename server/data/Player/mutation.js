@@ -27,6 +27,19 @@ const PlayerMutation = {
       return player.save();
     },
   },
+  changeAvatar: {
+    type: PlayerType,
+    description: 'Change Avatar',
+    args: {
+      player: { type: new GraphQLNonNull(GraphQLID) },
+      avatar: { type: new GraphQLNonNull(GraphQLID) },
+    },
+    async resolve(root, { player, avatar }) {
+      const editedPlayer = await Player.findById(player);
+      editedPlayer.avatar = avatar;
+      return editedPlayer.save();
+    },
+  },
   addBadge: {
     type: PlayerType,
     description: 'Adding Badge',
