@@ -1,10 +1,10 @@
 import React from 'react';
-import { DELETE_TESTCASE } from '../../../queries/testcase';
+import { DELETE_TESTCASE_MISSION } from '../../../queries/testcase';
 import { ConfirmModal } from 'react-bootstrap4-modal';
 import { Mutation } from 'react-apollo';
 
 const AdminTestcaseDeleteModal = ({ show, data, onClose }) => (
-  <Mutation mutation={DELETE_TESTCASE}>
+  <Mutation mutation={DELETE_TESTCASE_MISSION}>
     {deleteTestcase => (
       <ConfirmModal
         visible={show}

@@ -71,6 +71,7 @@ const BKMutationRootType = new GraphQLObjectType({
     deleteCourse: courseMutation.deleteCourse,
     reorderStage: stageMutation.reorderStage,
     deleteTestcase: testCaseMutation.deleteTestcase,
+    deleteTestCaseMission: testCaseMissionMutation.deleteTestCaseMission,
     addBadge: badgeMutation.addBadge,
     updateBadge: badgeMutation.updateBadge,
     addBadgePlayer: playerMutation.addBadge,
