@@ -21,12 +21,14 @@ import CodeUtils from 'draft-js-code';
 import 'prismjs/themes/prism.css';
 import PrismDecorator from 'draft-js-prism';
 import Prism from 'prismjs';
+import createHighlightPlugin from '../plugins/highlightPlugin';
 
 import '../../assets/styles/editor.scss';
 
 const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
 const blockDndPlugin = createBlockDndPlugin();
+const highlightPlugin = createHighlightPlugin();
 
 const decorator = composeDecorators(
   focusPlugin.decorator,
@@ -35,7 +37,13 @@ const decorator = composeDecorators(
 );
 const imagePlugin = createImagePlugin({ decorator });
 
-const plugins = [focusPlugin, resizeablePlugin, imagePlugin, blockDndPlugin];
+const plugins = [
+  focusPlugin,
+  resizeablePlugin,
+  imagePlugin,
+  blockDndPlugin,
+  highlightPlugin,
+];
 
 const storageRef = firebase.storage().ref();
 let childRef;
@@ -123,6 +131,10 @@ const TextEditor = ({
     onChange(RichUtils.toggleBlockType(editorState, 'header-four'));
   };
 
+  const onHighlight = () => {
+    onChange(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'));
+  };
+
   const handleKeyCommand = command => {
     let newState;
 
@@ -207,6 +219,13 @@ const TextEditor = ({
                 onClick={onUnderlineClick}
               >
                 <u>U</u>
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={onHighlight}
+              >
+                <span style={{ background: '#DFE0E0', color: 'black' }}>H</span>
               </button>
             </div>
             <div
