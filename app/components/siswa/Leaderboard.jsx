@@ -16,7 +16,7 @@ const Leaderboard = ({ data, className }) => (
                 className="list-group-item d-flex justify-content-between align-items-center"
                 key={leader._id}
               >
-                {index + 1}. {leader.player.user.name}
+                {index + 1}. {leader.player ? leader.player.user.name : ''}
                 <span className="badge badge-primary badge-pill">
                   {leader.score}
                 </span>
