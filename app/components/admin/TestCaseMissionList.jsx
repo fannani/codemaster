@@ -3,7 +3,7 @@ import React from 'react';
 import { GET_TESTCASE_MISSION } from '../../queries/missions';
 import Card from '../UI/Card';
 
-const TestCaseMissionList = ({ onCreate, missionid }) => (
+const TestCaseMissionList = ({ onCreate, missionid, onDelete }) => (
   <Card className="card" style={{ marginTop: '20px' }}>
     <div className="card-body">
       <div className="d-flex justify-content-between">
@@ -26,7 +26,10 @@ const TestCaseMissionList = ({ onCreate, missionid }) => (
               return (
                 <ul className="list-group">
                   {testcaseMission.map(data => (
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
+                    <li
+                      key={data._id}
+                      className="list-group-item d-flex justify-content-between align-items-center"
+                    >
                       {(function() {
                         const render = [];
                         let testCaseCap = data.testcase.caption;
@@ -62,6 +65,9 @@ const TestCaseMissionList = ({ onCreate, missionid }) => (
                               <button
                                 className="btn btn-danger"
                                 style={{ marginLeft: '10px' }}
+                                onClick={() => {
+                                  onDelete(data._id);
+                                }}
                               >
                                 Delete
                               </button>

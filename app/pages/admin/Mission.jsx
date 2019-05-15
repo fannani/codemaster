@@ -3,17 +3,21 @@ import TestCaseMissionModal from '../../components/admin/TestCaseMissionModal';
 import ChooseTestCaseModal from '../../components/admin/ChooseTestCaseModal';
 import TestCaseMissionList from '../../components/admin/TestCaseMissionList';
 import MissionForm from '../../components/admin/MissionForm';
+import AdminTestcaseDeleteModal from '../../components/admin/TestCase/DeleteModal';
 
 const Mission = ({ match }) => {
   const { params } = match;
   const { missionid } = params;
   const [showModal, setShowModal] = useState(false);
   const [showModalTestCase, setShowModalTestCase] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteid, setDeleteid] = useState('');
   const [testCase, setTestCase] = useState({ caption: '', script: '' });
 
   const modalClosed = () => {
     setShowModal(false);
     setShowModalTestCase(false);
+    setShowDeleteModal(false);
   };
 
   return (
@@ -24,6 +28,10 @@ const Mission = ({ match }) => {
           <TestCaseMissionList
             onCreate={() => {
               setShowModal(true);
+            }}
+            onDelete={id => {
+              setDeleteid(id);
+              setShowDeleteModal(true);
             }}
             missionid={missionid}
           />
@@ -46,6 +54,11 @@ const Mission = ({ match }) => {
         onFinish={() => {
           setShowModalTestCase(false);
         }}
+      />
+      <AdminTestcaseDeleteModal
+        onClose={modalClosed}
+        show={showDeleteModal}
+        data={deleteid}
       />
     </div>
   );
