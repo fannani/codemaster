@@ -9,7 +9,6 @@ import DailyTarget from '../../components/siswa/Dashboard/DailyTarget';
 import Status from '../../components/siswa/Dashboard/Status';
 import Modal from 'react-bootstrap4-modal';
 import lock from '../../assets/images/lock.png';
-import { GET_TESTCASE_MISSION } from '../../queries/missions';
 
 const AvaItem = styled.div`
   background-color: white;
@@ -69,8 +68,6 @@ const Dashboard = ({ className, client }) => {
   const handleAvaChange = ava => {
     if (ava.unlock) {
       player.changeAvatar(ava).then(response => {
-        console.log(response);
-
         const data = client.readQuery({
           query: GET_PLAYER_DATA,
           variables: { player: player.user.userdetail._id },

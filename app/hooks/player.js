@@ -23,9 +23,7 @@ import {
   SET_TUTORIAL_SUCCESS,
   SET_TUTORIAL_REQUEST,
   UPDATE_STARS,
-  CHANGE_AVATAR_REQUEST,
-  CHANGE_AVATAR_SUCCESS,
-  CHANGE_AVATAR_FAILURE,
+
 } from '../data/siswa/types';
 import {
   setPlayerStatus,
@@ -153,18 +151,9 @@ const usePlayer = () => {
 
   const changeAvatar = avatar => {
     const userid = state.user.userdetail._id;
-    const request = () => ({ type: CHANGE_AVATAR_REQUEST });
-    const success = user => ({ type: CHANGE_AVATAR_SUCCESS, user });
-    const failure = error => ({ type: CHANGE_AVATAR_FAILURE, error });
-    dispatch(request());
     return PlayerService.changeAvatar(userid, avatar._id).then(
-      player => {
-        dispatch(success(player));
-        return player;
-      },
-      error => {
-        dispatch(failure(error));
-      },
+      player => player,
+      error => error,
     );
   };
 

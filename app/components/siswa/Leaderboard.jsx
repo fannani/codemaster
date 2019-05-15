@@ -9,14 +9,20 @@ const Leaderboard = ({ data, className }) => (
     </h2>
     <div className="card" style={{ width: '100%', marginTop: '10px' }}>
       <div className="card-body">
-        <ol>
-          {/*{data[0].player !== null &&*/}
-          {/*  data.map(leader => (*/}
-          {/*    <li key={leader._id}>*/}
-          {/*      {leader.player.user.name} <span>{leader.score}</span>*/}
-          {/*    </li>*/}
-          {/*  ))}*/}
-        </ol>
+        <ul className="list-group">
+          {data[0].player !== null &&
+            data.map((leader, index) => (
+              <li
+                className="list-group-item d-flex justify-content-between align-items-center"
+                key={leader._id}
+              >
+                {index + 1}. {leader.player.user.name}
+                <span className="badge badge-primary badge-pill">
+                  {leader.score}
+                </span>
+              </li>
+            ))}
+        </ul>
       </div>
     </div>
   </div>
