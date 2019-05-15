@@ -18,6 +18,14 @@ export const ADD_TESTCASE = gql`
   }
 `;
 
+export const DELETE_TESTCASE = gql`
+  mutation deleteTestcase($id: ID!) {
+    deleteTestcase(id: $id) {
+      _id
+    }
+  }
+`;
+
 export const DELETE_TESTCASE_MISSION = gql`
   mutation deleteTestCaseMission($id: ID!) {
     deleteTestCaseMission(id: $id) {
