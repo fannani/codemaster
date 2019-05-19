@@ -80,7 +80,12 @@ const Course = ({
   const [stars, setStars] = useState([]);
   const [intervalState, setIntervalState] = useState(null);
   const [showOutOfEnergy, setShowOutOfEnergy] = useState(false);
-  const [tourOpen, setTourOpen] = useState(player.user.userdetail.tutorial);
+  const [tourOpen, setTourOpen] = useState(
+    player.user.userdetail.tutorial[0] === null ||
+      player.user.userdetail.tutorial.length === 0
+      ? true
+      : player.user.userdetail.tutorial[0],
+  );
 
   const reset = () => {
     setShowModal(false);
@@ -313,7 +318,7 @@ const Course = ({
         onRequestClose={() => {
           setTourOpen(false);
           if (player.user.userdetail.tutorial) {
-            player.setTutorial(false);
+            player.setTutorial(false, 0);
           }
         }}
       />

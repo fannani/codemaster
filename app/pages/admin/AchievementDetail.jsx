@@ -5,10 +5,8 @@ import { Field, Form, Formik } from 'formik';
 import {
   GET_ACHIEVEMENT,
   ADD_DETAIL_ACHIEVEMENT,
-  ADD_ACHIEVEMENT,
 } from '../../queries/achievement';
 import Card from '../../components/UI/Card';
-import Checkbox from '../../components/UI/Checkbox';
 
 const AchievementDetail = ({
   match: {

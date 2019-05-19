@@ -3,6 +3,7 @@ import Score from './Stage/Score/Score';
 import Stage from './Stage/Stage';
 
 const CourseSchema = new mongoose.Schema({
+  index: { type: Number, default: 1 },
   name: String,
   desc: String,
   script: String,

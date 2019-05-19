@@ -7,10 +7,10 @@ const addEnergy = (userid, energy) =>
         }`,
   ).then(response => response.data.data.addEnergy);
 
-const setTutorial = (userid, energy) =>
+const setTutorial = (userid, energy, index) =>
   APIService.mutation(
-    `setTutorial(userid : "${userid}", tutorial: ${energy}){
-          _id,energy,stars
+    `setTutorial(userid : "${userid}", tutorial: ${energy}, index : ${index}){
+          _id,energy,stars,tutorial
         }`,
   ).then(response => response.data.data.setTutorial);
 

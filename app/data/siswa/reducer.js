@@ -109,7 +109,7 @@ export const reducer = (state, action) => {
           ...state.user,
           userdetail: {
             ...state.user.userdetail,
-            tutorial: action.tutorial,
+            tutorial: action.user.tutorial,
           },
         },
       };

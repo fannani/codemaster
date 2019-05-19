@@ -24,11 +24,11 @@ const Level = styled.div`
 `;
 
 const Status = ({ player, data, onAvaClick }) => (
-  <Card className="card">
+  <Card className="card" id="status-bar">
     <div className="card-body">
       <div className="row">
         <div className="col-2">
-          <Ava
+          <Ava id="ava-pict"
             onClick={onAvaClick}
             style={{
               backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/kodekurawal-ab777.appspot.com/o/${
@@ -41,7 +41,7 @@ const Status = ({ player, data, onAvaClick }) => (
           <h5>{player.user.name}</h5>
           <p>Malang, Jawa Timur</p>
           <Level>Level {player.user.userdetail.level} : </Level>
-          <div className="row">
+          <div className="row" id="exp-bar">
             <div className="col-5" style={{ paddingRight: '0px' }}>
               <Line
                 percent={
@@ -58,7 +58,7 @@ const Status = ({ player, data, onAvaClick }) => (
             </Progress>
           </div>
         </div>
-        <div className="col-2">
+        <div className="col-2" id="achievements">
           <div className="row">
             <div className="col-4">
               <img src={achievement} width={40} alt="" />
@@ -69,7 +69,7 @@ const Status = ({ player, data, onAvaClick }) => (
             </div>
           </div>
         </div>
-        <div className="col-2">
+        <div className="col-2" id="badges">
           <div className="row">
             <div className="col-4">
               <img src={badge} width={40} alt="" />
@@ -80,7 +80,7 @@ const Status = ({ player, data, onAvaClick }) => (
             </div>
           </div>
         </div>
-        <div className="col-2">
+        <div className="col-2" id="stars">
           <div className="row">
             <div className="col-4">
               <img src={star} width={40} alt="" />

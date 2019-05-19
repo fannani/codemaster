@@ -61,10 +61,13 @@ const PlayerMutation = {
     args: {
       userid: { type: new GraphQLNonNull(GraphQLID) },
       tutorial: { type: GraphQLBoolean },
+      index: { type: GraphQLInt },
     },
-    async resolve(root, { tutorial, userid }) {
+    async resolve(root, { tutorial, userid, index }) {
       const player = await Player.findById(userid);
-      player.tutorial = tutorial;
+      const arr = player.tutorial;
+      arr[index] = tutorial;
+      player.tutorial = arr;
       return player.save();
     },
   },

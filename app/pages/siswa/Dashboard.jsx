@@ -9,6 +9,7 @@ import DailyTarget from '../../components/siswa/Dashboard/DailyTarget';
 import Status from '../../components/siswa/Dashboard/Status';
 import Modal from 'react-bootstrap4-modal';
 import lock from '../../assets/images/lock.png';
+import Tour from 'reactour';
 
 const AvaItem = styled.div`
   background-color: white;
@@ -20,7 +21,25 @@ const AvaItem = styled.div`
   border-radius: 100px;
   margin: 10px;
 `;
-
+const tour = [
+  {
+    selector: '#status-bar',
+    content: 'Selamat datang di halaman Dashboard KodeKurawal',
+  },
+  {
+    selector: '#ava-pict',
+    content:
+      'Ini adalah foto ava yang bisa kalian ganti, semakin tinggi exp kalian, semakin banyak ava yang bisa dipilih',
+  },
+  {
+    selector: '#exp-bar',
+    content: 'Dapatkan point dan naikan level dengan cara menyelesaikan stage',
+  },
+  {
+    selector: '#btn-ambil-course',
+    content: 'Tekan tombol tersebut untuk mengambil Course',
+  },
+];
 const Lock = () => (
   <div
     style={{
@@ -54,8 +73,14 @@ const Lock = () => (
   </div>
 );
 
-const Dashboard = ({ className, client }) => {
+const Dashboard = ({ className, client, history }) => {
   const player = usePlayer();
+  const [tourOpen, setTourOpen] = useState(
+    player.user.userdetail.tutorial[1] === null ||
+      player.user.userdetail.tutorial.length === 0
+      ? true
+      : player.user.userdetail.tutorial[1],
+  );
   const [showModal, setShowModal] = useState(false);
   const handleAvaClick = () => {
     setShowModal(true);
@@ -117,7 +142,16 @@ const Dashboard = ({ className, client }) => {
                   />
                   <div className="row " style={{ marginTop: '20px' }}>
                     <div className="col-8">
-                      <Course playerid={player.user.userdetailid} />
+                      <Course
+                        playerid={player.user.userdetailid}
+                        onTakeCourse={() => {
+                          setTourOpen(false);
+                          if (player.user.userdetail.tutorial) {
+                            player.setTutorial(false, 1);
+                          }
+                          history.push('/course');
+                        }}
+                      />
                     </div>
                     <div className="col-4">
                       <DailyTarget
@@ -167,6 +201,17 @@ const Dashboard = ({ className, client }) => {
           );
         }}
       </Query>
+      <Tour
+        steps={tour}
+        isOpen={tourOpen}
+        lastStepNextButton={<></>}
+        onRequestClose={() => {
+          setTourOpen(false);
+          if (player.user.userdetail.tutorial) {
+            player.setTutorial(false, 1);
+          }
+        }}
+      />
     </div>
   );
 };

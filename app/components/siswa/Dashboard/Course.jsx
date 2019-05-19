@@ -6,7 +6,7 @@ import CourseItem from '../Course/List/Item';
 import Card from '../../UI/Card';
 import { Link } from 'react-router-dom';
 
-const SiswaDashboardCourse = ({ playerid }) => (
+const SiswaDashboardCourse = ({ playerid, onTakeCourse }) => (
   <Card className="card ">
     <div className="card-body">
       <h5 className="card-title">My Course</h5>
@@ -24,10 +24,10 @@ const SiswaDashboardCourse = ({ playerid }) => (
             );
           }
           return (
-            <div className="d-flex flex-wrap">
-              <Link
+            <div className="d-flex flex-wrap" id="btn-ambil-course">
+              <button
                 className="btn btn-primary"
-                to="/course"
+                onClick={onTakeCourse}
                 style={{
                   marginTop: '10px',
                   marginBottom: '10px',
@@ -36,7 +36,7 @@ const SiswaDashboardCourse = ({ playerid }) => (
                 }}
               >
                 Ambil Course
-              </Link>
+              </button>
             </div>
           );
         }}

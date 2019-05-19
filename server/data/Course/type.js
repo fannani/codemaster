@@ -3,7 +3,7 @@ import {
   GraphQLList,
   GraphQLObjectType,
   GraphQLString,
-  GraphQLID,
+  GraphQLID, GraphQLInt,
 } from 'graphql';
 import StageType from './Stage/type';
 import Stage from './Stage/Stage';
@@ -17,6 +17,7 @@ const CourseType = new GraphQLObjectType({
   fields: () => ({
     _id: { type: GraphQLNonNull(GraphQLID) },
     name: { type: GraphQLNonNull(GraphQLString) },
+    index: { type: GraphQLInt },
     script: { type: GraphQLString },
     desc: { type: GraphQLNonNull(GraphQLString) },
     imageid: { type: GraphQLString },

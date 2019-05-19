@@ -23,7 +23,6 @@ import {
   SET_TUTORIAL_SUCCESS,
   SET_TUTORIAL_REQUEST,
   UPDATE_STARS,
-
 } from '../data/siswa/types';
 import {
   setPlayerStatus,
@@ -63,13 +62,13 @@ const usePlayer = () => {
     dispatch(success());
   };
 
-  const setTutorial = tutorial => {
+  const setTutorial = (tutorial, index) => {
     const userid = state.user.userdetail._id;
     const request = () => ({ type: SET_TUTORIAL_REQUEST });
     const success = user => ({ type: SET_TUTORIAL_SUCCESS, user });
     const failure = error => ({ type: SET_TUTORIAL_FAILURE, error });
     dispatch(request());
-    return PlayerService.setTutorial(userid, tutorial).then(
+    return PlayerService.setTutorial(userid, tutorial, index).then(
       player => {
         dispatch(success(player));
       },
