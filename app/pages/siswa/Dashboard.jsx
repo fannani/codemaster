@@ -124,6 +124,7 @@ const Dashboard = ({ className, client, history }) => {
         variables={{
           player: player.user.userdetail._id,
         }}
+        fetchPolicy="cache-and-network"
       >
         {({ loading, error, data }) => {
           if (loading) return <p>Loading</p>;
