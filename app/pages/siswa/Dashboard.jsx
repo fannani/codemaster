@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Query, withApollo } from 'react-apollo';
 import classnames from 'classnames';
+import Tour from 'reactour';
 import { GET_PLAYER_DATA } from '../../queries/player';
 import usePlayer from '../../hooks/player';
 import Course from '../../components/siswa/Dashboard/Course';
 import DailyTarget from '../../components/siswa/Dashboard/DailyTarget';
 import Status from '../../components/siswa/Dashboard/Status';
-import Modal from 'react-bootstrap4-modal';
 import lock from '../../assets/images/lock.png';
-import Tour from 'reactour';
+import ModalAva from '../../components/siswa/Dashboard/ModalAva';
 
 const AvaItem = styled.div`
   background-color: white;
@@ -170,33 +170,27 @@ const Dashboard = ({ className, client, history }) => {
                 </main>
               </div>
 
-              <Modal visible={showModal} onClickBackdrop={handleModalClose}>
-                <div className="modal-header">
-                  <h5 className="modal-title">Pilih Avatar</h5>
-                </div>
-                <div className="modal-body">
-                  <div className="d-flex flex-row flex-wrap justify-content-center">
-                    {data.players[0].avatars.map(ava => (
-                      <>
-                        <AvaItem
-                          key={ava._id}
-                          className="p-2"
-                          onClick={() => {
-                            handleAvaChange(ava);
-                          }}
-                          style={{
-                            backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/kodekurawal-ab777.appspot.com/o/${
-                              ava.imageid
-                            }?alt=media")`,
-                          }}
-                        >
-                          {!ava.unlock ? <Lock /> : <div />}
-                        </AvaItem>
-                      </>
-                    ))}
-                  </div>
-                </div>
-              </Modal>
+              <ModalAva
+                visible={showModal}
+                onClickBackdrop={handleModalClose}
+                data={data}
+                content={ava => (
+                  <AvaItem
+                    key={ava._id}
+                    className="p-2"
+                    onClick={() => {
+                      handleAvaChange(ava);
+                    }}
+                    style={{
+                      backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/kodekurawal-ab777.appspot.com/o/${
+                        ava.imageid
+                      }?alt=media")`,
+                    }}
+                  >
+                    {!ava.unlock ? <Lock /> : <div />}
+                  </AvaItem>
+                )}
+              />
             </>
           );
         }}
