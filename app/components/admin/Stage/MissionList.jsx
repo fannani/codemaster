@@ -31,7 +31,7 @@ const MissionList = ({ onAddMission, missions, language }) => (
               <td>
                 <TextEditor
                   value={data.quest}
-                  language={language || 'javascript'}
+                  language={language || 'html'}
                   readOnly
                 />
               </td>

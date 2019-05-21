@@ -29,7 +29,7 @@ export const GET_STAGE_BY_PLAYER = gql`
       exp_reward
       teory
       script
-
+      language
       course {
         name
         _id

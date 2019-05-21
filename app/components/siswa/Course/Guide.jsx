@@ -27,7 +27,7 @@ const SiswaCourseGuide = ({
         <div style={{ width: '96%', float: 'left' }}>
           <TextEditor
             value={misi.quest}
-            language={stage.language ? stage.language : 'html'}
+            language={stage.language || 'html'}
             readOnly
           />
         </div>
@@ -53,7 +53,7 @@ const SiswaCourseGuide = ({
               <h3>{stage.title}</h3>
               <TextEditor
                 value={stage.teory}
-                language={stage.language ? stage.language : 'javascript'}
+                language={stage.language || 'html'}
                 readOnly
               />
             </div>
