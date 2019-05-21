@@ -27,7 +27,7 @@ const SiswaCourseGuide = ({
         <div style={{ width: '96%', float: 'left' }}>
           <TextEditor
             value={misi.quest}
-            language={stage.language ? stage.language : 'javascript'}
+            language={stage.language ? stage.language : 'html'}
             readOnly
           />
         </div>
