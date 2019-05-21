@@ -119,6 +119,11 @@ const StyledGuide = styled(SiswaCourseGuide)`
     background-color: #07bc0c;
     border-color: #07bc0c;
   }
+
+  .list-group-item.active
+    .public-DraftStyleDefault-block.public-DraftStyleDefault-ltr {
+    background-color: #07bc0c;
+  }
 `;
 
 export default StyledGuide;
