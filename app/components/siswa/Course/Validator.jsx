@@ -27,6 +27,7 @@ const SiswaCourseValidator = ({ children, stages, gameOver, life }) => {
           });
         } else if (lifeTmp === 1) {
           lifeTmp -= 1;
+          setResult([]);
           gameOver(score, lifeTmp);
         } else {
           toast.error('Tidak ada jawaban yang benar', {
