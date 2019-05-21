@@ -56,7 +56,7 @@ const Layout = () => {
         onClose={() => setShowVideo(false)}
         onEnd={() => {
           setShowVideo(false);
-          player.addEnergy(100);
+          player.addEnergy(300);
         }}
       />
     </div>
