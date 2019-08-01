@@ -27,7 +27,7 @@ const SiswaCourseValidator = ({ children, stages, gameOver, life }) => {
           });
         } else if (lifeTmp === 1) {
           lifeTmp -= 1;
-          setResult([]);
+          setResult([]); //RESET RESULT TODO: RESET FROM OUTSIDE COMPONENT
           gameOver(score, lifeTmp);
         } else {
           toast.error('Tidak ada jawaban yang benar', {

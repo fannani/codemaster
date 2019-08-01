@@ -27,6 +27,8 @@ import {
 } from '../../queries/player';
 import Loader from '../../components/siswa/Course/Loader';
 //TODO: Output default mode
+//TODO: useRef in interval (Riset)
+//TODO: useRef in script
 
 let script = '';
 let interval = null;
@@ -75,10 +77,9 @@ const Course = ({
   const [lifeResult, setLifeResult] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isPlay, setIsPlay] = useState(true);
-  const [editorId, setEditorId] = useState(shortid.generate());
+  const [editorId, setEditorId] = useState(() => shortid.generate());
   const [showModal, setShowModal] = useState(false);
   const [stars, setStars] = useState([]);
-  const [intervalState, setIntervalState] = useState(null);
   const [showOutOfEnergy, setShowOutOfEnergy] = useState(false);
   const [tourOpen, setTourOpen] = useState(
     player.user.userdetail.tutorial[0] === null ||
@@ -94,7 +95,6 @@ const Course = ({
     player.resetTimer();
     player.addEnergy(energyNeed * -1);
     interval = setInterval(player.incrementTimer, 1000);
-    setIntervalState(interval);
     player.setPlayerStatus(0, 3);
     player.setPlayMode(true);
   };
@@ -220,7 +220,7 @@ const Course = ({
                         setScoreResult(score);
                         setShowModal(true);
                         setStars(starCount);
-                        clearInterval(intervalState);
+                        clearInterval(interval);
                       }}
                     >
                       {({ result }) => (

@@ -35,14 +35,12 @@ const TestCaseMissionList = ({ onCreate, missionid, onDelete }) => (
                         let testCaseCap = data.testcase.caption;
                         let start;
                         let end;
-                        let index;
                         let text;
                         let i = 0;
                         do {
                           start = testCaseCap.indexOf('$$');
                           if (start !== -1) {
                             end = testCaseCap.indexOf('$$', start + 2);
-                            index = testCaseCap.substring(start + 2, end);
                             text = testCaseCap.substring(0, start);
                             testCaseCap = testCaseCap.substring(
                               end + 2,
