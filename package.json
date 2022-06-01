@@ -88,7 +88,7 @@
     "react-toastify": "^4.4.3",
     "react-youtube": "^7.9.0",
     "reactour": "^1.13.4",
-    "sharp": "^0.22.1",
+    "sharp": "^0.30.5",
     "shortid": "^2.2.14",
     "styled-components": "^4.1.2",
     "yup": "^0.26.6"
